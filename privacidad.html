@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Privacidad — Andromadorian</title>
+  <meta name="description" content="Política de Privacidad de Andromadorian: qué datos recolectamos, cómo los usamos, con quién los compartimos y tus derechos." />
+
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- FAVICONS / MANIFEST (mismos del sitio) -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="alternate icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="alternate icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/assets/site.webmanifest">
+  <meta name="theme-color" content="#0f3f46">
+
+  <style>
+    :root{
+      --teal:#14b8a6; --teal-600:#0d9488; --teal-700:#0b746b;
+      --purple:#9b57f5; --purple-700:#7a38d6;
+      --bg-900:#0b1220; --bg-850:#111a2a; --bg-800:#162233;
+      --card:#141d2b; --text:#e6f2f4; --muted:#c7d4dc;
+      --ring: 0 0 0 3px rgba(20,184,166,.35);
+      --shadow-lg: 0 10px 30px rgba(0,0,0,.45);
+      --radius: 16px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);
+      background:
+        radial-gradient(900px 520px at 30% 45%, rgba(20,184,166,.20), transparent 55%),
+        radial-gradient(700px 480px at 90% 95%, rgba(155,87,245,.22), transparent 60%),
+        radial-gradient(1000px 520px at -10% -10%, rgba(20,184,166,.12), transparent 60%),
+        linear-gradient(180deg, var(--bg-900), var(--bg-800));
+      background-attachment: fixed;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:40;backdrop-filter:saturate(140%) blur(10px);
+      background: linear-gradient(180deg, rgba(11,18,32,.72), rgba(11,18,32,.50));
+      border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .brand-link{display:flex;align-items:center;gap:12px;border-radius:12px;padding:6px 8px;transition: background .2s ease, transform .15s ease;}
+    .brand-link:hover{background:rgba(255,255,255,.05);transform:translateY(-1px)}
+    .brand-logo-img{width:34px;height:34px;border-radius:10px;display:block;object-fit:cover;box-shadow:0 4px 16px rgba(20,184,166,.35)}
+    .brand-title{font-weight:800;letter-spacing:.3px}
+    .top-links{display:flex;gap:12px;align-items:center}
+    .pill{padding:10px 14px;border-radius:999px;background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.10);transition:transform .15s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+      font-weight:600;font-size:.95rem}
+    .pill:hover{transform:translateY(-1px);background:linear-gradient(180deg, rgba(20,184,166,.12), rgba(155,87,245,.10));
+      border-color:rgba(20,184,166,.35);box-shadow:0 6px 16px rgba(155,87,245,.18), 0 2px 8px rgba(20,184,166,.18);}
+    .lang-toggle{display:flex;gap:8px;align-items:center}
+    .flag{width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.25);cursor:pointer;transition: transform .12s ease, box-shadow .12s ease;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+    .flag.active{outline:none;box-shadow:var(--ring)}
+
+    /* HERO */
+    .hero{position:relative;overflow:hidden;border-radius:calc(var(--radius) + 6px);
+      margin:24px auto 18px;box-shadow:var(--shadow-lg);background:var(--bg-850)}
+    .carousel{position:relative;height:38vh;min-height:260px;max-height:460px;border-radius:inherit}
+    .slides{position:absolute;inset:0;display:grid}
+    .slide{grid-area:1/1;opacity:0;transition:opacity .8s ease, transform 8s ease;transform: scale(1.05);
+      background-position:center;background-size:cover;filter:saturate(104%) contrast(102%)}
+    .slide.active{opacity:1;transform: scale(1)}
+    .scrim{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.35) 40%, rgba(11,18,32,.82) 85%);pointer-events:none}
+    .hero-content{position:absolute;inset:0;display:flex;align-items:flex-end;padding:28px}
+    .hero-card{background:linear-gradient(180deg, rgba(20,26,38,.88), rgba(20,26,38,.88));
+      border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:22px 24px;max-width:980px;backdrop-filter: blur(6px);
+      box-shadow:0 10px 30px rgba(0,0,0,.45);display:flex;align-items:center;gap:20px}
+    .hero-text{flex:1 1 auto;min-width:0}
+    .eyebrow{color:var(--teal);font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.78rem}
+    .h1{font-size:clamp(1.9rem, 2.4vw + 1rem, 3rem);line-height:1.12;margin:.35rem 0 .25rem;font-weight:800}
+    .lead{color:var(--muted);font-size:1.05rem}
+    .hero-brand{flex:0 0 auto;width:140px;height:140px;border-radius:16px;background:linear-gradient(135deg, rgba(20,184,166,.10), rgba(155,87,245,.12));
+      border:1px solid rgba(255,255,255,.10);display:block;object-fit:contain;padding:10px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+
+    /* LEGAL DOC */
+    .section{padding:36px 0}
+    .legal-doc{
+      background:linear-gradient(180deg, rgba(20,26,38,.95), rgba(18,25,36,.95));
+      border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);
+      padding:26px;box-shadow:var(--shadow-lg);line-height:1.6
+    }
+    .legal-doc h2{margin:.2rem 0 1rem;font-weight:800}
+    .legal-doc h3{margin:1.2rem 0 .5rem;font-weight:800}
+    .legal-doc p{color:var(--muted);margin:.3rem 0}
+    .legal-doc ul{margin:.2rem 0 .8rem;padding-left:1.1rem;color:var(--muted)}
+    .badge{display:inline-block;padding:6px 10px;border-radius:999px;font-size:.78rem;font-weight:700;letter-spacing:.06em;
+      background:linear-gradient(135deg, rgba(20,184,166,.18), rgba(155,87,245,.18));border:1px solid rgba(255,255,255,.12);color:#fff}
+
+    /* FOOTER */
+    footer{padding:30px 0 34px;color:#bfd0d7;font-size:.95rem}
+    .footer-top{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;}
+    .build-note,.copyright{font-size:inherit;font-weight:400;margin:0}
+    .legal{margin-top:18px;font-size:.78rem;opacity:.82;text-align:center;width:100%}
+    .legal a{color:var(--muted);text-decoration:underline dotted}
+    .legal a:hover{color:var(--text);text-decoration:underline}
+
+    .brand-link:focus-visible,.pill:focus-visible{outline:none;box-shadow:var(--ring)}
+    @media (max-width:900px){
+      .hero-card{flex-direction:column;align-items:flex-start}
+      .hero-brand{width:110px;height:110px}
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="nav" aria-label="Main">
+    <div class="container nav-inner">
+      <a class="brand-link" href="/" aria-label="Ir al inicio">
+        <img class="brand-logo-img" src="/assets/andromadorian-logo.png" alt="Andromadorian" />
+        <div>
+          <div class="brand-title">Andromadorian</div>
+          <div style="font-size:.8rem;color:var(--muted)">IA • Cursos • Servicios</div>
+        </div>
+      </a>
+      <div class="top-links" role="navigation" aria-label="Top links">
+        <a class="pill" href="/" data-i18n="nav.home">Inicio</a>
+        <a class="pill" href="/ia" data-i18n="nav.ia">IA</a>
+        <a class="pill" href="/aprende.html" data-i18n="nav.learn">Aprende cómo</a>
+        <a class="pill" href="/servicios" data-i18n="nav.services">Servicios</a>
+        <a class="pill" href="/contacto" data-i18n="nav.contact">Contáctame</a>
+        <div class="lang-toggle" aria-label="Language toggle">
+          <img src="data:image/svg+xml;utf8,
+            <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'>
+              <rect width='640' height='480' fill='%23aa151b'/><rect width='640' height='160' y='160' fill='%23f1bf00'/>
+            </svg>"
+            alt="ES" class="flag active" id="lang-es" title="Español (ES)">
+          <img src="data:image/svg+xml;utf8,
+            <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'>
+              <clipPath id='a'><path d='M0,0 v30 h60 v-30 z'/></clipPath>
+              <g clip-path='url(%23a)'>
+                <path d='M0,0 v30 h60 v-30 z' fill='%23012a8d'/>
+                <path d='M0,0 L60,30 M60,0 L0,30' stroke='%23fff' stroke-width='6'/>
+                <path d='M0,0 L60,30 M60,0 L0,30' stroke='%23c8102e' stroke-width='4'/>
+                <path d='M30,0 v30 M0,15 h60' stroke='%23fff' stroke-width='6'/>
+                <path d='M30,0 v30 M0,15 h60' stroke='%23c8102e' stroke-width='4'/>
+              </g>
+            </svg>"
+            alt="EN" class="flag" id="lang-en" title="English (EN)">
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <main class="container">
+    <section class="hero" aria-label="Intro">
+      <div class="carousel" id="carousel" aria-roledescription="carousel">
+        <div class="slides">
+          <div class="slide active" role="group" aria-label="1 / 1"
+               style="background-image:url('https://images.unsplash.com/photo-1605901309584-818e25960a8b?q=80&w=1920&auto=format&fit=crop');"></div>
+        </div>
+        <div class="scrim"></div>
+        <div class="hero-content">
+          <div class="hero-card">
+            <div class="hero-text">
+              <div class="eyebrow" data-i18n="hero.badge">Legal</div>
+              <h1 class="h1" data-i18n="pp.title">Privacidad</h1>
+              <p class="lead" data-i18n="pp.subtitle">
+                Esta Política explica qué datos recopilamos, para qué los usamos y qué derechos podés ejercer.
+              </p>
+            </div>
+            <img class="hero-brand" src="/assets/brand-mark.png" alt="Marca Andromadorian" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- POLÍTICA -->
+    <section class="section">
+      <article class="legal-doc">
+        <span class="badge" data-i18n="pp.version">Versión 1.0 — 26/09/2025</span>
+
+        <h2 data-i18n="pp.1.title">1. Identidad del responsable</h2>
+        <p data-i18n="pp.1.p1">
+          “Andromadorian” es un nombre comercial que identifica un proyecto independiente de servicios y contenidos de inteligencia artificial,
+          desarrollo y formación. No constituye una persona jurídica registrada. A efectos de contacto por privacidad, utilizá el correo
+          publicado en la sección “Contáctame” del sitio.
+        </p>
+
+        <h3 data-i18n="pp.2.title">2. Datos que tratamos</h3>
+        <ul>
+          <li data-i18n="pp.2.li1"><strong>Datos de uso del sitio:</strong> logs técnicos, IP aproximada, identificadores de sesión, páginas visitadas, errores.</li>
+          <li data-i18n="pp.2.li2"><strong>Datos de contacto:</strong> nombre y correo si nos escribís o completás formularios.</li>
+          <li data-i18n="pp.2.li3"><strong>Datos transaccionales:</strong> referencia de pago y estado (el procesamiento lo realizan pasarelas externas).</li>
+          <li data-i18n="pp.2.li4"><strong>Prompts y archivos que subas:</strong> contenido necesario para ejecutar las funciones de IA solicitadas.</li>
+          <li data-i18n="pp.2.li5"><strong>Cookies y tecnologías similares:</strong> ver sección de Cookies.</li>
+        </ul>
+
+        <h3 data-i18n="pp.3.title">3. Finalidades y bases legales</h3>
+        <ul>
+          <li data-i18n="pp.3.li1"><strong>Prestación del servicio</strong> (ejecución de IA, acceso a cursos y contenidos). <em>Base:</em> cumplimiento de la relación con el usuario.</li>
+          <li data-i18n="pp.3.li2"><strong>Atención de consultas y soporte</strong> (24–72 h). <em>Base:</em> interés legítimo/relación con el usuario.</li>
+          <li data-i18n="pp.3.li3"><strong>Gestión de pagos</strong> (verificación antifraude a cargo de pasarelas). <em>Base:</em> ejecución de la transacción.</li>
+          <li data-i18n="pp.3.li4"><strong>Mejora y seguridad</strong> (logs, métricas, detección de abuso). <em>Base:</em> interés legítimo.</li>
+          <li data-i18n="pp.3.li5"><strong>Cumplimientos legales</strong> si correspondiera. <em>Base:</em> obligación legal.</li>
+        </ul>
+
+        <h3 data-i18n="pp.4.title">4. Pasarelas y proveedores de terceros</h3>
+        <p data-i18n="pp.4.p1">
+          Los pagos se procesan mediante terceros (p. ej., Mercado Pago, PayPal, Stripe) bajo sus propias políticas. El sitio también puede
+          integrar herramientas de IA (p. ej., modelos locales o servicios externos), automatizaciones y hosting/CDN. Estos proveedores pueden
+          operar fuera de tu país. Recomendamos revisar sus términos y políticas de privacidad.
+        </p>
+
+        <h3 data-i18n="pp.5.title">5. Cookies</h3>
+        <p data-i18n="pp.5.p1">
+          Podemos utilizar cookies necesarias para operar el sitio (p. ej., preferencias de idioma, sesión) y, eventualmente, cookies de
+          rendimiento o analíticas anónimas para mejorar la experiencia. Podés configurar tu navegador para bloquear o eliminar cookies; no
+          obstante, algunas funciones podrían verse afectadas.
+        </p>
+
+        <h3 data-i18n="pp.6.title">6. Conservación</h3>
+        <p data-i18n="pp.6.p1">
+          Conservamos los datos el tiempo necesario para cumplir las finalidades indicadas y los plazos exigidos por normativa o por defensa
+          ante reclamos. Los prompts y salidas de IA pueden conservarse temporalmente para diagnóstico de errores y mejora del servicio.
+        </p>
+
+        <h3 data-i18n="pp.7.title">7. Seguridad</h3>
+        <p data-i18n="pp.7.p1">
+          Implementamos medidas técnicas y organizativas razonables para proteger la información (cifrado en tránsito, controles de acceso).
+          Sin embargo, ningún sistema es totalmente seguro. El usuario también debe adoptar buenas prácticas (contraseñas robustas, cuidado al
+          compartir enlaces, verificación de pagos).
+        </p>
+
+        <h3 data-i18n="pp.8.title">8. Transferencias internacionales</h3>
+        <p data-i18n="pp.8.p1">
+          Debido al uso de proveedores globales, los datos pueden alojarse o procesarse en otros países. Adoptamos medidas razonables para
+          procurar un nivel adecuado de protección conforme a estándares generalmente aceptados.
+        </p>
+
+        <h3 data-i18n="pp.9.title">9. Derechos del usuario</h3>
+        <p data-i18n="pp.9.p1">
+          Podés solicitar acceso, actualización, rectificación y, cuando corresponda, supresión de tus datos; así como oponerte a ciertos
+          tratamientos o pedir limitación/portabilidad según normativa aplicable. Para ejercerlos, escribí al correo indicado en “Contáctame”.
+          Podremos requerir verificación de identidad.
+        </p>
+
+        <h3 data-i18n="pp.10.title">10. Menores</h3>
+        <p data-i18n="pp.10.p1">
+          El sitio está dirigido exclusivamente a mayores de 18 años. No recopilamos intencionalmente datos de menores.
+        </p>
+
+        <h3 data-i18n="pp.11.title">11. Cambios en esta Política</h3>
+        <p data-i18n="pp.11.p1">
+          Podemos actualizar esta Política para reflejar cambios operativos, legales o regulatorios. La versión vigente es la que se publica
+          aquí, indicando fecha de última modificación.
+        </p>
+      </article>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div class="build-note" data-i18n="footer.note">Construido con pasión por la creatividad asistida por IA</div>
+        <div class="copyright">© <span id="year"></span> Andromadorian</div>
+      </div>
+      <div class="legal">
+        <span data-i18n="footer.legal.prefix">Al usar este sitio aceptás nuestros</span>
+        <a href="/terminos" aria-label="Leer Términos y condiciones" data-i18n="footer.legal.tc">Términos y condiciones</a>
+        <span> </span><span data-i18n="footer.legal.and">y</span><span> </span>
+        <a href="/privacidad" aria-label="Leer Política de Privacidad" data-i18n="footer.legal.pp">Privacidad</a>.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Año dinámico
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Carousel simple
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    (function initCarousel(){
+      const root = document.getElementById('carousel'); if(!root) return;
+      const slides = Array.from(root.querySelectorAll('.slide'));
+      let idx = 0;
+      function next(){ slides[idx].classList.remove('active'); idx=(idx+1)%slides.length; slides[idx].classList.add('active'); }
+      if(!reduceMotion && slides.length>1){ setInterval(next, 5200); } else { slides.forEach((s,i)=>s.classList.toggle('active', i===0)); }
+    })();
+
+    // i18n (ES/EN)
+    const i18n = {
+      es: {
+        "nav.home":"Inicio","nav.ia":"IA","nav.learn":"Aprende cómo","nav.services":"Servicios","nav.contact":"Contáctame",
+        "hero.badge":"Legal",
+        "pp.title":"Privacidad",
+        "pp.subtitle":"Esta Política explica qué datos recopilamos, para qué los usamos y qué derechos podés ejercer.",
+        "pp.version":"Versión 1.0 — 26/09/2025",
+        "pp.1.title":"1. Identidad del responsable",
+        "pp.1.p1":"“Andromadorian” es un nombre comercial que identifica un proyecto independiente de servicios y contenidos de inteligencia artificial, desarrollo y formación. No constituye una persona jurídica registrada. A efectos de contacto por privacidad, utilizá el correo publicado en la sección “Contáctame” del sitio.",
+        "pp.2.title":"2. Datos que tratamos",
+        "pp.2.li1":"Datos de uso del sitio: logs técnicos, IP aproximada, identificadores de sesión, páginas visitadas, errores.",
+        "pp.2.li2":"Datos de contacto: nombre y correo si nos escribís o completás formularios.",
+        "pp.2.li3":"Datos transaccionales: referencia de pago y estado (el procesamiento lo realizan pasarelas externas).",
+        "pp.2.li4":"Prompts y archivos que subas: contenido necesario para ejecutar las funciones de IA solicitadas.",
+        "pp.2.li5":"Cookies y tecnologías similares: ver sección de Cookies.",
+        "pp.3.title":"3. Finalidades y bases legales",
+        "pp.3.li1":"Prestación del servicio (ejecución de IA, acceso a cursos y contenidos). Base: cumplimiento de la relación con el usuario.",
+        "pp.3.li2":"Atención de consultas y soporte (24–72 h). Base: interés legítimo/relación con el usuario.",
+        "pp.3.li3":"Gestión de pagos (verificación antifraude a cargo de pasarelas). Base: ejecución de la transacción.",
+        "pp.3.li4":"Mejora y seguridad (logs, métricas, detección de abuso). Base: interés legítimo.",
+        "pp.3.li5":"Cumplimientos legales si correspondiera. Base: obligación legal.",
+        "pp.4.title":"4. Pasarelas y proveedores de terceros",
+        "pp.4.p1":"Los pagos se procesan mediante terceros (p. ej., Mercado Pago, PayPal, Stripe) bajo sus propias políticas. El sitio también puede integrar herramientas de IA (p. ej., modelos locales o servicios externos), automatizaciones y hosting/CDN. Estos proveedores pueden operar fuera de tu país. Recomendamos revisar sus términos y políticas de privacidad.",
+        "pp.5.title":"5. Cookies",
+        "pp.5.p1":"Podemos utilizar cookies necesarias para operar el sitio (p. ej., preferencias de idioma, sesión) y, eventualmente, cookies de rendimiento o analíticas anónimas para mejorar la experiencia. Podés configurar tu navegador para bloquear o eliminar cookies; no obstante, algunas funciones podrían verse afectadas.",
+        "pp.6.title":"6. Conservación",
+        "pp.6.p1":"Conservamos los datos el tiempo necesario para cumplir las finalidades indicadas y los plazos exigidos por normativa o por defensa ante reclamos. Los prompts y salidas de IA pueden conservarse temporalmente para diagnóstico de errores y mejora del servicio.",
+        "pp.7.title":"7. Seguridad",
+        "pp.7.p1":"Implementamos medidas técnicas y organizativas razonables para proteger la información (cifrado en tránsito, controles de acceso). Sin embargo, ningún sistema es totalmente seguro. El usuario también debe adoptar buenas prácticas (contraseñas robustas, cuidado al compartir enlaces, verificación de pagos).",
+        "pp.8.title":"8. Transferencias internacionales",
+        "pp.8.p1":"Debido al uso de proveedores globales, los datos pueden alojarse o procesarse en otros países. Adoptamos medidas razonables para procurar un nivel adecuado de protección conforme a estándares generalmente aceptados.",
+        "pp.9.title":"9. Derechos del usuario",
+        "pp.9.p1":"Podés solicitar acceso, actualización, rectificación y, cuando corresponda, supresión de tus datos; así como oponerte a ciertos tratamientos o pedir limitación/portabilidad según normativa aplicable. Para ejercerlos, escribí al correo indicado en “Contáctame”. Podremos requerir verificación de identidad.",
+        "pp.10.title":"10. Menores",
+        "pp.10.p1":"El sitio está dirigido exclusivamente a mayores de 18 años. No recopilamos intencionalmente datos de menores.",
+        "pp.11.title":"11. Cambios en esta Política",
+        "pp.11.p1":"Podemos actualizar esta Política para reflejar cambios operativos, legales o regulatorios. La versión vigente es la que se publica aquí, indicando fecha de última modificación.",
+
+        "footer.note":"Construido con pasión por la creatividad asistida por IA",
+        "footer.legal.prefix":"Al usar este sitio aceptás nuestros",
+        "footer.legal.tc":"Términos y condiciones",
+        "footer.legal.and":"y",
+        "footer.legal.pp":"Privacidad"
+      },
+      en: {
+        "nav.home":"Home","nav.ia":"AI","nav.learn":"Learn how","nav.services":"Services","nav.contact":"Contact me",
+        "hero.badge":"Legal",
+        "pp.title":"Privacy Policy",
+        "pp.subtitle":"This Policy explains what data we collect, how we use it, and which rights you can exercise.",
+        "pp.version":"Version 1.0 — 2025-09-26",
+        "pp.1.title":"1. Controller identity",
+        "pp.1.p1":"“Andromadorian” is a trade name identifying an independent project in AI services, development and training. It is not a registered legal entity. For privacy inquiries, use the email address published in the “Contact me” section.",
+        "pp.2.title":"2. Data we process",
+        "pp.2.li1":"Site usage data: technical logs, approximate IP, session IDs, pages visited, errors.",
+        "pp.2.li2":"Contact data: name and email if you write to us or submit forms.",
+        "pp.2.li3":"Transactional data: payment reference and status (processing performed by external gateways).",
+        "pp.2.li4":"Prompts and uploaded files: content required to execute requested AI functions.",
+        "pp.2.li5":"Cookies and similar technologies: see the Cookies section.",
+        "pp.3.title":"3. Purposes and legal bases",
+        "pp.3.li1":"Service delivery (AI execution, access to courses and content). Basis: performance of the relationship with the user.",
+        "pp.3.li2":"Support and inquiries (24–72 h). Basis: legitimate interest/relationship with the user.",
+        "pp.3.li3":"Payment processing (anti-fraud checks by gateways). Basis: transaction performance.",
+        "pp.3.li4":"Improvement and security (logs, metrics, abuse detection). Basis: legitimate interest.",
+        "pp.3.li5":"Legal compliance where applicable. Basis: legal obligation.",
+        "pp.4.title":"4. Gateways and third-party providers",
+        "pp.4.p1":"Payments are processed by third parties (e.g., Mercado Pago, PayPal, Stripe) under their own policies. The site may also integrate AI tools (local models or external services), automations and hosting/CDN. These providers may operate outside your country. Please review their terms and privacy policies.",
+        "pp.5.title":"5. Cookies",
+        "pp.5.p1":"We may use strictly necessary cookies to operate the site (e.g., language preference, session) and, optionally, performance/analytics cookies to improve the experience. You can block or delete cookies in your browser; some features may be affected.",
+        "pp.6.title":"6. Retention",
+        "pp.6.p1":"We keep data for as long as needed to fulfill the stated purposes and applicable legal retention periods. AI prompts/outputs may be retained temporarily for troubleshooting and service improvement.",
+        "pp.7.title":"7. Security",
+        "pp.7.p1":"We implement reasonable technical and organizational measures (in-transit encryption, access controls). No system is fully secure; users should also follow good practices (strong passwords, careful sharing, payment verification).",
+        "pp.8.title":"8. International transfers",
+        "pp.8.p1":"Given the use of global providers, data may be hosted or processed in other countries. We take reasonable steps to seek an appropriate level of protection according to generally accepted standards.",
+        "pp.9.title":"9. Your rights",
+        "pp.9.p1":"You may request access, update, rectification, and where applicable, deletion of your data; object to certain processing; or request restriction/portability under applicable law. To exercise rights, contact us via the email indicated in “Contact me”. We may require identity verification.",
+        "pp.10.title":"10. Minors",
+        "pp.10.p1":"The site targets users aged 18+. We do not knowingly collect data from minors.",
+        "pp.11.title":"11. Changes to this Policy",
+        "pp.11.p1":"We may update this Policy to reflect operational, legal or regulatory changes. The current version is the one published here, with the last-updated date.",
+
+        "footer.note":"Built with passion for AI-assisted creativity.",
+        "footer.legal.prefix":"By using this site you accept our",
+        "footer.legal.tc":"Terms and Conditions",
+        "footer.legal.and":"and",
+        "footer.legal.pp":"Privacy Policy"
+      }
+    };
+
+    function applyLang(lang){
+      const dict = i18n[lang] || i18n.es;
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const key = el.getAttribute('data-i18n');
+        if(dict[key]) el.textContent = dict[key];
+      });
+      document.getElementById('lang-es')?.classList.toggle('active', lang==='es');
+      document.getElementById('lang-en')?.classList.toggle('active', lang==='en');
+      document.documentElement.lang = lang;
+      localStorage.setItem('andromadorian_lang', lang);
+    }
+    applyLang(localStorage.getItem('andromadorian_lang') || 'es');
+    document.getElementById('lang-es')?.addEventListener('click', ()=>applyLang('es'));
+    document.getElementById('lang-en')?.addEventListener('click', ()=>applyLang('en'));
+  </script>
+</body>
+</html>
