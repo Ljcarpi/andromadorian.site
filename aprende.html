@@ -217,7 +217,7 @@
               <tr data-tipo="Curso" data-nivel="Inicial">
                 <td><code>AV-101</code></td>
                 <td class="name">
-                  <a href="/recursos/av-101.html/" class="go" title="Abrir recurso">
+                  <a href="/recursos/av-101.html" class="go" title="Abrir recurso">
                     Curso: Videos con IA (FFmpeg + TTS + stock)
                   </a>
                 </td>
@@ -228,7 +228,7 @@
                 <td class="price">ARS 0 (Gratis)</td>
                 <td>2025-09-26</td>
                 <td>
-                  <a class="go" href="/recursos/av-101.html/">
+                  <a class="go" href="/recursos/av-101.html">
                     Abrir
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
                       <path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -237,8 +237,7 @@
                 </td>
               </tr>
 
-              <!-- Puedes duplicar y adaptar: -->
-              <!--
+              <!-- Puedes duplicar y adaptar:
               <tr data-tipo="Guía" data-nivel="Intermedio">
                 <td><code>N8N-201</code></td>
                 <td class="name"><a href="/recursos/guia-n8n-webhooks-seguros/">Guía: Webhooks seguros con Cloudflare Worker</a></td>
@@ -301,9 +300,7 @@
         const fn = nivel.value;
 
         rows.forEach(tr=>{
-          const hayTexto = qq
-            ? norm(tr.innerText).includes(qq)
-            : true;
+          const hayTexto = qq ? norm(tr.innerText).includes(qq) : true;
           const okTipo = ft ? tr.getAttribute('data-tipo')===ft : true;
           const okNivel = fn ? tr.getAttribute('data-nivel')===fn : true;
           tr.style.display = (hayTexto && okTipo && okNivel) ? '' : 'none';
@@ -312,6 +309,27 @@
       q.addEventListener('input', apply);
       tipo.addEventListener('change', apply);
       nivel.addEventListener('change', apply);
+    })();
+
+    // 🔗 Enrutamiento por ID de fila -> /recursos/<id>.html
+    (function(){
+      const BASE = "/recursos/";
+      document.querySelectorAll('#rows tr').forEach(tr => {
+        const idCell = tr.querySelector('td code');
+        if (!idCell) return;
+        const id = idCell.textContent.trim().toLowerCase(); // "AV-101" -> "av-101"
+        const target = `${BASE}${id}.html`;
+
+        // Normaliza/actualiza todos los <a> internos de la fila
+        tr.querySelectorAll('a').forEach(a => a.href = target);
+
+        // Hace la fila clickeable (sin interferir con <a>)
+        tr.style.cursor = 'pointer';
+        tr.addEventListener('click', (e) => {
+          if (e.target.closest('a')) return;
+          window.location.href = target;
+        });
+      });
     })();
   </script>
 </body>
