@@ -148,11 +148,17 @@
 
     /* FOOTER */
     footer{padding:30px 0;color:#b8c2b6;font-size:.95rem}
-    footer .row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-    .tiny{opacity:.7}
-
-    /* TERMS NOTICE */
-    .legal{margin-top:10px;font-size:.78rem;opacity:.7}
+    .footer-top{
+      display:flex;justify-content:space-between;align-items:center;
+      gap:12px;flex-wrap:wrap
+    }
+    .copyright{white-space:nowrap}
+    .build-note{margin-left:auto;opacity:.85}
+    /* Aviso legal centrado debajo */
+    .legal{
+      margin-top:10px;font-size:.78rem;opacity:.7;
+      text-align:center;width:100%
+    }
     .legal a{color:var(--muted);text-decoration:underline dotted}
     .legal a:hover{color:#fff;text-decoration:underline}
 
@@ -167,6 +173,7 @@
       .hero-card{flex-direction:column;align-items:flex-start}
       .hero-brand{width:120px;height:120px}
       .carousel--mini{height:22vh;min-height:160px}
+      .build-note{margin-left:0}
     }
   </style>
 </head>
@@ -179,7 +186,6 @@
         <img class="brand-logo-img" src="/assets/andromadorian-logo.png" alt="Andromadorian" />
         <div>
           <div class="brand-title">Andromadorian</div>
-          <!-- Asegurado: Servicios en el subtítulo -->
           <div style="font-size:.8rem;color:var(--muted)">IA • Cursos • Servicios</div>
         </div>
       </a>
@@ -344,10 +350,12 @@
 
   <!-- FOOTER -->
   <footer>
-    <div class="container row">
-      <div>© <span id="year"></span> Andromadorian</div>
-      <div class="tiny" data-i18n="footer.note">
-        Construido con pasión por la creatividad asistida por IA.
+    <div class="container">
+      <div class="footer-top">
+        <div class="copyright">© <span id="year"></span> Andromadorian</div>
+        <div class="build-note" data-i18n="footer.note">
+          Construido con pasión por la creatividad asistida por IA.
+        </div>
       </div>
       <div class="legal">
         Al usar este sitio aceptás nuestros
@@ -378,7 +386,6 @@
       if (!reduceMotion && slides.length > 1) {
         setInterval(next, intervalMs);
       } else {
-        // Si el usuario prefiere menos movimiento, mostramos la primera imagen fija
         slides.forEach((s,i)=>s.classList.toggle('active', i===0));
       }
       if(parallax && !reduceMotion){
