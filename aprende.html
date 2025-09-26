@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Andromadorian — Aprende cómo</title>
+  <meta name="description" content="Cursos y guías paso a paso para crear contenido con IA y automatizar flujos." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --olive:#7a8f47; --olive-600:#6a7e3f; --olive-700:#5a6c36;
+      --bg-900:#0b0f0e; --bg-800:#111612; --card:#151b16;
+      --text:#e8efe6; --muted:#c9d3c4; --accent:#a3b86a;
+      --ring: 0 0 0 3px rgba(122,143,71,.35);
+      --shadow-lg: 0 10px 30px rgba(0,0,0,.45);
+      --radius: 16px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif; color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 80% -10%, rgba(122,143,71,.20), transparent 50%),
+        radial-gradient(900px 500px at -10% 20%, rgba(122,143,71,.12), transparent 60%),
+        linear-gradient(180deg, var(--bg-900), var(--bg-800));
+      background-attachment: fixed;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+    /* NAVBAR */
+    .nav{position:sticky;top:0;z-index:40;backdrop-filter:saturate(140%) blur(10px);background:rgba(11,15,14,.6);border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand-logo{width:34px;height:34px;border-radius:10px;background:conic-gradient(from 220deg,var(--olive),#9fb66a,var(--olive-700));box-shadow:0 4px 14px rgba(122,143,71,.35),inset 0 0 18px rgba(255,255,255,.08)}
+    .brand-title{font-weight:800;letter-spacing:.3px}
+    .top-links{display:flex;gap:12px;align-items:center}
+    .pill{padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);transition:transform .15s ease, background .2s ease, border-color .2s ease;font-weight:600;font-size:.95rem}
+    .pill:hover{transform:translateY(-1px);background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.12)}
+    .lang-toggle{display:flex;gap:8px;align-items:center}
+    .flag{width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.25);cursor:pointer;transition: transform .12s ease, box-shadow .12s ease;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+    .flag.active{outline:none;box-shadow:var(--ring)}
+
+    /* HERO / CAROUSEL */
+    .hero{position:relative;overflow:hidden;border-radius:calc(var(--radius) + 6px);margin:24px auto;box-shadow:var(--shadow-lg);background:#0e1412}
+    .carousel{position:relative;height:42vh;min-height:300px;max-height:520px;border-radius:inherit;isolation:isolate}
+    .slides{position:absolute;inset:0;display:grid}
+    .slide{grid-area:1/1;opacity:0;transition:opacity .9s ease, transform 8s ease;transform: scale(1.05);background-position:center;background-size:cover;filter:saturate(105%) contrast(102%)}
+    .slide.active{opacity:1;transform: scale(1)}
+    .scrim{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.35) 40%, rgba(11,15,14,.85) 90%);pointer-events:none}
+    .hero-content{position:absolute;inset:0;display:flex;align-items:flex-end;padding:28px}
+    .hero-card{background:linear-gradient(180deg, rgba(21,27,22,.9), rgba(17,22,18,.9));border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:22px 24px;max-width:920px;backdrop-filter: blur(6px);box-shadow:0 10px 30px rgba(0,0,0,.45)}
+    .eyebrow{color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.78rem}
+    .h1{font-size:clamp(1.8rem, 2.3vw + 1rem, 2.8rem);line-height:1.12;margin:.35rem 0 .25rem;font-weight:800}
+    .lead{color:var(--muted);font-size:1.05rem}
+    .hero-cta{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;font-weight:700;border:1px solid transparent;transition:transform .15s ease, box-shadow .15s ease, background .2s ease}
+    .btn-primary{background:linear-gradient(180deg, var(--olive), var(--olive-600)); color:#0b110c}
+    .btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(122,143,71,.35)}
+
+    /* CONTENT */
+    .section{padding:38px 0}
+    .card-like{background:linear-gradient(180deg, rgba(21,27,22,.95), rgba(17,22,18,.95));border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow-lg)}
+    .section h2{font-size:1.4rem;margin:0 0 14px 0}
+    .table-wrap{overflow:auto;border-radius:12px;border:1px solid rgba(255,255,255,.07);background:rgba(17,22,18,.6)}
+    table{width:100%;border-collapse:collapse}
+    thead th{position:sticky;top:0;background:rgba(21,27,22,.95);text-align:left;padding:14px 12px;font-size:.95rem;border-bottom:1px solid rgba(255,255,255,.08)}
+    tbody td{padding:12px;border-bottom:1px solid rgba(255,255,255,.06)}
+    tbody tr{transition: background .15s ease}
+    tbody tr:hover{background:rgba(255,255,255,.04)}
+    .badge{display:inline-block;padding:4px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);font-size:.85rem}
+    .price{font-weight:800}
+    .pill-link{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);transition:transform .15s ease, background .2s ease}
+    .pill-link:hover{transform:translateY(-1px);background:rgba(255,255,255,.08)}
+
+    /* FOOTER */
+    footer{padding:30px 0;color:#b8c2b6;font-size:.95rem}
+    footer .row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .tiny{opacity:.7}
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav class="nav" aria-label="Main">
+    <div class="container nav-inner">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true"></div>
+        <div>
+          <div class="brand-title">Andromadorian</div>
+          <div style="font-size:.8rem;color:var(--muted)">IA • Cursos • Juegos</div>
+        </div>
+      </div>
+      <div class="top-links" role="navigation" aria-label="Top links">
+        <a class="pill" href="/#home" data-i18n="nav.home">Inicio</a>
+        <a class="pill" href="/ia" data-i18n="nav.ia">IA</a>
+        <a class="pill" href="/aprende.html" data-i18n="nav.learn" aria-current="page">Aprende cómo</a>
+        <a class="pill" href="/juega" data-i18n="nav.play">Juega</a>
+        <a class="pill" href="/contacto" data-i18n="nav.contact">Contáctame</a>
+        <div class="lang-toggle" aria-label="Language toggle">
+          <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'><rect width='640' height='480' fill='%23aa151b'/><rect width='640' height='160' y='160' fill='%23f1bf00'/></svg>" alt="ES" class="flag active" id="lang-es" title="Español (ES)">
+          <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'><clipPath id='a'><path d='M0,0 v30 h60 v-30 z'/></clipPath><g clip-path='url(%23a)'><path d='M0,0 v30 h60 v-30 z' fill='%23012a8d'/><path d='M0,0 L60,30 M60,0 L0,30' stroke='%23fff' stroke-width='6'/><path d='M0,0 L60,30 M60,0 L0,30' stroke='%23c8102e' stroke-width='4'/><path d='M30,0 v30 M0,15 h60' stroke='%23fff' stroke-width='6'/><path d='M30,0 v30 M0,15 h60' stroke='%23c8102e' stroke-width='4'/></g></svg>" alt="EN" class="flag" id="lang-en" title="English (EN)">
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <main class="container">
+    <section class="hero" aria-label="Aprende cómo">
+      <div class="carousel" id="carousel" aria-roledescription="carousel">
+        <div class="slides">
+          <div class="slide active" role="group" aria-label="1 / 4" style="background-image:url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1920&auto=format&fit=crop');"></div>
+          <div class="slide" role="group" aria-label="2 / 4" style="background-image:url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1920&auto=format&fit=crop');"></div>
+          <div class="slide" role="group" aria-label="3 / 4" style="background-image:url('https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1920&auto=format&fit=crop');"></div>
+          <div class="slide" role="group" aria-label="4 / 4" style="background-image:url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1920&auto=format&fit=crop');"></div>
+        </div>
+        <div class="scrim"></div>
+        <div class="hero-content">
+          <div class="hero-card">
+            <div class="eyebrow" data-i18n="learn.badge">Formación práctica</div>
+            <h1 class="h1">Aprende cómo</h1>
+            <p class="lead" data-i18n="learn.lead">
+              En esta sección encontrarás cursos y guías paso a paso para generar contenido con IA,
+              automatizar tareas, crear sitios web y escalar tu producción creativa.
+            </p>
+            <div class="hero-cta">
+              <a class="btn btn-primary" href="#catalogo" data-i18n="learn.cta">Ver catálogo</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATALOGO -->
+    <section id="catalogo" class="section">
+      <div class="card-like">
+        <h2 data-i18n="learn.table.title">Cursos y guías</h2>
+        <div class="table-wrap">
+          <table aria-describedby="tabla-descripcion">
+            <caption id="tabla-descripcion" style="text-align:left;padding:12px;color:var(--muted)">
+              <span data-i18n="learn.table.caption">Listado de recursos disponibles. Haz clic en un recurso para ver detalles.</span>
+            </caption>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th data-i18n="learn.table.name">Nombre del recurso</th>
+                <th data-i18n="learn.table.type">Tipo de recurso</th>
+                <th data-i18n="learn.table.price">Costo</th>
+                <th data-i18n="learn.table.duration">Duración</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Ejemplo -->
+              <tr onclick="location.href='curso-001.html'" style="cursor:pointer">
+                <td>CRS-001</td>
+                <td>Text→Video con n8n + FFmpeg</td>
+                <td><span class="badge" data-i18n="learn.type.course">Curso</span></td>
+                <td class="price">USD 29</td>
+                <td>2h 30m</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+          <a class="pill-link" href="#" onclick="alert(msgSoon());return false;" data-i18n="learn.actions.all">Ver todos</a>
+          <a class="pill-link" href="#" onclick="alert(msgSoon());return false;" data-i18n="learn.actions.filters">Filtros</a>
+          <a class="pill-link" href="#" onclick="alert(msgSoon());return false;" data-i18n="learn.actions.subscribe">Suscribirme a novedades</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container row">
+      <div>© <span id="year"></span> Andromadorian</div>
+      <div class="tiny" data-i18n="footer.note">Construido con pasión por la creatividad asistida por IA.</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    function initCarousel(rootId, intervalMs=5200){
+      const root = document.getElementById(rootId);
+      if(!root) return;
+      const slides = Array.from(root.querySelectorAll('.slide'));
+      let idx = 0;
+      setInterval(()=>{slides[idx].classList.remove('active'); idx=(idx+1)%slides.length; slides[idx].classList.add('active');}, intervalMs);
+    }
+    initCarousel('carousel');
+
+    function msgSoon(){return (document.documentElement.lang==='en')?'Coming soon!':'¡Próximamente!';}
+
+    // i18n (ES default)
+    const i18n = {
+      es: {
+        "nav.home":"Inicio","nav.ia":"IA","nav.learn":"Aprende cómo","nav.play":"Juega","nav.contact":"Contáctame",
+        "footer.note":"Construido con pasión por la creatividad asistida por IA.",
+        "learn.badge":"Formación práctica",
+        "learn.lead":"En esta sección encontrarás cursos y guías paso a paso para generar contenido con IA, automatizar tareas, crear sitios web y escalar tu producción creativa.",
+        "learn.cta":"Ver catálogo",
+        "learn.table.title":"Cursos y guías",
+        "learn.table.caption":"Listado de recursos disponibles. Haz clic en un recurso para ver detalles.",
+        "learn.table.name":"Nombre del recurso",
+        "learn.table.type":"Tipo de recurso",
+        "learn.table.price":"Costo",
+        "learn.table.duration":"Duración",
+        "learn.type.course":"Curso",
+        "learn.actions.all":"Ver todos",
+        "learn.actions.filters":"Filtros",
+        "learn.actions.subscribe":"Suscribirme a novedades"
+      },
+      en: {
+        "nav.home":"Home","nav.ia":"AI","nav.learn":"Learn how","nav.play":"Play","nav.contact":"Contact me",
+        "footer.note":"Built with passion for AI-assisted creativity.",
+        "learn.badge":"Hands-on training",
+        "learn.lead":"In this section you’ll find step-by-step courses and guides to generate AI content, automate tasks, build websites, and scale your creative output.",
+        "learn.cta":"Browse catalog",
+        "learn.table.title":"Courses & guides",
+        "learn.table.caption":"Available resources list. Click a resource to view details.",
+        "learn.table.name":"Resource name",
+        "learn.table.type":"Resource type",
+        "learn.table.price":"Price",
+        "learn.table.duration":"Duration",
+        "learn.type.course":"Course",
+        "learn.actions.all":"View all",
+        "learn.actions.filters":"Filters",
+        "learn.actions.subscribe":"Subscribe for updates"
+      }
+    };
+    function applyLang(lang){
+      const dict = i18n[lang] || i18n.es;
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const key = el.getAttribute('data-i18n');
+        if(dict[key]) el.textContent = dict[key];
+      });
+      document.getElementById('lang-es')?.classList.toggle('active', lang==='es');
+      document.getElementById('lang-en')?.classList.toggle('active', lang==='en');
+      document.documentElement.lang = lang;
+      localStorage.setItem('andromadorian_lang', lang);
+    }
+    // Lang toggle
+    (function(){
+      const esBtn = document.getElementById('lang-es');
+      const enBtn = document.getElementById('lang-en');
+      if(esBtn && enBtn){
+        esBtn.addEventListener('click', ()=>applyLang('es'));
+        enBtn.addEventListener('click', ()=>applyLang('en'));
+      }
+      applyLang(localStorage.getItem('andromadorian_lang') || 'es');
+    })();
+  </script>
+</body>
+</html>
