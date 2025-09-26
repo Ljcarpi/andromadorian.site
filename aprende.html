@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aprende cómo — Andromadorian</title>
+  <meta name="description" content="Cursos y guías para crear videos con IA, sitios web, usar modelos de IA y automatizar con n8n.">
+
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- FAVICONS / MANIFEST (mismas rutas que tu index) -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="alternate icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="alternate icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/assets/site.webmanifest">
+  <meta name="theme-color" content="#0f3f46">
+
+  <style>
+    :root{
+      --teal:#14b8a6; --teal-600:#0d9488; --teal-700:#0b746b;
+      --purple:#9b57f5; --purple-700:#7a38d6;
+      --bg-900:#0b1220; --bg-850:#111a2a; --bg-800:#162233;
+      --card:#141d2b; --text:#e6f2f4; --muted:#c7d4dc;
+      --ring: 0 0 0 3px rgba(20,184,166,.35);
+      --shadow-lg: 0 10px 30px rgba(0,0,0,.45);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);
+      background:
+        radial-gradient(900px 520px at 30% 45%, rgba(20,184,166,.20), transparent 55%),
+        radial-gradient(700px 480px at 90% 95%, rgba(155,87,245,.22), transparent 60%),
+        radial-gradient(1000px 520px at -10% -10%, rgba(20,184,166,.12), transparent 60%),
+        linear-gradient(180deg, var(--bg-900), var(--bg-800));
+      background-attachment:fixed;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+    /* NAVBAR */
+    .nav{position:sticky;top:0;z-index:40;backdrop-filter:saturate(140%) blur(10px);
+      background: linear-gradient(180deg, rgba(11,18,32,.72), rgba(11,18,32,.50));
+      border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .brand-link{display:flex;align-items:center;gap:12px;border-radius:12px;padding:6px 8px;transition: background .2s, transform .15s}
+    .brand-link:hover{background:rgba(255,255,255,.05);transform:translateY(-1px)}
+    .brand-logo-img{width:34px;height:34px;border-radius:10px;display:block;object-fit:cover;box-shadow:0 4px 16px rgba(20,184,166,.35)}
+    .brand-title{font-weight:800;letter-spacing:.3px}
+    .top-links{display:flex;gap:12px;align-items:center}
+    .pill{padding:10px 14px;border-radius:999px;background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.10);transition:transform .15s, background .2s, border-color .2s, box-shadow .2s;font-weight:600;font-size:.95rem}
+    .pill:hover{transform:translateY(-1px);background:linear-gradient(180deg, rgba(20,184,166,.12), rgba(155,87,245,.10));
+      border-color:rgba(20,184,166,.35);box-shadow:0 6px 16px rgba(155,87,245,.18), 0 2px 8px rgba(20,184,166,.18)}
+    .pill[aria-current="page"]{border-color:rgba(20,184,166,.55);box-shadow:0 0 0 2px rgba(20,184,166,.25) inset}
+    .lang-toggle{display:flex;gap:8px;align-items:center}
+    .flag{width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.25);cursor:pointer;transition: transform .12s, box-shadow .12s;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+    .flag.active{outline:none;box-shadow:var(--ring)}
+
+    /* HERO (compacto) */
+    .hero{position:relative;overflow:hidden;border-radius:calc(var(--radius) + 6px);margin:24px auto 14px;box-shadow:var(--shadow-lg);background:var(--bg-850)}
+    .hero-inner{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px 24px}
+    .h1{font-size:clamp(1.9rem, 2.4vw + 1rem, 3rem);line-height:1.12;margin:.35rem 0 .25rem;font-weight:800}
+    .lead{color:var(--muted);font-size:1.05rem}
+    .hero-badge{color:var(--teal);font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.78rem}
+
+    /* SECTIONS / CARDS / INFO */
+    .section{padding:34px 0}
+    .info{background:linear-gradient(180deg, rgba(20,26,38,.95), rgba(18,25,36,.95));
+      border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow-lg)}
+    .info h3{margin:.2rem 0 .3rem;font-weight:800}
+    .info p{color:var(--muted);margin:0}
+
+    /* TABLE */
+    .table-wrap{margin-top:18px;background:linear-gradient(180deg, rgba(20,26,38,.92), rgba(18,25,36,.92));
+      border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);box-shadow:var(--shadow-lg);overflow:hidden}
+    .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
+    .toolbar input,.toolbar select{
+      background:#0f1724;color:var(--text);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 12px;outline:none
+    }
+    .toolbar input:focus,.toolbar select:focus{box-shadow:var(--ring);border-color:rgba(20,184,166,.45)}
+    .table-scroll{overflow:auto}
+    table{width:100%;border-collapse:separate;border-spacing:0}
+    thead th{position:sticky;top:0;background:#0f1724;padding:12px 10px;text-align:left;font-weight:700;border-bottom:1px solid rgba(255,255,255,.12)}
+    tbody td{padding:12px 10px;border-bottom:1px solid rgba(255,255,255,.06);color:#dfe9ec}
+    tbody tr{transition: background .12s, transform .12s}
+    tbody tr:hover{background:rgba(255,255,255,.03)}
+    .badge{display:inline-block;padding:.18rem .5rem;border-radius:999px;font-size:.75rem;font-weight:700;background:linear-gradient(135deg, var(--teal), var(--purple-700))}
+    .price{font-weight:800}
+    .name a{text-decoration:underline dotted}
+    .go{display:inline-flex;align-items:center;gap:6px;font-weight:700}
+    .go svg{width:16px;height:16px;vertical-align:middle}
+
+    /* FOOTER (centrado en columna como index) */
+    footer{padding:30px 0 34px;color:#bfd0d7;font-size:.95rem}
+    .footer-top{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px}
+    .build-note,.copyright{font-size:inherit;font-weight:400;margin:0}
+    .legal{margin-top:18px;font-size:.78rem;opacity:.82;text-align:center;width:100%}
+
+    /* ACCESSIBILITY */
+    .brand-link:focus-visible,.pill:focus-visible{outline:none;box-shadow:var(--ring)}
+
+    @media (max-width:900px){
+      .hero-inner{flex-direction:column;align-items:flex-start}
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="nav" aria-label="Main">
+    <div class="container nav-inner">
+      <a class="brand-link" href="/" aria-label="Ir al inicio">
+        <img class="brand-logo-img" src="/assets/andromadorian-logo.png" alt="Andromadorian" />
+        <div>
+          <div class="brand-title">Andromadorian</div>
+          <div style="font-size:.8rem;color:var(--muted)">IA • Cursos • Servicios</div>
+        </div>
+      </a>
+
+      <div class="top-links" role="navigation" aria-label="Top links">
+        <a class="pill" href="/" data-i18n="nav.home">Inicio</a>
+        <a class="pill" href="/ia" data-i18n="nav.ia">IA</a>
+        <a class="pill" href="/aprende.html" aria-current="page" data-i18n="nav.learn">Aprende cómo</a>
+        <a class="pill" href="/servicios" data-i18n="nav.services">Servicios</a>
+        <a class="pill" href="/contacto" data-i18n="nav.contact">Contáctame</a>
+        <div class="lang-toggle" aria-label="Language toggle">
+          <img src="data:image/svg+xml;utf8,
+            <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'>
+              <rect width='640' height='480' fill='%23aa151b'/><rect width='640' height='160' y='160' fill='%23f1bf00'/></svg>"
+            alt="ES" class="flag active" id="lang-es" title="Español (ES)">
+          <img src="data:image/svg+xml;utf8,
+            <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'>
+              <clipPath id='a'><path d='M0,0 v30 h60 v-30 z'/></clipPath>
+              <g clip-path='url(%23a)'>
+                <path d='M0,0 v30 h60 v-30 z' fill='%23012a8d'/>
+                <path d='M0,0 L60,30 M60,0 L0,30' stroke='%23fff' stroke-width='6'/>
+                <path d='M0,0 L60,30 M60,0 L0,30' stroke='%23c8102e' stroke-width='4'/>
+                <path d='M30,0 v30 M0,15 h60' stroke='%23fff' stroke-width='6'/>
+                <path d='M30,0 v30 M0,15 h60' stroke='%23c8102e' stroke-width='4'/>
+              </g></svg>"
+            alt="EN" class="flag" id="lang-en" title="English (EN)">
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- HERO compacto -->
+    <section class="hero" aria-label="Aprende cómo">
+      <div class="hero-inner">
+        <div>
+          <div class="hero-badge">Aprende cómo</div>
+          <h1 class="h1">Cursos y guías prácticas</h1>
+          <p class="lead">
+            Aprende a hacer videos con IA, crear sitios web estáticos, usar modelos de IA (texto, imagen y video),
+            y automatizar pipelines con n8n y APIs — todo con ejemplos reales listos para producción.
+          </p>
+        </div>
+        <img class="hero-brand" src="/assets/brand-mark.png" alt="Marca Andromadorian" loading="lazy" style="width:120px;height:120px;border-radius:16px;background:linear-gradient(135deg, rgba(20,184,166,.10), rgba(155,87,245,.12));border:1px solid rgba(255,255,255,.10);padding:10px;box-shadow:0 8px 24px rgba(0,0,0,.35)">
+      </div>
+    </section>
+
+    <!-- Intro -->
+    <section class="section" aria-label="Intro">
+      <div class="info">
+        <h3>¿Qué encontrarás aquí?</h3>
+        <p>
+          Recursos paso a paso alojados en <code>/recursos/</code> dentro de este sitio. Cada curso/guía incluye
+          assets descargables, código, y una ruta clara desde cero hasta publicar.
+        </p>
+      </div>
+    </section>
+
+    <!-- Tabla de cursos / guías -->
+    <section class="section" aria-label="Catálogo">
+      <div class="table-wrap" id="catalogo">
+        <div class="toolbar">
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <input id="q" type="search" placeholder="Buscar por nombre, id, tema..." aria-label="Buscar recurso">
+            <select id="tipo" aria-label="Filtrar por tipo">
+              <option value="">Todos los tipos</option>
+              <option>Curso</option>
+              <option>Guía</option>
+              <option>Plantilla</option>
+            </select>
+            <select id="nivel" aria-label="Filtrar por nivel">
+              <option value="">Todos los niveles</option>
+              <option>Inicial</option>
+              <option>Intermedio</option>
+              <option>Avanzado</option>
+            </select>
+          </div>
+          <div class="badge" title="Recursos verificados">Catálogo</div>
+        </div>
+
+        <div class="table-scroll">
+          <table aria-describedby="catalogo">
+            <thead>
+              <tr>
+                <th style="min-width:80px">ID</th>
+                <th style="min-width:260px">Nombre del recurso</th>
+                <th>Tipo</th>
+                <th>Nivel</th>
+                <th>Duración</th>
+                <th>Formato</th>
+                <th style="min-width:100px">Costo</th>
+                <th style="min-width:140px">Última actualización</th>
+                <th style="min-width:120px">Acceso</th>
+              </tr>
+            </thead>
+            <tbody id="rows">
+              <!-- EJEMPLO -->
+              <tr data-tipo="Curso" data-nivel="Inicial">
+                <td><code>AV-101</code></td>
+                <td class="name">
+                  <a href="/recursos/curso-videos-ia/" class="go" title="Abrir recurso">
+                    Curso: Videos con IA (FFmpeg + TTS + stock)
+                  </a>
+                </td>
+                <td>Curso</td>
+                <td>Inicial</td>
+                <td>6–8 h</td>
+                <td>Texto + Código + Video</td>
+                <td class="price">ARS 0 (Gratis)</td>
+                <td>2025-09-26</td>
+                <td>
+                  <a class="go" href="/recursos/curso-videos-ia/">
+                    Abrir
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                      <path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                  </a>
+                </td>
+              </tr>
+
+              <!-- Puedes duplicar y adaptar: -->
+              <!--
+              <tr data-tipo="Guía" data-nivel="Intermedio">
+                <td><code>N8N-201</code></td>
+                <td class="name"><a href="/recursos/guia-n8n-webhooks-seguros/">Guía: Webhooks seguros con Cloudflare Worker</a></td>
+                <td>Guía</td><td>Intermedio</td><td>2–3 h</td><td>Texto + Código</td>
+                <td class="price">Gratis</td><td>2025-09-26</td>
+                <td><a class="go" href="/recursos/guia-n8n-webhooks-seguros/">Abrir
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </a></td>
+              </tr>
+              -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div class="build-note">Construido con pasión por la creatividad asistida por IA</div>
+        <div class="copyright">© <span id="year"></span> Andromadorian</div>
+      </div>
+      <div class="legal">
+        Al usar este sitio aceptás nuestros
+        <a href="/terminos" aria-label="Leer Términos y condiciones">Términos y condiciones</a>
+        y
+        <a href="/privacidad" aria-label="Leer Política de Privacidad">Privacidad</a>.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Año dinámico
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // i18n simple: toma del localStorage si ya elegiste idioma en el home
+    (function(){
+      const lang = localStorage.getItem('andromadorian_lang') || 'es';
+      document.documentElement.lang = lang;
+      document.getElementById('lang-es')?.classList.toggle('active', lang==='es');
+      document.getElementById('lang-en')?.classList.toggle('active', lang==='en');
+      document.getElementById('lang-es')?.addEventListener('click', ()=>{localStorage.setItem('andromadorian_lang','es');location.reload()});
+      document.getElementById('lang-en')?.addEventListener('click', ()=>{localStorage.setItem('andromadorian_lang','en');location.reload()});
+    })();
+
+    // Filtro rápido por texto, tipo y nivel
+    (function(){
+      const q = document.getElementById('q');
+      const tipo = document.getElementById('tipo');
+      const nivel = document.getElementById('nivel');
+      const rows = Array.from(document.querySelectorAll('#rows tr'));
+
+      function norm(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+
+      function apply(){
+        const qq = norm(q.value);
+        const ft = tipo.value;
+        const fn = nivel.value;
+
+        rows.forEach(tr=>{
+          const hayTexto = qq
+            ? norm(tr.innerText).includes(qq)
+            : true;
+          const okTipo = ft ? tr.getAttribute('data-tipo')===ft : true;
+          const okNivel = fn ? tr.getAttribute('data-nivel')===fn : true;
+          tr.style.display = (hayTexto && okTipo && okNivel) ? '' : 'none';
+        });
+      }
+      q.addEventListener('input', apply);
+      tipo.addEventListener('change', apply);
+      nivel.addEventListener('change', apply);
+    })();
+  </script>
+</body>
+</html>
