@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contáctame — Andromadorian</title>
+  <meta name="description" content="Contacto Andromadorian: envíame un correo o completa el formulario para una atención más rápida." />
+
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- FAVICONS (ajusta rutas si difieren) -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="alternate icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="alternate icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="theme-color" content="#0f3f46">
+
+  <style>
+    :root{
+      --teal:#14b8a6; --teal-600:#0d9488; --teal-700:#0b746b;
+      --purple:#9b57f5; --purple-700:#7a38d6;
+      --bg-900:#0b1220; --bg-850:#111a2a; --bg-800:#162233;
+      --card:#141d2b; --text:#e6f2f4; --muted:#c7d4dc;
+      --ring:0 0 0 3px rgba(20,184,166,.35); --shadow-lg:0 10px 30px rgba(0,0,0,.45); --radius:16px;
+    }
+    *{box-sizing:border-box} html,body{height:100%}
+    body{
+      margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif; color:var(--text);
+      background:
+        radial-gradient(900px 520px at 30% 45%, rgba(20,184,166,.20), transparent 55%),
+        radial-gradient(700px 480px at 90% 95%, rgba(155,87,245,.22), transparent 60%),
+        radial-gradient(1000px 520px at -10% -10%, rgba(20,184,166,.12), transparent 60%),
+        linear-gradient(180deg, var(--bg-900), var(--bg-800));
+      background-attachment:fixed;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:40;backdrop-filter:saturate(140%) blur(10px);
+      background:linear-gradient(180deg, rgba(11,18,32,.72), rgba(11,18,32,.50));
+      border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .brand-link{display:flex;align-items:center;gap:12px;border-radius:12px;padding:6px 8px;transition:background .2s, transform .15s}
+    .brand-link:hover{background:rgba(255,255,255,.05);transform:translateY(-1px)}
+    .brand-logo-img{width:34px;height:34px;border-radius:10px;display:block;object-fit:cover;box-shadow:0 4px 16px rgba(20,184,166,.35)}
+    .brand-title{font-weight:800;letter-spacing:.3px}
+    .top-links{display:flex;gap:12px;align-items:center}
+    .pill{padding:10px 14px;border-radius:999px;background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.10);transition:transform .15s, background .2s, border-color .2s, box-shadow .2s;font-weight:600;font-size:.95rem}
+    .pill:hover{transform:translateY(-1px);background:linear-gradient(180deg, rgba(20,184,166,.12), rgba(155,87,245,.10));
+      border-color:rgba(20,184,166,.35);box-shadow:0 6px 16px rgba(155,87,245,.18), 0 2px 8px rgba(20,184,166,.18)}
+    .lang-toggle{display:flex;gap:8px;align-items:center}
+    .flag{width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.25);cursor:pointer;transition: transform .12s, box-shadow .12s;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+    .flag.active{outline:none;box-shadow:var(--ring)}
+
+    /* HEADER BAND (igual que “hero-card” pero simple) */
+    .page-head{margin:24px auto;box-shadow:var(--shadow-lg);background:var(--bg-850);border-radius:calc(var(--radius) + 6px);padding:26px}
+    .eyebrow{color:var(--teal);font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.78rem}
+    .h1{font-size:clamp(1.9rem, 2.4vw + 1rem, 3rem);line-height:1.12;margin:.35rem 0 .25rem;font-weight:800}
+    .lead{color:var(--muted);font-size:1.05rem}
+
+    /* CARD sección */
+    .card{
+      background:linear-gradient(180deg, rgba(20,26,38,.92), rgba(18,25,36,.92));
+      border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow-lg)
+    }
+    .grid{display:grid;gap:18px;grid-template-columns:repeat(12,minmax(0,1fr))}
+    .col-6{grid-column:span 6}
+    @media (max-width:900px){.col-6{grid-column:span 12}}
+
+    /* FORM */
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .form-grid .full{grid-column:1 / -1}
+    label{display:block;font-weight:600;margin:2px 0 6px}
+    input, textarea, select{
+      width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.04);color:var(--text);font:inherit;outline:none;transition:border-color .2s, box-shadow .2s, background .2s
+    }
+    input:focus, textarea:focus, select:focus{box-shadow:var(--ring);border-color:rgba(20,184,166,.35);background:rgba(255,255,255,.06)}
+    textarea{min-height:140px;resize:vertical}
+    .actions{margin-top:8px;display:flex;gap:10px;align-items:center}
+    .btn{
+      padding:12px 16px;border-radius:999px;background:linear-gradient(135deg, var(--teal), var(--purple-700));
+      color:#0b1220;font-weight:800;border:none;cursor:pointer;box-shadow:0 6px 18px rgba(20,184,166,.28), 0 6px 18px rgba(155,87,245,.18);
+      transition:transform .12s ease
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .muted{color:var(--muted)}
+    .status{font-size:.95rem}
+    .hidden{display:none !important}
+
+    /* FOOTER */
+    footer{padding:30px 0 34px;color:#bfd0d7;font-size:.95rem}
+    .footer-top{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px}
+    .build-note,.copyright{font-size:inherit;font-weight:400;margin:0}
+    .legal{margin-top:18px;font-size:.78rem;opacity:.82;text-align:center;width:100%}
+
+    /* ACCESIBILIDAD */
+    .brand-link:focus-visible,.pill:focus-visible,button:focus-visible{outline:none;box-shadow:var(--ring)}
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="nav" aria-label="Main">
+    <div class="container nav-inner">
+      <!-- BRAND -->
+      <a class="brand-link" href="/" aria-label="Ir al inicio">
+        <img class="brand-logo-img" src="/assets/andromadorian-logo.png" alt="Andromadorian" />
+        <div>
+          <div class="brand-title">Andromadorian</div>
+          <div style="font-size:.8rem;color:var(--muted)">IA • Cursos • Servicios</div>
+        </div>
+      </a>
+
+      <div class="top-links" role="navigation" aria-label="Top links">
+        <a class="pill" href="/#home" data-i18n="nav.home">Inicio</a>
+        <a class="pill" href="/ia" data-i18n="nav.ia">IA</a>
+        <a class="pill" href="/aprende.html" data-i18n="nav.learn">Aprende cómo</a>
+        <a class="pill" href="/servicios" data-i18n="nav.services">Servicios</a>
+        <a class="pill" href="/contacto" aria-current="page" data-i18n="nav.contact">Contáctame</a>
+        <div class="lang-toggle" aria-label="Language toggle">
+          <!-- ES -->
+          <img src="data:image/svg+xml;utf8,<?xml version='1.0'?><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'><rect width='640' height='480' fill='%23aa151b'/><rect width='640' height='160' y='160' fill='%23f1bf00'/></svg>"
+               alt="ES" class="flag active" id="lang-es" title="Español (ES)">
+          <!-- EN -->
+          <img src="data:image/svg+xml;utf8,<?xml version='1.0'?><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'><clipPath id='a'><path d='M0,0 v30 h60 v-30 z'/></clipPath><g clip-path='url(%23a)'><path d='M0,0 v30 h60 v-30 z' fill='%23012a8d'/><path d='M0,0 L60,30 M60,0 L0,30' stroke='%23fff' stroke-width='6'/><path d='M0,0 L60,30 M60,0 L0,30' stroke='%23c8102e' stroke-width='4'/><path d='M30,0 v30 M0,15 h60' stroke='%23fff' stroke-width='6'/><path d='M30,0 v30 M0,15 h60' stroke='%23c8102e' stroke-width='4'/></g></svg>"
+               alt="EN" class="flag" id="lang-en" title="English (EN)">
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- Encabezado de página -->
+    <section class="page-head" aria-label="Encabezado">
+      <div class="eyebrow" data-i18n="hero.badge">Bienvenido</div>
+      <h1 class="h1">Contáctame</h1>
+      <p class="lead">
+        Si deseas contactarme, podés enviarme un correo a <strong><a href="mailto:xx@xx.xx">xx@xx.xx</a></strong>.
+        También podés completar este formulario para una atención más rápida.
+      </p>
+    </section>
+
+    <!-- Contenido -->
+    <section class="grid" aria-label="Formulario de contacto">
+      <div class="col-6">
+        <div class="card">
+          <form id="contact-form" novalidate>
+            <div class="form-grid">
+              <div class="full">
+                <label for="name">Nombre</label>
+                <input id="name" name="name" placeholder="Tu nombre" autocomplete="name" required>
+              </div>
+              <div class="full">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" placeholder="tunombre@dominio.com" autocomplete="email" required>
+              </div>
+              <div class="full">
+                <label for="topic">Tema</label>
+                <select id="topic" name="topic" required>
+                  <option value="">Selecciona un tema…</option>
+                  <option>Servicios</option>
+                  <option>Cursos</option>
+                  <option>Consultas técnicas</option>
+                  <option>Otras</option>
+                </select>
+              </div>
+              <div class="full">
+                <label for="message">Mensaje</label>
+                <textarea id="message" name="message" placeholder="Contame brevemente en qué te puedo ayudar" required></textarea>
+              </div>
+              <!-- Honeypot anti-spam -->
+              <input id="company" name="company" class="hidden" tabindex="-1" autocomplete="off" placeholder="No completar">
+            </div>
+            <div class="actions">
+              <button type="submit" class="btn">Enviar</button>
+              <span id="status" class="status muted" role="status" aria-live="polite"></span>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="card">
+          <h2 style="margin:0 0 .4rem;font-weight:800">Cómo funciona el envío</h2>
+          <p class="muted" style="margin:.2rem 0 0">
+            Este formulario envía los datos a un endpoint (<code>/api/contact</code>) servido por un
+            <strong>Cloudflare Worker</strong> que reenvía la información a un <strong>webhook de n8n</strong>
+            (o servicio de email) para notificarte en tiempo real (email/Discord/Telegram).
+          </p>
+          <p class="muted" style="margin:.8rem 0 0">
+            Si preferís cero backend propio, podés usar servicios como Formspree/Getform/Netlify Forms/Google Forms.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div class="build-note" data-i18n="footer.note">Construido con pasión por la creatividad asistida por IA</div>
+        <div class="copyright">© <span id="year"></span> Andromadorian</div>
+      </div>
+      <div class="legal">
+        Al usar este sitio aceptás nuestros
+        <a href="/terminos" aria-label="Leer Términos y condiciones">Términos y condiciones</a>
+        y
+        <a href="/privacidad" aria-label="Leer Política de Privacidad">Privacidad</a>.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // YEAR
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Idioma (simple: igual a tu index)
+    const i18n = {
+      es: {
+        "nav.home":"Inicio","nav.ia":"IA","nav.learn":"Aprende cómo","nav.services":"Servicios","nav.contact":"Contáctame",
+        "hero.badge":"Bienvenido","footer.note":"Construido con pasión por la creatividad asistida por IA"
+      },
+      en: {
+        "nav.home":"Home","nav.ia":"AI","nav.learn":"Learn how","nav.services":"Services","nav.contact":"Contact me",
+        "hero.badge":"Welcome","footer.note":"Built with passion for AI-assisted creativity."
+      }
+    };
+    function applyLang(lang){
+      const dict = i18n[lang] || i18n.es;
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const key = el.getAttribute('data-i18n'); if(dict[key]) el.textContent = dict[key];
+      });
+      document.getElementById('lang-es')?.classList.toggle('active', lang==='es');
+      document.getElementById('lang-en')?.classList.toggle('active', lang==='en');
+      document.documentElement.lang = lang; localStorage.setItem('andromadorian_lang', lang);
+    }
+    applyLang(localStorage.getItem('andromadorian_lang') || 'es');
+    document.getElementById('lang-es')?.addEventListener('click', ()=>applyLang('es'));
+    document.getElementById('lang-en')?.addEventListener('click', ()=>applyLang('en'));
+
+    // Envío del formulario -> /api/contact (Worker)
+    const form = document.getElementById('contact-form');
+    const statusEl = document.getElementById('status');
+
+    form?.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      statusEl.textContent = 'Enviando…';
+
+      const data = {
+        name: form.name.value.trim(),
+        email: form.email.value.trim(),
+        topic: form.topic.value,
+        message: form.message.value.trim(),
+        source: 'andromadorian-contacto',
+        // honeypot
+        company: form.company.value.trim()
+      };
+
+      // Validación mínima
+      if(!data.name || !data.email || !data.topic || !data.message){
+        statusEl.textContent = 'Completá todos los campos obligatorios.'; return;
+      }
+
+      try{
+        const res = await fetch('/api/contact', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify(data)
+        });
+
+        if(res.ok){
+          statusEl.textContent = '¡Gracias! Te responderé a la brevedad.';
+          form.reset();
+        }else{
+          const text = await res.text();
+          statusEl.textContent = 'Error al enviar. Intenta nuevamente.';
+          console.error('Contact error:', res.status, text);
+        }
+      }catch(err){
+        statusEl.textContent = 'Error de red. Reintentá en unos segundos.';
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
