@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Curso: Videos con IA (FFmpeg + TTS + stock) — Andromadorian</title>
+  <meta name="description" content="Aprende a crear videos con IA combinando FFmpeg, TTS y bancos de stock. Pipeline reproducible de extremo a extremo, listo para producción.">
+
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- FAVICONS / MANIFEST (mismas rutas que tu index) -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="alternate icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="alternate icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/assets/site.webmanifest">
+  <meta name="theme-color" content="#0f3f46">
+
+  <style>
+    :root{
+      --teal:#14b8a6; --teal-600:#0d9488; --teal-700:#0b746b;
+      --purple:#9b57f5; --purple-700:#7a38d6;
+      --bg-900:#0b1220; --bg-850:#111a2a; --bg-800:#162233;
+      --card:#141d2b; --text:#e6f2f4; --muted:#c7d4dc;
+      --ring: 0 0 0 3px rgba(20,184,166,.35);
+      --shadow-lg: 0 10px 30px rgba(0,0,0,.45);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);
+      background:
+        radial-gradient(900px 520px at 30% 45%, rgba(20,184,166,.20), transparent 55%),
+        radial-gradient(700px 480px at 90% 95%, rgba(155,87,245,.22), transparent 60%),
+        radial-gradient(1000px 520px at -10% -10%, rgba(20,184,166,.12), transparent 60%),
+        linear-gradient(180deg, var(--bg-900), var(--bg-800));
+      background-attachment:fixed;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1100px;margin:0 auto;padding:0 20px}
+
+    /* NAVBAR */
+    .nav{position:sticky;top:0;z-index:40;backdrop-filter:saturate(140%) blur(10px);
+      background: linear-gradient(180deg, rgba(11,18,32,.72), rgba(11,18,32,.50));
+      border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .brand-link{display:flex;align-items:center;gap:12px;border-radius:12px;padding:6px 8px;transition: background .2s, transform .15s}
+    .brand-link:hover{background:rgba(255,255,255,.05);transform:translateY(-1px)}
+    .brand-logo-img{width:34px;height:34px;border-radius:10px;display:block;object-fit:cover;box-shadow:0 4px 16px rgba(20,184,166,.35)}
+    .brand-title{font-weight:800;letter-spacing:.3px}
+    .top-links{display:flex;gap:12px;align-items:center}
+    .pill{padding:10px 14px;border-radius:999px;background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.10);transition:transform .15s, background .2s, border-color .2s, box-shadow .2s;font-weight:600;font-size:.95rem}
+    .pill:hover{transform:translateY(-1px);background:linear-gradient(180deg, rgba(20,184,166,.12), rgba(155,87,245,.10));
+      border-color:rgba(20,184,166,.35);box-shadow:0 6px 16px rgba(155,87,245,.18), 0 2px 8px rgba(20,184,166,.18)}
+    .pill[aria-current="page"]{border-color:rgba(20,184,166,.55);box-shadow:0 0 0 2px rgba(20,184,166,.25) inset}
+    .lang-toggle{display:flex;gap:8px;align-items:center}
+    .flag{width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.25);cursor:pointer;transition: transform .12s, box-shadow .12s;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+    .flag.active{outline:none;box-shadow:var(--ring)}
+
+    /* BREADCRUMB */
+    .crumbs{font-size:.92rem;color:var(--muted);margin:14px 0 0}
+    .crumbs a{text-decoration:underline dotted}
+
+    /* HERO Curso */
+    .hero{position:relative;overflow:hidden;border-radius:calc(var(--radius) + 6px);margin:14px auto 18px;box-shadow:var(--shadow-lg);background:var(--bg-850)}
+    .hero-inner{display:grid;grid-template-columns: 1.2fr .9fr;gap:22px;padding:22px 24px}
+    .h1{font-size:clamp(1.9rem, 2.2vw + 1rem, 2.8rem);line-height:1.12;margin:.35rem 0 .25rem;font-weight:800}
+    .lead{color:var(--muted);font-size:1.05rem}
+    .cover{
+      width:100%;aspect-ratio:16/9;border-radius:14px;object-fit:cover;
+      border:1px solid rgba(255,255,255,.10);
+      background:linear-gradient(135deg, rgba(20,184,166,.10), rgba(155,87,245,.12));
+      box-shadow:0 8px 24px rgba(0,0,0,.35)
+    }
+    .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+    .chip{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.10);font-weight:700;font-size:.9rem}
+
+    /* CONTENIDO */
+    .section{padding:26px 0}
+    .card{
+      background:linear-gradient(180deg, rgba(20,26,38,.95), rgba(18,25,36,.95));
+      border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow-lg)
+    }
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    h2{margin:0 0 .4rem;font-weight:800}
+    p{color:#dfe9ec;margin:.5rem 0 0}
+    ul{margin:.6rem 0 0 1rem;color:#dfe9ec}
+    li{margin:.3rem 0}
+    .check{color:var(--teal);margin-right:8px}
+    .warn{color:#f5d057;margin-right:8px}
+
+    /* CTA */
+    .cta-bar{
+      position:sticky;bottom:14px;z-index:30;display:flex;justify-content:center;
+      margin-top:20px
+    }
+    .cta{
+      display:inline-flex;gap:10px;align-items:center;
+      padding:12px 16px;border-radius:999px;font-weight:800;
+      background:linear-gradient(135deg, var(--teal), var(--purple-700));
+      box-shadow:0 10px 24px rgba(0,0,0,.35);
+      color:#0a1320;border:1px solid rgba(255,255,255,.18);
+      transition:transform .15s
+    }
+    .cta:hover{transform:translateY(-2px)}
+    .cta.secondary{
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.04));
+      color:var(--text);border-color:rgba(255,255,255,.18)
+    }
+
+    /* FOOTER */
+    footer{padding:30px 0 34px;color:#bfd0d7;font-size:.95rem}
+    .footer-top{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px}
+    .build-note,.copyright{font-size:inherit;font-weight:400;margin:0}
+    .legal{margin-top:18px;font-size:.78rem;opacity:.82;text-align:center;width:100%}
+
+    /* ACCESSIBILITY */
+    .brand-link:focus-visible,.pill:focus-visible,.cta:focus-visible{outline:none;box-shadow:var(--ring)}
+
+    @media (max-width:980px){
+      .hero-inner{grid-template-columns:1fr}
+      .grid,.grid-3{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="nav" aria-label="Main">
+    <div class="container nav-inner">
+      <a class="brand-link" href="/" aria-label="Ir al inicio">
+        <img class="brand-logo-img" src="/assets/andromadorian-logo.png" alt="Andromadorian" />
+        <div>
+          <div class="brand-title">Andromadorian</div>
+          <div style="font-size:.8rem;color:var(--muted)">IA • Cursos • Servicios</div>
+        </div>
+      </a>
+
+      <div class="top-links" role="navigation" aria-label="Top links">
+        <a class="pill" href="/" data-i18n="nav.home">Inicio</a>
+        <a class="pill" href="/ia" data-i18n="nav.ia">IA</a>
+        <a class="pill" href="/aprende.html" data-i18n="nav.learn">Aprende cómo</a>
+        <a class="pill" href="/servicios" data-i18n="nav.services">Servicios</a>
+        <a class="pill" href="/contacto" data-i18n="nav.contact">Contáctame</a>
+        <div class="lang-toggle" aria-label="Language toggle">
+          <img src="data:image/svg+xml;utf8,
+            <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'>
+              <rect width='640' height='480' fill='%23aa151b'/><rect width='640' height='160' y='160' fill='%23f1bf00'/></svg>"
+            alt="ES" class="flag active" id="lang-es" title="Español (ES)">
+          <img src="data:image/svg+xml;utf8,
+            <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'>
+              <clipPath id='a'><path d='M0,0 v30 h60 v-30 z'/></clipPath>
+              <g clip-path='url(%23a)'>
+                <path d='M0,0 v30 h60 v-30 z' fill='%23012a8d'/>
+                <path d='M0,0 L60,30 M60,0 L0,30' stroke='%23fff' stroke-width='6'/>
+                <path d='M0,0 L60,30 M60,0 L0,30' stroke='%23c8102e' stroke-width='4'/>
+                <path d='M30,0 v30 M0,15 h60' stroke='%23fff' stroke-width='6'/>
+                <path d='M30,0 v30 M0,15 h60' stroke='%23c8102e' stroke-width='4'/>
+              </g></svg>"
+            alt="EN" class="flag" id="lang-en" title="English (EN)">
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- BREADCRUMBS -->
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/aprende.html">Aprende cómo</a> · <span>Curso</span>
+    </nav>
+
+    <!-- HERO del curso -->
+    <section class="hero" aria-label="Curso: Videos con IA">
+      <div class="hero-inner">
+        <div>
+          <div class="chip" title="Tipo de recurso">Curso</div>
+          <h1 class="h1">Videos con IA (FFmpeg + TTS + stock)</h1>
+          <p class="lead">
+            Armá un pipeline de video con voz sintética, música con ducking y clips de banco de stock,
+            todo automatizado y listo para publicar en redes o sitios.
+          </p>
+
+          <div class="meta">
+            <div class="chip" title="Nivel">Nivel: Inicial</div>
+            <div class="chip" title="Duración estimada">Duración: 6–8 h</div>
+            <div class="chip" title="Formato">Formato: Texto + Código + Video</div>
+            <div class="chip" title="Actualización">Actualizado: 2025-09-26</div>
+            <div class="chip" title="Precio">Precio: Gratis</div>
+          </div>
+        </div>
+
+        <!-- Imagen contextual del curso -->
+        <img class="cover" src="/assets/cursos/curso-videos-ia-cover.jpg" alt="Portada del curso: Videos con IA" loading="lazy">
+      </div>
+    </section>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <section class="section">
+      <div class="grid">
+        <!-- Sobre el curso -->
+        <article class="card" aria-label="Sobre el curso">
+          <h2>Sobre el curso</h2>
+          <p>
+            Este curso te guía paso a paso para producir videos con IA combinando <strong>FFmpeg</strong> para edición,
+            <strong>TTS</strong> para la narración y material de <strong>bancos de stock</strong> (imágenes y clips).
+            Comenzamos con un proyecto base y lo llevamos hasta un pipeline publicable,
+            incluyendo tips de rendimiento y organización de assets.
+          </p>
+          <p>
+            Aprenderás a crear intros/outros, a sincronizar audio y video, a aplicar
+            <em>side-chain compression</em> (ducking) para que la voz destaque,
+            y a exportar versiones optimizadas para YouTube, Instagram o TikTok.
+          </p>
+        </article>
+
+        <!-- Requisitos -->
+        <aside class="card" aria-label="Requisitos">
+          <h2>Requisitos</h2>
+          <ul>
+            <li><span class="warn">•</span> Computadora con Windows, Linux o macOS.</li>
+            <li><span class="warn">•</span> FFmpeg instalado y accesible por terminal.</li>
+            <li><span class="warn">•</span> Editor de código (VS Code recomendado).</li>
+            <li><span class="warn">•</span> Cuenta en un proveedor de TTS (p.ej., ElevenLabs o similar) o TTS local.</li>
+            <li><span class="warn">•</span> Acceso a bancos de stock (Pexels/Unsplash/otros) o material propio.</li>
+            <li><span class="warn">•</span> Conocimientos básicos de línea de comandos.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Qué podrás hacer -->
+    <section class="section">
+      <div class="card" aria-label="Qué podré hacer">
+        <h2>¿Qué podré hacer?</h2>
+        <ul>
+          <li><span class="check">✓</span> Generar narraciones con TTS y mezclarlas con música y efectos.</li>
+          <li><span class="check">✓</span> Sincronizar imágenes/clips de stock con la voz para crear ritmo visual.</li>
+          <li><span class="check">✓</span> Aplicar ducking para que la voz se escuche clara sobre la música.</li>
+          <li><span class="check">✓</span> Automatizar pasos repetitivos con scripts y plantillas.</li>
+          <li><span class="check">✓</span> Exportar en formatos y relaciones de aspecto para distintas plataformas.</li>
+          <li><span class="check">✓</span> Organizar un pipeline reproducible y escalable para múltiples videos.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Contenido del curso / Módulos -->
+    <section class="section">
+      <div class="grid-3" aria-label="Módulos del curso">
+        <div class="card">
+          <h2>Módulo 1 · Fundamentos</h2>
+          <ul>
+            <li>Arquitectura del pipeline</li>
+            <li>Instalación y prueba rápida de FFmpeg</li>
+            <li>Elección de voces TTS y bancos de stock</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2>Módulo 2 · Audio</h2>
+          <ul>
+            <li>Generación TTS y limpieza básica</li>
+            <li>Mezcla con música · ducking</li>
+            <li>Normalización de niveles</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2>Módulo 3 · Video</h2>
+          <ul>
+            <li>Secuencia de imágenes/clips</li>
+            <li>Transiciones y overlays</li>
+            <li>Subtítulos opcionales</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2>Módulo 4 · Exportación</h2>
+          <ul>
+            <li>Presets para YouTube, IG, TikTok</li>
+            <li>Bitrate y tamaños</li>
+            <li>Batch rendering</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2>Módulo 5 · Automatización</h2>
+          <ul>
+            <li>Scripts reutilizables</li>
+            <li>Estructura de carpetas y logs</li>
+            <li>Ideas para integrar n8n</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2>Extras</h2>
+          <ul>
+            <li>Plantillas y assets de ejemplo</li>
+            <li>Checklist de publicación</li>
+            <li>FAQ y problemas comunes</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-bar" role="region" aria-label="Acciones del curso">
+      <a class="cta" href="#inicio-curso" id="start-btn" aria-label="Comenzar curso">Comenzar curso</a>
+      <a class="cta secondary" href="/aprende.html" style="margin-left:10px" aria-label="Volver al catálogo">Volver al catálogo</a>
+    </div>
+
+    <!-- Sección de inicio / Acceso -->
+    <section class="section" id="inicio-curso" aria-label="Acceso y formato">
+      <div class="card">
+        <h2>Formato y acceso</h2>
+        <p>
+          El curso es 100% online y asincrónico. Incluye lecciones escritas, fragmentos de código y
+          videos cortos de apoyo. Recomendamos avanzar en orden y replicar los ejemplos
+          en tu entorno para consolidar el aprendizaje.
+        </p>
+        <p style="margin-top:.6rem">
+          ¿Listo para empezar? El primer módulo te espera más arriba. Guarda esta URL en tus marcadores.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div class="build-note">Construido con pasión por la creatividad asistida por IA</div>
+        <div class="copyright">© <span id="year"></span> Andromadorian</div>
+      </div>
+      <div class="legal">
+        Al usar este sitio aceptás nuestros
+        <a href="/terminos" aria-label="Leer Términos y condiciones">Términos y condiciones</a>
+        y
+        <a href="/privacidad" aria-label="Leer Política de Privacidad">Privacidad</a>.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Año dinámico
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // i18n simple: usar preferencia guardada en el resto del sitio
+    (function(){
+      const lang = localStorage.getItem('andromadorian_lang') || 'es';
+      document.documentElement.lang = lang;
+      document.getElementById('lang-es')?.classList.toggle('active', lang==='es');
+      document.getElementById('lang-en')?.classList.toggle('active', lang==='en');
+      document.getElementById('lang-es')?.addEventListener('click', ()=>{localStorage.setItem('andromadorian_lang','es');location.reload()});
+      document.getElementById('lang-en')?.addEventListener('click', ()=>{localStorage.setItem('andromadorian_lang','en');location.reload()});
+    })();
+  </script>
+</body>
+</html>
