@@ -146,31 +146,29 @@
     .info h3{margin:.2rem 0 .35rem;font-weight:800}
     .info p{color:var(--muted);margin:0}
 
-    /* FOOTER */
-    footer{padding:30px 0;color:#b8c2b6;font-size:.95rem}
+    /* FOOTER (CENTRADO EN COLUMNA) */
+    footer{padding:30px 0 34px;color:#b8c2b6;font-size:.95rem}
     .footer-top{
       display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      flex-wrap:nowrap;       /* fuerza una sola línea */
-      white-space:nowrap;     /* evita cortes de línea en los textos */
+      flex-direction:column;   /* apilado */
+      align-items:center;      /* centrado horizontal */
+      justify-content:center;
+      text-align:center;       /* centra el texto */
+      gap:6px;
     }
-    .copyright,
-    .build-note{
-      flex:0 0 auto;
-      font-size:inherit;      /* mismos tamaños */
-      font-weight:400;        /* mismo peso */
+    .build-note,
+    .copyright{
+      font-size:inherit;
+      font-weight:400;
       margin:0;
-      opacity:1;              /* sin atenuación */
+      opacity:1;
     }
-    /* Aviso legal centrado debajo y más separado */
     .legal{
-      margin-top:24px;        /* más abajo */
+      margin-top:18px;         /* separa del bloque superior */
       font-size:.78rem;
-      opacity:.7;
+      opacity:.75;
       text-align:center;
-      width:100%
+      width:100%;
     }
     .legal a{color:var(--muted);text-decoration:underline dotted}
     .legal a:hover{color:#fff;text-decoration:underline}
@@ -180,14 +178,11 @@
     .pill:focus-visible,
     .card a.stretch:focus-visible{outline:none;box-shadow:var(--ring)}
 
-    /* RESPONSIVE (si en móviles quisieras apilar, cambia flex-wrap a wrap aquí) */
     @media (max-width:900px){
       .card{grid-column:span 12}
       .hero-card{flex-direction:column;align-items:flex-start}
       .hero-brand{width:120px;height:120px}
       .carousel--mini{height:22vh;min-height:160px}
-      /* Mantener una línea incluso en mobile; eliminar estas 2 si prefieres apilar */
-      .footer-top{flex-wrap:nowrap;white-space:nowrap}
     }
   </style>
 </head>
@@ -253,7 +248,6 @@
                 servicios profesionales para crear tu sitio web, automatizar procesos y potenciar tu proyecto con IA.
               </p>
             </div>
-            <!-- Espacio para la imagen de marca -->
             <img class="hero-brand" src="/assets/brand-mark.png" alt="Marca Andromadorian" loading="lazy">
           </div>
         </div>
@@ -263,8 +257,7 @@
     <!-- ACCESOS RÁPIDOS -->
     <section id="shortcuts" class="section" aria-label="Accesos rápidos">
       <div class="grid">
-
-        <!-- AI -->
+        <!-- 4 cards -->
         <div class="card card-wrap">
           <div class="icon" aria-hidden="true" title="IA">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
@@ -277,12 +270,11 @@
           </div>
           <div>
             <h3 class="card-title" data-i18n="cards.ia.title">IA</h3>
-            <p class="card-desc" data-i18n="cards.ia.desc">Chat de IA, Texto→Imagen y Texto→Video listos para experimentar y crear.</p>
+            <p class="card-desc" data-i18n="cards.ia.desc">Chat de IA, Texto→Imagen y Texto→Video listos para crear.</p>
           </div>
           <a class="stretch" href="/ia" aria-label="Ir a IA"></a>
         </div>
 
-        <!-- Learn -->
         <div class="card card-wrap">
           <div class="icon" aria-hidden="true" title="Aprende cómo">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
@@ -294,12 +286,11 @@
           </div>
           <div>
             <h3 class="card-title" data-i18n="cards.learn.title">Aprende cómo</h3>
-            <p class="card-desc" data-i18n="cards.learn.desc">Cursos paso a paso: flujos, prompts, edición y publicación automática.</p>
+            <p class="card-desc" data-i18n="cards.learn.desc">Cursos paso a paso: flujos, prompts y publicación automática.</p>
           </div>
           <a class="stretch" href="/aprende.html" aria-label="Ir a Aprende cómo"></a>
         </div>
 
-        <!-- Services -->
         <div class="card card-wrap">
           <div class="icon" aria-hidden="true" title="Servicios">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
@@ -309,12 +300,11 @@
           </div>
           <div>
             <h3 class="card-title" data-i18n="cards.services.title">Servicios</h3>
-            <p class="card-desc" data-i18n="cards.services.desc">Sitios web, automatizaciones e IA a medida para tu negocio.</p>
+            <p class="card-desc" data-i18n="cards.services.desc">Sitios, automatizaciones e IA a medida.</p>
           </div>
           <a class="stretch" href="/servicios" aria-label="Ir a Servicios"></a>
         </div>
 
-        <!-- Contact -->
         <div class="card card-wrap">
           <div class="icon" aria-hidden="true" title="Contáctame">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
@@ -324,11 +314,10 @@
           </div>
           <div>
             <h3 class="card-title" data-i18n="cards.contact.title">Contáctame</h3>
-            <p class="card-desc" data-i18n="cards.contact.desc">Próximamente: info de contacto, colaboraciones y soporte.</p>
+            <p class="card-desc" data-i18n="cards.contact.desc">Próximamente: contacto y soporte.</p>
           </div>
           <a class="stretch" href="/contacto" aria-label="Ir a Contáctame"></a>
         </div>
-
       </div>
     </section>
 
@@ -343,7 +332,7 @@
         </p>
       </div>
 
-      <!-- CARRUSEL COMPACTO DE IMÁGENES -->
+      <!-- CARRUSEL COMPACTO -->
       <div class="hero" style="margin-top:18px">
         <div class="carousel carousel--mini" id="carousel-mini" aria-roledescription="carousel" aria-label="Galería inspiracional">
           <div class="slides">
@@ -362,14 +351,14 @@
     </section>
   </main>
 
-  <!-- FOOTER -->
+  <!-- FOOTER CENTRADO -->
   <footer>
     <div class="container">
       <div class="footer-top">
-        <div class="copyright">© <span id="year"></span> Andromadorian</div>
         <div class="build-note" data-i18n="footer.note">
           Construido con pasión por la creatividad asistida por IA.
         </div>
+        <div class="copyright">© <span id="year"></span> Andromadorian</div>
       </div>
       <div class="legal">
         Al usar este sitio aceptás nuestros
@@ -411,7 +400,7 @@
         }, {passive:true});
       }
     }
-    // Iniciar solo el carrusel mini (el principal tiene una sola slide)
+    // Iniciar solo el carrusel mini
     initCarousel('carousel-mini', 4800, false);
 
     // i18n (ES default)
@@ -420,10 +409,10 @@
         "nav.home":"Inicio","nav.ia":"IA","nav.learn":"Aprende cómo","nav.services":"Servicios","nav.contact":"Contáctame",
         "hero.badge":"Bienvenido",
         "hero.lead":"Un hub creativo donde la Inteligencia Artificial se encuentra con el aprendizaje práctico y el juego. Explora herramientas de IA, cursos paso a paso y experiencias interactivas. Ahora también podés contratar servicios profesionales para crear tu sitio web, automatizar procesos y potenciar tu proyecto con IA.",
-        "cards.ia.title":"IA","cards.ia.desc":"Chat de IA, Texto→Imagen y Texto→Video listos para experimentar y crear.",
-        "cards.learn.title":"Aprende cómo","cards.learn.desc":"Cursos paso a paso: flujos, prompts, edición y publicación automática.",
-        "cards.services.title":"Servicios","cards.services.desc":"Sitios web, automatizaciones e IA a medida para tu negocio.",
-        "cards.contact.title":"Contáctame","cards.contact.desc":"Próximamente: info de contacto, colaboraciones y soporte.",
+        "cards.ia.title":"IA","cards.ia.desc":"Chat de IA, Texto→Imagen y Texto→Video listos para crear.",
+        "cards.learn.title":"Aprende cómo","cards.learn.desc":"Cursos paso a paso: flujos, prompts y publicación automática.",
+        "cards.services.title":"Servicios","cards.services.desc":"Sitios, automatizaciones e IA a medida.",
+        "cards.contact.title":"Contáctame","cards.contact.desc":"Próximamente: contacto y soporte.",
         "info.title":"La IA es ahora",
         "info.copy":"La inteligencia artificial está avanzando a un ritmo sin precedentes. Si aprendes a dominar sus herramientas hoy, podrás crear, automatizar y escalar más rápido que nunca. Aquí encontrarás guías claras y prácticas para que conviertas ideas en resultados reales y aproveches la ola de oportunidades que ya comenzó.",
         "footer.note":"Construido con pasión por la creatividad asistida por IA."
