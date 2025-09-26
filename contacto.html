@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Contáctame — Andromadorian</title>
-  <meta name="description" content="Contacto Andromadorian: envíame un correo o completa el formulario para una atención más rápida." />
+  <meta name="description" content="Contacto Andromadorian: envíame un correo para consultas sobre IA, cursos y servicios." />
 
   <!-- FONTS -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,41 +56,50 @@
     .flag{width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.25);cursor:pointer;transition: transform .12s, box-shadow .12s;box-shadow:0 2px 8px rgba(0,0,0,.25)}
     .flag.active{outline:none;box-shadow:var(--ring)}
 
-    /* HEADER BAND (igual que “hero-card” pero simple) */
-    .page-head{margin:24px auto;box-shadow:var(--shadow-lg);background:var(--bg-850);border-radius:calc(var(--radius) + 6px);padding:26px}
-    .eyebrow{color:var(--teal);font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.78rem}
-    .h1{font-size:clamp(1.9rem, 2.4vw + 1rem, 3rem);line-height:1.12;margin:.35rem 0 .25rem;font-weight:800}
-    .lead{color:var(--muted);font-size:1.05rem}
+    /* HERO / CABECERA */
+    .hero{padding:34px 0 6px}
+    .hero-inner{display:flex;gap:18px;align-items:center}
+    .hero-badge{color:var(--teal);font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.78rem}
+    .hero-title{font-size:clamp(1.9rem, 2.4vw + 1rem, 3rem);line-height:1.12;margin:.35rem 0 .25rem;font-weight:800}
+    .hero-sub{color:var(--muted);font-size:1.05rem}
 
-    /* CARD sección */
+    /* GRID / CARDS */
+    .grid{display:grid;gap:18px;grid-template-columns:repeat(12,minmax(0,1fr))}
+    .col-7{grid-column:span 7}
+    .col-5{grid-column:span 5}
+    .col-6{grid-column:span 6}
+    .col-12{grid-column:span 12}
+    @media (max-width:980px){.col-7,.col-6,.col-5{grid-column:span 12}}
+
     .card{
       background:linear-gradient(180deg, rgba(20,26,38,.92), rgba(18,25,36,.92));
-      border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow-lg)
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--radius);
+      padding:22px 24px;
+      box-shadow:var(--shadow-lg)
     }
-    .grid{display:grid;gap:18px;grid-template-columns:repeat(12,minmax(0,1fr))}
-    .col-6{grid-column:span 6}
-    @media (max-width:900px){.col-6{grid-column:span 12}}
-
-    /* FORM */
-    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    .form-grid .full{grid-column:1 / -1}
-    label{display:block;font-weight:600;margin:2px 0 6px}
-    input, textarea, select{
-      width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.10);
-      background:rgba(255,255,255,.04);color:var(--text);font:inherit;outline:none;transition:border-color .2s, box-shadow .2s, background .2s
-    }
-    input:focus, textarea:focus, select:focus{box-shadow:var(--ring);border-color:rgba(20,184,166,.35);background:rgba(255,255,255,.06)}
-    textarea{min-height:140px;resize:vertical}
-    .actions{margin-top:8px;display:flex;gap:10px;align-items:center}
-    .btn{
-      padding:12px 16px;border-radius:999px;background:linear-gradient(135deg, var(--teal), var(--purple-700));
-      color:#0b1220;font-weight:800;border:none;cursor:pointer;box-shadow:0 6px 18px rgba(20,184,166,.28), 0 6px 18px rgba(155,87,245,.18);
-      transition:transform .12s ease
-    }
-    .btn:hover{transform:translateY(-1px)}
+    .card h2{margin:.1rem 0 .6rem;font-weight:800}
     .muted{color:var(--muted)}
-    .status{font-size:.95rem}
-    .hidden{display:none !important}
+
+    /* EMAIL CTA */
+    .email-cta{
+      display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:10px
+    }
+    .email-chip{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:12px 16px;border-radius:999px;
+      background:linear-gradient(135deg, var(--teal), var(--purple-700));
+      color:#0b1220;font-weight:800;box-shadow:0 6px 18px rgba(20,184,166,.28), 0 6px 18px rgba(155,87,245,.18)
+    }
+    .btn{padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.1);color:var(--text);font-weight:700;cursor:pointer;transition:.15s transform,.2s background}
+    .btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.09)}
+    .tiny{font-size:.88rem}
+
+    /* LISTAS */
+    ul.clean{list-style:none;margin:0;padding:0}
+    ul.clean li{padding:8px 0;border-bottom:1px dashed rgba(255,255,255,.08)}
+    ul.clean li:last-child{border-bottom:none}
 
     /* FOOTER */
     footer{padding:30px 0 34px;color:#bfd0d7;font-size:.95rem}
@@ -133,69 +142,73 @@
     </div>
   </nav>
 
-  <main class="container">
-    <!-- Encabezado de página -->
-    <section class="page-head" aria-label="Encabezado">
-      <div class="eyebrow" data-i18n="hero.badge">Bienvenido</div>
-      <h1 class="h1">Contáctame</h1>
-      <p class="lead">
-        Si deseas contactarme, podés enviarme un correo a <strong><a href="mailto:xx@xx.xx">xx@xx.xx</a></strong>.
-        También podés completar este formulario para una atención más rápida.
-      </p>
-    </section>
-
-    <!-- Contenido -->
-    <section class="grid" aria-label="Formulario de contacto">
-      <div class="col-6">
-        <div class="card">
-          <form id="contact-form" novalidate>
-            <div class="form-grid">
-              <div class="full">
-                <label for="name">Nombre</label>
-                <input id="name" name="name" placeholder="Tu nombre" autocomplete="name" required>
-              </div>
-              <div class="full">
-                <label for="email">Email</label>
-                <input id="email" name="email" type="email" placeholder="tunombre@dominio.com" autocomplete="email" required>
-              </div>
-              <div class="full">
-                <label for="topic">Tema</label>
-                <select id="topic" name="topic" required>
-                  <option value="">Selecciona un tema…</option>
-                  <option>Servicios</option>
-                  <option>Cursos</option>
-                  <option>Consultas técnicas</option>
-                  <option>Otras</option>
-                </select>
-              </div>
-              <div class="full">
-                <label for="message">Mensaje</label>
-                <textarea id="message" name="message" placeholder="Contame brevemente en qué te puedo ayudar" required></textarea>
-              </div>
-              <!-- Honeypot anti-spam -->
-              <input id="company" name="company" class="hidden" tabindex="-1" autocomplete="off" placeholder="No completar">
-            </div>
-            <div class="actions">
-              <button type="submit" class="btn">Enviar</button>
-              <span id="status" class="status muted" role="status" aria-live="polite"></span>
-            </div>
-          </form>
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container hero-inner">
+      <div>
+        <div class="hero-badge" data-i18n="hero.badge">Contáctame</div>
+        <h1 class="hero-title">Hablemos sobre IA, cursos y servicios</h1>
+        <p class="hero-sub">
+          Si deseas contactarme, podés enviarme un correo a
+          <strong><a href="mailto:xx@xx.xx">xx@xx.xx</a></strong>.
+          También podés escribirme para coordinar una llamada de diagnóstico rápida.
+        </p>
+        <div class="email-cta">
+          <span class="email-chip">xx@xx.xx</span>
+          <button class="btn tiny" id="copyEmail" type="button" aria-label="Copiar correo">Copiar correo</button>
+          <a class="btn tiny" href="mailto:xx@xx.xx?subject=Consulta%20desde%20Andromadorian&body=Hola%2C%20te%20escribo%20porque..." aria-label="Abrir cliente de correo">Abrir en correo</a>
         </div>
       </div>
+    </div>
+  </header>
 
-      <div class="col-6">
-        <div class="card">
-          <h2 style="margin:0 0 .4rem;font-weight:800">Cómo funciona el envío</h2>
-          <p class="muted" style="margin:.2rem 0 0">
-            Este formulario envía los datos a un endpoint (<code>/api/contact</code>) servido por un
-            <strong>Cloudflare Worker</strong> que reenvía la información a un <strong>webhook de n8n</strong>
-            (o servicio de email) para notificarte en tiempo real (email/Discord/Telegram).
+  <main class="container" style="padding:10px 0 28px">
+    <section class="grid" aria-label="Información de contacto">
+      <div class="col-7">
+        <article class="card">
+          <h2>¿Cómo trabajo?</h2>
+          <p class="muted">
+            Respondo la mayoría de los correos en 24–48 horas hábiles. Si tu consulta es sobre un
+            proyecto de <strong>automatización con n8n</strong>, <strong>edición de video con FFmpeg</strong> o
+            <strong>modelos de IA</strong>, incluí el objetivo, plataforma y cualquier restricción técnica.
           </p>
-          <p class="muted" style="margin:.8rem 0 0">
-            Si preferís cero backend propio, podés usar servicios como Formspree/Getform/Netlify Forms/Google Forms.
-          </p>
-        </div>
+          <ul class="clean" style="margin-top:10px">
+            <li><strong>Asesorías 1:1:</strong> definición de stack, arquitectura e implementación inicial.</li>
+            <li><strong>Workshops / Cursos:</strong> IA aplicada, flujos n8n, orquestación y buenas prácticas.</li>
+            <li><strong>Servicios:</strong> automatización, integraciones API, pipelines de contenido y despliegue.</li>
+          </ul>
+        </article>
+
+        <article class="card" style="margin-top:18px">
+          <h2>Preguntas frecuentes</h2>
+          <ul class="clean">
+            <li><strong>¿Incluís propuesta técnica?</strong> Sí, entrego un brief con hitos, entregables y costos.</li>
+            <li><strong>¿Firmás NDA?</strong> Por supuesto, a pedido.</li>
+            <li><strong>¿Medios de pago?</strong> A convenir según el país (consultar en el correo).</li>
+          </ul>
+        </article>
       </div>
+
+      <aside class="col-5">
+        <div class="card">
+          <h2>Disponibilidad</h2>
+          <p class="muted">Agenda sujeta a proyectos activos. Si necesitás algo urgente, indicá el <em>deadline</em> en el correo.</p>
+          <ul class="clean" style="margin-top:10px">
+            <li>Zona horaria: <strong>America/Argentina/Buenos_Aires (UTC-03)</strong></li>
+            <li>Idiomas: <strong>Español / Inglés</strong></li>
+          </ul>
+        </div>
+
+        <div class="card" style="margin-top:18px">
+          <h2>Redes (placeholder)</h2>
+          <p class="muted">Si preferís, podés seguir/me escribir por redes (próximamente):</p>
+          <ul class="clean">
+            <li><span class="muted">LinkedIn</span> — /andromadorian</li>
+            <li><span class="muted">YouTube</span> — /andromadorian</li>
+            <li><span class="muted">GitHub</span> — /andromadorian</li>
+          </ul>
+        </div>
+      </aside>
     </section>
   </main>
 
@@ -203,7 +216,7 @@
   <footer>
     <div class="container">
       <div class="footer-top">
-        <div class="build-note" data-i18n="footer.note">Construido con pasión por la creatividad asistida por IA</div>
+        <div class="build-note" data-i18n="footer.note">Construido con pasión por la creatividad asistida por IA.</div>
         <div class="copyright">© <span id="year"></span> Andromadorian</div>
       </div>
       <div class="legal">
@@ -216,18 +229,18 @@
   </footer>
 
   <script>
-    // YEAR
+    // Año dinámico
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Idioma (simple: igual a tu index)
+    // I18N mínimo (igual a tu index)
     const i18n = {
       es: {
         "nav.home":"Inicio","nav.ia":"IA","nav.learn":"Aprende cómo","nav.services":"Servicios","nav.contact":"Contáctame",
-        "hero.badge":"Bienvenido","footer.note":"Construido con pasión por la creatividad asistida por IA"
+        "hero.badge":"Contáctame","footer.note":"Construido con pasión por la creatividad asistida por IA."
       },
       en: {
         "nav.home":"Home","nav.ia":"AI","nav.learn":"Learn how","nav.services":"Services","nav.contact":"Contact me",
-        "hero.badge":"Welcome","footer.note":"Built with passion for AI-assisted creativity."
+        "hero.badge":"Contact me","footer.note":"Built with passion for AI-assisted creativity."
       }
     };
     function applyLang(lang){
@@ -243,48 +256,15 @@
     document.getElementById('lang-es')?.addEventListener('click', ()=>applyLang('es'));
     document.getElementById('lang-en')?.addEventListener('click', ()=>applyLang('en'));
 
-    // Envío del formulario -> /api/contact (Worker)
-    const form = document.getElementById('contact-form');
-    const statusEl = document.getElementById('status');
-
-    form?.addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      statusEl.textContent = 'Enviando…';
-
-      const data = {
-        name: form.name.value.trim(),
-        email: form.email.value.trim(),
-        topic: form.topic.value,
-        message: form.message.value.trim(),
-        source: 'andromadorian-contacto',
-        // honeypot
-        company: form.company.value.trim()
-      };
-
-      // Validación mínima
-      if(!data.name || !data.email || !data.topic || !data.message){
-        statusEl.textContent = 'Completá todos los campos obligatorios.'; return;
-      }
-
+    // Copiar email al portapapeles
+    document.getElementById('copyEmail')?.addEventListener('click', async ()=>{
       try{
-        const res = await fetch('/api/contact', {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body: JSON.stringify(data)
-        });
-
-        if(res.ok){
-          statusEl.textContent = '¡Gracias! Te responderé a la brevedad.';
-          form.reset();
-        }else{
-          const text = await res.text();
-          statusEl.textContent = 'Error al enviar. Intenta nuevamente.';
-          console.error('Contact error:', res.status, text);
-        }
-      }catch(err){
-        statusEl.textContent = 'Error de red. Reintentá en unos segundos.';
-        console.error(err);
-      }
+        await navigator.clipboard.writeText('xx@xx.xx');
+        const btn = document.getElementById('copyEmail');
+        const prev = btn.textContent;
+        btn.textContent = '¡Copiado!';
+        setTimeout(()=>btn.textContent = prev, 1400);
+      }catch(e){ console.error(e); }
     });
   </script>
 </body>
