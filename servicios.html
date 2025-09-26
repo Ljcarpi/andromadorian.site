@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Servicios — Andromadorian</title>
+  <meta name="description" content="Contratá sitios web personalizados, flujos automatizados, asistentes de IA y videos generados por IA — Andromadorian." />
+
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- FAVICONS / MANIFEST (mismos assets que el index) -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="alternate icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="alternate icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/assets/site.webmanifest">
+  <meta name="theme-color" content="#0f3f46">
+
+  <style>
+    :root{
+      --teal:#14b8a6;--teal-600:#0d9488;--teal-700:#0b746b;
+      --purple:#9b57f5;--purple-700:#7a38d6;
+      --bg-900:#0b1220;--bg-850:#111a2a;--bg-800:#162233;
+      --card:#141d2b;--text:#e6f2f4;--muted:#c7d4dc;
+      --ring:0 0 0 3px rgba(20,184,166,.35);
+      --shadow-lg:0 10px 30px rgba(0,0,0,.45);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);
+      background:
+        radial-gradient(900px 520px at 30% 45%, rgba(20,184,166,.20), transparent 55%),
+        radial-gradient(700px 480px at 90% 95%, rgba(155,87,245,.22), transparent 60%),
+        radial-gradient(1000px 520px at -10% -10%, rgba(20,184,166,.12), transparent 60%),
+        linear-gradient(180deg, var(--bg-900), var(--bg-800));
+      background-attachment:fixed;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+    /* NAVBAR (idéntico al index) */
+    .nav{position:sticky;top:0;z-index:40;backdrop-filter:saturate(140%) blur(10px);
+      background:linear-gradient(180deg, rgba(11,18,32,.72), rgba(11,18,32,.50));
+      border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .brand-link{display:flex;align-items:center;gap:12px;border-radius:12px;padding:6px 8px;transition:background .2s ease, transform .15s ease}
+    .brand-link:hover{background:rgba(255,255,255,.05);transform:translateY(-1px)}
+    .brand-logo-img{width:34px;height:34px;border-radius:10px;display:block;object-fit:cover;box-shadow:0 4px 16px rgba(20,184,166,.35)}
+    .brand-title{font-weight:800;letter-spacing:.3px}
+    .top-links{display:flex;gap:12px;align-items:center}
+    .pill{padding:10px 14px;border-radius:999px;background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.10);transition:transform .15s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;font-weight:600;font-size:.95rem}
+    .pill:hover{transform:translateY(-1px);background:linear-gradient(180deg, rgba(20,184,166,.12), rgba(155,87,245,.10));border-color:rgba(20,184,166,.35);
+      box-shadow:0 6px 16px rgba(155,87,245,.18),0 2px 8px rgba(20,184,166,.18)}
+    .lang-toggle{display:flex;gap:8px;align-items:center}
+    .flag{width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.25);cursor:pointer;transition:transform .12s ease, box-shadow .12s ease;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+    .flag.active{outline:none;box-shadow:var(--ring)}
+
+    /* HERO / INTRO */
+    .hero{position:relative;overflow:hidden;border-radius:calc(var(--radius) + 6px);margin:24px auto;box-shadow:var(--shadow-lg);background:var(--bg-850)}
+    .hero-inner{display:flex;gap:22px;align-items:center;padding:24px}
+    .hero-badge{color:var(--teal);font-weight:800;letter-spacing:.14em;text-transform:uppercase;font-size:.78rem}
+    .hero-title{font-size:clamp(1.9rem, 2.2vw + 1rem, 2.6rem);line-height:1.15;margin:.2rem 0 .35rem;font-weight:800}
+    .hero-lead{color:var(--muted);font-size:1.05rem;margin:0}
+    .hero-mark{flex:0 0 auto;width:130px;height:130px;border-radius:16px;background:linear-gradient(135deg, rgba(20,184,166,.10), rgba(155,87,245,.12));
+      border:1px solid rgba(255,255,255,.08);display:block;object-fit:contain;padding:10px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+
+    /* GRID DE SERVICIOS */
+    .section{padding:38px 0}
+    .grid{display:grid;gap:18px;grid-template-columns:repeat(12,minmax(0,1fr))}
+    .card{grid-column:span 6;background:linear-gradient(180deg, rgba(20,26,38,.92), rgba(18,25,36,.92));
+      border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-lg);
+      display:flex;gap:16px;align-items:center;min-height:120px;transition:transform .15s ease,border-color .2s ease,background .2s ease,box-shadow .2s ease}
+    .card:hover{transform:translateY(-2px);border-color:rgba(20,184,166,.35);box-shadow:0 10px 28px rgba(0,0,0,.5),0 8px 24px rgba(155,87,245,.18);
+      background:linear-gradient(180deg, rgba(22,32,48,1), rgba(20,28,42,1))}
+    .card-wrap{position:relative}
+    .card a.stretch{position:absolute;inset:0;border-radius:inherit}
+    .icon{width:54px;height:54px;border-radius:14px;background:linear-gradient(135deg, var(--teal), var(--purple-700));
+      display:grid;place-items:center;box-shadow:0 6px 18px rgba(20,184,166,.28), 0 6px 18px rgba(155,87,245,.18)}
+    .icon svg{width:30px;height:30px;filter: drop-shadow(0 2px 2px rgba(0,0,0,.35))}
+    .card-title{font-size:1.25rem;font-weight:800;margin:0}
+    .card-desc{color:var(--muted);margin:.18rem 0 0}
+
+    /* BLOQUE INFO */
+    .info{background:linear-gradient(180deg, rgba(20,26,38,.95), rgba(18,25,36,.95));border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow-lg)}
+    .info h3{margin:.2rem 0 .35rem;font-weight:800}
+    .info p{color:var(--muted);margin:0}
+
+    /* FOOTER (centrado, como en index) */
+    footer{padding:30px 0 34px;color:#bfd0d7;font-size:.95rem}
+    .footer-top{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px}
+    .build-note,.copyright{font-size:inherit;font-weight:400;margin:0}
+    .legal{margin-top:18px;font-size:.78rem;opacity:.82;text-align:center;width:100%}
+
+    /* ACCESSIBILITY */
+    .brand-link:focus-visible,.pill:focus-visible,.card a.stretch:focus-visible{outline:none;box-shadow:var(--ring)}
+
+    @media (max-width:900px){
+      .card{grid-column:span 12}
+      .hero-inner{flex-direction:column;align-items:flex-start}
+      .hero-mark{width:110px;height:110px}
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="nav" aria-label="Main">
+    <div class="container nav-inner">
+      <a class="brand-link" href="/" aria-label="Ir al inicio">
+        <img class="brand-logo-img" src="/assets/andromadorian-logo.png" alt="Andromadorian" />
+        <div>
+          <div class="brand-title">Andromadorian</div>
+          <div style="font-size:.8rem;color:var(--muted)">IA • Cursos • Servicios</div>
+        </div>
+      </a>
+
+      <div class="top-links" role="navigation" aria-label="Top links">
+        <a class="pill" href="/" data-i18n="nav.home">Inicio</a>
+        <a class="pill" href="/ia" data-i18n="nav.ia">IA</a>
+        <a class="pill" href="/aprende.html" data-i18n="nav.learn">Aprende cómo</a>
+        <a class="pill" href="/servicios" data-i18n="nav.services" aria-current="page">Servicios</a>
+        <a class="pill" href="/contacto" data-i18n="nav.contact">Contáctame</a>
+        <div class="lang-toggle" aria-label="Language toggle">
+          <!-- ES -->
+          <img src="data:image/svg+xml;utf8,
+            <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'>
+            <rect width='640' height='480' fill='%23aa151b'/><rect width='640' height='160' y='160' fill='%23f1bf00'/></svg>"
+            alt="ES" class="flag active" id="lang-es" title="Español (ES)">
+          <!-- EN -->
+          <img src="data:image/svg+xml;utf8,
+            <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'>
+            <clipPath id='a'><path d='M0,0 v30 h60 v-30 z'/></clipPath>
+            <g clip-path='url(%23a)'>
+              <path d='M0,0 v30 h60 v-30 z' fill='%23012a8d'/>
+              <path d='M0,0 L60,30 M60,0 L0,30' stroke='%23fff' stroke-width='6'/>
+              <path d='M0,0 L60,30 M60,0 L0,30' stroke='%23c8102e' stroke-width='4'/>
+              <path d='M30,0 v30 M0,15 h60' stroke='%23fff' stroke-width='6'/>
+              <path d='M30,0 v30 M0,15 h60' stroke='%23c8102e' stroke-width='4'/>
+            </g></svg>"
+            alt="EN" class="flag" id="lang-en" title="English (EN)">
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- INTRO -->
+    <section class="hero" aria-label="Servicios">
+      <div class="hero-inner">
+        <img class="hero-mark" src="/assets/brand-mark.png" alt="Marca Andromadorian" loading="lazy">
+        <div>
+          <div class="hero-badge" data-i18n="hero.badge">Servicios</div>
+          <h1 class="hero-title" data-i18n="hero.title">Soluciones a medida para tu proyecto</h1>
+          <p class="hero-lead" data-i18n="hero.lead">
+            Contratame para crear sitios web personalizados, asistentes de IA pensados para vos y automatizaciones a tu medida.
+            Trabajo con buenas prácticas de desarrollo, despliegues limpios y foco en resultados: desde un landing optimizado
+            hasta pipelines que integran APIs, hojas de cálculo y publicación automática de contenido.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- GRID DE SERVICIOS -->
+    <section class="section" aria-label="Lista de servicios">
+      <div class="grid">
+
+        <!-- Sitio web personalizado -->
+        <article class="card card-wrap">
+          <div class="icon" aria-hidden="true" title="Sitio web">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+              <rect x="4" y="8" width="40" height="28" rx="4" fill="#e6f2f4"/>
+              <path d="M4 16h40" stroke="rgba(20,184,166,.95)" stroke-width="3"/>
+              <circle cx="11" cy="12" r="2" fill="#0b1220"/><circle cx="17" cy="12" r="2" fill="#0b1220"/><circle cx="23" cy="12" r="2" fill="#0b1220"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="card-title" data-i18n="svc.web.title">Pedir un sitio web personalizado</h3>
+            <p class="card-desc" data-i18n="svc.web.desc">
+              Landing/portfolio con performance, SEO básico, analíticas y CI/CD. Integración con formularios, correo y dominios.
+            </p>
+          </div>
+          <a class="stretch" href="/services/web" aria-label="Abrir: Sitio web personalizado"></a>
+        </article>
+
+        <!-- Flujo automatizado -->
+        <article class="card card-wrap">
+          <div class="icon" aria-hidden="true" title="Automatizaciones">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+              <path d="M10 24a6 6 0 1 1 0 12h6a6 6 0 1 1 12 0h6a6 6 0 1 1 0-12h-6a6 6 0 1 1-12 0z" stroke="#0b1220" stroke-width="3" />
+              <path d="M8 18h12M28 18h12M20 18v-6m8 6v-6" stroke="rgba(155,87,245,.95)" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="card-title" data-i18n="svc.flow.title">Pedir un flujo de trabajo automatizado</h3>
+            <p class="card-desc" data-i18n="svc.flow.desc">
+              n8n/Zapier/Make + APIs: ingestión de datos, limpieza, reglas, publicación y alertas. Logs y tablero de control.
+            </p>
+          </div>
+          <a class="stretch" href="/services/workflows" aria-label="Abrir: Flujo de trabajo automatizado"></a>
+        </article>
+
+        <!-- Asistente de IA -->
+        <article class="card card-wrap">
+          <div class="icon" aria-hidden="true" title="Asistente de IA">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+              <path d="M24 6a12 12 0 0 1 12 12v3h2a6 6 0 1 1 0 12h-2v3A12 12 0 0 1 24 48h-2a10 10 0 0 1-10-10" stroke="#0b1220" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="20" cy="22" r="2.5" fill="#e6f2f4"/>
+              <circle cx="28" cy="18" r="2.5" fill="#e6f2f4"/>
+              <path d="M20 22h8M23 28l6-2" stroke="rgba(20,184,166,.95)" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="card-title" data-i18n="svc.assistant.title">Pedir un asistente de IA personalizado</h3>
+            <p class="card-desc" data-i18n="svc.assistant.desc">
+              Chatbots y copilotos con RAG, memoria y panel admin. Integración con tu web/WhatsApp/Slack. Métricas y mejoras.
+            </p>
+          </div>
+          <a class="stretch" href="/services/assistant" aria-label="Abrir: Asistente de IA personalizado"></a>
+        </article>
+
+        <!-- Video IA -->
+        <article class="card card-wrap">
+          <div class="icon" aria-hidden="true" title="Video con IA">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+              <rect x="6" y="10" width="28" height="20" rx="3" fill="#e6f2f4"/>
+              <path d="M34 18l8-4v16l-8-4z" fill="rgba(155,87,245,.95)"/>
+              <path d="M10 16h12M10 20h16M10 24h10" stroke="#0b1220" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="card-title" data-i18n="svc.video.title">Pedir videos generados por IA personalizados</h3>
+            <p class="card-desc" data-i18n="svc.video.desc">
+              Guion, voz, música y edición automatizada. Templates reutilizables y publicación a redes o carpeta compartida.
+            </p>
+          </div>
+          <a class="stretch" href="/services/ai-video" aria-label="Abrir: Videos generados por IA"></a>
+        </article>
+
+        <!-- Otra cosa -->
+        <article class="card card-wrap">
+          <div class="icon" aria-hidden="true" title="Personalizado">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="10" fill="#e6f2f4"/>
+              <path d="M24 14v-6M24 40v-6M14 24h-6M40 24h-6" stroke="rgba(20,184,166,.95)" stroke-width="3" stroke-linecap="round"/>
+              <path d="M20 24h8" stroke="rgba(155,87,245,.95)" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="card-title" data-i18n="svc.custom.title">Pedir otra cosa</h3>
+            <p class="card-desc" data-i18n="svc.custom.desc">
+              ¿Tenés una idea distinta? Diseñamos el alcance y entregables juntos. Prototipo rápido y plan de iteraciones.
+            </p>
+          </div>
+          <a class="stretch" href="/services/custom" aria-label="Abrir: Pedido personalizado"></a>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- NOTA / INFO -->
+    <section class="section" aria-label="Cómo trabajamos">
+      <div class="info">
+        <h3 data-i18n="info.title">Proceso claro, entregas medibles</h3>
+        <p data-i18n="info.copy">
+          Kickoff para entender objetivos, propuesta técnica con milestones, desarrollo iterativo con pruebas y
+          documentación. Entrega final con video demo y guía de uso. Opcional: soporte y mejoras continuas.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div class="build-note" data-i18n="footer.note">
+          Construido con pasión por la creatividad asistida por IA
+        </div>
+        <div class="copyright">© <span id="year"></span> Andromadorian</div>
+      </div>
+      <div class="legal">
+        <span data-i18n="footer.legal.prefix">Al usar este sitio aceptás nuestros</span>
+        <a href="/terminos" aria-label="Leer Términos y condiciones" data-i18n="footer.legal.terms">Términos y condiciones</a>
+        <span>y</span>
+        <a href="/privacidad" aria-label="Leer Política de Privacidad" data-i18n="footer.legal.privacy">Privacidad</a>.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // YEAR
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // i18n
+    const i18n = {
+      es: {
+        "nav.home":"Inicio","nav.ia":"IA","nav.learn":"Aprende cómo","nav.services":"Servicios","nav.contact":"Contáctame",
+        "hero.badge":"Servicios","hero.title":"Soluciones a medida para tu proyecto",
+        "hero.lead":"Contratame para crear sitios web personalizados, asistentes de IA pensados para vos y automatizaciones a tu medida. Trabajo con buenas prácticas de desarrollo, despliegues limpios y foco en resultados: desde un landing optimizado hasta pipelines que integran APIs, hojas de cálculo y publicación automática de contenido.",
+        "svc.web.title":"Pedir un sitio web personalizado",
+        "svc.web.desc":"Landing/portfolio con performance, SEO básico, analíticas y CI/CD. Integración con formularios, correo y dominios.",
+        "svc.flow.title":"Pedir un flujo de trabajo automatizado",
+        "svc.flow.desc":"n8n/Zapier/Make + APIs: ingestión de datos, limpieza, reglas, publicación y alertas. Logs y tablero de control.",
+        "svc.assistant.title":"Pedir un asistente de IA personalizado",
+        "svc.assistant.desc":"Chatbots y copilotos con RAG, memoria y panel admin. Integración con tu web/WhatsApp/Slack. Métricas y mejoras.",
+        "svc.video.title":"Pedir videos generados por IA personalizados",
+        "svc.video.desc":"Guion, voz, música y edición automatizada. Templates reutilizables y publicación a redes o carpeta compartida.",
+        "svc.custom.title":"Pedir otra cosa",
+        "svc.custom.desc":"¿Tenés una idea distinta? Diseñamos el alcance y entregables juntos. Prototipo rápido y plan de iteraciones.",
+        "info.title":"Proceso claro, entregas medibles",
+        "info.copy":"Kickoff para entender objetivos, propuesta técnica con milestones, desarrollo iterativo con pruebas y documentación. Entrega final con video demo y guía de uso. Opcional: soporte y mejoras continuas.",
+        "footer.note":"Construido con pasión por la creatividad asistida por IA",
+        "footer.legal.prefix":"Al usar este sitio aceptás nuestros",
+        "footer.legal.terms":"Términos y condiciones",
+        "footer.legal.privacy":"Privacidad"
+      },
+      en: {
+        "nav.home":"Home","nav.ia":"AI","nav.learn":"Learn how","nav.services":"Services","nav.contact":"Contact me",
+        "hero.badge":"Services","hero.title":"Tailored solutions for your project",
+        "hero.lead":"Hire me to build custom websites, purpose-built AI assistants and automations tailored to you. I follow software best practices, clean deployments and outcome-driven delivery: from an optimized landing to pipelines that integrate APIs, spreadsheets and automated publishing.",
+        "svc.web.title":"Request a custom website",
+        "svc.web.desc":"Landing/portfolio with performance, basic SEO, analytics and CI/CD. Forms, email and domain integration.",
+        "svc.flow.title":"Request an automated workflow",
+        "svc.flow.desc":"n8n/Zapier/Make + APIs: data ingestion, cleaning, rules, publishing and alerts. Logging and control dashboard.",
+        "svc.assistant.title":"Request a custom AI assistant",
+        "svc.assistant.desc":"Chatbots & copilots with RAG, memory and admin panel. Integrations with your site/WhatsApp/Slack. Metrics & improvements.",
+        "svc.video.title":"Request AI-generated custom videos",
+        "svc.video.desc":"Script, voice, music and automated editing. Reusable templates and publishing to socials or a shared folder.",
+        "svc.custom.title":"Request something else",
+        "svc.custom.desc":"Have a different idea? We’ll design scope and deliverables together. Fast prototype and iteration plan.",
+        "info.title":"Clear process, measurable deliverables",
+        "info.copy":"Kickoff to align goals, technical proposal with milestones, iterative development with tests and docs. Final hand-off with demo video and usage guide. Optional: maintenance and continuous improvements.",
+        "footer.note":"Built with passion for AI-assisted creativity.",
+        "footer.legal.prefix":"By using this site you agree to our",
+        "footer.legal.terms":"Terms and Conditions",
+        "footer.legal.privacy":"Privacy Policy"
+      }
+    };
+
+    function applyLang(lang){
+      const dict = i18n[lang] || i18n.es;
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const key = el.getAttribute('data-i18n');
+        if(dict[key]) el.textContent = dict[key];
+      });
+      document.getElementById('lang-es')?.classList.toggle('active', lang==='es');
+      document.getElementById('lang-en')?.classList.toggle('active', lang==='en');
+      document.documentElement.lang = lang;
+      localStorage.setItem('andromadorian_lang', lang);
+    }
+    // idioma por defecto (persistido)
+    applyLang(localStorage.getItem('andromadorian_lang') || 'es');
+
+    document.getElementById('lang-es')?.addEventListener('click', ()=>applyLang('es'));
+    document.getElementById('lang-en')?.addEventListener('click', ()=>applyLang('en'));
+  </script>
+</body>
+</html>
