@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Andromadorian — Centro de IA</title>
+  <meta name="description" content="Andromadorian: centro de IA, cursos paso a paso y servicios de automatización." />
+
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- FAVICONS / MANIFEST -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="alternate icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="alternate icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/assets/site.webmanifest">
+  <meta name="theme-color" content="#0f3f46">
+
+  <style>
+    :root{
+      /* === PALETA BRAND (imagen) === */
+      --teal: #14b8a6;           /* acento principal */
+      --teal-600:#0d9488;
+      --teal-700:#0b746b;
+
+      --purple:#9b57f5;          /* acento secundario */
+      --purple-700:#7a38d6;
+
+      --bg-900:#0b1220;          /* azul muy oscuro */
+      --bg-850:#111a2a;
+      --bg-800:#162233;
+
+      --card:#141d2b;            /* paneles */
+      --text:#e6f2f4;            /* texto principal */
+      --muted:#c7d4dc;           /* texto suave */
+
+      --ring: 0 0 0 3px rgba(20,184,166,.35);
+      --shadow-lg: 0 10px 30px rgba(0,0,0,.45);
+      --radius: 16px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--text);
+      /* Fondo inspirado en la imagen: azul → teal centro → púrpura esquina */
+      background:
+        radial-gradient(900px 520px at 30% 45%, rgba(20,184,166,.20), transparent 55%),
+        radial-gradient(700px 480px at 90% 95%, rgba(155,87,245,.22), transparent 60%),
+        radial-gradient(1000px 520px at -10% -10%, rgba(20,184,166,.12), transparent 60%),
+        linear-gradient(180deg, var(--bg-900), var(--bg-800));
+      background-attachment: fixed;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+    /* NAVBAR */
+    .nav{
+      position:sticky;top:0;z-index:40;
+      backdrop-filter:saturate(140%) blur(10px);
+      background: linear-gradient(180deg, rgba(11,18,32,.72), rgba(11,18,32,.50));
+      border-bottom:1px solid rgba(255,255,255,.06)
+    }
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .brand-link{
+      display:flex;align-items:center;gap:12px;border-radius:12px;padding:6px 8px;
+      transition: background .2s ease, transform .15s ease;
+    }
+    .brand-link:hover{background:rgba(255,255,255,.05);transform:translateY(-1px)}
+    .brand-logo-img{
+      width:34px;height:34px;border-radius:10px;display:block;object-fit:cover;
+      box-shadow:0 4px 16px rgba(20,184,166,.35)
+    }
+    .brand-title{font-weight:800;letter-spacing:.3px}
+    .top-links{display:flex;gap:12px;align-items:center}
+
+    /* Pills → vidrio con borde teal/púrpura sutil */
+    .pill{
+      padding:10px 14px;border-radius:999px;
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.10);
+      transition:transform .15s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+      font-weight:600;font-size:.95rem
+    }
+    .pill:hover{
+      transform:translateY(-1px);
+      background:linear-gradient(180deg, rgba(20,184,166,.12), rgba(155,87,245,.10));
+      border-color:rgba(20,184,166,.35);
+      box-shadow:0 6px 16px rgba(155,87,245,.18), 0 2px 8px rgba(20,184,166,.18);
+    }
+
+    .lang-toggle{display:flex;gap:8px;align-items:center}
+    .flag{
+      width:26px;height:26px;border-radius:50%;
+      border:1px solid rgba(255,255,255,.25);cursor:pointer;
+      transition: transform .12s ease, box-shadow .12s ease;
+      box-shadow:0 2px 8px rgba(0,0,0,.25)
+    }
+    .flag.active{outline:none;box-shadow:var(--ring)}
+
+    /* HERO / CAROUSELS */
+    .hero{
+      position:relative;overflow:hidden;border-radius:calc(var(--radius) + 6px);
+      margin:24px auto;box-shadow:var(--shadow-lg);background:var(--bg-850)
+    }
+    .carousel{position:relative;height:48vh;min-height:340px;max-height:560px;border-radius:inherit;isolation:isolate}
+    .carousel--mini{height:28vh;min-height:180px;max-height:280px}
+    .slides{position:absolute;inset:0;display:grid}
+    .slide{
+      grid-area:1/1;opacity:0;transition:opacity .9s ease, transform 8s ease;
+      transform: scale(1.05);
+      background-position:center;background-size:cover;filter:saturate(104%) contrast(102%)
+    }
+    .slide.active{opacity:1;transform: scale(1)}
+    .scrim{
+      position:absolute;inset:0;background:
+      linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.35) 40%, rgba(11,18,32,.82) 85%);
+      pointer-events:none
+    }
+    .hero-content{position:absolute;inset:0;display:flex;align-items:flex-end;padding:28px}
+    .hero-card{
+      background:
+        linear-gradient(180deg, rgba(20,26,38,.88), rgba(20,26,38,.88));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--radius);
+      padding:22px 24px;max-width:980px;backdrop-filter: blur(6px);
+      box-shadow:0 10px 30px rgba(0,0,0,.45);
+      display:flex;align-items:center;gap:20px
+    }
+    .hero-text{flex:1 1 auto;min-width:0}
+    .eyebrow{
+      color:var(--teal);font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.78rem
+    }
+    .h1{font-size:clamp(1.9rem, 2.4vw + 1rem, 3rem);line-height:1.12;margin:.35rem 0 .25rem;font-weight:800}
+    .lead{color:var(--muted);font-size:1.05rem}
+    .hero-brand{
+      flex:0 0 auto;width:160px;height:160px;border-radius:16px;
+      background:linear-gradient(135deg, rgba(20,184,166,.10), rgba(155,87,245,.12));
+      border:1px solid rgba(255,255,255,.10);
+      display:block;object-fit:contain;padding:10px;box-shadow:0 8px 24px rgba(0,0,0,.35)
+    }
+
+    /* SECTIONS */
+    .section{padding:42px 0}
+    .grid{display:grid;gap:18px;grid-template-columns:repeat(12,minmax(0,1fr))}
+    .card{
+      grid-column: span 6;
+      background:
+        linear-gradient(180deg, rgba(20,26,38,.92), rgba(18,25,36,.92));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-lg);
+      display:flex;gap:16px;align-items:center;min-height:120px;
+      transition: transform .15s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease
+    }
+    .card:hover{
+      transform:translateY(-2px);
+      border-color:rgba(20,184,166,.35);
+      box-shadow:0 10px 28px rgba(0,0,0,.5), 0 8px 24px rgba(155,87,245,.18);
+      background:linear-gradient(180deg, rgba(22,32,48,1), rgba(20,28,42,1))
+    }
+
+    /* Iconos: pastilla con gradiente teal→púrpura */
+    .icon{
+      width:54px;height:54px;border-radius:14px;
+      background:linear-gradient(135deg, var(--teal), var(--purple-700));
+      display:grid;place-items:center;
+      box-shadow:0 6px 18px rgba(20,184,166,.28), 0 6px 18px rgba(155,87,245,.18)
+    }
+    .icon svg{width:30px;height:30px;filter: drop-shadow(0 2px 2px rgba(0,0,0,.35))}
+    .card-title{font-size:1.25rem;font-weight:800;margin:0}
+    .card-desc{color:var(--muted);margin:.18rem 0 0}
+    .card a.stretch{position:absolute;inset:0;border-radius:inherit}
+    .card-wrap{position:relative}
+
+    /* INFO BLOCK */
+    .info{
+      background:linear-gradient(180deg, rgba(20,26,38,.95), rgba(18,25,36,.95));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow-lg)
+    }
+    .info h3{margin:.2rem 0 .35rem;font-weight:800}
+    .info p{color:var(--muted);margin:0}
+
+    /* LINKS sutilmente acentuados al hover */
+    a:hover{color:#ffffff}
+    .legal a{color:var(--muted);text-decoration:underline dotted}
+    .legal a:hover{color:var(--text);text-decoration:underline}
+
+    /* FOOTER (CENTRADO EN COLUMNA) */
+    footer{padding:30px 0 34px;color:#bfd0d7;font-size:.95rem}
+    .footer-top{
+      display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;
+    }
+    .build-note,.copyright{font-size:inherit;font-weight:400;margin:0}
+    .legal{margin-top:18px;font-size:.78rem;opacity:.82;text-align:center;width:100%}
+
+    /* ACCESSIBILITY */
+    .brand-link:focus-visible,
+    .pill:focus-visible,
+    .card a.stretch:focus-visible{outline:none;box-shadow:var(--ring)}
+
+    @media (max-width:900px){
+      .card{grid-column:span 12}
+      .hero-card{flex-direction:column;align-items:flex-start}
+      .hero-brand{width:120px;height:120px}
+      .carousel--mini{height:22vh;min-height:160px}
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="nav" aria-label="Main">
+    <div class="container nav-inner">
+      <!-- BRAND CLICKABLE -->
+      <a class="brand-link" href="/" aria-label="Ir al inicio">
+        <img class="brand-logo-img" src="/assets/andromadorian-logo.png" alt="Andromadorian" />
+        <div>
+          <div class="brand-title">Andromadorian</div>
+          <div style="font-size:.8rem;color:var(--muted)">IA • Cursos • Servicios</div>
+        </div>
+      </a>
+
+      <div class="top-links" role="navigation" aria-label="Top links">
+        <a class="pill" href="#home" data-i18n="nav.home">Inicio</a>
+        <a class="pill" href="/ia" data-i18n="nav.ia">IA</a>
+        <a class="pill" href="/aprende.html" data-i18n="nav.learn">Aprende cómo</a>
+        <a class="pill" href="/servicios" data-i18n="nav.services">Servicios</a>
+        <a class="pill" href="/contacto" data-i18n="nav.contact">Contáctame</a>
+        <div class="lang-toggle" aria-label="Language toggle">
+          <img src="data:image/svg+xml;utf8,
+            <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'>
+            <rect width='640' height='480' fill='%23aa151b'/><rect width='640' height='160' y='160' fill='%23f1bf00'/></svg>"
+            alt="ES" class="flag active" id="lang-es" title="Español (ES)">
+          <img src="data:image/svg+xml;utf8,
+            <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'>
+            <clipPath id='a'><path d='M0,0 v30 h60 v-30 z'/></clipPath>
+            <g clip-path='url(%23a)'>
+              <path d='M0,0 v30 h60 v-30 z' fill='%23012a8d'/>
+              <path d='M0,0 L60,30 M60,0 L0,30' stroke='%23fff' stroke-width='6'/>
+              <path d='M0,0 L60,30 M60,0 L0,30' stroke='%23c8102e' stroke-width='4'/>
+              <path d='M30,0 v30 M0,15 h60' stroke='%23fff' stroke-width='6'/>
+              <path d='M30,0 v30 M0,15 h60' stroke='%23c8102e' stroke-width='4'/>
+            </g></svg>"
+            alt="EN" class="flag" id="lang-en" title="English (EN)">
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <main id="home" class="container">
+    <section class="hero" aria-label="Intro">
+      <div class="carousel" id="carousel" aria-roledescription="carousel">
+        <div class="slides">
+          <div class="slide active" role="group" aria-label="1 / 1"
+               style="background-image:url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1920&auto=format&fit=crop');"
+               aria-hidden="false"></div>
+        </div>
+        <div class="scrim"></div>
+
+        <div class="hero-content">
+          <div class="hero-card">
+            <div class="hero-text">
+              <div class="eyebrow" data-i18n="hero.badge">Bienvenido</div>
+              <h1 class="h1">Andromadorian</h1>
+              <p class="lead" data-i18n="hero.lead">
+                Un hub creativo donde la Inteligencia Artificial se encuentra con el aprendizaje práctico y el juego.
+                Explora herramientas de IA, cursos paso a paso y experiencias interactivas. Ahora también podés contratar
+                servicios profesionales para crear tu sitio web, automatizar procesos y potenciar tu proyecto con IA.
+              </p>
+            </div>
+            <img class="hero-brand" src="/assets/brand-mark.png" alt="Marca Andromadorian" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACCESOS RÁPIDOS -->
+    <section id="shortcuts" class="section" aria-label="Accesos rápidos">
+      <div class="grid">
+        <!-- 4 cards -->
+        <div class="card card-wrap">
+          <div class="icon" aria-hidden="true" title="IA">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+              <path d="M18 10a8 8 0 0 1 8-6 10 10 0 0 1 10 10v2h2a6 6 0 1 1 0 12h-2v2a10 10 0 0 1-10 10h-2a8 8 0 0 1-8-8" stroke="#0b1220" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="20" cy="20" r="2.5" fill="#e6f2f4"/>
+              <circle cx="28" cy="16" r="2.5" fill="#e6f2f4"/>
+              <circle cx="30" cy="26" r="2.5" fill="#e6f2f4"/>
+              <path d="M20 20h6M28 16l2 6M22 28l6-2" stroke="rgba(20,184,166,.95)" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="card-title" data-i18n="cards.ia.title">IA</h3>
+            <p class="card-desc" data-i18n="cards.ia.desc">Chat de IA, Texto→Imagen y Texto→Video listos para crear.</p>
+          </div>
+          <a class="stretch" href="/ia" aria-label="Ir a IA"></a>
+        </div>
+
+        <div class="card card-wrap">
+          <div class="icon" aria-hidden="true" title="Aprende cómo">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+              <path d="M6 34V14a4 4 0 0 1 4-4h10a6 6 0 0 1 6 6v22a6 6 0 0 0-6-6H10a4 4 0 0 0-4 4z" fill="rgba(20,184,166,.95)"/>
+              <path d="M42 34V14a4 4 0 0 0-4-4H28a6 6 0 0 0-6 6v22a6 6 0 0 1 6-6h10a4 4 0 0 1 4 4z" fill="#e6f2f4"/>
+              <path d="M24 18h12M10 18h12" stroke="#0b1220" stroke-width="3" stroke-linecap="round"/>
+              <path d="M30 24l10 10-6 1 1 6-10-10" fill="#0b1220"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="card-title" data-i18n="cards.learn.title">Aprende cómo</h3>
+            <p class="card-desc" data-i18n="cards.learn.desc">Cursos paso a paso: flujos, prompts y publicación automática.</p>
+          </div>
+          <a class="stretch" href="/aprende.html" aria-label="Ir a Aprende cómo"></a>
+        </div>
+
+        <div class="card card-wrap">
+          <div class="icon" aria-hidden="true" title="Servicios">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+              <path d="M20 10l6 6-6 6-3-3-7 7 4 4-6 6-5-5 6-6 4 4 7-7-3-3 3-3z" fill="#e6f2f4"/>
+              <path d="M34 18a10 10 0 1 1-7.07 2.93A9.96 9.96 0 0 1 34 18zm0 6v4m-8-2h4m8 0h4m-6 6v4" stroke="rgba(155,87,245,.95)" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="card-title" data-i18n="cards.services.title">Servicios</h3>
+            <p class="card-desc" data-i18n="cards.services.desc">Sitios, automatizaciones e IA a medida.</p>
+          </div>
+          <a class="stretch" href="/servicios" aria-label="Ir a Servicios"></a>
+        </div>
+
+        <div class="card card-wrap">
+          <div class="icon" aria-hidden="true" title="Contáctame">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+              <path d="M6 24L44 6 32 42l-8-12-18-6z" fill="#e6f2f4" />
+              <path d="M44 6L24 30" stroke="rgba(20,184,166,.95)" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="card-title" data-i18n="cards.contact.title">Contáctame</h3>
+            <p class="card-desc" data-i18n="cards.contact.desc">Próximamente: contacto y soporte.</p>
+          </div>
+          <a class="stretch" href="/contacto" aria-label="Ir a Contáctame"></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- INFO -->
+    <section class="section" aria-label="Inspiración IA">
+      <div class="info">
+        <h3 data-i18n="info.title">La IA es ahora</h3>
+        <p data-i18n="info.copy">
+          La inteligencia artificial está avanzando a un ritmo sin precedentes. Si aprendes a dominar sus herramientas hoy,
+          podrás crear, automatizar y escalar más rápido que nunca. Aquí encontrarás guías claras y prácticas para que
+          conviertas ideas en resultados reales y aproveches la ola de oportunidades que ya comenzó.
+        </p>
+      </div>
+
+      <!-- CARRUSEL COMPACTO -->
+      <div class="hero" style="margin-top:18px">
+        <div class="carousel carousel--mini" id="carousel-mini" aria-roledescription="carousel" aria-label="Galería inspiracional">
+          <div class="slides">
+            <div class="slide active" role="group" aria-label="1 / 4"
+                 style="background-image:url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop');"></div>
+            <div class="slide" role="group" aria-label="2 / 4"
+                 style="background-image:url('https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=1600&auto=format&fit=crop');"></div>
+            <div class="slide" role="group" aria-label="3 / 4"
+                 style="background-image:url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1600&auto=format&fit=crop');"></div>
+            <div class="slide" role="group" aria-label="4 / 4"
+                 style="background-image:url('https://images.unsplash.com/photo-1518773553398-650c184e0bb3?q=80&w=1600&auto=format&fit=crop');"></div>
+          </div>
+          <div class="scrim" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER CENTRADO -->
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div class="build-note" data-i18n="footer.note">
+          Construido con pasión por la creatividad asistida por IA
+        </div>
+        <div class="copyright">© <span id="year"></span> Andromadorian</div>
+      </div>
+      <div class="legal">
+        Al usar este sitio aceptás nuestros
+        <a href="/terminos" aria-label="Leer Términos y condiciones">Términos y condiciones</a>
+        y
+        <a href="/privacidad" aria-label="Leer Política de Privacidad">Privacidad</a>.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // YEAR
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Carousels (respeta 'prefers-reduced-motion')
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function initCarousel(rootId, intervalMs=5500, parallax=true){
+      const root = document.getElementById(rootId);
+      if(!root) return;
+      const slides = Array.from(root.querySelectorAll('.slide'));
+      let idx = 0;
+      function next(){
+        slides[idx].classList.remove('active');
+        idx = (idx + 1) % slides.length;
+        slides[idx].classList.add('active');
+      }
+      if (!reduceMotion && slides.length > 1) {
+        setInterval(next, intervalMs);
+      } else {
+        slides.forEach((s,i)=>s.classList.toggle('active', i===0));
+      }
+      if(parallax && !reduceMotion){
+        const hero = root.closest('.hero');
+        window.addEventListener('scroll', () => {
+          const rect = hero.getBoundingClientRect();
+          const factor = Math.min(1, Math.max(0, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)));
+          slides.forEach(s => s.style.transform = `scale(${1.02 + factor * 0.06}) translateY(${factor * -10}px)`);
+        }, {passive:true});
+      }
+    }
+    // Iniciar solo el carrusel mini
+    initCarousel('carousel-mini', 4800, false);
+
+    // i18n (ES default)
+    const i18n = {
+      es: {
+        "nav.home":"Inicio","nav.ia":"IA","nav.learn":"Aprende cómo","nav.services":"Servicios","nav.contact":"Contáctame",
+        "hero.badge":"Bienvenido",
+        "hero.lead":"Un hub creativo donde la Inteligencia Artificial se encuentra con el aprendizaje práctico y el juego. Explora herramientas de IA, cursos paso a paso y experiencias interactivas. Ahora también podés contratar servicios profesionales para crear tu sitio web, automatizar procesos y potenciar tu proyecto con IA.",
+        "cards.ia.title":"IA","cards.ia.desc":"Chat de IA, Texto→Imagen y Texto→Video listos para crear.",
+        "cards.learn.title":"Aprende cómo","cards.learn.desc":"Cursos paso a paso: flujos, prompts y publicación automática.",
+        "cards.services.title":"Servicios","cards.services.desc":"Sitios, automatizaciones e IA a medida.",
+        "cards.contact.title":"Contáctame","cards.contact.desc":"Próximamente: contacto y soporte.",
+        "info.title":"La IA es ahora",
+        "info.copy":"La inteligencia artificial está avanzando a un ritmo sin precedentes. Si aprendes a dominar sus herramientas hoy, podrás crear, automatizar y escalar más rápido que nunca. Aquí encontrarás guías claras y prácticas para que conviertas ideas en resultados reales y aproveches la ola de oportunidades que ya comenzó.",
+        "footer.note":"Construido con pasión por la creatividad asistida por IA"
+      },
+      en: {
+        "nav.home":"Home","nav.ia":"AI","nav.learn":"Learn how","nav.services":"Services","nav.contact":"Contact me",
+        "hero.badge":"Welcome",
+        "hero.lead":"A creative hub where Artificial Intelligence meets hands-on learning and play. Explore AI tools, step-by-step courses, and interactive experiences. You can now hire professional services to build your website, automate workflows, and power your project with AI.",
+        "cards.ia.title":"AI","cards.ia.desc":"AI Chat, Text→Image, and Text→Video ready to explore and create.",
+        "cards.learn.title":"Learn how","cards.learn.desc":"Step-by-step courses: workflows, prompts, editing and automated publishing.",
+        "cards.services.title":"Services","cards.services.desc":"Websites, automations, and custom AI for your business.",
+        "cards.contact.title":"Contact me","cards.contact.desc":"Coming soon: contact info, collaborations, and support.",
+        "info.title":"AI is now",
+        "info.copy":"Artificial Intelligence is advancing at an unprecedented pace. If you learn to master its tools today, you will create, automate and scale faster than ever. Here you’ll find clear, practical guides to turn ideas into real results and ride the wave of opportunities that’s already here.",
+        "footer.note":"Built with passion for AI-assisted creativity."
+      }
+    };
+
+    function applyLang(lang){
+      const dict = i18n[lang] || i18n.es;
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const key = el.getAttribute('data-i18n');
+        if(dict[key]) el.textContent = dict[key];
+      });
+      document.getElementById('lang-es')?.classList.toggle('active', lang==='es');
+      document.getElementById('lang-en')?.classList.toggle('active', lang==='en');
+      document.documentElement.lang = lang;
+      localStorage.setItem('andromadorian_lang', lang);
+    }
+    // default: ES
+    applyLang(localStorage.getItem('andromadorian_lang') || 'es');
+
+    document.getElementById('lang-es')?.addEventListener('click', ()=>applyLang('es'));
+    document.getElementById('lang-en')?.addEventListener('click', ()=>applyLang('en'));
+  </script>
+</body>
+</html>
