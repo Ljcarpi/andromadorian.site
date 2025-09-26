@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Andromadorian — Curso: Text→Video con n8n + FFmpeg</title>
+  <meta name="description" content="Detalle del curso: Text→Video con n8n + FFmpeg." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --olive:#7a8f47; --olive-600:#6a7e3f; --olive-700:#5a6c36;
+      --bg-900:#0b0f0e; --bg-800:#111612; --card:#151b16;
+      --text:#e8efe6; --muted:#c9d3c4; --accent:#a3b86a;
+      --ring: 0 0 0 3px rgba(122,143,71,.35);
+      --shadow-lg: 0 10px 30px rgba(0,0,0,.45);
+      --radius: 16px;
+    }
+    *{box-sizing:border-box} html,body{height:100%}
+    body{
+      margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 80% -10%, rgba(122,143,71,.20), transparent 50%),
+        radial-gradient(900px 500px at -10% 20%, rgba(122,143,71,.12), transparent 60%),
+        linear-gradient(180deg, var(--bg-900), var(--bg-800));
+      background-attachment: fixed;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1100px;margin:0 auto;padding:0 20px}
+
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:40;backdrop-filter:saturate(140%) blur(10px);background:rgba(11,15,14,.6);border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand-logo{width:34px;height:34px;border-radius:10px;background:conic-gradient(from 220deg,var(--olive),#9fb66a,var(--olive-700));box-shadow:0 4px 14px rgba(122,143,71,.35),inset 0 0 18px rgba(255,255,255,.08)}
+    .brand-title{font-weight:800;letter-spacing:.3px}
+    .top-links{display:flex;gap:12px;align-items:center}
+    .pill{padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);transition:transform .15s ease, background .2s ease, border-color .2s ease;font-weight:600;font-size:.95rem}
+    .pill:hover{transform:translateY(-1px);background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.12)}
+    .lang-toggle{display:flex;gap:8px;align-items:center}
+    .flag{width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.25);cursor:pointer;transition: transform .12s ease, box-shadow .12s ease;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+    .flag.active{outline:none;box-shadow:var(--ring)}
+
+    /* HEADER */
+    .header{padding:26px 0}
+    .headline{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+    .badge{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);font-size:.85rem}
+    .price{font-weight:800}
+    .label{color:var(--muted);font-size:.95rem}
+
+    /* LAYOUT */
+    .grid{display:grid;gap:18px;grid-template-columns: 2fr 1fr}
+    .card{background:linear-gradient(180deg, rgba(21,27,22,.95), rgba(17,22,18,.95));border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-lg)}
+    .card h2{margin:0 0 10px 0}
+    .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;font-weight:700;border:1px solid transparent;transition:transform .15s ease, box-shadow .15s ease, background .2s ease}
+    .btn-primary{background:linear-gradient(180deg, var(--olive), var(--olive-600)); color:#0b110c}
+    .btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(122,143,71,.35)}
+    .btn-ghost{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);color:var(--text)}
+    .btn-ghost:hover{background:rgba(255,255,255,.08)}
+    ul.features{margin:.2rem 0 0 1.1rem}
+    ul.features li{margin:.25rem 0}
+
+    /* MEDIA */
+    .media{aspect-ratio:16/9;background:#0e1412;border-radius:12px;border:1px solid rgba(255,255,255,.08);display:grid;place-items:center;overflow:hidden}
+    .media img{width:100%;height:100%;object-fit:cover;filter:saturate(110%) contrast(104%)}
+
+    /* FOOTER */
+    footer{padding:30px 0;color:#b8c2b6;font-size:.95rem}
+    footer .row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .tiny{opacity:.7}
+    @media (max-width:950px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav class="nav" aria-label="Main">
+    <div class="container nav-inner">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true"></div>
+        <div>
+          <div class="brand-title">Andromadorian</div>
+          <div style="font-size:.8rem;color:var(--muted)">IA • Cursos • Juegos</div>
+        </div>
+      </div>
+      <div class="top-links" role="navigation" aria-label="Top links">
+        <a class="pill" href="/#home" data-i18n="nav.home">Inicio</a>
+        <a class="pill" href="/ia" data-i18n="nav.ia">IA</a>
+        <a class="pill" href="/aprende.html" data-i18n="nav.learn" aria-current="page">Aprende cómo</a>
+        <a class="pill" href="/juega" data-i18n="nav.play">Juega</a>
+        <a class="pill" href="/contacto" data-i18n="nav.contact">Contáctame</a>
+        <div class="lang-toggle" aria-label="Language toggle">
+          <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'><rect width='640' height='480' fill='%23aa151b'/><rect width='640' height='160' y='160' fill='%23f1bf00'/></svg>" alt="ES" class="flag active" id="lang-es" title="Español (ES)">
+          <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'><clipPath id='a'><path d='M0,0 v30 h60 v-30 z'/></clipPath><g clip-path='url(%23a)'><path d='M0,0 v30 h60 v-30 z' fill='%23012a8d'/><path d='M0,0 L60,30 M60,0 L0,30' stroke='%23fff' stroke-width='6'/><path d='M0,0 L60,30 M60,0 L0,30' stroke='%23c8102e' stroke-width='4'/><path d='M30,0 v30 M0,15 h60' stroke='%23fff' stroke-width='6'/><path d='M30,0 v30 M0,15 h60' stroke='%23c8102e' stroke-width='4'/></g></svg>" alt="EN" class="flag" id="lang-en" title="English (EN)">
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="container header">
+    <div class="headline">
+      <div>
+        <div class="badge" data-i18n="course.badge">Curso</div>
+        <h1 style="margin:.2rem 0 0 0">Text→Video con n8n + FFmpeg</h1>
+        <div class="label" data-i18n="course.subtitle">De prompt a video final con automatización práctica.</div>
+      </div>
+      <div style="text-align:right">
+        <div class="label" data-i18n="course.price.label">Precio</div>
+        <div class="price">USD 29</div>
+        <div class="label" data-i18n="course.duration.label">Duración</div>
+        <div>2h 30m</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <main class="container">
+    <div class="grid">
+      <section class="card">
+        <div class="media" aria-label="Portada del curso">
+          <img src="https://images.unsplash.com/photo-1483478550801-ceba5fe50e8e?q=80&w=1600&auto=format&fit=crop" alt="Automatización creativa con herramientas de IA" />
+        </div>
+        <h2 style="margin-top:16px" data-i18n="course.what">¿Qué aprenderás?</h2>
+        <ul class="features">
+          <li data-i18n="course.pt1">Diseñar un flujo Text→Video con n8n</li>
+          <li data-i18n="course.pt2">Generar clips y narración con modelos de IA</li>
+          <li data-i18n="course.pt3">Edición automática con FFmpeg (mix, overlays, subtítulos)</li>
+          <li data-i18n="course.pt4">Publicación y automatización básica</li>
+        </ul>
+
+        <h2 style="margin-top:18px" data-i18n="course.contents">Contenido</h2>
+        <ul class="features">
+          <li data-i18n="course.c1">Introducción y setup</li>
+          <li data-i18n="course.c2">Creación del workflow (n8n)</li>
+          <li data-i18n="course.c3">Integración TTS y assets</li>
+          <li data-i18n="course.c4">FFmpeg y render final</li>
+          <li data-i18n="course.c5">Extras y próximos pasos</li>
+        </ul>
+      </section>
+
+      <aside class="card" aria-label="Comprar o acceder">
+        <h2 style="margin-top:0" data-i18n="course.enroll">Acceso</h2>
+        <p class="label" data-i18n="course.how">Selecciona una opción para continuar:</p>
+        <div class="cta">
+          <a href="#" class="btn btn-primary" onclick="alert(paySoon());return false;" data-i18n="course.buy">Comprar ahora</a>
+          <a href="#" class="btn btn-ghost" onclick="alert(paySoon());return false;" data-i18n="course.login">Ya tengo acceso</a>
+        </div>
+        <hr style="margin:14px -20px;border-color:rgba(255,255,255,.08)"/>
+        <p class="label" data-i18n="course.refund">Garantía 7 días — reembolso simple si no te sirve.</p>
+        <p class="label" data-i18n="course.support">Soporte por email/Discord (próximamente).</p>
+      </aside>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container row">
+      <div>© <span id="year"></span> Andromadorian</div>
+      <div class="tiny" data-i18n="footer.note">Construido con pasión por la creatividad asistida por IA.</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    function paySoon(){return (document.documentElement.lang==='en')?'Checkout coming soon!':'¡Checkout próximamente!';}
+
+    // i18n
+    const i18n = {
+      es: {
+        "nav.home":"Inicio","nav.ia":"IA","nav.learn":"Aprende cómo","nav.play":"Juega","nav.contact":"Contáctame",
+        "footer.note":"Construido con pasión por la creatividad asistida por IA.",
+        "course.badge":"Curso",
+        "course.subtitle":"De prompt a video final con automatización práctica.",
+        "course.price.label":"Precio",
+        "course.duration.label":"Duración",
+        "course.what":"¿Qué aprenderás?",
+        "course.pt1":"Diseñar un flujo Text→Video con n8n",
+        "course.pt2":"Generar clips y narración con modelos de IA",
+        "course.pt3":"Edición automática con FFmpeg (mix, overlays, subtítulos)",
+        "course.pt4":"Publicación y automatización básica",
+        "course.contents":"Contenido",
+        "course.c1":"Introducción y setup",
+        "course.c2":"Creación del workflow (n8n)",
+        "course.c3":"Integración TTS y assets",
+        "course.c4":"FFmpeg y render final",
+        "course.c5":"Extras y próximos pasos",
+        "course.enroll":"Acceso",
+        "course.how":"Selecciona una opción para continuar:",
+        "course.buy":"Comprar ahora",
+        "course.login":"Ya tengo acceso",
+        "course.refund":"Garantía 7 días — reembolso simple si no te sirve.",
+        "course.support":"Soporte por email/Discord (próximamente)."
+      },
+      en: {
+        "nav.home":"Home","nav.ia":"AI","nav.learn":"Learn how","nav.play":"Play","nav.contact":"Contact me",
+        "footer.note":"Built with passion for AI-assisted creativity.",
+        "course.badge":"Course",
+        "course.subtitle":"From prompt to final video with practical automation.",
+        "course.price.label":"Price",
+        "course.duration.label":"Duration",
+        "course.what":"What you’ll learn",
+        "course.pt1":"Design a Text→Video pipeline with n8n",
+        "course.pt2":"Generate clips and narration with AI models",
+        "course.pt3":"Automated editing with FFmpeg (mix, overlays, subtitles)",
+        "course.pt4":"Basic publishing & automation",
+        "course.contents":"Syllabus",
+        "course.c1":"Intro & setup",
+        "course.c2":"Workflow build (n8n)",
+        "course.c3":"TTS & assets integration",
+        "course.c4":"FFmpeg & final render",
+        "course.c5":"Extras & next steps",
+        "course.enroll":"Get access",
+        "course.how":"Choose an option to continue:",
+        "course.buy":"Buy now",
+        "course.login":"I already have access",
+        "course.refund":"7-day guarantee — simple refund if it’s not for you.",
+        "course.support":"Support via email/Discord (coming soon)."
+      }
+    };
+    function applyLang(lang){
+      const dict = i18n[lang] || i18n.es;
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const key = el.getAttribute('data-i18n');
+        if(dict[key]) el.textContent = dict[key];
+      });
+      document.getElementById('lang-es')?.classList.toggle('active', lang==='es');
+      document.getElementById('lang-en')?.classList.toggle('active', lang==='en');
+      document.documentElement.lang = lang;
+      localStorage.setItem('andromadorian_lang', lang);
+    }
+    (function(){
+      const esBtn = document.getElementById('lang-es');
+      const enBtn = document.getElementById('lang-en');
+      if(esBtn && enBtn){
+        esBtn.addEventListener('click', ()=>applyLang('es'));
+        enBtn.addEventListener('click', ()=>applyLang('en'));
+      }
+      applyLang(localStorage.getItem('andromadorian_lang') || 'es');
+    })();
+  </script>
+</body>
+</html>
