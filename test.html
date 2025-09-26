@@ -86,7 +86,7 @@
     /* HERO / CAROUSELS */
     .hero{position:relative;overflow:hidden;border-radius:calc(var(--radius) + 6px);margin:24px auto;box-shadow:var(--shadow-lg);background:#0e1412}
     .carousel{position:relative;height:48vh;min-height:340px;max-height:560px;border-radius:inherit;isolation:isolate}
-    .carousel--mini{height:32vh;min-height:220px;max-height:360px}
+    .carousel--mini{height:28vh;min-height:180px;max-height:280px} /* más compacto */
     .slides{position:absolute;inset:0;display:grid}
     .slide{
       grid-area:1/1;opacity:0;transition:opacity .9s ease, transform 8s ease;
@@ -151,11 +151,22 @@
     footer .row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     .tiny{opacity:.7}
 
+    /* TERMS NOTICE */
+    .legal{margin-top:10px;font-size:.78rem;opacity:.7}
+    .legal a{color:var(--muted);text-decoration:underline dotted}
+    .legal a:hover{color:#fff;text-decoration:underline}
+
+    /* ACCESSIBILITY */
+    .brand-link:focus-visible,
+    .pill:focus-visible,
+    .card a.stretch:focus-visible{outline:none;box-shadow:var(--ring)}
+
     /* RESPONSIVE */
     @media (max-width:900px){
       .card{grid-column:span 12}
       .hero-card{flex-direction:column;align-items:flex-start}
       .hero-brand{width:120px;height:120px}
+      .carousel--mini{height:22vh;min-height:160px}
     }
   </style>
 </head>
@@ -168,6 +179,7 @@
         <img class="brand-logo-img" src="/assets/andromadorian-logo.png" alt="Andromadorian" />
         <div>
           <div class="brand-title">Andromadorian</div>
+          <!-- Asegurado: Servicios en el subtítulo -->
           <div style="font-size:.8rem;color:var(--muted)">IA • Cursos • Servicios</div>
         </div>
       </a>
@@ -199,13 +211,14 @@
     </div>
   </nav>
 
-  <!-- HERO / CAROUSEL -->
+  <!-- HERO -->
   <main id="home" class="container">
     <section class="hero" aria-label="Intro">
       <div class="carousel" id="carousel" aria-roledescription="carousel">
         <div class="slides">
-          <div class="slide active" role="group" aria-label="1 / 4"
-               style="background-image:url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1920&auto=format&fit=crop');"></div>
+          <div class="slide active" role="group" aria-label="1 / 1"
+               style="background-image:url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1920&auto=format&fit=crop');"
+               aria-hidden="false"></div>
         </div>
         <div class="scrim"></div>
 
@@ -221,7 +234,7 @@
               </p>
             </div>
             <!-- Espacio para la imagen de marca -->
-            <img class="hero-brand" src="/assets/brand-mark.png" alt="Marca Andromadorian">
+            <img class="hero-brand" src="/assets/brand-mark.png" alt="Marca Andromadorian" loading="lazy">
           </div>
         </div>
       </div>
@@ -231,7 +244,7 @@
     <section id="shortcuts" class="section" aria-label="Accesos rápidos">
       <div class="grid">
 
-        <!-- AI (Brain-Circuit) -->
+        <!-- AI -->
         <div class="card card-wrap">
           <div class="icon" aria-hidden="true" title="IA">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
@@ -249,7 +262,7 @@
           <a class="stretch" href="/ia" aria-label="Ir a IA"></a>
         </div>
 
-        <!-- Learn (Open Book + Cursor) -->
+        <!-- Learn -->
         <div class="card card-wrap">
           <div class="icon" aria-hidden="true" title="Aprende cómo">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
@@ -266,7 +279,7 @@
           <a class="stretch" href="/aprende.html" aria-label="Ir a Aprende cómo"></a>
         </div>
 
-        <!-- Services (Wrench + Gear) -->
+        <!-- Services -->
         <div class="card card-wrap">
           <div class="icon" aria-hidden="true" title="Servicios">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
@@ -281,7 +294,7 @@
           <a class="stretch" href="/servicios" aria-label="Ir a Servicios"></a>
         </div>
 
-        <!-- Contact (Paper Plane) -->
+        <!-- Contact -->
         <div class="card card-wrap">
           <div class="icon" aria-hidden="true" title="Contáctame">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
@@ -309,6 +322,23 @@
           conviertas ideas en resultados reales y aproveches la ola de oportunidades que ya comenzó.
         </p>
       </div>
+
+      <!-- CARRUSEL COMPACTO DE IMÁGENES -->
+      <div class="hero" style="margin-top:18px">
+        <div class="carousel carousel--mini" id="carousel-mini" aria-roledescription="carousel" aria-label="Galería inspiracional">
+          <div class="slides">
+            <div class="slide active" role="group" aria-label="1 / 4"
+                 style="background-image:url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop');"></div>
+            <div class="slide" role="group" aria-label="2 / 4"
+                 style="background-image:url('https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=1600&auto=format&fit=crop');"></div>
+            <div class="slide" role="group" aria-label="3 / 4"
+                 style="background-image:url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1600&auto=format&fit=crop');"></div>
+            <div class="slide" role="group" aria-label="4 / 4"
+                 style="background-image:url('https://images.unsplash.com/photo-1518773553398-650c184e0bb3?q=80&w=1600&auto=format&fit=crop');"></div>
+          </div>
+          <div class="scrim" aria-hidden="true"></div>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -319,12 +349,49 @@
       <div class="tiny" data-i18n="footer.note">
         Construido con pasión por la creatividad asistida por IA.
       </div>
+      <div class="legal">
+        Al usar este sitio aceptás nuestros
+        <a href="/terminos" aria-label="Leer Términos y condiciones">Términos y condiciones</a>
+        y
+        <a href="/privacidad" aria-label="Leer Política de Privacidad">Privacidad</a>.
+      </div>
     </div>
   </footer>
 
   <script>
     // YEAR
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Carousels (respeta 'prefers-reduced-motion')
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function initCarousel(rootId, intervalMs=5500, parallax=true){
+      const root = document.getElementById(rootId);
+      if(!root) return;
+      const slides = Array.from(root.querySelectorAll('.slide'));
+      let idx = 0;
+      function next(){
+        slides[idx].classList.remove('active');
+        idx = (idx + 1) % slides.length;
+        slides[idx].classList.add('active');
+      }
+      if (!reduceMotion && slides.length > 1) {
+        setInterval(next, intervalMs);
+      } else {
+        // Si el usuario prefiere menos movimiento, mostramos la primera imagen fija
+        slides.forEach((s,i)=>s.classList.toggle('active', i===0));
+      }
+      if(parallax && !reduceMotion){
+        const hero = root.closest('.hero');
+        window.addEventListener('scroll', () => {
+          const rect = hero.getBoundingClientRect();
+          const factor = Math.min(1, Math.max(0, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)));
+          slides.forEach(s => s.style.transform = `scale(${1.02 + factor * 0.06}) translateY(${factor * -10}px)`);
+        }, {passive:true});
+      }
+    }
+    // Iniciar solo el carrusel mini (el principal tiene una sola slide)
+    initCarousel('carousel-mini', 4800, false);
 
     // i18n (ES default)
     const i18n = {
