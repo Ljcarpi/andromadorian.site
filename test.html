@@ -86,7 +86,7 @@
     /* HERO / CAROUSELS */
     .hero{position:relative;overflow:hidden;border-radius:calc(var(--radius) + 6px);margin:24px auto;box-shadow:var(--shadow-lg);background:#0e1412}
     .carousel{position:relative;height:48vh;min-height:340px;max-height:560px;border-radius:inherit;isolation:isolate}
-    .carousel--mini{height:28vh;min-height:180px;max-height:280px} /* más compacto */
+    .carousel--mini{height:28vh;min-height:180px;max-height:280px}
     .slides{position:absolute;inset:0;display:grid}
     .slide{
       grid-area:1/1;opacity:0;transition:opacity .9s ease, transform 8s ease;
@@ -149,15 +149,28 @@
     /* FOOTER */
     footer{padding:30px 0;color:#b8c2b6;font-size:.95rem}
     .footer-top{
-      display:flex;justify-content:space-between;align-items:center;
-      gap:12px;flex-wrap:wrap
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:nowrap;       /* fuerza una sola línea */
+      white-space:nowrap;     /* evita cortes de línea en los textos */
     }
-    .copyright{white-space:nowrap}
-    .build-note{margin-left:auto;opacity:.85}
-    /* Aviso legal centrado debajo */
+    .copyright,
+    .build-note{
+      flex:0 0 auto;
+      font-size:inherit;      /* mismos tamaños */
+      font-weight:400;        /* mismo peso */
+      margin:0;
+      opacity:1;              /* sin atenuación */
+    }
+    /* Aviso legal centrado debajo y más separado */
     .legal{
-      margin-top:10px;font-size:.78rem;opacity:.7;
-      text-align:center;width:100%
+      margin-top:24px;        /* más abajo */
+      font-size:.78rem;
+      opacity:.7;
+      text-align:center;
+      width:100%
     }
     .legal a{color:var(--muted);text-decoration:underline dotted}
     .legal a:hover{color:#fff;text-decoration:underline}
@@ -167,13 +180,14 @@
     .pill:focus-visible,
     .card a.stretch:focus-visible{outline:none;box-shadow:var(--ring)}
 
-    /* RESPONSIVE */
+    /* RESPONSIVE (si en móviles quisieras apilar, cambia flex-wrap a wrap aquí) */
     @media (max-width:900px){
       .card{grid-column:span 12}
       .hero-card{flex-direction:column;align-items:flex-start}
       .hero-brand{width:120px;height:120px}
       .carousel--mini{height:22vh;min-height:160px}
-      .build-note{margin-left:0}
+      /* Mantener una línea incluso en mobile; eliminar estas 2 si prefieres apilar */
+      .footer-top{flex-wrap:nowrap;white-space:nowrap}
     }
   </style>
 </head>
