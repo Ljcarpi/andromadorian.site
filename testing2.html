@@ -156,8 +156,9 @@
 
     /* Grid de ejemplos (2x2 fijo en desktop) */
     .grid{display:grid;gap:18px}
+    /* MODIFICACIÓN: La grilla ahora tiene 3 columnas en desktop */
     @media (min-width:720px){
-      .grid{grid-template-columns:repeat(2, minmax(0,1fr));justify-items:stretch}
+      .grid{grid-template-columns:repeat(3, minmax(0,1fr));justify-items:stretch}
     }
     .card{background:var(--surface-grad-dark);border:1px solid var(--border-soft);border-radius:var(--radius);overflow:hidden;transition:transform .15s ease, box-shadow .15s ease}
     .card:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(0,0,0,.2)}
@@ -165,6 +166,7 @@
     .card-body{padding:14px 14px 16px;position:relative}
     .card h4{margin:.2rem 0 .35rem}
     .card p{margin:0;color:var(--muted)}
+    /* MODIFICACIÓN: Estilo para el nuevo "botón" de ejemplo */
     .tag{
       position:absolute;top:12px;right:12px;
       padding:6px 10px;border-radius:999px;
@@ -282,7 +284,7 @@
         <nav class="links">
           <a href="#ejemplos" data-i18n="nav_examples">Ejemplos</a>
           <a href="#contacto" data-i18n="nav_contact">Contacto</a>
-          <a class="btn" href="#paquetes" data-i18n="nav_packages">Ver paquetes</a>
+          <a class="btn" href="#contacto">Contactame</a>
         </nav>
 
 <div class="lang-switch" role="group" aria-label="Idioma / Language">
@@ -327,8 +329,7 @@
         <div class="card" style="margin-top:18px;border:1px solid var(--border-soft);padding:18px;background:linear-gradient(180deg,rgba(124,58,237,.10),rgba(6,182,212,.08))">
           <p style="margin:0;color:var(--text)" data-i18n="hook_text">
             ¿Querés una presencia online clara y que inspire confianza? Me enfoco en <strong>mensajes simples</strong>,
-            <strong>diseño limpio</strong> y <strong>acciones directas</strong>. Entrego rápido, con un estilo moderno
-            violeta-azul y sin complicaciones. Vos me contás la idea, yo me encargo del resto.
+            <strong>diseño limpio</strong> y <strong>acciones directas</strong>. Entrega rápida, con un estilo moderno y sin complicaciones. Vos me contás la idea, yo me encargo del resto.
           </p>
         </div>
       </div>
@@ -343,25 +344,16 @@
           <a class="card" role="listitem" href="/freelancer.html">
             <img src="/landing-eg/freelancer.jpg" alt="Landing de profesional o freelancer" data-i18n-attr="alt:ex1_alt"/>
             <div class="card-body">
-              <span class="tag" data-i18n="tag_basic">Landing Básica</span>
+              <span class="tag" data-i18n="tag_view_example">Ver ejemplo</span>
               <h4 data-i18n="ex1_title">Perfil profesional</h4>
               <p data-i18n="ex1_desc">Currículum online con proyectos y contacto.</p>
-            </div>
-          </a>
-
-          <a class="card" role="listitem" href="/blog.html">
-            <img src="/landing-eg/blog.jpg" alt="Blog estático" data-i18n-attr="alt:ex2_alt"/>
-            <div class="card-body">
-              <span class="tag" data-i18n="tag_basic">Landing Básica</span>
-              <h4 data-i18n="ex2_title">Blog</h4>
-              <p data-i18n="ex2_desc">Artículos simples sin base de datos.</p>
             </div>
           </a>
 
           <a class="card" role="listitem" href="/negocio-local.html">
             <img src="/landing-eg/negocio-local.jpg" alt="Landing para negocio local" data-i18n-attr="alt:ex3_alt"/>
             <div class="card-body">
-              <span class="tag" data-i18n="tag_pro">Landing PRO</span>
+              <span class="tag" data-i18n="tag_view_example">Ver ejemplo</span>
               <h4 data-i18n="ex3_title">Negocio local</h4>
               <p data-i18n="ex3_desc">Servicios, horarios, mapa y acceso rápido a WhatsApp.</p>
             </div>
@@ -370,7 +362,7 @@
           <a class="card" role="listitem" href="/producto-digital.html">
             <img src="/landing-eg/producto-digital.jpg" alt="Landing de producto digital" data-i18n-attr="alt:ex4_alt"/>
             <div class="card-body">
-              <span class="tag" data-i18n="tag_promax">Landing PRO MAX</span>
+              <span class="tag" data-i18n="tag_view_example">Ver ejemplo</span>
               <h4 data-i18n="ex4_title">Producto digital</h4>
               <p data-i18n="ex4_desc">Venta de curso, ebook o plantilla con CTA clara.</p>
             </div>
@@ -391,7 +383,14 @@
             <li>Formulario de consulta</li>
             <li>5 casillas de correo con tu dominio (ej: info@tu-dominio.com)</li>
             <li>Soporte para tu sitio</li>
+            <li>Diseño responsive (se ve perfecto en móviles y tablets)</li>
+            <li>Optimizado para SEO (aparece en Google más rápido)</li>
+            <li>Certificado SSL gratis (sitio seguro con https://)</li>
+            <li>Integración con redes sociales (comparte fácil en Facebook/Instagram)</li>
           </ul>
+          <p style="font-size: 0.9rem; color: var(--muted); margin-top: 20px; text-align: left; max-width: 450px; margin-inline: auto;">
+            *El dominio no esta incluido. Contactame para saber como obtener uno.
+          </p>
         </article>
       </div>
     </section>
@@ -484,13 +483,14 @@
         hero_sub: "Diseño landings claras, con mensajes directos y llamados a la acción efectivos. Me encargo del lanzamiento completo para que puedas enfocarte en tu negocio.",
         cta_pricing: "Ver paquetes y precios",
         cta_examples: "Ver ejemplos reales",
-        hook_text: "¿Querés una presencia online clara y que inspire confianza? Me enfoco en <strong>mensajes simples</strong>, <strong>diseño limpio</strong> y <strong>acciones directas</strong>. Entrego rápido, con un estilo moderno violeta-azul y sin complicaciones. Vos me contás la idea, yo me encargo del resto.",
+        hook_text: "¿Querés una presencia online clara y que inspire confianza? Me enfoco en <strong>mensajes simples</strong>, <strong>diseño limpio</strong> y <strong>acciones directas</strong>. Entrega rápida, con un estilo moderno y sin complicaciones. Vos me contás la idea, yo me encargo del resto.",
 
         examples_title: "Ejemplos",
         examples_sub: "Subsitios simples que muestran diferentes usos. Cada ejemplo abre en una página dedicada.",
         tag_basic: "Landing Básica",
         tag_pro: "Landing PRO",
         tag_promax: "Landing PRO MAX",
+        tag_view_example: "Ver ejemplo", // Nueva clave
 
         ex1_title: "Perfil profesional",
         ex1_desc: "Currículum online con proyectos y contacto.",
@@ -580,6 +580,7 @@
         tag_basic: "Basic Landing",
         tag_pro: "Landing PRO",
         tag_promax: "Landing PRO MAX",
+        tag_view_example: "See example", // Nueva clave
 
         ex1_title: "Professional profile",
         ex1_desc: "Online résumé with projects and contact.",
