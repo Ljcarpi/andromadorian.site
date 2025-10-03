@@ -77,7 +77,8 @@
     html,body{margin:0;background:var(--bg);color:var(--text);
       font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"}
     a{color:inherit;text-decoration:none}
-    img{max-width:100%;display:block}
+    /* Mejoras: Todas las imágenes de ejemplos tienen 16/10 de ratio */
+    img{max-width:100%;display:block;height:auto} 
 
     /* Layout */
     .container{width:min(1100px, 92vw);margin-inline:auto}
@@ -92,7 +93,7 @@
     .nav a.btn{padding:.55rem .95rem;border-radius:999px;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#041015;font-weight:800;box-shadow:0 8px 20px rgba(6,182,212,.25)}
 
     /* Toolbar: language + theme */
-    .toolbar{display:flex;align-items:center}
+    .toolbar{display:flex;align-items:center} /* Esta clase solo se define pero no se usa en el HTML */
     .toolbar .sep{width:1px;height:22px;background:var(--sep);margin:0 14px}
 
     .lang-switch{display:flex;border-radius:999px;overflow:hidden;border:1px solid var(--border)}
@@ -125,6 +126,36 @@
 
     .theme-toggle{display:none;} /* legado */
 
+    /* INICIO FIX MÓVIL (SOBRE ESCRITURA PARA PANTALLAS PEQUEÑAS) */
+    @media (max-width: 580px) {
+      /* Oculta la navegación principal y el botón CTA para priorizar el logo y los toggles */
+      .links {
+        display: none;
+      }
+      /* Oculta el texto del selector de tema, dejando solo el icono (Fix de solapamiento) */
+      .theme-switch button span:not(.ico) {
+        display: none;
+      }
+      /* Reduce el padding para que los botones de tema sean más pequeños */
+      .theme-switch button {
+        padding: .45rem .6rem; 
+      }
+      /* Elimina el margen a la izquierda del theme-switch */
+      .theme-switch {
+        margin-left: .5rem; 
+      }
+      /* Reduce el gap en .actions */
+      .actions {
+        gap: .5rem; 
+      }
+      /* Ajusta el padding de la cabecera */
+      .nav {
+        padding: 10px 0;
+      }
+    }
+    /* FIN FIX MÓVIL */
+
+
     /* Hero */
     .hero{position:relative;isolation:isolate}
     .hero::before{
@@ -154,10 +185,10 @@
     .section-title{font-size:1.9rem;margin:0 0 .8rem}
     .muted{color:var(--muted)}
 
-    /* Grid de ejemplos (2x2 fijo en desktop) */
+    /* Grid de ejemplos (3 columnas en desktop) */
     .grid{display:grid;gap:18px}
     @media (min-width:720px){
-      .grid{grid-template-columns:repeat(2, minmax(0,1fr));justify-items:stretch}
+      .grid{grid-template-columns:repeat(3, minmax(0,1fr));justify-items:stretch}
     }
     .card{background:var(--surface-grad-dark);border:1px solid var(--border-soft);border-radius:var(--radius);overflow:hidden;transition:transform .15s ease, box-shadow .15s ease}
     .card:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(0,0,0,.2)}
@@ -171,6 +202,23 @@
       font-size:.78rem;font-weight:800;
       color:#041015;background:linear-gradient(135deg,var(--brand),var(--brand-2));
       box-shadow:0 6px 18px rgba(124,58,237,.22), 0 6px 22px rgba(6,182,212,.16)
+    }
+
+    /* Mejoras de Headings y Estructura de Precios */
+    .pricing-card-solo{
+      max-width: 720px; 
+      margin-inline: auto; 
+      text-align: center;
+      margin-top: 24px;
+    }
+    .plan-subtitle{
+      font-weight: 700; 
+      color: var(--muted); 
+      font-size: 1.1rem; 
+      text-transform: uppercase; 
+      letter-spacing: 1px;
+      margin-top: 0; 
+      margin-bottom: .2rem;
     }
 
     /* Precios */
@@ -248,7 +296,7 @@
     .float-cta{position:fixed;right:18px;bottom:18px;z-index:20}
     .float-cta a{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.05rem;border-radius:999px;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#041015;font-weight:900;box-shadow:0 12px 28px rgba(6,182,212,.22)}
 
-    /* Botón flotante de WhatsApp (estilo igual al de negocio-local.html con Feather) */
+    /* Botón flotante de WhatsApp */
     .whatsapp-float {
       position: fixed;
       width: 60px;
@@ -274,7 +322,7 @@
   <header>
     <div class="container nav">
       <a class="brand" href="#top" aria-label="Inicio" data-i18n-attr="aria-label:aria_brand">
-        <img src="/assets/icon.png" alt="Andromadorian" />
+        <img src="/assets/icon.png" alt="Andromadorian" width="28" height="28" />
         <span>Andromadorian</span>
       </a>
 
@@ -285,29 +333,28 @@
           <a class="btn" href="#contacto">Contactame</a>
         </nav>
 
-<div class="lang-switch" role="group" aria-label="Idioma / Language">
-  <button type="button" class="active" data-lang="es" aria-pressed="true" aria-label="Español">
-    ES
-  </button>
-  <div class="sep" aria-hidden="true" style="height:18px;margin:0"></div>
-  <button type="button" data-lang="en" aria-pressed="false" aria-label="English">
-    EN
-  </button>
-</div>
+        <div class="lang-switch" role="group" aria-label="Idioma / Language">
+          <button type="button" class="active" data-lang="es" aria-pressed="true" aria-label="Español">
+            ES
+          </button>
+          <div class="sep" aria-hidden="true" style="height:18px;margin:0"></div>
+          <button type="button" data-lang="en" aria-pressed="false" aria-label="English">
+            EN
+          </button>
+        </div>
 
-          <div class="sep" aria-hidden="true"></div>
+        <div class="sep" aria-hidden="true"></div>
 
-          <div class="theme-switch" role="group" aria-label="Tema">
-            <button type="button" data-theme="dark" aria-pressed="true" class="active">
-              <span class="ico" aria-hidden="true">☾</span>
-              <span data-i18n="theme_dark">Tema oscuro</span>
-            </button>
-            <div class="divider" aria-hidden="true"></div>
-            <button type="button" data-theme="light" aria-pressed="false">
-              <span class="ico" aria-hidden="true">☀</span>
-              <span data-i18n="theme_light">Tema claro</span>
-            </button>
-          </div>
+        <div class="theme-switch" role="group" aria-label="Tema">
+          <button type="button" data-theme="dark" aria-pressed="true" class="active">
+            <span class="ico" aria-hidden="true">☾</span>
+            <span data-i18n="theme_dark">Tema oscuro</span>
+          </button>
+          <div class="divider" aria-hidden="true"></div>
+          <button type="button" data-theme="light" aria-pressed="false">
+            <span class="ico" aria-hidden="true">☀</span>
+            <span data-i18n="theme_light">Tema claro</span>
+          </button>
         </div>
       </div>
     </div>
@@ -341,36 +388,27 @@
 
         <div class="grid" role="list">
           <a class="card" role="listitem" href="/freelancer.html">
-            <img src="/landing-eg/freelancer.jpg" alt="Landing de profesional o freelancer" data-i18n-attr="alt:ex1_alt"/>
+            <img src="/landing-eg/freelancer.jpg" alt="Landing de profesional o freelancer" data-i18n-attr="alt:ex1_alt" width="320" height="200" loading="lazy"/>
             <div class="card-body">
-              <span class="tag" data-i18n="tag_basic">Landing Básica</span>
+              <span class="tag" data-i18n="tag_view_example">Ver ejemplo</span>
               <h4 data-i18n="ex1_title">Perfil profesional</h4>
               <p data-i18n="ex1_desc">Currículum online con proyectos y contacto.</p>
             </div>
           </a>
 
-          <a class="card" role="listitem" href="/blog.html">
-            <img src="/landing-eg/blog.jpg" alt="Blog estático" data-i18n-attr="alt:ex2_alt"/>
-            <div class="card-body">
-              <span class="tag" data-i18n="tag_basic">Landing Básica</span>
-              <h4 data-i18n="ex2_title">Blog</h4>
-              <p data-i18n="ex2_desc">Artículos simples sin base de datos.</p>
-            </div>
-          </a>
-
           <a class="card" role="listitem" href="/negocio-local.html">
-            <img src="/landing-eg/negocio-local.jpg" alt="Landing para negocio local" data-i18n-attr="alt:ex3_alt"/>
+            <img src="/landing-eg/negocio-local.jpg" alt="Landing para negocio local" data-i18n-attr="alt:ex3_alt" width="320" height="200" loading="lazy"/>
             <div class="card-body">
-              <span class="tag" data-i18n="tag_pro">Landing PRO</span>
+              <span class="tag" data-i18n="tag_view_example">Ver ejemplo</span>
               <h4 data-i18n="ex3_title">Negocio local</h4>
               <p data-i18n="ex3_desc">Servicios, horarios, mapa y acceso rápido a WhatsApp.</p>
             </div>
           </a>
 
           <a class="card" role="listitem" href="/producto-digital.html">
-            <img src="/landing-eg/producto-digital.jpg" alt="Landing de producto digital" data-i18n-attr="alt:ex4_alt"/>
+            <img src="/landing-eg/producto-digital.jpg" alt="Landing de producto digital" data-i18n-attr="alt:ex4_alt" width="320" height="200" loading="lazy"/>
             <div class="card-body">
-              <span class="tag" data-i18n="tag_promax">Landing PRO MAX</span>
+              <span class="tag" data-i18n="tag_view_example">Ver ejemplo</span>
               <h4 data-i18n="ex4_title">Producto digital</h4>
               <p data-i18n="ex4_desc">Venta de curso, ebook o plantilla con CTA clara.</p>
             </div>
@@ -381,10 +419,13 @@
 
     <section id="paquetes">
       <div class="container">
-        <article class="plan" style="max-width: 720px; margin-inline: auto; text-align: center;">
-          <h4 style="font-weight: 700; color: var(--muted); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;">Obten tu sitio web</h4>
+        <h2 class="section-title" data-i18n="pricing_title">Paquetes y precios</h2>
+        <p class="muted" data-i18n="pricing_sub">Elegí el plan que mejor se adapte a tu proyecto. Entregas claras y sin vueltas.</p>
+        
+        <article class="plan pricing-card-solo">
+          <h3 class="plan-subtitle" data-i18n="get_your_site_title">Obten tu sitio web</h3>
           <div class="price" style="font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: 1rem;">Desde 50usd!</div>
-          <ul style="text-align: left; max-width: 450px; margin-inline: auto; display: grid; gap: 10px;">
+          <ul style="text-align: left; max-width: 450px; margin-inline: auto; display: grid; gap: 10px; margin-top: 20px;">
             <li>Cientos de estilos diferentes</li>
             <li>Sitio personalizado a tu eleccion</li>
             <li>Boton flotante de Whatsapp</li>
@@ -396,7 +437,7 @@
             <li>Certificado SSL gratis (sitio seguro con https://)</li>
             <li>Integración con redes sociales (comparte fácil en Facebook/Instagram)</li>
           </ul>
-          <p style="font-size: 0.9rem; color: var(--muted); margin-top: 20px; text-align: left; max-width: 450px; margin-inline: auto;">
+          <p class="muted small" style="text-align: left; max-width: 450px; margin-inline: auto; margin-top: 20px;">
             *El dominio no esta incluido. Contactame para saber como obtener uno.
           </p>
         </article>
@@ -450,7 +491,7 @@
   <footer>
     <div class="container">
       <div class="foot">
-        <span class="brand small" style="opacity:.9"><img src="/assets/icon.png" alt="Andromadorian"/> Andromadorian</span>
+        <span class="brand small" style="opacity:.9"><img src="/assets/icon.png" alt="Andromadorian" width="28" height="28"/> Andromadorian</span>
         <span class="small">© <span id="year"></span> — <span data-i18n="footer_tag">Sitios web profesionales</span></span>
       </div>
       <p class="legal small">
@@ -498,6 +539,7 @@
         tag_basic: "Landing Básica",
         tag_pro: "Landing PRO",
         tag_promax: "Landing PRO MAX",
+        tag_view_example: "Ver ejemplo", 
 
         ex1_title: "Perfil profesional",
         ex1_desc: "Currículum online con proyectos y contacto.",
@@ -515,8 +557,11 @@
         ex4_desc: "Venta de curso, ebook o plantilla con CTA clara.",
         ex4_alt: "Landing de producto digital",
 
+        // MEJORA: Nuevas claves para la sección Paquetes
         pricing_title: "Paquetes y precios",
         pricing_sub: "Elegí el plan que mejor se adapte a tu proyecto. Entregas claras y sin vueltas.",
+        get_your_site_title: "Obten tu sitio web", // Nueva clave
+
         plan_basic_name: "Landing Básica",
         plan_basic_price: "USD 40",
         plan_basic_f1: "1 sección larga y clara",
@@ -587,6 +632,7 @@
         tag_basic: "Basic Landing",
         tag_pro: "Landing PRO",
         tag_promax: "Landing PRO MAX",
+        tag_view_example: "See example", 
 
         ex1_title: "Professional profile",
         ex1_desc: "Online résumé with projects and contact.",
@@ -604,8 +650,11 @@
         ex4_desc: "Sell a course, ebook, or template with a clear CTA.",
         ex4_alt: "Digital product landing",
 
+        // MEJORA: Nuevas claves para la sección Paquetes
         pricing_title: "Packages & pricing",
         pricing_sub: "Choose the plan that best fits your project. Clear deliverables, no hassle.",
+        get_your_site_title: "Get Your Website", // Nueva clave
+
         plan_basic_name: "Basic Landing",
         plan_basic_price: "USD 40",
         plan_basic_f1: "1 long, clear section",
