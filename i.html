@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Andromadorian — Sitios web profesionales</title>
+  <meta name="description" content="Creación y lanzamiento de sitios web profesionales. Landings rápidas, limpias y efectivas.">
+
+  <!-- Favicon / App Icons (usa tus archivos en /assets) -->
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/favicon.png">
+
+  <style>
+    :root{
+      /* Fondo violeta-azul ahora también baña el centro con glow suave */
+      --bg:
+        /* glows centrales para que el color llegue al medio */
+        radial-gradient(1000px 700px at 50% 22%, rgba(124,58,237,.28), transparent 60%),
+        radial-gradient(1100px 800px at 50% 78%, rgba(6,182,212,.22), transparent 62%),
+
+        /* glows en márgenes, mantenemos el efecto difuminado */
+        radial-gradient(1400px 900px at 10% 10%, #0e1630 0%, #0b1226 35%, transparent 60%),
+        radial-gradient(1200px 800px at 90% 90%, #152645 0%, #0f1a30 40%, #080c14 80%);
+
+      --card:#0f1830;
+      --muted:#a9b4c7;
+      --text:#e9eef6;
+      --brand:#7c3aed;        /* violeta más intenso */
+      --brand-2:#06b6d4;      /* azul/teal más intenso */
+      --shadow:0 12px 34px rgba(0,0,0,.45);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    /* Layout */
+    .container{width:min(1100px, 92vw);margin-inline:auto}
+    header{position:sticky;top:0;background:rgba(8,12,20,.78);backdrop-filter:saturate(200%) blur(10px);border-bottom:1px solid rgba(255,255,255,.08);z-index:10}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;gap:.6rem;align-items:center;font-weight:700}
+    .brand img{width:28px;height:28px}
+    .nav a.btn{padding:.55rem .95rem;border-radius:999px;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#041015;font-weight:800;box-shadow:0 8px 20px rgba(6,182,212,.25)}
+    .links{display:flex;gap:1rem;align-items:center}
+    .links a{opacity:.9}
+    .links a:hover{opacity:1}
+
+    /* Hero */
+    .hero{position:relative;isolation:isolate}
+    .hero::before{
+      content:"";position:absolute;inset:-10% -10% 0;z-index:-1;
+      /* refuerzo de glow central en el hero para continuidad cromática */
+      background:
+        radial-gradient(1200px 650px at 50% 10%, rgba(124,58,237,.35), transparent 60%),
+        radial-gradient(900px 520px at 50% 60%, rgba(6,182,212,.28), transparent 58%),
+        linear-gradient(180deg, rgba(17,24,39,.5), transparent 60%);
+      filter:saturate(130%) contrast(105%);
+    }
+    .hero .wrap{padding:72px 0 40px;display:grid;gap:28px}
+    .hero h1{font-size:clamp(28px, 3.2vw + 16px, 54px);line-height:1.08;margin:0}
+    .hero p{max-width:750px;color:var(--muted);margin:.2rem 0 0}
+    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+    .cta a{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.15rem;border-radius:14px;box-shadow:var(--shadow)}
+    .cta .primary{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#041015;font-weight:900;box-shadow:0 10px 26px rgba(124,58,237,.25), 0 10px 30px rgba(6,182,212,.18)}
+    .cta .ghost{border:1px solid rgba(255,255,255,.16);color:var(--text);opacity:.95}
+
+    /* Secciones comunes */
+    section{padding:54px 0}
+    .section-title{font-size:1.9rem;margin:0 0 .8rem}
+    .muted{color:var(--muted)}
+
+    /* Grid de ejemplos */
+    .grid{display:grid;gap:18px}
+    /* Mobile: 1 columna; Desktop: 2 columnas (siempre 2x2 con 4 items) */
+    @media (min-width:720px){
+      .grid{grid-template-columns:repeat(2, minmax(0,1fr));justify-items:stretch}
+    }
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);overflow:hidden;transition:transform .15s ease, box-shadow .15s ease}
+    .card:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(0,0,0,.5)}
+    .card img{aspect-ratio:16/10;object-fit:cover}
+    .card-body{padding:14px 14px 16px;position:relative}
+    .card h4{margin:.2rem 0 .35rem}
+    .card p{margin:0;color:var(--muted)}
+    .tag{
+      position:absolute;top:12px;right:12px;
+      padding:6px 10px;border-radius:999px;
+      font-size:.78rem;font-weight:800;
+      color:#041015;background:linear-gradient(135deg,var(--brand),var(--brand-2));
+      box-shadow:0 6px 18px rgba(124,58,237,.22), 0 6px 22px rgba(6,182,212,.16)
+    }
+
+    /* Precios */
+    .pricing{display:grid;gap:18px;margin-top:12px}
+    @media (min-width:880px){.pricing{grid-template-columns:repeat(3,1fr)}}
+    .plan{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);padding:22px;position:relative;overflow:hidden}
+    .plan h3{margin:.4rem 0 .2rem}
+    .price{font-weight:900;font-size:1.8rem;margin:.4rem 0 .6rem;background:linear-gradient(135deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent;filter:saturate(120%)}
+    .plan ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;color:var(--muted)}
+    .plan li::before{content:"• ";color:var(--brand)}
+    .plan .cta-plan{margin-top:16px;display:inline-block;background:linear-gradient(135deg,var(--brand),var(--brand-2));padding:.78rem 1.05rem;border-radius:10px;color:#041015;font-weight:900;box-shadow:0 10px 26px rgba(124,58,237,.22)}
+    .badge{position:absolute;top:12px;right:-12px;background:var(--brand-2);color:#001219;padding:4px 14px;border-radius:999px;transform:rotate(8deg);font-weight:800;font-size:.8rem}
+
+    /* Nota dominio */
+    .note{margin-top:12px;color:var(--muted);font-size:.95rem;border-left:3px solid var(--brand);padding-left:10px}
+
+    /* Footer */
+    footer{padding:30px 0 50px;color:var(--muted);border-top:1px solid rgba(255,255,255,.08)}
+    .foot{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+    .small{font-size:.9rem}
+
+    /* Aviso legal al pie */
+    .legal{margin-top:8px;text-align:center}
+    .legal a{text-decoration:underline}
+
+    /* Botón flotante a paquetes */
+    .float-cta{position:fixed;right:18px;bottom:18px;z-index:20}
+    .float-cta a{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.05rem;border-radius:999px;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#041015;font-weight:900;box-shadow:0 12px 28px rgba(6,182,212,.22)}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="Inicio">
+        <img src="/assets/icon.png" alt="Andromadorian" />
+        <span>Andromadorian</span>
+      </a>
+      <nav class="links">
+        <a href="#ejemplos">Ejemplos</a>
+        <a href="#contacto">Contacto</a>
+        <a class="btn" href="#paquetes">Ver paquetes</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container wrap">
+      <h1>Sitios web que venden. Rápidos, limpios y con estilo.</h1>
+      <p>
+        Diseño landings claras, con mensajes directos y llamados a la acción efectivos. Me encargo del lanzamiento completo para que puedas enfocarte en tu negocio.
+      </p>
+      <div class="cta">
+        <a class="primary" href="#paquetes">Ver paquetes y precios</a>
+        <a class="ghost" href="#ejemplos">Ver ejemplos reales</a>
+      </div>
+      <!-- Texto atractivo en lugar del carrusel -->
+      <div class="card" style="margin-top:18px;border:1px solid rgba(255,255,255,.09);padding:18px;background:linear-gradient(180deg,rgba(124,58,237,.10),rgba(6,182,212,.08))">
+        <p style="margin:0;color:var(--text)">
+          ¿Querés una presencia online clara y que inspire confianza? Me enfoco en <strong>mensajes simples</strong>,
+          <strong>diseño limpio</strong> y <strong>acciones directas</strong>. Entrego rápido, con un estilo moderno
+          violeta-azul y sin complicaciones. Vos me contás la idea, yo me encargo del resto.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ejemplos -->
+  <section id="ejemplos">
+    <div class="container">
+      <h2 class="section-title">Ejemplos</h2>
+      <p class="muted">Subsitios simples que muestran diferentes usos. Cada ejemplo abre en una página dedicada.</p>
+
+      <div class="grid" role="list">
+        <!-- 1) Perfil profesional — Landing Básica -->
+        <a class="card" role="listitem" href="/freelancer.html">
+          <img src="/landing-eg/freelancer.jpg" alt="Landing de profesional o freelancer" />
+          <div class="card-body">
+            <span class="tag">Landing Básica</span>
+            <h4>Perfil profesional</h4>
+            <p>Currículum online con proyectos y contacto.</p>
+          </div>
+        </a>
+
+        <!-- 2) Mini-blog — Landing Básica -->
+        <a class="card" role="listitem" href="/blog.html">
+          <img src="/landing-eg/blog.jpg" alt="Mini blog estático" />
+          <div class="card-body">
+            <span class="tag">Landing Básica</span>
+            <h4>Mini-blog</h4>
+            <p>Artículos simples sin base de datos.</p>
+          </div>
+        </a>
+
+        <!-- 3) Negocio local — Landing PRO (sube a la tercera posición) -->
+        <a class="card" role="listitem" href="/negocio-local.html">
+          <img src="/landing-eg/negocio-local.jpg" alt="Landing para negocio local" />
+          <div class="card-body">
+            <span class="tag">Landing PRO</span>
+            <h4>Negocio local</h4>
+            <p>Servicios, horarios, mapa y acceso rápido a WhatsApp.</p>
+          </div>
+        </a>
+
+        <!-- 4) Producto digital — Landing PRO MAX (baja a la cuarta posición) -->
+        <a class="card" role="listitem" href="/producto-digital.html">
+          <img src="/landing-eg/producto-digital.jpg" alt="Landing de producto digital" />
+          <div class="card-body">
+            <span class="tag">Landing PRO MAX</span>
+            <h4>Producto digital</h4>
+            <p>Venta de curso, ebook o plantilla con CTA clara.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Paquetes -->
+  <section id="paquetes">
+    <div class="container">
+      <h2 class="section-title">Paquetes y precios</h2>
+      <p class="muted">Elegí el plan que mejor se adapte a tu proyecto. Entregas claras y sin vueltas.</p>
+
+      <div class="pricing">
+        <article class="plan" aria-labelledby="plan-basica">
+          <h3 id="plan-basica">Landing Básica</h3>
+          <div class="price">USD 40</div>
+          <ul>
+            <li>1 sección larga y clara</li>
+            <li>Diseño adaptable a móvil</li>
+            <li>Optimización básica de carga</li>
+            <li>Botones de llamada a la acción</li>
+          </ul>
+          <a class="cta-plan" href="#contacto">Quiero este plan</a>
+        </article>
+
+        <article class="plan" aria-labelledby="plan-pro">
+          <span class="badge">Más elegido</span>
+          <h3 id="plan-pro">Landing PRO</h3>
+          <div class="price">USD 90</div>
+          <ul>
+            <li>Todo lo del paquete Básico</li>
+            <li>Hasta 5 secciones (contacto, acerca de, etc.)</li>
+            <li>Integración de mapa</li>
+            <li>Acceso rápido a WhatsApp</li>
+          </ul>
+          <a class="cta-plan" href="#contacto">Quiero este plan</a>
+        </article>
+
+        <article class="plan" aria-labelledby="plan-promax">
+          <h3 id="plan-promax">Landing PRO MAX</h3>
+          <div class="price">USD 150</div>
+          <ul>
+            <li>Todo lo del paquete PRO</li>
+            <li>Hasta 10 secciones (contacto, acerca de, etc.)</li>
+            <li>Integración de mapa</li>
+            <li>Acceso rápido a WhatsApp</li>
+            <li>5 casillas de correo corporativo con tu dominio</li>
+          </ul>
+          <a class="cta-plan" href="#contacto">Quiero este plan</a>
+        </article>
+      </div>
+
+      <p class="note">Nota: el <strong>dominio no está incluido</strong> en el costo de los paquetes.</p>
+    </div>
+  </section>
+
+  <!-- Contacto -->
+  <section id="contacto">
+    <div class="container">
+      <h2 class="section-title">Contacto</h2>
+      <p class="muted">Contame brevemente tu idea y el objetivo de tu página. Te respondo con una propuesta simple y un tiempo estimado de entrega.</p>
+
+      <div class="grid" style="--cols:2;grid-template-columns:1.2fr .8fr">
+        <form class="card" style="padding:16px" onsubmit="sendMailto(event)">
+          <label>Nombre<br>
+            <input required name="nombre" placeholder="Tu nombre" />
+          </label>
+          <label>Email<br>
+            <input required type="email" name="email" placeholder="tunombre@correo.com" />
+          </label>
+          <label>Mensaje<br>
+            <textarea required name="mensaje" rows="5" placeholder="Quiero una landing para…"></textarea>
+          </label>
+          <button class="cta-plan" type="submit">Enviar</button>
+        </form>
+
+        <div class="card" style="padding:16px;display:grid;gap:10px">
+          <h4>También podés escribirme directo</h4>
+          <a class="cta-plan" href="https://wa.me/" target="_blank" rel="noopener">WhatsApp</a>
+          <a class="cta-plan" href="mailto:contacto@tu-dominio.com">Email</a>
+          <p class="muted small">Responderé lo antes posible.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="foot">
+        <span class="brand small" style="opacity:.9"><img src="/assets/icon.png" alt="Andromadorian"/> Andromadorian</span>
+        <span class="small">© <span id="year"></span> — Sitios web profesionales</span>
+      </div>
+      <!-- Aviso legal agregado -->
+      <p class="legal small">Al usar este sitio aceptás nuestros <a href="/tyc.html">Términos y condiciones</a> y <a href="/priv.html">Privacidad</a>.</p>
+    </div>
+  </footer>
+
+  <div class="float-cta"><a href="#paquetes">Ver paquetes</a></div>
+
+  <script>
+    // Año en footer
+    document.getElementById('year').textContent = new Date().getFullYear()
+
+    // Form simple que abre mailto con el contenido del formulario
+    function sendMailto(e){
+      e.preventDefault()
+      const f = new FormData(e.target)
+      const nombre = encodeURIComponent(f.get('nombre')||'')
+      const correo = encodeURIComponent(f.get('email')||'')
+      const msg = encodeURIComponent(f.get('mensaje')||'')
+      const subject = `Nuevo proyecto — ${nombre}`
+      const body = `Nombre: ${nombre}%0AEmail: ${correo}%0A%0AMensaje:%0A${msg}`
+      window.location.href = `mailto:contacto@tu-dominio.com?subject=${subject}&body=${body}`
+    }
+
+    // Inputs base
+    for (const sel of ['input','textarea']){
+      for (const el of document.querySelectorAll(sel)){
+        el.style.width='100%';el.style.margin='6px 0 12px';el.style.padding='10px 12px';el.style.borderRadius='10px';el.style.border='1px solid rgba(255,255,255,.18)';el.style.background='rgba(255,255,255,.05)';el.style.color='var(--text)';
+      }
+    }
+  </script>
+</body>
+</html>
