@@ -1,527 +1,481 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>La Esquina — Negocio Local</title>
-  <meta name="description" content="Ejemplo de sitio para negocio local: servicios, horarios, ubicación, contacto rápido por WhatsApp.">
-  <link rel="icon" href="/assets/favicon.png">
-  <style>
-    :root{
-      /* DARK (default) — estilo distinto al index: acentos naranja/rojo y tipografía más grande */
-      --bg: #0e0f12;
-      --surface: #161920;
-      --surface-2:#1b2030;
-      --text: #eef2f7;
-      --muted:#a8b0bf;
-      --accent:#ff6a3d;        /* naranja */
-      --accent-2:#ff2e63;      /* coral/rojo */
-      --border: rgba(255,255,255,.08);
-      --radius:16px;
-      --shadow:0 12px 34px rgba(0,0,0,.45);
-      --hdr:rgba(16,18,24,.82);
-      --hdr-border:1px solid rgba(255,255,255,.08);
-      --chip:#242a38;
-      --link-underline: rgba(255,255,255,.6);
-      --ok:#22c55e;
-    }
-    html.theme-light{
-      --bg: #ffffff;
-      --surface:#ffffff;
-      --surface-2:#f6f7fb;
-      --text:#12141a;
-      --muted:#51607a;
-      --accent:#ff6a3d;
-      --accent-2:#ff2e63;
-      --border: rgba(0,0,0,.08);
-      --hdr:rgba(255,255,255,.86);
-      --hdr-border:1px solid rgba(0,0,0,.08);
-      --chip:#f1f3f8;
-      --link-underline: rgba(0,0,0,.55);
-      --ok:#16a34a;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;background:
-      radial-gradient(900px 500px at 20% -10%, rgba(255,106,61,.22), transparent 60%),
-      radial-gradient(900px 500px at 80% 110%, rgba(255,46,99,.18), transparent 60%),
-      var(--bg);
-      color:var(--text);
-      font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial}
-    a{color:inherit;text-decoration:none}
-    img{max-width:100%;display:block}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Rincón del Café – Tu Pausa Perfecta</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    .container{width:min(1100px,92vw);margin-inline:auto}
+    <style>
+        /* --- VARIABLES DE DISEÑO --- */
+        :root {
+            --color-primario: #6F4E37; /* Marrón café */
+            --color-secundario: #F5F5DC; /* Beige claro */
+            --color-fondo: #FFFFFF; /* Blanco */
+            --color-texto: #333333; /* Gris oscuro */
+            --color-acento: #D2B48C; /* Tan */
+            --sombra: 0 4px 8px rgba(0,0,0,0.1);
+            --fuente-principal: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    /* Header */
-    header{position:sticky;top:0;z-index:20;background:var(--hdr);backdrop-filter:saturate(180%) blur(10px);border-bottom:var(--hdr-border)}
-    .nav{display:flex;justify-content:space-between;align-items:center;padding:12px 0}
-    .brand{display:flex;align-items:center;gap:.6rem;font-weight:900;letter-spacing:.2px}
-    .brand-mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 8px 20px rgba(255,46,99,.25)}
-    .links{display:flex;gap:1rem;align-items:center}
-    .links a{opacity:.95}
-    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem .95rem;border-radius:999px;font-weight:800}
-    .btn-cta{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#0d0f16;box-shadow:0 10px 26px rgba(255,46,99,.28)}
-    .btn-ghost{border:1px solid var(--border)}
+        /* --- TEMA OSCURO --- */
+        body.dark-theme {
+            --color-primario: #A07B5F;
+            --color-secundario: #3D352A;
+            --color-fondo: #1E1E1E;
+            --color-texto: #E0E0E0;
+            --color-acento: #B89B74;
+            --sombra: 0 4px 8px rgba(0,0,0,0.4);
+        }
 
-    /* Controls (Idioma/Tema) */
-    .controls{display:flex;align-items:center;gap:14px}
-    .segmented{display:flex;border:1px solid var(--border);border-radius:999px;overflow:hidden}
-    .segmented button{background:transparent;border:0;color:var(--text);padding:.4rem .7rem;cursor:pointer;font-weight:800;display:flex;gap:.4rem;align-items:center}
-    .segmented button.active{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#0d0f16}
-    .sep{width:1px;height:22px;background:var(--border)}
+        /* --- ESTILOS GENERALES Y RESET --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    /* Hero */
-    .hero{padding:48px 0 24px}
-    .hero-grid{display:grid;gap:24px}
-    @media(min-width:880px){.hero-grid{grid-template-columns:1.05fr .95fr;align-items:stretch}}
-    .hero-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
-    .hero h1{font-size:clamp(28px,3.2vw + 20px,56px);line-height:1.06;margin:0}
-    .lead{color:var(--muted);margin:.6rem 0 1rem}
-    .hero .cta{display:flex;flex-wrap:wrap;gap:10px}
-    .chip{display:inline-flex;gap:.45rem;align-items:center;background:var(--chip);border:1px solid var(--border);padding:.35rem .65rem;border-radius:999px;font-weight:800}
-    .grid{display:grid;gap:18px}
-    .gallery img{border-radius:12px;border:1px solid var(--border)}
-    .badge-corner{position:absolute;top:14px;right:14px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#0d0f16;padding:.35rem .6rem;border-radius:999px;font-weight:900}
+        html {
+            scroll-behavior: smooth;
+        }
 
-    /* Sections */
-    section{padding:36px 0}
-    .section-title{margin:0 0 .5rem;font-size:1.9rem}
-    .muted{color:var(--muted)}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px}
-    .two{display:grid;gap:18px}
-    @media(min-width:820px){.two{grid-template-columns:1fr 1fr}}
+        body {
+            font-family: var(--fuente-principal);
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-    /* Services */
-    .svc{display:grid;gap:14px}
-    .svc .item{display:flex;gap:12px;align-items:flex-start;border:1px dashed var(--border);border-radius:14px;padding:12px}
-    .svc .i{width:38px;height:38px;display:grid;place-items:center;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#0d0f16;font-weight:900}
+        /* --- CINTA DE OPCIONES / NAVEGACIÓN --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--color-secundario);
+            box-shadow: var(--sombra);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s;
+        }
 
-    /* Hours table */
-    table{width:100%;border-collapse:collapse}
-    th,td{padding:10px;border-bottom:1px solid var(--border);text-align:left}
-    tr:last-child td{border-bottom:0}
-    .open{font-weight:900;color:var(--ok)}
+        .navbar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--color-primario);
+            text-decoration: none;
+        }
 
-    /* Map */
-    .map{aspect-ratio:16/9;border:1px solid var(--border);border-radius:16px;overflow:hidden}
-    .map iframe{width:100%;height:100%;border:0}
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
 
-    /* Footer */
-    footer{padding:28px 0 60px;border-top:1px solid var(--border);color:var(--muted);text-align:center}
-    .legal a{text-decoration:underline;text-decoration-color:var(--link-underline)}
+        .nav-links a {
+            text-decoration: none;
+            color: var(--color-texto);
+            font-weight: 500;
+            position: relative;
+            padding-bottom: 5px;
+        }
 
-    /* Floating WhatsApp */
-    .wa{position:fixed;right:18px;bottom:18px;z-index:30}
-    .wa a{display:inline-flex;align-items:center;gap:.55rem;padding:.9rem 1.1rem;border-radius:999px;background:linear-gradient(135deg,#25d366,#128c7e);color:#041015;font-weight:900;box-shadow:0 12px 30px rgba(18,140,126,.32)}
-  </style>
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-primario);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-toggles {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: 1px solid var(--color-primario);
+            color: var(--color-primario);
+            padding: 0.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .toggle-btn:hover {
+            background-color: var(--color-primario);
+            color: var(--color-fondo);
+        }
+
+        /* --- CONTENIDO PRINCIPAL Y SECCIONES --- */
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 0 2rem;
+        }
+        
+        section {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--color-secundario);
+        }
+        
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        h1, h2 {
+            color: var(--color-primario);
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 3rem;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            text-align: center;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        /* --- SECCIÓN DE INICIO (HERO) --- */
+        #inicio {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1511920183353-3c7c4a16bade?q=80&w=1974&auto=format&fit=crop') no-repeat center center/cover;
+            color: white;
+        }
+        
+        #inicio h1 {
+            color: white;
+            font-size: 4rem;
+        }
+        
+        #inicio p {
+            font-size: 1.5rem;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        /* --- SECCIÓN "VISÍTANOS" --- */
+        #visitanos .contenido {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        #visitanos .info, #visitanos .mapa {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        #visitanos .mapa iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: var(--sombra);
+        }
+        
+        #visitanos ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        #visitanos li {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* --- BOTÓN FLOTANTE DE WHATSAPP --- */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25D366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--color-secundario);
+            color: var(--color-texto);
+            transition: background-color 0.3s;
+        }
+        
+        /* --- CLASE PARA OCULTAR TEXTO EN CAMBIO DE IDIOMA --- */
+        .hidden {
+            display: none;
+        }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* En un sitio real, aquí iría un menú hamburguesa */
+            }
+            
+            h1, #inicio h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            #inicio p {
+                font-size: 1.2rem;
+            }
+
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 24px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="container nav">
-      <a class="brand" href="#top" aria-label="Inicio" data-i18n-attr="aria-label:aria_brand">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span>La Esquina</span>
-      </a>
 
-      <nav class="links" aria-label="Sitio">
-        <a href="#servicios" data-i18n="nav_services">Servicios</a>
-        <a href="#horarios" data-i18n="nav_hours">Horarios</a>
-        <a href="#ubicacion" data-i18n="nav_location">Ubicación</a>
-        <a class="btn btn-cta" href="#contacto" data-i18n="nav_contact">Contactar</a>
-      </nav>
-
-      <div class="controls" aria-label="Controles">
-        <!-- Idioma -->
-        <div class="segmented" role="group" aria-label="Idioma / Language">
-          <button type="button" class="active" data-lang="es" aria-pressed="true">🇪🇸 <span>ES</span></button>
-          <button type="button" data-lang="en" aria-pressed="false">🇺🇸 <span>EN</span></button>
-        </div>
-        <div class="sep" aria-hidden="true"></div>
-        <!-- Tema -->
-        <div class="segmented" role="group" aria-label="Tema">
-          <button type="button" class="active" data-theme="dark" aria-pressed="true">☾ <span data-i18n="theme_dark">Oscuro</span></button>
-          <button type="button" data-theme="light" aria-pressed="false">☀ <span data-i18n="theme_light">Claro</span></button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Hero -->
-  <section class="hero" id="top">
-    <div class="container hero-grid">
-      <div class="hero-card">
-        <span class="chip">★ <span data-i18n="chip_since">Desde 2010 en tu barrio</span></span>
-        <h1 data-i18n="hero_title">La Esquina — Tu tienda de confianza</h1>
-        <p class="lead" data-i18n="hero_sub">
-          Pedí online, pasá a retirar o recibí en tu casa. Atención amable, buenos precios y productos seleccionados.
-        </p>
-        <div class="cta">
-          <a class="btn btn-cta" href="https://wa.me/" target="_blank" rel="noopener" data-i18n="cta_whatsapp">WhatsApp ahora</a>
-          <a class="btn btn-ghost" href="#ubicacion" data-i18n="cta_directions">Cómo llegar</a>
-          <a class="btn btn-ghost" href="tel:+549000000000" data-i18n-attr="href:call_href" data-i18n="cta_call">Llamar</a>
-        </div>
-      </div>
-
-      <div class="grid gallery">
-        <div class="card" style="position:relative">
-          <span class="badge-corner" data-i18n="badge_fresh">Fresco del día</span>
-          <img src="/negocio-eg/hero-1.jpg" alt="Frente del local">
-        </div>
-        <div class="card"><img src="/negocio-eg/hero-2.jpg" alt="Productos destacados"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Servicios -->
-  <section id="servicios">
-    <div class="container two">
-      <div class="card">
-        <h2 class="section-title" data-i18n="svc_title">Servicios</h2>
-        <p class="muted" data-i18n="svc_sub">Rápidos, simples y pensados para vos.</p>
-        <div class="svc">
-          <div class="item">
-            <div class="i">🚚</div>
-            <div>
-              <strong data-i18n="svc1_t">Envíos en el día</strong>
-              <p class="muted" data-i18n="svc1_d">Si pedís antes de las 16 hs, llega hoy mismo (zona cercana).</p>
-            </div>
-          </div>
-          <div class="item">
-            <div class="i">🧾</div>
-            <div>
-              <strong data-i18n="svc2_t">Facturación</strong>
-              <p class="muted" data-i18n="svc2_d">Emitimos factura y aceptamos múltiples medios de pago.</p>
-            </div>
-          </div>
-          <div class="item">
-            <div class="i">🕒</div>
-            <div>
-              <strong data-i18n="svc3_t">Retiro ágil</strong>
-              <p class="muted" data-i18n="svc3_d">Hacés el pedido por WhatsApp y te avisamos cuando esté listo.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Listado simple de destacados -->
-      <div class="card">
-        <h2 class="section-title" data-i18n="feat_title">Destacados de hoy</h2>
-        <ul class="grid" style="list-style:none;margin:0;padding:0;grid-template-columns:repeat(2,minmax(0,1fr))">
-          <li class="card" style="padding:12px">
-            <strong>Combo A</strong><br><span class="muted" data-i18n="feat_a">Pan artesanal + Bebida 500 ml</span>
-          </li>
-          <li class="card" style="padding:12px">
-            <strong>Combo B</strong><br><span class="muted" data-i18n="feat_b">Café + Medialunas (x2)</span>
-          </li>
-          <li class="card" style="padding:12px">
-            <strong>Combo C</strong><br><span class="muted" data-i18n="feat_c">Ensalada + Agua</span>
-          </li>
-          <li class="card" style="padding:12px">
-            <strong>Descuento</strong><br><span class="muted" data-i18n="feat_d">10% pagando en efectivo</span>
-          </li>
+    <nav class="navbar">
+        <a href="#inicio" class="logo">
+            <span class="lang-es">El Rincón del Café</span>
+            <span class="lang-en hidden">The Coffee Corner</span>
+        </a>
+        <ul class="nav-links">
+            <li>
+                <a href="#inicio">
+                    <span class="lang-es">Inicio</span>
+                    <span class="lang-en hidden">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="#nosotros">
+                    <span class="lang-es">Nosotros</span>
+                    <span class="lang-en hidden">About Us</span>
+                </a>
+            </li>
+            <li>
+                <a href="#nuestro-cafe">
+                    <span class="lang-es">Nuestro Café</span>
+                    <span class="lang-en hidden">Our Coffee</span>
+                </a>
+            </li>
+            <li>
+                <a href="#visitanos">
+                    <span class="lang-es">Visítanos</span>
+                    <span class="lang-en hidden">Visit Us</span>
+                </a>
+            </li>
         </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- Horarios -->
-  <section id="horarios">
-    <div class="container two">
-      <div class="card">
-        <h2 class="section-title" data-i18n="hours_title">Horarios</h2>
-        <table aria-describedby="hours-note">
-          <tbody>
-            <tr><td data-i18n="d_mon">Lunes</td><td>08:30–20:00</td></tr>
-            <tr><td data-i18n="d_tue">Martes</td><td>08:30–20:00</td></tr>
-            <tr><td data-i18n="d_wed">Miércoles</td><td>08:30–20:00</td></tr>
-            <tr><td data-i18n="d_thu">Jueves</td><td>08:30–20:00</td></tr>
-            <tr><td data-i18n="d_fri">Viernes</td><td>08:30–20:00</td></tr>
-            <tr><td data-i18n="d_sat">Sábado</td><td>09:00–14:00</td></tr>
-            <tr><td data-i18n="d_sun">Domingo</td><td data-i18n="closed" class="muted">Cerrado</td></tr>
-          </tbody>
-        </table>
-        <p id="hours-note" class="muted" data-i18n="hours_note">Feriados: consultar por WhatsApp.</p>
-      </div>
-
-      <div class="card">
-        <h2 class="section-title" data-i18n="pay_title">Medios de pago</h2>
-        <p class="muted" data-i18n="pay_desc">Efectivo, transferencia, tarjetas y billeteras digitales.</p>
-        <div class="grid" style="grid-template-columns:repeat(3,1fr);gap:10px">
-          <span class="chip">💳 Visa</span>
-          <span class="chip">💳 Master</span>
-          <span class="chip">💳 Amex</span>
-          <span class="chip">📱 QR</span>
-          <span class="chip">🏦 Transfer</span>
-          <span class="chip">💵 Cash</span>
+        <div class="nav-toggles">
+            <button id="theme-toggle" class="toggle-btn" title="Cambiar tema">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button id="lang-toggle" class="toggle-btn">
+                EN
+            </button>
         </div>
-      </div>
-    </div>
-  </section>
+    </nav>
 
-  <!-- Ubicación -->
-  <section id="ubicacion">
-    <div class="container two">
-      <div class="card">
-        <h2 class="section-title" data-i18n="loc_title">Dónde estamos</h2>
-        <p class="muted" data-i18n="loc_addr">Av. Ejemplo 123, Ciudad</p>
-        <div class="map">
-          <!-- Reemplazá el src por tu mapa -->
-          <iframe
-            src="https://www.google.com/maps?q=obelisco%20buenos%20aires&output=embed"
-            loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade">
-          </iframe>
-        </div>
-        <div class="cta" style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-          <a class="btn btn-cta" href="https://wa.me/" target="_blank" rel="noopener" data-i18n="cta_whatsapp">WhatsApp ahora</a>
-          <a class="btn btn-ghost" target="_blank" rel="noopener"
-             href="https://www.google.com/maps/dir/?api=1&destination=Obelisco%20Buenos%20Aires"
-             data-i18n="cta_route">Iniciar ruta</a>
-        </div>
-      </div>
+    <header id="inicio">
+        <h1>
+            <span class="lang-es">Donde cada taza cuenta una historia.</span>
+            <span class="lang-en hidden">Where every cup tells a story.</span>
+        </h1>
+        <p>
+            <span class="lang-es">Sumérgete en un mundo de aroma y sabor. Un espacio creado para amantes del buen café y los momentos inolvidables.</span>
+            <span class="lang-en hidden">Immerse yourself in a world of aroma and flavor. A space created for lovers of good coffee and unforgettable moments.</span>
+        </p>
+    </header>
 
-      <!-- Contacto -->
-      <div class="card" id="contacto">
-        <h2 class="section-title" data-i18n="contact_title">Contacto</h2>
-        <form onsubmit="sendMailto(event)">
-          <label data-i18n="label_name">Nombre<br>
-            <input required name="nombre" placeholder="Tu nombre" data-i18n-attr="placeholder:ph_name"
-                   style="width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--surface-2);color:var(--text)">
-          </label>
-          <label data-i18n="label_email">Email<br>
-            <input required type="email" name="email" placeholder="tunombre@correo.com" data-i18n-attr="placeholder:ph_email"
-                   style="width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--surface-2);color:var(--text)">
-          </label>
-          <label data-i18n="label_message">Mensaje<br>
-            <textarea required name="mensaje" rows="4" placeholder="Quiero consultar por…" data-i18n-attr="placeholder:ph_message"
-                      style="width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--surface-2);color:var(--text)"></textarea>
-          </label>
-          <button class="btn btn-cta" type="submit" data-i18n="btn_send">Enviar</button>
-        </form>
-        <p class="muted" style="margin-top:10px" data-i18n="reply_soon">Te respondemos a la brevedad.</p>
-      </div>
-    </div>
-  </section>
+    <main class="container">
+        <section id="nosotros">
+            <h2>
+                <span class="lang-es">Nuestra Pasión</span>
+                <span class="lang-en hidden">Our Passion</span>
+            </h2>
+            <p>
+                <span class="lang-es">
+                    Nacimos de un sueño simple: crear el lugar perfecto para disfrutar de una taza de café excepcional. En "El Rincón del Café", no solo servimos bebidas; creamos experiencias. Cada detalle, desde la selección de granos hasta la música ambiental, está pensado para que tu visita sea una pausa reconfortante en tu día. Creemos que el café es un ritual, un momento de conexión y una fuente de inspiración.
+                </span>
+                <span class="lang-en hidden">
+                    We were born from a simple dream: to create the perfect place to enjoy an exceptional cup of coffee. At "The Coffee Corner," we don't just serve drinks; we create experiences. Every detail, from the selection of beans to the ambient music, is designed to make your visit a comforting break in your day. We believe that coffee is a ritual, a moment of connection, and a source of inspiration.
+                </span>
+            </p>
+        </section>
 
-  <footer>
-    <div class="container">
-      <p>La Esquina · © <span id="year"></span></p>
-      <p class="legal">
-        <span data-i18n="legal_prefix">Al usar este sitio aceptás nuestros</span>
-        <a href="/tyc.html" data-i18n="legal_terms">Términos y condiciones</a>
-        <span> </span>
-        <span data-i18n="legal_and">y</span>
-        <a href="/priv.html" data-i18n="legal_priv">Privacidad</a>.
-      </p>
-    </div>
-  </footer>
+        <section id="nuestro-cafe">
+            <h2>
+                <span class="lang-es">El Corazón de Nuestro Sabor</span>
+                <span class="lang-en hidden">The Heart of Our Flavor</span>
+            </h2>
+            <p>
+                <span class="lang-es">
+                    Trabajamos directamente con productores locales y de las mejores regiones cafeteras del mundo para traerte granos de especialidad únicos. Nuestro proceso de tueste artesanal, realizado en casa, resalta las notas y perfiles de cada origen. Desde un espresso intenso y aromático hasta un suave y cremoso latte, te invitamos a descubrir la calidad y el cuidado que ponemos en cada taza.
+                </span>
+                <span class="lang-en hidden">
+                    We work directly with local producers and from the best coffee regions in the world to bring you unique specialty beans. Our artisanal roasting process, done in-house, highlights the notes and profiles of each origin. From an intense and aromatic espresso to a smooth and creamy latte, we invite you to discover the quality and care we put into every cup.
+                </span>
+            </p>
+        </section>
 
-  <!-- WhatsApp flotante -->
-  <div class="wa"><a href="https://wa.me/" target="_blank" rel="noopener">WhatsApp</a></div>
+        <section id="visitanos">
+            <h2>
+                <span class="lang-es">Te Esperamos</span>
+                <span class="lang-en hidden">We Are Waiting For You</span>
+            </h2>
+            <div class="contenido">
+                <div class="info">
+                    <h3>
+                        <span class="lang-es">Dirección y Horarios</span>
+                        <span class="lang-en hidden">Address & Hours</span>
+                    </h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 
+                            <span class="lang-es">Av. Ficticia 1234, Palermo, Buenos Aires</span>
+                            <span class="lang-en hidden">1234 Fictional Ave, Palermo, Buenos Aires</span>
+                        </li>
+                        <li><i class="fas fa-clock"></i> 
+                            <span class="lang-es">Lunes a Viernes: 8:00 - 20:00</span>
+                            <span class="lang-en hidden">Monday to Friday: 8:00 AM - 8:00 PM</span>
+                        </li>
+                        <li><i class="fas fa-clock"></i> 
+                            <span class="lang-es">Sábados y Domingos: 9:00 - 19:00</span>
+                            <span class="lang-en hidden">Saturdays & Sundays: 9:00 AM - 7:00 PM</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mapa">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13140.239695015386!2d-58.43503964177264!3d-34.57759883584747!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb59c771eb933%3A0x6b3113b596d78c69!2sPalermo%2C%20CABA!5e0!3m2!1ses-419!2sar!4v1672885396590!5m2!1ses-419!2sar" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+    </main>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    <footer>
+        <p>© 2025 — Ejemplo de sitio para negocio local</p>
+    </footer>
 
-    /* Traducciones ES/EN */
-    const T = {
-      es: {
-        aria_brand: "Inicio",
-        nav_services:"Servicios",
-        nav_hours:"Horarios",
-        nav_location:"Ubicación",
-        nav_contact:"Contactar",
+    <a href="https://api.whatsapp.com/send?phone=5491112345678" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
-        theme_dark:"Oscuro",
-        theme_light:"Claro",
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- LÓGICA PARA EL TOGGLE DE TEMA (CLARO/OSCURO) ---
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+            const themeIcon = themeToggle.querySelector('i');
 
-        chip_since:"Desde 2010 en tu barrio",
-        hero_title:"La Esquina — Tu tienda de confianza",
-        hero_sub:"Pedí online, pasá a retirar o recibí en tu casa. Atención amable, buenos precios y productos seleccionados.",
-        cta_whatsapp:"WhatsApp ahora",
-        cta_directions:"Cómo llegar",
-        cta_call:"Llamar",
-        call_href:"tel:+549000000000",
-        badge_fresh:"Fresco del día",
+            // Cargar el tema guardado
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-theme');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
 
-        svc_title:"Servicios",
-        svc_sub:"Rápidos, simples y pensados para vos.",
-        svc1_t:"Envíos en el día",
-        svc1_d:"Si pedís antes de las 16 hs, llega hoy mismo (zona cercana).",
-        svc2_t:"Facturación",
-        svc2_d:"Emitimos factura y aceptamos múltiples medios de pago.",
-        svc3_t:"Retiro ágil",
-        svc3_d:"Hacés el pedido por WhatsApp y te avisamos cuando esté listo.",
+            themeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-theme');
+                const isDark = body.classList.contains('dark-theme');
+                
+                // Guardar preferencia
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
 
-        feat_title:"Destacados de hoy",
-        feat_a:"Pan artesanal + Bebida 500 ml",
-        feat_b:"Café + Medialunas (x2)",
-        feat_c:"Ensalada + Agua",
-        feat_d:"10% pagando en efectivo",
+                // Cambiar icono
+                if (isDark) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                } else {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+            });
 
-        hours_title:"Horarios",
-        d_mon:"Lunes", d_tue:"Martes", d_wed:"Miércoles", d_thu:"Jueves",
-        d_fri:"Viernes", d_sat:"Sábado", d_sun:"Domingo",
-        closed:"Cerrado",
-        hours_note:"Feriados: consultar por WhatsApp.",
+            // --- LÓGICA PARA EL TOGGLE DE IDIOMA (ES/EN) ---
+            const langToggle = document.getElementById('lang-toggle');
+            const elementsEs = document.querySelectorAll('.lang-es');
+            const elementsEn = document.querySelectorAll('.lang-en');
 
-        pay_title:"Medios de pago",
-        pay_desc:"Efectivo, transferencia, tarjetas y billeteras digitales.",
+            // Cargar idioma guardado
+            let currentLang = localStorage.getItem('lang') || 'es';
 
-        loc_title:"Dónde estamos",
-        loc_addr:"Av. Ejemplo 123, Ciudad",
-        cta_route:"Iniciar ruta",
+            const updateLanguage = (lang) => {
+                if (lang === 'es') {
+                    elementsEs.forEach(el => el.classList.remove('hidden'));
+                    elementsEn.forEach(el => el.classList.add('hidden'));
+                    langToggle.textContent = 'EN';
+                    document.documentElement.lang = 'es';
+                } else {
+                    elementsEs.forEach(el => el.classList.add('hidden'));
+                    elementsEn.forEach(el => el.classList.remove('hidden'));
+                    langToggle.textContent = 'ES';
+                    document.documentElement.lang = 'en';
+                }
+            };
 
-        contact_title:"Contacto",
-        label_name:"Nombre", label_email:"Email", label_message:"Mensaje",
-        ph_name:"Tu nombre", ph_email:"tunombre@correo.com", ph_message:"Quiero consultar por…",
-        btn_send:"Enviar",
-        reply_soon:"Te respondemos a la brevedad.",
+            // Aplicar idioma al cargar la página
+            updateLanguage(currentLang);
 
-        legal_prefix:"Al usar este sitio aceptás nuestros",
-        legal_terms:"Términos y condiciones",
-        legal_and:"y",
-        legal_priv:"Privacidad",
+            langToggle.addEventListener('click', () => {
+                currentLang = (currentLang === 'es') ? 'en' : 'es';
+                updateLanguage(currentLang);
+                
+                // Guardar preferencia
+                localStorage.setItem('lang', currentLang);
+            });
 
-        meta_title:"La Esquina — Negocio Local",
-        meta_desc:"Ejemplo de sitio para negocio local: servicios, horarios, ubicación, contacto rápido por WhatsApp."
-      },
-      en: {
-        aria_brand: "Home",
-        nav_services:"Services",
-        nav_hours:"Hours",
-        nav_location:"Location",
-        nav_contact:"Contact",
-
-        theme_dark:"Dark",
-        theme_light:"Light",
-
-        chip_since:"Since 2010 in the neighborhood",
-        hero_title:"La Esquina — Your trusted shop",
-        hero_sub:"Order online, pick up in-store, or get delivery. Friendly service, fair prices, curated products.",
-        cta_whatsapp:"WhatsApp now",
-        cta_directions:"Get directions",
-        cta_call:"Call",
-        call_href:"tel:+10000000000",
-        badge_fresh:"Fresh today",
-
-        svc_title:"Services",
-        svc_sub:"Fast, simple, and made for you.",
-        svc1_t:"Same-day delivery",
-        svc1_d:"Order before 4 pm and get it today (nearby area).",
-        svc2_t:"Billing",
-        svc2_d:"We issue invoices and accept multiple payment methods.",
-        svc3_t:"Quick pickup",
-        svc3_d:"Order via WhatsApp and we’ll ping you when it’s ready.",
-
-        feat_title:"Today’s picks",
-        feat_a:"Artisan bread + 500 ml drink",
-        feat_b:"Coffee + Croissants (x2)",
-        feat_c:"Salad + Water",
-        feat_d:"10% off paying cash",
-
-        hours_title:"Opening hours",
-        d_mon:"Monday", d_tue:"Tuesday", d_wed:"Wednesday", d_thu:"Thursday",
-        d_fri:"Friday", d_sat:"Saturday", d_sun:"Sunday",
-        closed:"Closed",
-        hours_note:"Public holidays: ask on WhatsApp.",
-
-        pay_title:"Payment methods",
-        pay_desc:"Cash, bank transfer, cards and digital wallets.",
-
-        loc_title:"Where to find us",
-        loc_addr:"123 Example Ave, City",
-        cta_route:"Start route",
-
-        contact_title:"Contact",
-        label_name:"Name", label_email:"Email", label_message:"Message",
-        ph_name:"Your name", ph_email:"you@email.com", ph_message:"I’d like to ask about…",
-        btn_send:"Send",
-        reply_soon:"We’ll get back to you shortly.",
-
-        legal_prefix:"By using this site you accept our",
-        legal_terms:"Terms & Conditions",
-        legal_and:"and",
-        legal_priv:"Privacy",
-
-        meta_title:"La Esquina — Local Business",
-        meta_desc:"Local business example site: services, hours, location, quick WhatsApp contact."
-      }
-    };
-
-    const $ = (s, r=document)=>r.querySelector(s);
-    const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
-
-    function applyI18n(lang){
-      const d = T[lang] || T.es;
-      $$('[data-i18n]').forEach(el=>{
-        const k = el.getAttribute('data-i18n');
-        if(d[k]!==undefined) el.textContent = d[k];
-      });
-      $$('[data-i18n-attr]').forEach(el=>{
-        const map = el.getAttribute('data-i18n-attr').split(';').map(s=>s.trim()).filter(Boolean);
-        map.forEach(pair=>{
-          const [attr,key] = pair.split(':').map(s=>s.trim());
-          if(attr && key && d[key]!==undefined) el.setAttribute(attr, d[key]);
         });
-      });
-      document.title = d.meta_title;
-      const meta = document.querySelector('meta[name="description"]');
-      if (meta) meta.setAttribute('content', d.meta_desc);
-      document.documentElement.setAttribute('lang', lang);
+    </script>
 
-      // Active buttons
-      $$('.segmented[aria-label="Idioma / Language"] button').forEach(b=>{
-        const on = b.getAttribute('data-lang')===lang;
-        b.classList.toggle('active', on);
-        b.setAttribute('aria-pressed', String(on));
-      });
-
-      localStorage.setItem('lang', lang);
-    }
-
-    function applyTheme(theme){
-      const light = theme==='light';
-      document.documentElement.classList.toggle('theme-light', light);
-
-      $$('.segmented[aria-label="Tema"] button').forEach(b=>{
-        const on = b.getAttribute('data-theme') === (light? 'light':'dark');
-        b.classList.toggle('active', on);
-        b.setAttribute('aria-pressed', String(on));
-      });
-
-      localStorage.setItem('theme', light ? 'light':'dark');
-    }
-
-    function getLang(){ return localStorage.getItem('lang') || 'es'; }
-    function getTheme(){ return localStorage.getItem('theme') || 'dark'; }
-
-    function sendMailto(e){
-      e.preventDefault();
-      const f = new FormData(e.target);
-      const nombre = encodeURIComponent(f.get('nombre')||'');
-      const correo = encodeURIComponent(f.get('email')||'');
-      const msg = encodeURIComponent(f.get('mensaje')||'');
-      const lang = getLang();
-      const to = 'mailto:contacto@tu-dominio.com';
-      const subject = (lang==='en'?'Inquiry — ':'Consulta — ') + decodeURIComponent(nombre);
-      const body = `Nombre/Name: ${nombre}%0AEmail: ${correo}%0A%0AMensaje/Message:%0A${msg}`;
-      window.location.href = `${to}?subject=${encodeURIComponent(subject)}&body=${body}`;
-    }
-    window.sendMailto = sendMailto;
-
-    (function init(){
-      applyI18n(getLang());
-      applyTheme(getTheme());
-
-      // Listeners idioma
-      $$('.segmented[aria-label="Idioma / Language"] button').forEach(b=>{
-        b.addEventListener('click', ()=>applyI18n(b.getAttribute('data-lang')));
-      });
-      // Listeners tema
-      $$('.segmented[aria-label="Tema"] button').forEach(b=>{
-        b.addEventListener('click', ()=>applyTheme(b.getAttribute('data-theme')));
-      });
-    })();
-  </script>
 </body>
 </html>
