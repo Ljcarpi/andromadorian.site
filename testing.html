@@ -248,26 +248,26 @@
     .float-cta{position:fixed;right:18px;bottom:18px;z-index:20}
     .float-cta a{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.05rem;border-radius:999px;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#041015;font-weight:900;box-shadow:0 12px 28px rgba(6,182,212,.22)}
 
-    /* Botón flotante de WhatsApp */
+    /* Botón flotante de WhatsApp (estilo igual al de negocio-local.html con Feather) */
     .whatsapp-float {
       position: fixed;
       width: 60px;
       height: 60px;
-      bottom: 90px; /* no se superpone con el otro botón */
+      bottom: 90px; /* para no superponerse con el otro botón */
       right: 18px;
       background-color: #25d366;
-      color: #FFF;
-      border-radius: 50px;
+      color: #FFF; /* importante para Feather (stroke currentColor) */
+      border-radius: 50%;
       text-align: center;
       box-shadow: 2px 2px 6px rgba(0,0,0,0.4);
       z-index: 100;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background-color .2s ease;
+      transition: background-color .2s ease, transform .2s ease;
     }
-    .whatsapp-float:hover { background-color: #128C7E; }
-    .whatsapp-float svg { width: 32px; height: 32px; fill: white; }
+    .whatsapp-float:hover { background-color: #128C7E; transform: scale(1.06); }
+    .whatsapp-float svg { width: 32px; height: 32px; }
   </style>
 </head>
 <body>
@@ -484,12 +484,16 @@
 
   <div class="float-cta"><a href="#paquetes" data-i18n="float_cta">Ver paquetes</a></div>
 
-  <a href="https://wa.me/5491162857653" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
-    <svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true">
-    <path fill="currentColor" d="M19.11 17.5c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.87-.86 1.05-.16.18-.32.2-.59.07-.27-.14-1.14-.42-2.17-1.34-.8-.71-1.34-1.58-1.5-1.85-.16-.27-.02-.42.12-.56.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.02-.22-.53-.45-.46-.61-.46h-.52c-.18 0-.48.07-.73.34s-.96.94-.96 2.3 1 2.66 1.14 2.85c.14.18 1.97 3 4.77 4.2.67.29 1.2.46 1.61.59.68.22 1.3.19 1.79.12.55-.08 1.6-.66 1.83-1.3.23-.64.23-1.18.16-1.3-.07-.12-.25-.2-.52-.34zM16 3C9.38 3 4 8.38 4 15c0 2.11.55 4.09 1.52 5.81L4 29l8.4-1.48C14.18 28.45 15.94 29 18 29c6.62 0 12-5.38 12-12S22.62 3 16 3zm2 23c-1.86 0-3.58-.55-5.02-1.48l-.36-.23-4.98.88.94-4.86-.24-.39C7.39 18.37 7 16.72 7 15 7 9.48 11.48 5 17 5s10 4.48 10 10-4.48 11-9 11z"/>
-  </svg>
+  <!-- Botón flotante WhatsApp (mismo patrón que negocio-local.html: Feather Icons) -->
+  <a href="https://wa.me/5491162857653"
+     class="whatsapp-float"
+     target="_blank"
+     rel="noopener noreferrer"
+     aria-label="Contactar por WhatsApp">
+    <i data-feather="message-circle" aria-hidden="true"></i>
   </a>
 
+  <!-- Scripts -->
   <script>
     // Año en footer
     document.getElementById('year').textContent = new Date().getFullYear()
@@ -761,5 +765,9 @@
       });
     })();
   </script>
+
+  <!-- Feather Icons para el botón de WhatsApp (igual que en negocio-local) -->
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <script>feather.replace();</script>
 </body>
 </html>
