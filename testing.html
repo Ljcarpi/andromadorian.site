@@ -39,6 +39,10 @@
       --ghost-border: 1px solid rgba(255,255,255,.16);
       --sep: rgba(255,255,255,.14);
       --link-underline: rgba(255,255,255,.7);
+
+      /* WhatsApp color */
+      --wa:#25D366;
+      --wa-dark:#128C7E;
     }
 
     /* Light theme overrides */
@@ -119,9 +123,7 @@
     }
 
     /* (Conservamos estilos del antiguo .theme-toggle por si se reutiliza, pero ya no se usa) */
-    .theme-toggle{
-      display:none;
-    }
+    .theme-toggle{display:none;}
 
     /* Hero */
     .hero{position:relative;isolation:isolate}
@@ -186,12 +188,10 @@
     .note{margin-top:12px;color:var(--muted);font-size:.95rem;border-left:3px solid var(--brand);padding-left:10px}
 
     /* Form inputs */
-    input, textarea, select{
+    input, textarea{
       width:100%;margin:6px 0 12px;padding:10px 12px;border-radius:10px;
       border:1px solid var(--input-border);background:var(--input-bg);color:var(--text)
     }
-    .form-row{display:grid;gap:12px}
-    @media (min-width:720px){.form-row{grid-template-columns:1fr 1fr}}
 
     /* Footer */
     footer{padding:30px 0 50px;color:var(--muted);border-top:var(--hdr-border)}
@@ -200,22 +200,25 @@
     .legal{margin-top:8px;text-align:center}
     .legal a{text-decoration:underline;text-decoration-color:var(--link-underline)}
 
-    /* Botón flotante a paquetes (existente) */
-    .float-cta{position:fixed;right:18px;bottom:18px;z-index:20}
+    /* Botón flotante a paquetes (lo subimos un poco para no tapar WhatsApp) */
+    .float-cta{position:fixed;right:18px;bottom:74px;z-index:20}
     .float-cta a{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.05rem;border-radius:999px;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#041015;font-weight:900;box-shadow:0 12px 28px rgba(6,182,212,.22)}
 
-    /* NUEVO: Botón flotante de WhatsApp */
-    .whatsapp-float{
-      position:fixed;right:18px;bottom:78px;z-index:21;
-      width:56px;height:56px;border-radius:50%;
-      display:flex;align-items:center;justify-content:center;
-      background:linear-gradient(135deg,#25D366,#20bd5a);
-      box-shadow:0 12px 28px rgba(37,211,102,.35), 0 2px 8px rgba(0,0,0,.25);
-      border:1px solid rgba(255,255,255,.25)
+    /* NUEVO: Botón flotante WhatsApp */
+    .float-wa{
+      position:fixed;right:18px;bottom:18px;z-index:21;
     }
-    .whatsapp-float svg{width:28px;height:28px;fill:#041015}
-    .whatsapp-float:focus-visible{outline:3px solid rgba(6,182,212,.6);outline-offset:3px;border-radius:50%}
-    .whatsapp-float:hover{transform:translateY(-2px)}
+    .wa-btn{
+      width:56px;height:56px;border-radius:999px;border:none;cursor:pointer;
+      display:inline-flex;align-items:center;justify-content:center;
+      background: radial-gradient(120% 120% at 30% 20%, #3FE281 0%, var(--wa) 50%, var(--wa-dark) 100%);
+      box-shadow:0 10px 26px rgba(37,211,102,.35), 0 6px 16px rgba(0,0,0,.35);
+      transition:transform .15s ease, box-shadow .15s ease;
+    }
+    .wa-btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(37,211,102,.45)}
+    .wa-btn:active{transform:translateY(0)}
+    .wa-ico{width:28px;height:28px;display:block}
+    .wa-sr{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
   </style>
 </head>
 <body>
@@ -394,45 +397,32 @@
       <p class="muted" data-i18n="contact_sub">Contame brevemente tu idea y el objetivo de tu página. Te respondo con una propuesta simple y un tiempo estimado de entrega.</p>
 
       <div class="grid" style="--cols:2;grid-template-columns:1.2fr .8fr">
-        <!-- Formulario listo para integrar a servicio externo (mantengo mailto como fallback) -->
-        <form class="card" style="padding:16px" onsubmit="sendMailto(event)" method="POST" action="#" id="contactForm" data-hook="contact-form">
-          <input type="hidden" name="form_id" value="contacto-andromadorian">
-          <div class="form-row">
-            <label data-i18n="label_name">Nombre<br>
-              <input required name="nombre" placeholder="Tu nombre" data-i18n-attr="placeholder:ph_name" autocomplete="name"/>
-            </label>
-            <label data-i18n="label_email">Email<br>
-              <input required type="email" name="email" placeholder="tunombre@correo.com" data-i18n-attr="placeholder:ph_email" autocomplete="email"/>
-            </label>
-          </div>
-          <label>Asunto (opcional)<br>
-            <input name="asunto" placeholder="Ej: Landing para negocio local"/>
+        <!-- Form listo para integrar a backend/email service -->
+        <form class="card" style="padding:16px" action="#" method="post" novalidate>
+          <label data-i18n="label_name">Nombre<br>
+            <input required name="nombre" placeholder="Tu nombre" data-i18n-attr="placeholder:ph_name" />
+          </label>
+          <label data-i18n="label_email">Email<br>
+            <input required type="email" name="email" placeholder="tunombre@correo.com" data-i18n-attr="placeholder:ph_email"/>
+          </label>
+          <label>Teléfono (opcional)<br>
+            <input type="tel" name="telefono" placeholder="+54 9 ..." />
           </label>
           <label data-i18n="label_message">Mensaje<br>
             <textarea required name="mensaje" rows="5" placeholder="Quiero una landing para…" data-i18n-attr="placeholder:ph_message"></textarea>
           </label>
-          <div class="form-row">
-            <label>Plan de interés<br>
-              <select name="plan">
-                <option value="">Elegir (opcional)</option>
-                <option value="basic">Landing Básica</option>
-                <option value="pro">Landing PRO</option>
-                <option value="promax">Landing PRO MAX</option>
-              </select>
-            </label>
-            <label>Teléfono (opcional)<br>
-              <input name="telefono" inputmode="tel" placeholder="+54 9 11 6285-7653"/>
-            </label>
-          </div>
           <button class="cta-plan" type="submit" data-i18n="btn_send">Enviar</button>
         </form>
 
         <div class="card" style="padding:16px;display:grid;gap:10px">
           <h4 data-i18n="contact_alt_title">También podés escribirme directo</h4>
           <p class="muted small">
-            Escribime por <a href="https://wa.me/5491162857653" target="_blank" rel="noopener">Whatsapp</a> o por
-            <a href="mailto:info@andromadorian.site">email</a>. <span data-i18n="contact_reply">Responderé lo antes posible.</span>
+            Escribime por
+            <a href="https://wa.me/5491162857653" target="_blank" rel="noopener">Whatsapp</a>
+            o por
+            <a href="mailto:info@andromadorian.site">email</a>.
           </p>
+          <p class="muted small" data-i18n="contact_reply">Responderé lo antes posible.</p>
         </div>
       </div>
     </div>
@@ -454,14 +444,19 @@
     </div>
   </footer>
 
-  <!-- EXISTENTE: Botón flotante a paquetes -->
+  <!-- CTA flotante existente -->
   <div class="float-cta"><a href="#paquetes" data-i18n="float_cta">Ver paquetes</a></div>
 
   <!-- NUEVO: Botón flotante WhatsApp -->
-  <a class="whatsapp-float" href="https://wa.me/5491162857653?text=Hola%20Andromadorian%2C%20quiero%20hacer%20una%20landing%20%F0%9F%9A%80" target="_blank" rel="noopener" aria-label="Escribirme por WhatsApp">
-    <!-- WhatsApp SVG -->
-    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M19.1 17.3c-.3-.2-.7-.4-1.1-.2-.3.1-.5.5-.7.8-.1.1-.2.2-.3.2-.6-.3-1.9-.9-2.7-2.2-.2-.4-.4-.7-.2-1.1 0-.1.1-.1.2-.2.2-.2.4-.5.5-.7.1-.3 0-.6 0-.8 0-.2-.1-.5-.2-.7-.1-.2-.3-.5-.6-.6-.3-.1-.7-.1-1 .1-.5.4-.8 1.1-.9 1.8-.1 1 .3 1.9.4 2.1.1.3.8 2 2.5 3.4 1.7 1.3 3.4 1.6 3.7 1.7.4.1 1.2.1 2-.2.7-.3 1.2-.9 1.4-1.5.1-.5.1-1-.3-1.3-.2-.2-.5-.4-.7-.5z"/><path d="M27 5c-4.4-4.4-11.6-4.4-16 0-3.3 3.3-4.2 8.1-2.5 12.2L7 27l9.8-1.5c1.6.6 3.3.9 5 .9 3 0 6-1.1 8.2-3.4 4.4-4.4 4.4-11.6 0-16zm-2.1 13.9c-1.7 1.7-4 2.6-6.4 2.6-1.5 0-3-.4-4.3-1l-.3-.1-5.8.9.9-5.7-.1-.3c-1.3-3.1-.6-6.8 1.8-9.2 3.5-3.5 9.2-3.5 12.7 0s3.5 9.2 0 12.8z"/></svg>
-  </a>
+  <div class="float-wa">
+    <a class="wa-btn" href="https://wa.me/5491162857653" target="_blank" rel="noopener" aria-label="Chatear por WhatsApp">
+      <span class="wa-sr">WhatsApp</span>
+      <!-- Ícono WhatsApp SVG -->
+      <svg class="wa-ico" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <path fill="#FFFFFF" d="M19.8 17.1c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2s-.8 1-1 1.2c-.2.2-.4.2-.7 0-.3-.2-1.2-.5-2.3-1.5-0.8-.7-1.3-1.6-1.5-1.8-.2-.3 0-.5.2-.7.2-.2.3-.4.5-.6.2-.2.2-.4.3-.6.1-.2 0-.5 0-.7 0-.2-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.7 0 1.6 1.1 3.2 1.3 3.4.2.2 2.2 3.3 5.3 4.6.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.1-1.4-.1-.1-.2-.2-.5-.3zM26.6 5.4C23.7 2.4 20 1 16.2 1 8.5 1 2.3 7.2 2.3 14.9c0 2.4.6 4.7 1.8 6.7L2 31l9.6-2.5c1.9 1 4.1 1.6 6.3 1.6h0c7.7 0 13.9-6.2 13.9-13.9 0-3.7-1.5-7.5-4.5-10.4zM16 28.3h0c-2 0-4-.5-5.8-1.5l-.4-.2-5.7 1.5 1.5-5.6-.2-.4c-1.1-1.8-1.7-3.9-1.7-6.1 0-6.5 5.3-11.8 11.8-11.8 3.2 0 6.2 1.3 8.4 3.5 2.2 2.2 3.5 5.2 3.5 8.4 0 6.5-5.3 11.8-11.8 11.8z"/>
+      </svg>
+    </a>
+  </div>
 
   <script>
     // Año en footer
@@ -543,7 +538,7 @@
         ph_message: "Quiero una landing para…",
         btn_send: "Enviar",
         contact_alt_title: "También podés escribirme directo",
-        mailto_addr: "mailto:info@andromadorian.site",
+        mailto_addr: "mailto:contacto@tu-dominio.com",
         contact_reply: "Responderé lo antes posible.",
 
         footer_tag: "Sitios web profesionales",
@@ -633,7 +628,7 @@
         ph_message: "I want a landing page for…",
         btn_send: "Send",
         contact_alt_title: "You can also write me directly",
-        mailto_addr: "mailto:info@andromadorian.site",
+        mailto_addr: "mailto:contact@your-domain.com",
         contact_reply: "I'll reply as soon as possible.",
 
         footer_tag: "Professional websites",
@@ -716,28 +711,6 @@
 
     function getLang(){ return localStorage.getItem('lang') || 'es'; }
     function getTheme(){ return localStorage.getItem('theme') || 'dark'; }
-
-    // Form: mailto (fallback funcional)
-    function sendMailto(e){
-      e.preventDefault();
-      const f = new FormData(e.target);
-      const nombre = encodeURIComponent(f.get('nombre')||'');
-      const correo = encodeURIComponent(f.get('email')||'');
-      const asunto = encodeURIComponent(f.get('asunto')||'');
-      const msg = encodeURIComponent(f.get('mensaje')||'');
-      const tel = encodeURIComponent(f.get('telefono')||'');
-      const plan = encodeURIComponent(f.get('plan')||'');
-      const lang = getLang();
-      const subject = (T[lang].mail_subject_prefix || T.es.mail_subject_prefix) + decodeURIComponent(asunto || nombre);
-      const body =
-        `Nombre: ${nombre}%0AEmail: ${correo}%0A` +
-        (tel ? `Teléfono: ${tel}%0A` : ``) +
-        (plan ? `Plan: ${plan}%0A` : ``) +
-        `%0AMensaje:%0A${msg}`;
-      const mailHref = (T[lang].mailto_addr || T.es.mailto_addr).replace('mailto:', '');
-      window.location.href = `mailto:${mailHref}?subject=${encodeURIComponent(subject)}&body=${body}`;
-    }
-    window.sendMailto = sendMailto;
 
     // Init
     (function init(){
