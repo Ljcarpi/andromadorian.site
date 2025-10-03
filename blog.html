@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BLOG — Andromadorian</title>
+  <meta name="description" content="Subsitio de ejemplo — Blog limpio y minimalista, con portada destacada y grilla de artículos.">
+
+  <!-- Favicon opcional (usa el del proyecto si existe) -->
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+
+  <style>
+    :root{
+      --bg:#ffffff;
+      --text:#0c0f14;
+      --muted:#5a6575;
+      --line:#e9eef6;
+      --link:#0c0f14;
+      --accent:#111213;
+      --card:#ffffff;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+      font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Noto Sans",Helvetica,Arial}
+    img{max-width:100%;display:block}
+    a{color:var(--link);text-decoration:none}
+    a:hover{opacity:.85}
+
+    /* Layout base */
+    .container{width:min(1100px,92vw);margin-inline:auto}
+    header.topbar{border-bottom:1px solid var(--line);background:#fff}
+    .topbar .wrap{display:flex;align-items:center;gap:22px;padding:10px 0}
+    .mini-nav{display:flex;gap:18px;font-size:.95rem;color:var(--muted)}
+    .mini-nav a{color:inherit}
+    .spacer{flex:1}
+    .icons{display:flex;gap:12px;color:var(--muted);font-size:.95rem}
+    .icons a{display:inline-flex;align-items:center;gap:6px}
+
+    /* Brand grande BLOG */
+    .masthead{padding:26px 0 18px;border-bottom:1px solid var(--line);background:#fff}
+    .masthead h1{margin:0;text-align:center;font-size:clamp(40px,8.2vw,84px);letter-spacing:.28em;font-weight:800}
+    .subnav{display:flex;gap:18px;justify-content:center;align-items:center;margin-top:14px}
+    .subnav a{font-weight:600}
+    .subnav .current{border-bottom:2px solid #000}
+    .search{position:relative}
+    .search input{
+      width:220px;max-width:40vw;padding:9px 12px;border:1px solid var(--line);border-radius:22px;background:#fff
+    }
+
+    /* Portada destacada estilo revista */
+    .hero{padding:24px 0;border-bottom:1px solid var(--line);background:#fff}
+    .hero-grid{display:grid;gap:16px}
+    @media (min-width:920px){
+      .hero-grid{grid-template-columns:2fr 1fr 1fr}
+      .hero-grid .tall{grid-row:span 2}
+    }
+    .frame{
+      position:relative;overflow:hidden;border:1px solid var(--line);background:#f7f9fc
+    }
+    .frame img{width:100%;height:100%;object-fit:cover;aspect-ratio:16/10}
+    .label{
+      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+      background:rgba(0,0,0,.8);color:#fff;padding:10px 16px;font-weight:800;letter-spacing:.02em
+    }
+
+    /* Grilla de artículos */
+    .feed{padding:28px 0 46px}
+    .grid{display:grid;gap:22px}
+    @media (min-width:800px){ .grid{grid-template-columns:repeat(3,1fr)} }
+    .post{
+      border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column
+    }
+    .thumb{aspect-ratio:16/11;object-fit:cover}
+    .post-body{padding:14px 16px 18px;display:grid;gap:8px}
+    .post .meta{color:var(--muted);font-size:.9rem}
+    .post h3{margin:0;font-size:1.05rem;line-height:1.35}
+    .post p{margin:0;color:var(--muted)}
+    .post .more{margin-top:8px;font-weight:700}
+
+    /* Footer simple */
+    footer{border-top:1px solid var(--line);padding:26px 0 44px;color:var(--muted);background:#fff}
+    .foot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+    .brand{font-weight:800;color:#13161a}
+
+    /* Utilidades */
+    .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  </style>
+</head>
+<body>
+
+  <!-- Barra superior mínima -->
+  <header class="topbar">
+    <div class="container wrap">
+      <nav class="mini-nav">
+        <a href="/" title="Volver al sitio principal">Inicio</a>
+        <a href="#categorias">Categorías</a>
+        <a href="#acerca">Acerca</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <div class="spacer"></div>
+      <div class="icons">
+        <a href="#" aria-label="Instagram">IG</a>
+        <a href="#" aria-label="Twitter / X">X</a>
+        <a href="#" aria-label="RSS">RSS</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Título BLOG enorme + subnav + búsqueda -->
+  <section class="masthead">
+    <div class="container">
+      <h1>BLOG</h1>
+      <div class="subnav">
+        <a class="current" href="#">Inicio</a>
+        <a href="#viajes">Viajes</a>
+        <a href="#tecnologia">Tecnología</a>
+        <a href="#lifestyle">Lifestyle</a>
+        <span class="search">
+          <label class="sr" for="q">Buscar</label>
+          <input id="q" type="search" placeholder="Buscar artículos…">
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portada destacada (3 piezas; 1 grande + 2 chicas) -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <!-- Grande -->
+      <a class="frame tall" href="#articulo-1">
+        <!-- Reemplaza las rutas por tus imágenes -->
+        <img src="/blog-eg/hero-1.jpg" alt="Artículo destacado — playa y acantilado">
+        <span class="label">I think it is interesting</span>
+      </a>
+
+      <!-- Chicas -->
+      <a class="frame" href="#articulo-2">
+        <img src="/blog-eg/hero-2.jpg" alt="Ciudad rosada con neblina">
+      </a>
+      <a class="frame" href="#articulo-3">
+        <img src="/blog-eg/hero-3.jpg" alt="Atardecer junto al mar">
+      </a>
+    </div>
+  </section>
+
+  <!-- Feed de posts -->
+  <main class="feed container" id="feed">
+    <div class="grid" id="posts">
+      <!-- Post 1 -->
+      <article class="post" data-tags="viajes lifestyle mar">
+        <img class="thumb" src="/blog-eg/p1.jpg" alt="Pareja saltando al mar">
+        <div class="post-body">
+          <div class="meta">Viajes · 4 min</div>
+          <h3>Cómo planear una escapada corta a la costa y no fallar en el intento</h3>
+          <p>Check-list simple de equipaje, apps útiles, presupuesto y tips para no perder tiempo.</p>
+          <a class="more" href="#articulo-1">Leer más →</a>
+        </div>
+      </article>
+
+      <!-- Post 2 -->
+      <article class="post" data-tags="tecnologia productividad">
+        <img class="thumb" src="/blog-eg/p2.jpg" alt="Notebook minimalista sobre escritorio blanco">
+        <div class="post-body">
+          <div class="meta">Tecnología · 6 min</div>
+          <h3>Mis herramientas favoritas para escribir sin distracciones</h3>
+          <p>Apps livianas, atajos de teclado y flujos de trabajo que realmente se sienten ligeros.</p>
+          <a class="more" href="#articulo-2">Leer más →</a>
+        </div>
+      </article>
+
+      <!-- Post 3 -->
+      <article class="post" data-tags="lifestyle fotografia">
+        <img class="thumb" src="/blog-eg/p3.jpg" alt="Cámara apuntando a un skyline urbano">
+        <div class="post-body">
+          <div class="meta">Lifestyle · 5 min</div>
+          <h3>Fotografía urbana con el teléfono: 7 trucos para mejores encuadres</h3>
+          <p>Regla de tercios, líneas de fuga y pequeños ajustes que tienen gran impacto.</p>
+          <a class="more" href="#articulo-3">Leer más →</a>
+        </div>
+      </article>
+
+      <!-- Post 4 -->
+      <article class="post" data-tags="recetas lifestyle">
+        <img class="thumb" src="/blog-eg/p4.jpg" alt="Tostadas con palta y semillas">
+        <div class="post-body">
+          <div class="meta">Recetas · 3 min</div>
+          <h3>Desayunos rápidos y ricos para arrancar con energía</h3>
+          <p>Cuatro combinaciones fáciles que podés dejar semi-preparadas la noche anterior.</p>
+          <a class="more" href="#articulo-4">Leer más →</a>
+        </div>
+      </article>
+
+      <!-- Post 5 -->
+      <article class="post" data-tags="viajes fotografia">
+        <img class="thumb" src="/blog-eg/p5.jpg" alt="Carretera al atardecer">
+        <div class="post-body">
+          <div class="meta">Viajes · 7 min</div>
+          <h3>Rutas escénicas: cómo elegir la mejor luz para tus fotos</h3>
+          <p>Golden hour, clima, nubes y planificación para volver con tomas memorables.</p>
+          <a class="more" href="#articulo-5">Leer más →</a>
+        </div>
+      </article>
+
+      <!-- Post 6 -->
+      <article class="post" data-tags="tecnologia productividad guias">
+        <img class="thumb" src="/blog-eg/p6.jpg" alt="Teclado mecánico con iluminación tenue">
+        <div class="post-body">
+          <div class="meta">Guías · 8 min</div>
+          <h3>Atajos esenciales que todo usuario de Windows debería conocer</h3>
+          <p>Del clásico Alt+Tab a automatizaciones sencillas: ahorrá tiempo todos los días.</p>
+          <a class="more" href="#articulo-6">Leer más →</a>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container foot">
+      <div class="brand">Andromadorian</div>
+      <div>© <span id="year"></span> — Subsitio de ejemplo “Blog”</div>
+    </div>
+  </footer>
+
+  <script>
+    // Año
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Búsqueda simple por título y tags
+    const q = document.getElementById('q');
+    const cards = Array.from(document.querySelectorAll('.post'));
+    q?.addEventListener('input', () => {
+      const term = q.value.trim().toLowerCase();
+      cards.forEach(card=>{
+        const text = card.textContent.toLowerCase() + ' ' + (card.dataset.tags||'');
+        card.style.display = text.includes(term) ? '' : 'none';
+      });
+    });
+  </script>
+
+  <!--
+    📂 Imagenes sugeridas
+    Crea la carpeta /blog-eg/ con archivos:
+      hero-1.jpg, hero-2.jpg, hero-3.jpg
+      p1.jpg ... p6.jpg
+    Puedes reutilizar las que ya tengas o colocar placeholders.
+  -->
+</body>
+</html>
