@@ -33,8 +33,6 @@
 
       --input-bg: rgba(255,255,255,.05);
       --input-border: rgba(255,255,255,.18);
-      --input-focus-ring: 0 0 0 6px rgba(124,58,237,.15);
-      --input-focus-border: rgba(124,58,237,.55);
       --hdr-bg: rgba(8,12,20,.78);
       --hdr-border: 1px solid rgba(255,255,255,.08);
       --ghost-border: 1px solid rgba(255,255,255,.16);
@@ -49,10 +47,9 @@
 
     /* Light theme overrides */
     html.theme-light{
-      /* Fondo del tema claro: imagen adjunta + velo suave para legibilidad */
       --bg:
-        linear-gradient(0deg, rgba(255,255,255,.68), rgba(255,255,255,.68)),
-        url('data:image/png;base64,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') center / cover no-repeat fixed;
+        /* Modificado: Degradado de la imagen */
+        linear-gradient(135deg, #fffde3 0%, #b6f0e6 100%);
 
       --card:#ffffff;
       --muted:#49576d;
@@ -95,7 +92,7 @@
     .nav a.btn{padding:.55rem .95rem;border-radius:999px;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#041015;font-weight:800;box-shadow:0 8px 20px rgba(6,182,212,.25)}
 
     /* Toolbar: language + theme */
-    .toolbar{display:flex;align-items:center}
+    .toolbar{display:flex;align-items:center} /* Esta clase solo se define pero no se usa en el HTML */
     .toolbar .sep{width:1px;height:22px;background:var(--sep);margin:0 14px}
 
     .lang-switch{display:flex;border-radius:999px;overflow:hidden;border:1px solid var(--border)}
@@ -128,16 +125,35 @@
 
     .theme-toggle{display:none;} /* legado */
 
-    /* INICIO FIX MÓVIL */
+    /* INICIO FIX MÓVIL (SOBRE ESCRITURA PARA PANTALLAS PEQUEÑAS) */
     @media (max-width: 580px) {
-      .links { display: none; }
-      .theme-switch button span:not(.ico) { display: none; }
-      .theme-switch button { padding: .45rem .6rem; }
-      .theme-switch { margin-left: .5rem; }
-      .actions { gap: .5rem; }
-      .nav { padding: 10px 0; }
+      /* Oculta la navegación principal y el botón CTA para priorizar el logo y los toggles */
+      .links {
+        display: none;
+      }
+      /* Oculta el texto del selector de tema, dejando solo el icono (Fix de solapamiento) */
+      .theme-switch button span:not(.ico) {
+        display: none;
+      }
+      /* Reduce el padding para que los botones de tema sean más pequeños */
+      .theme-switch button {
+        padding: .45rem .6rem; 
+      }
+      /* Elimina el margen a la izquierda del theme-switch */
+      .theme-switch {
+        margin-left: .5rem; 
+      }
+      /* Reduce el gap en .actions */
+      .actions {
+        gap: .5rem; 
+      }
+      /* Ajusta el padding de la cabecera */
+      .nav {
+        padding: 10px 0;
+      }
     }
     /* FIN FIX MÓVIL */
+
 
     /* Hero */
     .hero{position:relative;isolation:isolate}
@@ -150,9 +166,8 @@
       filter:saturate(130%) contrast(105%);
     }
     html.theme-light .hero::before{
+      /* Se eliminan los gradientes existentes en el tema claro del hero::before */
       background:
-        radial-gradient(1200px 650px at 50% 10%, rgba(124,58,237,.22), transparent 60%),
-        radial-gradient(900px 520px at 50% 60%, rgba(6,182,212,.18), transparent 58%),
         linear-gradient(180deg, rgba(255,255,255,.6), transparent 60%);
     }
     .hero .wrap{padding:72px 0 40px;display:grid;gap:28px}
@@ -266,6 +281,7 @@
     .alt-contact{margin-top:32px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}
     .alt-contact .cta-buttons{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
     .alt-contact .ghost{padding:.75rem 1rem;border-radius:12px}
+
 
     /* Footer */
     footer{padding:30px 0 50px;color:var(--muted);border-top:var(--hdr-border)}
@@ -628,9 +644,10 @@
         ex4_desc: "Sell a course, ebook, or template with a clear CTA.",
         ex4_alt: "Digital product landing",
 
+        // MEJORA: Nuevas claves para la sección Paquetes
         pricing_title: "Packages & pricing",
         pricing_sub: "Choose the plan that best fits your project. Clear deliverables, no hassle.",
-        get_your_site_title: "Get Your Website",
+        get_your_site_title: "Get Your Website", // Nueva clave
 
         plan_basic_name: "Basic Landing",
         plan_basic_price: "USD 40",
