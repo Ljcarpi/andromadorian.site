@@ -88,6 +88,7 @@
     /* Toolbar: language + theme, deliberadamente separadas */
     .toolbar{display:flex;align-items:center}
     .toolbar .sep{width:1px;height:22px;background:var(--sep);margin:0 14px}
+
     .lang-switch{display:flex;border-radius:999px;overflow:hidden;border:1px solid var(--border)}
     .lang-switch button{
       display:flex;gap:.4rem;align-items:center;
@@ -98,14 +99,29 @@
     .lang-switch button.active{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#041015}
     .flag{font-size:1rem;line-height:1}
 
-    .theme-toggle{
-      margin-left:18px;
-      display:inline-flex;align-items:center;justify-content:center;
-      width:40px;height:40px;border-radius:12px;border:1px solid var(--border);
-      background:var(--surface-grad-dark);cursor:pointer;box-shadow:var(--shadow)
+    /* NUEVO: Theme segmented control (más obvio) */
+    .theme-switch{
+      display:flex;align-items:center;border-radius:14px;overflow:hidden;
+      border:1px solid var(--border); background:var(--surface-grad-dark);
+      box-shadow:var(--shadow); margin-left:18px;
     }
-    .theme-toggle:hover{transform:translateY(-1px)}
-    .theme-toggle .ico{font-size:1.1rem}
+    .theme-switch button{
+      display:flex;align-items:center;gap:.5rem;
+      padding:.45rem .75rem;border:0;background:transparent;color:var(--text);
+      cursor:pointer;font-weight:800;text-transform:none;letter-spacing:.1px
+    }
+    .theme-switch button .ico{font-size:1rem;line-height:1}
+    .theme-switch .divider{width:1px;height:20px;background:var(--sep);}
+    .theme-switch button:hover{filter:saturate(120%)}
+    .theme-switch button.active{
+      background:linear-gradient(135deg,var(--brand),var(--brand-2));
+      color:#041015;
+    }
+
+    /* (Conservamos estilos del antiguo .theme-toggle por si se reutiliza, pero ya no se usa) */
+    .theme-toggle{
+      display:none;
+    }
 
     /* Hero */
     .hero{position:relative;isolation:isolate}
@@ -218,10 +234,18 @@
           <!-- Separador notorio -->
           <div class="sep" aria-hidden="true"></div>
 
-          <!-- Tema: botón distinto y apartado -->
-          <button id="themeToggle" class="theme-toggle" type="button" aria-label="Cambiar tema">
-            <span class="ico" aria-hidden="true">☾</span>
-          </button>
+          <!-- NUEVO: Tema con toggle explícito -->
+          <div class="theme-switch" role="group" aria-label="Tema">
+            <button type="button" data-theme="dark" aria-pressed="true" class="active">
+              <span class="ico" aria-hidden="true">☾</span>
+              <span data-i18n="theme_dark">Tema oscuro</span>
+            </button>
+            <div class="divider" aria-hidden="true"></div>
+            <button type="button" data-theme="light" aria-pressed="false">
+              <span class="ico" aria-hidden="true">☀</span>
+              <span data-i18n="theme_light">Tema claro</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -486,7 +510,11 @@
         legal_priv: "Privacidad",
 
         float_cta: "Ver paquetes",
-        mail_subject_prefix: "Nuevo proyecto — "
+        mail_subject_prefix: "Nuevo proyecto — ",
+
+        /* NUEVO: textos del toggle de tema */
+        theme_dark: "Tema oscuro",
+        theme_light: "Tema claro"
       },
       en: {
         meta_title: "Andromadorian — Professional websites",
@@ -572,7 +600,11 @@
         legal_priv: "Privacy",
 
         float_cta: "See packages",
-        mail_subject_prefix: "New project — "
+        mail_subject_prefix: "New project — ",
+
+        /* NEW: theme toggle labels */
+        theme_dark: "Dark theme",
+        theme_light: "Light theme"
       }
     };
 
@@ -628,10 +660,14 @@
     function applyTheme(theme){
       const isLight = theme === 'light';
       document.documentElement.classList.toggle('theme-light', isLight);
-      const ico = $('#themeToggle .ico');
-      if (ico) ico.textContent = isLight ? '☀' : '☾';
-      $('#themeToggle').setAttribute('aria-label', isLight ? (getLang()==='en'?'Switch to dark theme':'Cambiar a tema oscuro')
-                                                           : (getLang()==='en'?'Switch to light theme':'Cambiar a tema claro'));
+
+      // Actualiza estado del control segmentado
+      $$('.theme-switch button').forEach(btn=>{
+        const thisIsActive = btn.getAttribute('data-theme') === (isLight ? 'light' : 'dark');
+        btn.classList.toggle('active', thisIsActive);
+        btn.setAttribute('aria-pressed', String(thisIsActive));
+      });
+
       localStorage.setItem('theme', isLight ? 'light' : 'dark');
     }
 
@@ -663,12 +699,17 @@
       const theme = getTheme();
       applyTheme(theme);
 
-      // listeners
+      // listeners idioma
       $$('.lang-switch button').forEach(btn=>{
         btn.addEventListener('click', ()=>applyI18n(btn.getAttribute('data-lang')));
       });
-      $('#themeToggle').addEventListener('click', ()=>{
-        applyTheme(getTheme()==='light' ? 'dark' : 'light');
+
+      // listeners tema (nuevo control)
+      $$('.theme-switch button').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const next = btn.getAttribute('data-theme'); // 'dark' | 'light'
+          applyTheme(next);
+        });
       });
     })();
   </script>
