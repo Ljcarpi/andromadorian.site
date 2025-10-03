@@ -41,7 +41,7 @@
             scroll-margin-top: 80px;
         }
         
-        /* CAMBIO: imagen de fondo actualizada */
+        /* Imagen de fondo actual */
         .coffee-bg {
             background: url('/assets/negocio-local2.png') no-repeat center center;
             background-size: cover;
@@ -58,7 +58,7 @@
     </style>
 </head>
 <body class="bg-amber-50 dark:bg-gray-900">
-    <!-- WhatsApp Floating Button (CAMBIO: ícono WhatsApp) -->
+    <!-- WhatsApp Floating Button -->
     <a href="https://wa.me/5491162857653" target="_blank" aria-label="Contactar por WhatsApp"
        class="fixed bottom-6 right-6 z-50 whatsapp-btn bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg">
         <!-- SVG de WhatsApp inline -->
@@ -67,21 +67,21 @@
         </svg>
     </a>
 
-    <!-- (CAMBIO) Se removió el bloque de Toggle Tema/Idioma -->
-
     <!-- Navigation -->
     <nav class="fixed top-0 left-0 right-0 bg-white dark:bg-gray-800 shadow-md z-40">
         <div class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
                 <a href="#" class="text-2xl font-bold text-amber-900 dark:text-amber-200">Brewed Bliss</a>
-                <div class="hidden md:flex space-x-8">
+                <div class="hidden md:flex space-x-8 items-center">
                     <a href="#home" class="nav-link text-amber-900 dark:text-amber-100 hover:text-amber-700 dark:hover:text-amber-300 font-medium transition">Inicio</a>
                     <a href="#about" class="nav-link text-amber-900 dark:text-amber-100 hover:text-amber-700 dark:hover:text-amber-300 font-medium transition">Nosotros</a>
                     <a href="#menu" class="nav-link text-amber-900 dark:text-amber-100 hover:text-amber-700 dark:hover:text-amber-300 font-medium transition">Menú</a>
                     <a href="#experience" class="nav-link text-amber-900 dark:text-amber-100 hover:text-amber-700 dark:hover:text-amber-300 font-medium transition">Experiencia</a>
                     <a href="#location" class="nav-link text-amber-900 dark:text-amber-100 hover:text-amber-700 dark:hover:text-amber-300 font-medium transition">Ubicación</a>
+                    <!-- NUEVO: Volver al sitio original -->
+                    <a href="https://www.andromadorian.site/" class="nav-link text-blue-700 dark:text-blue-300 hover:underline font-medium transition">Volver al sitio original</a>
                 </div>
-                <button class="md:hidden focus:outline-none" id="mobileMenuButton">
+                <button class="md:hidden focus:outline-none" id="mobileMenuButton" aria-label="Abrir menú">
                     <i data-feather="menu"></i>
                 </button>
             </div>
@@ -92,7 +92,7 @@
     <div id="mobileMenu" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden">
         <div class="absolute top-0 right-0 h-full w-64 bg-white dark:bg-gray-800 shadow-lg p-4">
             <div class="flex justify-end">
-                <button id="closeMobileMenu" class="p-2">
+                <button id="closeMobileMenu" class="p-2" aria-label="Cerrar menú">
                     <i data-feather="x"></i>
                 </button>
             </div>
@@ -102,6 +102,8 @@
                 <a href="#menu" class="nav-link text-amber-900 dark:text-amber-100 hover:text-amber-700 dark:hover:text-amber-300 font-medium transition">Menú</a>
                 <a href="#experience" class="nav-link text-amber-900 dark:text-amber-100 hover:text-amber-700 dark:hover:text-amber-300 font-medium transition">Experiencia</a>
                 <a href="#location" class="nav-link text-amber-900 dark:text-amber-100 hover:text-amber-700 dark:hover:text-amber-300 font-medium transition">Ubicación</a>
+                <!-- NUEVO en menú móvil -->
+                <a href="https://www.andromadorian.site/" class="nav-link text-blue-700 dark:text-blue-300 hover:underline font-medium transition">Volver al sitio original</a>
             </div>
         </div>
     </div>
@@ -380,19 +382,23 @@
                     <p class="text-amber-200 dark:text-amber-100">El arte del buen café</p>
                 </div>
                 <div class="flex space-x-6">
-                    <a href="#" class="text-amber-200 dark:text-amber-100 hover:text-white transition">
+                    <a href="#" class="text-amber-200 dark:text-amber-100 hover:text-white transition" aria-label="Instagram">
                         <i data-feather="instagram"></i>
                     </a>
-                    <a href="#" class="text-amber-200 dark:text-amber-100 hover:text-white transition">
+                    <a href="#" class="text-amber-200 dark:text-amber-100 hover:text-white transition" aria-label="Facebook">
                         <i data-feather="facebook"></i>
                     </a>
-                    <a href="#" class="text-amber-200 dark:text-amber-100 hover:text-white transition">
+                    <a href="#" class="text-amber-200 dark:text-amber-100 hover:text-white transition" aria-label="Twitter">
                         <i data-feather="twitter"></i>
                     </a>
                 </div>
             </div>
             <div class="border-t border-amber-800 dark:border-gray-700 mt-6 pt-6 text-center text-amber-200 dark:text-amber-100">
-                <p>© 2025 — Ejemplo de sitio para negocio local</p>
+                <p>
+                    © 2025 — Ejemplo de sitio para negocio local
+                    <span class="mx-2">•</span>
+                    <a href="https://www.andromadorian.site/" class="underline hover:text-white">Volver al sitio original</a>
+                </p>
             </div>
         </div>
     </footer>
@@ -411,36 +417,29 @@
             mobileMenu.classList.add('hidden');
         });
 
-        // Smooth scrolling for navigation links
+        // Smooth scrolling for hash links (sin afectar enlaces externos)
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-                
-                // Close mobile menu if open
+                const target = document.querySelector(this.getAttribute('href'));
+                if (!target) return;
+                target.scrollIntoView({ behavior: 'smooth' });
                 mobileMenu.classList.add('hidden');
             });
         });
 
         // Highlight active nav link
         const sections = document.querySelectorAll('.section');
-        const navLinks = document.querySelectorAll('.nav-link');
+        const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
 
         window.addEventListener('scroll', () => {
             let current = '';
-            
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                
                 if (pageYOffset >= (sectionTop - 100)) {
                     current = section.getAttribute('id');
                 }
             });
-            
             navLinks.forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href') === `#${current}`) {
@@ -449,7 +448,7 @@
             });
         });
 
-        // Initialize Feather Icons for remaining icons
+        // Initialize Feather Icons
         feather.replace();
     </script>
 </body>
