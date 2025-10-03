@@ -38,6 +38,11 @@
       --ghost-border: 1px solid rgba(255,255,255,.16);
       --sep: rgba(255,255,255,.14);
       --link-underline: rgba(255,255,255,.7);
+
+      /* Inputs */
+      --input-radius: 12px;
+      --input-focus-ring: 0 0 0 6px rgba(124,58,237,.15);
+      --input-focus-border: rgba(124,58,237,.55);
     }
 
     /* Light theme overrides */
@@ -59,6 +64,8 @@
 
       --input-bg: rgba(0,0,0,.035);
       --input-border: rgba(0,0,0,.12);
+      --input-focus-ring: 0 0 0 6px rgba(124,58,237,.15);
+      --input-focus-border: rgba(124,58,237,.65);
       --hdr-bg: rgba(255,255,255,.85);
       --hdr-border: 1px solid rgba(0,0,0,.08);
       --ghost-border: 1px solid rgba(0,0,0,.16);
@@ -98,7 +105,7 @@
     .lang-switch button.active{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#041015}
     .flag{font-size:1rem;line-height:1}
 
-    /* NUEVO: Theme segmented control (más obvio) */
+    /* Theme segmented control */
     .theme-switch{
       display:flex;align-items:center;border-radius:14px;overflow:hidden;
       border:1px solid var(--border); background:var(--surface-grad-dark);
@@ -117,10 +124,7 @@
       color:#041015;
     }
 
-    /* (Conservamos estilos del antiguo .theme-toggle por si se reutiliza, pero ya no se usa) */
-    .theme-toggle{
-      display:none;
-    }
+    .theme-toggle{display:none;} /* legado */
 
     /* Hero */
     .hero{position:relative;isolation:isolate}
@@ -184,16 +188,33 @@
     /* Nota dominio */
     .note{margin-top:12px;color:var(--muted);font-size:.95rem;border-left:3px solid var(--brand);padding-left:10px}
 
-    /* Form inputs */
-    /* INICIO: CORRECCIÓN CSS FORMULARIO */
-    #contacto form label {
-      display: block;
-    }
-    /* FIN: CORRECCIÓN CSS FORMULARIO */
+    /* ---------- FORMULARIO (mejoras de estilo y foco) ---------- */
+    .contact-form{display:grid;gap:14px}
+    .contact-form label{font-weight:700;display:block}
+    .contact-form small{color:var(--muted);font-weight:400}
+    .contact-form .cta-plan{width:100%;text-align:center}
+
     input, textarea{
-      width:100%;margin:6px 0 12px;padding:10px 12px;border-radius:10px;
-      border:1px solid var(--input-border);background:var(--input-bg);color:var(--text)
+      width:100%;
+      margin:6px 0 0;
+      padding:12px 14px;
+      border-radius:var(--input-radius);
+      border:1px solid var(--input-border);
+      background:var(--input-bg);
+      color:var(--text);
+      outline:none;
+      -webkit-appearance:none;appearance:none;
+      transition:border-color .15s ease, box-shadow .15s ease, background .15s ease;
     }
+    textarea{resize:vertical;min-height:120px}
+    input::placeholder, textarea::placeholder{opacity:.75}
+    input:focus, textarea:focus{
+      border-color:var(--input-focus-border);
+      box-shadow:var(--input-focus-ring);
+      background:rgba(255,255,255,.07);
+    }
+    /* Alineación del bloque de contacto derecho */
+    .contact-alt{padding:16px;display:grid;gap:10px;align-content:flex-start}
 
     /* Footer */
     footer{padding:30px 0 50px;color:var(--muted);border-top:var(--hdr-border)}
@@ -206,12 +227,12 @@
     .float-cta{position:fixed;right:18px;bottom:18px;z-index:20}
     .float-cta a{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.05rem;border-radius:999px;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#041015;font-weight:900;box-shadow:0 12px 28px rgba(6,182,212,.22)}
 
-    /* NUEVO: Botón flotante de WhatsApp */
+    /* Botón flotante de WhatsApp */
     .whatsapp-float {
       position: fixed;
       width: 60px;
       height: 60px;
-      bottom: 90px; /* Ajustado para no superponerse con el otro botón */
+      bottom: 90px; /* no se superpone con el otro botón */
       right: 18px;
       background-color: #25d366;
       color: #FFF;
@@ -224,14 +245,8 @@
       justify-content: center;
       transition: background-color .2s ease;
     }
-    .whatsapp-float:hover {
-      background-color: #128C7E;
-    }
-    .whatsapp-float svg {
-        width: 32px;
-        height: 32px;
-        fill: white;
-    }
+    .whatsapp-float:hover { background-color: #128C7E; }
+    .whatsapp-float svg { width: 32px; height: 32px; fill: white; }
   </style>
 </head>
 <body>
@@ -398,23 +413,29 @@
       <p class="muted" data-i18n="contact_sub">Contame brevemente tu idea y el objetivo de tu página. Te respondo con una propuesta simple y un tiempo estimado de entrega.</p>
 
       <div class="grid" style="--cols:2;grid-template-columns:1.2fr .8fr">
-        
-        <form class="card" style="padding:16px" action="#" method="POST">
+        <!-- FORMULARIO -->
+        <form class="card contact-form" action="#" method="POST" style="padding:16px">
           <label data-i18n="label_name">Nombre
-            <input required name="nombre" placeholder="Tu nombre" data-i18n-attr="placeholder:ph_name" />
+            <input required type="text" name="nombre" placeholder="Tu nombre" data-i18n-attr="placeholder:ph_name" />
           </label>
+
           <label data-i18n="label_email">Email
             <input required type="email" name="email" placeholder="tunombre@correo.com" data-i18n-attr="placeholder:ph_email"/>
           </label>
-          <label>Teléfono (opcional)
+
+          <label>Teléfono <small>(opcional)</small>
             <input type="tel" name="telefono" placeholder="Tu número de teléfono"/>
           </label>
+
           <label data-i18n="label_message">Mensaje
             <textarea required name="mensaje" rows="4" placeholder="Quiero una landing para…" data-i18n-attr="placeholder:ph_message"></textarea>
           </label>
+
           <button class="cta-plan" type="submit" data-i18n="btn_send">Enviar</button>
         </form>
-        <div class="card" style="padding:16px;display:grid;gap:10px; align-content: flex-start;">
+
+        <!-- CONTACTO ALTERNATIVO -->
+        <div class="card contact-alt">
           <h4 data-i18n="contact_alt_title">También podés escribirme directo</h4>
           <a class="cta-plan" href="https://wa.me/5491162857653" target="_blank" rel="noopener">WhatsApp</a>
           <a class="cta-plan" href="mailto:info@andromadorian.site">Email</a>
@@ -447,6 +468,7 @@
         <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 221.9-99.6 221.9-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.8 0-67.6-9.5-97.8-26.7l-7-4.1-72.5 19.1 19.4-70.5-4.5-7.3C51.9 358.3 48 322.9 48 288c0-97.2 79.2-176 176-176s176 78.8 176 176-79.2 176-176 176zm94.4-118.9l-20.2-10.1c-12.2-6.1-20.3-5.1-24.9 5.1-4.6 10.2-16.4 20.3-21 24.9-4.6 4.6-9.2 5.1-16.4 2.5-7.2-2.5-30.7-11.2-58.3-35.4-21.5-18.9-35.4-42.5-38.9-49.7-3.5-7.2-1.5-11.2 2.5-15.3 3.5-3.5 7.7-9.2 10.2-12.2 2.5-3.1 5.1-6.1 7.2-10.2 2.5-4.6.5-9.2-2-11.7l-15.3-36.8c-2.5-6.1-5.1-7.2-9.2-7.2-3.1 0-7.2 0-11.2 0-4.1 0-11.2 1.5-16.4 7.2-5.1 5.1-20.3 19.4-20.3 46.6 0 27.2 20.8 54.3 23.9 58.9 3.1 4.6 40.5 64.9 98.4 86.8 14.2 5.1 27.5 8.2 37.8 10.7 10.2 2.5 19.4 1.5 26.7-1.5 7.7-3.5 20.3-8.7 23.4-16.4 3.1-7.7 3.1-14.2 2-16.4z"/>
     </svg>
   </a>
+
   <script>
     // Año en footer
     document.getElementById('year').textContent = new Date().getFullYear()
