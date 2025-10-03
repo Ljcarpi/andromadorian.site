@@ -18,6 +18,23 @@
         radial-gradient(1400px 900px at 10% 10%, #0e1630 0%, #0b1226 35%, transparent 60%),
         radial-gradient(1200px 800px at 90% 90%, #152645 0%, #0f1a30 40%, #080c14 80%),
         #080c14;
+      
+      /* Variables para la posición de los gradientes principales (animados) */
+      --grad1-pos: 50% 22%;
+      --grad2-pos: 50% 78%;
+      --grad3-pos: 10% 10%;
+      --grad4-pos: 90% 90%;
+      
+      /* Nuevo --bg que usa las variables de posición y define el fondo para el modo oscuro */
+      --bg-dark: 
+        radial-gradient(1000px 700px at var(--grad1-pos), rgba(124,58,237,.28), transparent 60%),
+        radial-gradient(1100px 800px at var(--grad2-pos), rgba(6,182,212,.22), transparent 62%),
+        radial-gradient(1400px 900px at var(--grad3-pos), #0e1630 0%, #0b1226 35%, transparent 60%),
+        radial-gradient(1200px 800px at var(--grad4-pos), #152645 0%, #0f1a30 40%, #080c14 80%),
+        #080c14;
+
+      --bg: var(--bg-dark); /* Por defecto usa el fondo oscuro animable */
+
 
       --card:#0f1830;
       --muted:#a9b4c7;
@@ -43,18 +60,18 @@
       --input-radius: 12px;
       --input-focus-ring: 0 0 0 6px rgba(124,58,237,.15);
       --input-focus-border: rgba(124,58,237,.55);
-
-      /* Fondo dinámico (valores por defecto tema oscuro) */
-      --blob1: rgba(124,58,237,.30); /* violeta */
-      --blob2: rgba(6,182,212,.22);  /* cian */
-      --blob-blur: 80px;             /* desenfoque grande para “difuminado” */
     }
 
     /* Light theme overrides */
     html.theme-light{
+      --grad1-pos: 50% 18%;
+      --grad2-pos: 50% 82%;
+      --grad3-pos: 10% 10%; /* Se mantienen estáticos en light theme, si deseas animarlos, habría que ajustar */
+      --grad4-pos: 90% 90%; /* Se mantienen estáticos en light theme, si deseas animarlos, habría que ajustar */
+
       --bg:
-        radial-gradient(1000px 700px at 50% 18%, rgba(124,58,237,.16), transparent 60%),
-        radial-gradient(1100px 800px at 50% 82%, rgba(6,182,212,.14), transparent 62%),
+        radial-gradient(1000px 700px at var(--grad1-pos), rgba(124,58,237,.16), transparent 60%),
+        radial-gradient(1100px 800px at var(--grad2-pos), rgba(6,182,212,.14), transparent 62%),
         #ffffff;
 
       --card:#ffffff;
@@ -76,64 +93,53 @@
       --ghost-border: 1px solid rgba(0,0,0,.16);
       --sep: rgba(0,0,0,.18);
       --link-underline: rgba(0,0,0,.7);
-
-      /* Fondo dinámico (tema claro: ligeramente más suave) */
-      --blob1: rgba(124,58,237,.22);
-      --blob2: rgba(6,182,212,.18);
-      --blob-blur: 70px;
     }
+
+    /* 💡 Animación para el fondo dinámico (solo en tema oscuro) */
+    @keyframes flow-background {
+        0% {
+            --grad1-pos: 50% 22%;
+            --grad2-pos: 50% 78%;
+        }
+        25% {
+            --grad1-pos: 51% 23%;
+            --grad2-pos: 49% 77%;
+        }
+        50% {
+            --grad1-pos: 50% 22%;
+            --grad2-pos: 50% 78%;
+        }
+        75% {
+            --grad1-pos: 49% 21%;
+            --grad2-pos: 51% 79%;
+        }
+        100% {
+            --grad1-pos: 50% 22%;
+            --grad2-pos: 50% 78%;
+        }
+    }
+    
+    /* Aplicar la animación al body/html */
+    html, body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font: 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    /* Solo aplica la animación en el tema oscuro y no en el claro */
+    html:not(.theme-light) body {
+        animation: flow-background 20s ease-in-out infinite alternate; 
+    }
+    /* El selector original del body necesita reescribirse para incluir la animación si no es light-theme */
+    /* Lo reescribo arriba e incluyo la animación solo para el tema oscuro. */
 
     *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--text);
-      font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"}
+    /* html,body{margin:0;background:var(--bg);color:var(--text);
+      font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"} */
     a{color:inherit;text-decoration:none}
+    /* Mejoras: Todas las imágenes de ejemplos tienen 16/10 de ratio */
     img{max-width:100%;display:block;height:auto} 
-
-    /* ===== Fondo dinámico (capa animada) ===== */
-    body{position:relative}
-    .bg-anim{
-      position:fixed;
-      inset:-20vmax;       /* extra grande para que al moverse no se vean bordes */
-      z-index:-1;
-      pointer-events:none; /* no interfiere con clicks */
-      filter:saturate(120%) contrast(105%);
-    }
-    .bg-anim::before,
-    .bg-anim::after{
-      content:"";
-      position:absolute;
-      width:120vmax; height:120vmax;
-      border-radius:50%;
-      filter: blur(var(--blob-blur));
-      will-change: transform, opacity;
-    }
-    /* Blob violeta */
-    .bg-anim::before{
-      left:-10vmax; top:-8vmax;
-      background: radial-gradient(circle at 50% 50%, var(--blob1), transparent 60%);
-      animation: driftA 48s ease-in-out infinite alternate;
-    }
-    /* Blob cian */
-    .bg-anim::after{
-      right:-6vmax; bottom:-6vmax;
-      background: radial-gradient(circle at 50% 50%, var(--blob2), transparent 62%);
-      animation: driftB 60s ease-in-out infinite alternate;
-    }
-    @keyframes driftA{
-      0%   { transform: translate3d(0,0,0) scale(1); }
-      50%  { transform: translate3d(6vmax, -4vmax, 0) scale(1.08) rotate(8deg); }
-      100% { transform: translate3d(2vmax, 5vmax, 0)  scale(1.04) rotate(-6deg); }
-    }
-    @keyframes driftB{
-      0%   { transform: translate3d(0,0,0) scale(1.05); }
-      50%  { transform: translate3d(-8vmax, 6vmax,0) scale(1.12) rotate(-10deg); }
-      100% { transform: translate3d(-3vmax,-5vmax,0) scale(1.03) rotate(6deg); }
-    }
-    /* Respeto accesibilidad: si el usuario pide menos movimiento, se desactiva */
-    @media (prefers-reduced-motion: reduce){
-      .bg-anim::before, .bg-anim::after{ animation:none }
-    }
-    /* ===== Fin fondo dinámico ===== */
 
     /* Layout */
     .container{width:min(1100px, 92vw);margin-inline:auto}
@@ -148,7 +154,7 @@
     .nav a.btn{padding:.55rem .95rem;border-radius:999px;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#041015;font-weight:800;box-shadow:0 8px 20px rgba(6,182,212,.25)}
 
     /* Toolbar: language + theme */
-    .toolbar{display:flex;align-items:center}
+    .toolbar{display:flex;align-items:center} /* Esta clase solo se define pero no se usa en el HTML */
     .toolbar .sep{width:1px;height:22px;background:var(--sep);margin:0 14px}
 
     .lang-switch{display:flex;border-radius:999px;overflow:hidden;border:1px solid var(--border)}
@@ -181,16 +187,35 @@
 
     .theme-toggle{display:none;} /* legado */
 
-    /* INICIO FIX MÓVIL */
+    /* INICIO FIX MÓVIL (SOBRE ESCRITURA PARA PANTALLAS PEQUEÑAS) */
     @media (max-width: 580px) {
-      .links { display: none; }
-      .theme-switch button span:not(.ico) { display: none; }
-      .theme-switch button { padding: .45rem .6rem; }
-      .theme-switch { margin-left: .5rem; }
-      .actions { gap: .5rem; }
-      .nav { padding: 10px 0; }
+      /* Oculta la navegación principal y el botón CTA para priorizar el logo y los toggles */
+      .links {
+        display: none;
+      }
+      /* Oculta el texto del selector de tema, dejando solo el icono (Fix de solapamiento) */
+      .theme-switch button span:not(.ico) {
+        display: none;
+      }
+      /* Reduce el padding para que los botones de tema sean más pequeños */
+      .theme-switch button {
+        padding: .45rem .6rem; 
+      }
+      /* Elimina el margen a la izquierda del theme-switch */
+      .theme-switch {
+        margin-left: .5rem; 
+      }
+      /* Reduce el gap en .actions */
+      .actions {
+        gap: .5rem; 
+      }
+      /* Ajusta el padding de la cabecera */
+      .nav {
+        padding: 10px 0;
+      }
     }
     /* FIN FIX MÓVIL */
+
 
     /* Hero */
     .hero{position:relative;isolation:isolate}
@@ -320,6 +345,7 @@
     .alt-contact .cta-buttons{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
     .alt-contact .ghost{padding:.75rem 1rem;border-radius:12px}
 
+
     /* Footer */
     footer{padding:30px 0 50px;color:var(--muted);border-top:var(--hdr-border)}
     .foot{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
@@ -354,9 +380,6 @@
   </style>
 </head>
 <body>
-  <!-- Capa de fondo dinámico -->
-  <div class="bg-anim" aria-hidden="true"></div>
-
   <header>
     <div class="container nav">
       <a class="brand" href="#top" aria-label="Inicio" data-i18n-attr="aria-label:aria_brand">
@@ -684,9 +707,10 @@
         ex4_desc: "Sell a course, ebook, or template with a clear CTA.",
         ex4_alt: "Digital product landing",
 
+        // MEJORA: Nuevas claves para la sección Paquetes
         pricing_title: "Packages & pricing",
         pricing_sub: "Choose the plan that best fits your project. Clear deliverables, no hassle.",
-        get_your_site_title: "Get Your Website",
+        get_your_site_title: "Get Your Website", // Nueva clave
 
         plan_basic_name: "Basic Landing",
         plan_basic_price: "USD 40",
