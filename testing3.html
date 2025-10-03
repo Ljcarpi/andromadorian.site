@@ -91,7 +91,7 @@
     .links a:hover{opacity:1}
     .nav a.btn{padding:.55rem .95rem;border-radius:999px;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#041015;font-weight:800;box-shadow:0 8px 20px rgba(6,182,212,.25)}
 
-    /* Toolbar: language + theme, deliberadamente separadas */
+    /* Toolbar: language + theme */
     .toolbar{display:flex;align-items:center}
     .toolbar .sep{width:1px;height:22px;background:var(--sep);margin:0 14px}
 
@@ -105,7 +105,6 @@
     .lang-switch button.active{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#041015}
     .flag{font-size:1rem;line-height:1}
 
-    /* Theme segmented control */
     .theme-switch{
       display:flex;align-items:center;border-radius:14px;overflow:hidden;
       border:1px solid var(--border); background:var(--surface-grad-dark);
@@ -187,34 +186,6 @@
 
     /* Nota dominio */
     .note{margin-top:12px;color:var(--muted);font-size:.95rem;border-left:3px solid var(--brand);padding-left:10px}
-
-    /* ---------- FORMULARIO (mejoras de estilo y foco) ---------- */
-    .contact-form{display:grid;gap:14px}
-    .contact-form label{font-weight:700;display:block}
-    .contact-form small{color:var(--muted);font-weight:400}
-    .contact-form .cta-plan{width:100%;text-align:center}
-
-    input, textarea{
-      width:100%;
-      margin:6px 0 0;
-      padding:12px 14px;
-      border-radius:var(--input-radius);
-      border:1px solid var(--input-border);
-      background:var(--input-bg);
-      color:var(--text);
-      outline:none;
-      -webkit-appearance:none;appearance:none;
-      transition:border-color .15s ease, box-shadow .15s ease, background .15s ease;
-    }
-    textarea{resize:vertical;min-height:120px}
-    input::placeholder, textarea::placeholder{opacity:.75}
-    input:focus, textarea:focus{
-      border-color:var(--input-focus-border);
-      box-shadow:var(--input-focus-ring);
-      background:rgba(255,255,255,.07);
-    }
-    /* Alineación del bloque de contacto derecho */
-    .contact-alt{padding:16px;display:grid;gap:10px;align-content:flex-start}
 
     /* Footer */
     footer{padding:30px 0 50px;color:var(--muted);border-top:var(--hdr-border)}
@@ -404,44 +375,6 @@
       </div>
 
       <p class="note" data-i18n="pricing_note">Nota: el <strong>dominio no está incluido</strong> en el costo de los paquetes.</p>
-    </div>
-  </section>
-
-  <section id="contacto">
-    <div class="container">
-      <h2 class="section-title" data-i18n="contact_title">Contacto</h2>
-      <p class="muted" data-i18n="contact_sub">Contame brevemente tu idea y el objetivo de tu página. Te respondo con una propuesta simple y un tiempo estimado de entrega.</p>
-
-      <div class="grid" style="--cols:2;grid-template-columns:1.2fr .8fr">
-        <!-- FORMULARIO -->
-        <form class="card contact-form" action="#" method="POST" style="padding:16px">
-          <label data-i18n="label_name">Nombre
-            <input required type="text" name="nombre" placeholder="Tu nombre" data-i18n-attr="placeholder:ph_name" />
-          </label>
-
-          <label data-i18n="label_email">Email
-            <input required type="email" name="email" placeholder="tunombre@correo.com" data-i18n-attr="placeholder:ph_email"/>
-          </label>
-
-          <label>Teléfono <small>(opcional)</small>
-            <input type="tel" name="telefono" placeholder="Tu número de teléfono"/>
-          </label>
-
-          <label data-i18n="label_message">Mensaje
-            <textarea required name="mensaje" rows="4" placeholder="Quiero una landing para…" data-i18n-attr="placeholder:ph_message"></textarea>
-          </label>
-
-          <button class="cta-plan" type="submit" data-i18n="btn_send">Enviar</button>
-        </form>
-
-        <!-- CONTACTO ALTERNATIVO -->
-        <div class="card contact-alt">
-          <h4 data-i18n="contact_alt_title">También podés escribirme directo</h4>
-          <a class="cta-plan" href="https://wa.me/5491162857653" target="_blank" rel="noopener">WhatsApp</a>
-          <a class="cta-plan" href="mailto:info@andromadorian.site">Email</a>
-          <p class="muted small" data-i18n="contact_reply">Responderé lo antes posible.</p>
-        </div>
-      </div>
     </div>
   </section>
 
