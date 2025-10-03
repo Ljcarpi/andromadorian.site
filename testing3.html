@@ -186,6 +186,56 @@
 
     /* Nota dominio */
     .note{margin-top:12px;color:var(--muted);font-size:.95rem;border-left:3px solid var(--brand);padding-left:10px}
+    
+    /* Formulario de Contacto */
+    .form-grid{display:grid;gap:16px;margin-top:24px}
+    @media(min-width:720px){
+      .form-grid{
+        grid-template-columns:1fr 1fr;
+        grid-template-areas:
+          "name email"
+          "phone phone"
+          "msg msg"
+          "btn .";
+      }
+      .field-name{grid-area:name}
+      .field-email{grid-area:email}
+      .field-phone{grid-area:phone}
+      .field-msg{grid-area:msg}
+      .field-btn{grid-area:btn}
+    }
+    .form-field{display:flex;flex-direction:column;gap:6px}
+    .form-field label{font-weight:700;font-size:.9rem;opacity:.9;padding-left:4px}
+    .form-field input, .form-field textarea{
+      background:var(--input-bg);
+      border:1px solid var(--input-border);
+      border-radius:var(--input-radius);
+      padding:.8rem 1rem;
+      color:var(--text);
+      font:inherit;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    .form-field input:focus, .form-field textarea:focus{
+      outline:none;
+      border-color:var(--input-focus-border);
+      box-shadow:var(--input-focus-ring);
+    }
+    .form-field textarea{resize:vertical;min-height:100px}
+    .form-btn{
+      padding:.85rem 1.15rem;
+      border-radius:14px;
+      border:0;
+      background:linear-gradient(135deg,var(--brand),var(--brand-2));
+      color:#041015;
+      font-weight:900;
+      box-shadow:0 10px 26px rgba(124,58,237,.25), 0 10px 30px rgba(6,182,212,.18);
+      cursor:pointer;
+      font-size:1rem;
+    }
+    .alt-contact{margin-top:32px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}
+    .alt-contact .cta-buttons{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+    .alt-contact .ghost{padding:.75rem 1rem;border-radius:12px}
+
 
     /* Footer */
     footer{padding:30px 0 50px;color:var(--muted);border-top:var(--hdr-border)}
@@ -264,120 +314,159 @@
     </div>
   </header>
 
-  <section class="hero">
-    <div class="container wrap">
-      <h1 data-i18n="hero_title">Sitios web que venden. Rápidos, limpios y con estilo.</h1>
-      <p data-i18n="hero_sub">
-        Diseño landings claras, con mensajes directos y llamados a la acción efectivos. Me encargo del lanzamiento completo para que puedas enfocarte en tu negocio.
-      </p>
-      <div class="cta">
-        <a class="primary" href="#paquetes" data-i18n="cta_pricing">Ver paquetes y precios</a>
-        <a class="ghost" href="#ejemplos" data-i18n="cta_examples">Ver ejemplos reales</a>
-      </div>
-      <div class="card" style="margin-top:18px;border:1px solid var(--border-soft);padding:18px;background:linear-gradient(180deg,rgba(124,58,237,.10),rgba(6,182,212,.08))">
-        <p style="margin:0;color:var(--text)" data-i18n="hook_text">
-          ¿Querés una presencia online clara y que inspire confianza? Me enfoco en <strong>mensajes simples</strong>,
-          <strong>diseño limpio</strong> y <strong>acciones directas</strong>. Entrego rápido, con un estilo moderno
-          violeta-azul y sin complicaciones. Vos me contás la idea, yo me encargo del resto.
+  <main>
+    <section class="hero">
+      <div class="container wrap">
+        <h1 data-i18n="hero_title">Sitios web que venden. Rápidos, limpios y con estilo.</h1>
+        <p data-i18n="hero_sub">
+          Diseño landings claras, con mensajes directos y llamados a la acción efectivos. Me encargo del lanzamiento completo para que puedas enfocarte en tu negocio.
         </p>
+        <div class="cta">
+          <a class="primary" href="#paquetes" data-i18n="cta_pricing">Ver paquetes y precios</a>
+          <a class="ghost" href="#ejemplos" data-i18n="cta_examples">Ver ejemplos reales</a>
+        </div>
+        <div class="card" style="margin-top:18px;border:1px solid var(--border-soft);padding:18px;background:linear-gradient(180deg,rgba(124,58,237,.10),rgba(6,182,212,.08))">
+          <p style="margin:0;color:var(--text)" data-i18n="hook_text">
+            ¿Querés una presencia online clara y que inspire confianza? Me enfoco en <strong>mensajes simples</strong>,
+            <strong>diseño limpio</strong> y <strong>acciones directas</strong>. Entrego rápido, con un estilo moderno
+            violeta-azul y sin complicaciones. Vos me contás la idea, yo me encargo del resto.
+          </p>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="ejemplos">
-    <div class="container">
-      <h2 class="section-title" data-i18n="examples_title">Ejemplos</h2>
-      <p class="muted" data-i18n="examples_sub">Subsitios simples que muestran diferentes usos. Cada ejemplo abre en una página dedicada.</p>
+    <section id="ejemplos">
+      <div class="container">
+        <h2 class="section-title" data-i18n="examples_title">Ejemplos</h2>
+        <p class="muted" data-i18n="examples_sub">Subsitios simples que muestran diferentes usos. Cada ejemplo abre en una página dedicada.</p>
 
-      <div class="grid" role="list">
-        <a class="card" role="listitem" href="/freelancer.html">
-          <img src="/landing-eg/freelancer.jpg" alt="Landing de profesional o freelancer" data-i18n-attr="alt:ex1_alt"/>
-          <div class="card-body">
-            <span class="tag" data-i18n="tag_basic">Landing Básica</span>
-            <h4 data-i18n="ex1_title">Perfil profesional</h4>
-            <p data-i18n="ex1_desc">Currículum online con proyectos y contacto.</p>
-          </div>
-        </a>
+        <div class="grid" role="list">
+          <a class="card" role="listitem" href="/freelancer.html">
+            <img src="/landing-eg/freelancer.jpg" alt="Landing de profesional o freelancer" data-i18n-attr="alt:ex1_alt"/>
+            <div class="card-body">
+              <span class="tag" data-i18n="tag_basic">Landing Básica</span>
+              <h4 data-i18n="ex1_title">Perfil profesional</h4>
+              <p data-i18n="ex1_desc">Currículum online con proyectos y contacto.</p>
+            </div>
+          </a>
 
-        <a class="card" role="listitem" href="/blog.html">
-          <img src="/landing-eg/blog.jpg" alt="Blog estático" data-i18n-attr="alt:ex2_alt"/>
-          <div class="card-body">
-            <span class="tag" data-i18n="tag_basic">Landing Básica</span>
-            <h4 data-i18n="ex2_title">Blog</h4>
-            <p data-i18n="ex2_desc">Artículos simples sin base de datos.</p>
-          </div>
-        </a>
+          <a class="card" role="listitem" href="/blog.html">
+            <img src="/landing-eg/blog.jpg" alt="Blog estático" data-i18n-attr="alt:ex2_alt"/>
+            <div class="card-body">
+              <span class="tag" data-i18n="tag_basic">Landing Básica</span>
+              <h4 data-i18n="ex2_title">Blog</h4>
+              <p data-i18n="ex2_desc">Artículos simples sin base de datos.</p>
+            </div>
+          </a>
 
-        <a class="card" role="listitem" href="/negocio-local.html">
-          <img src="/landing-eg/negocio-local.jpg" alt="Landing para negocio local" data-i18n-attr="alt:ex3_alt"/>
-          <div class="card-body">
-            <span class="tag" data-i18n="tag_pro">Landing PRO</span>
-            <h4 data-i18n="ex3_title">Negocio local</h4>
-            <p data-i18n="ex3_desc">Servicios, horarios, mapa y acceso rápido a WhatsApp.</p>
-          </div>
-        </a>
+          <a class="card" role="listitem" href="/negocio-local.html">
+            <img src="/landing-eg/negocio-local.jpg" alt="Landing para negocio local" data-i18n-attr="alt:ex3_alt"/>
+            <div class="card-body">
+              <span class="tag" data-i18n="tag_pro">Landing PRO</span>
+              <h4 data-i18n="ex3_title">Negocio local</h4>
+              <p data-i18n="ex3_desc">Servicios, horarios, mapa y acceso rápido a WhatsApp.</p>
+            </div>
+          </a>
 
-        <a class="card" role="listitem" href="/producto-digital.html">
-          <img src="/landing-eg/producto-digital.jpg" alt="Landing de producto digital" data-i18n-attr="alt:ex4_alt"/>
-          <div class="card-body">
-            <span class="tag" data-i18n="tag_promax">Landing PRO MAX</span>
-            <h4 data-i18n="ex4_title">Producto digital</h4>
-            <p data-i18n="ex4_desc">Venta de curso, ebook o plantilla con CTA clara.</p>
-          </div>
-        </a>
+          <a class="card" role="listitem" href="/producto-digital.html">
+            <img src="/landing-eg/producto-digital.jpg" alt="Landing de producto digital" data-i18n-attr="alt:ex4_alt"/>
+            <div class="card-body">
+              <span class="tag" data-i18n="tag_promax">Landing PRO MAX</span>
+              <h4 data-i18n="ex4_title">Producto digital</h4>
+              <p data-i18n="ex4_desc">Venta de curso, ebook o plantilla con CTA clara.</p>
+            </div>
+          </a>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="paquetes">
-    <div class="container">
-      <h2 class="section-title" data-i18n="pricing_title">Paquetes y precios</h2>
-      <p class="muted" data-i18n="pricing_sub">Elegí el plan que mejor se adapte a tu proyecto. Entregas claras y sin vueltas.</p>
+    <section id="paquetes">
+      <div class="container">
+        <h2 class="section-title" data-i18n="pricing_title">Paquetes y precios</h2>
+        <p class="muted" data-i18n="pricing_sub">Elegí el plan que mejor se adapte a tu proyecto. Entregas claras y sin vueltas.</p>
 
-      <div class="pricing">
-        <article class="plan" aria-labelledby="plan-basica">
-          <h3 id="plan-basica" data-i18n="plan_basic_name">Landing Básica</h3>
-          <div class="price" data-i18n="plan_basic_price">USD 40</div>
-          <ul>
-            <li data-i18n="plan_basic_f1">1 sección larga y clara</li>
-            <li data-i18n="plan_basic_f2">Diseño adaptable a móvil</li>
-            <li data-i18n="plan_basic_f3">Optimización básica de carga</li>
-            <li data-i18n="plan_basic_f4">Botones de llamada a la acción</li>
-          </ul>
-          <a class="cta-plan" href="#contacto" data-i18n="plan_cta">Quiero este plan</a>
-        </article>
+        <div class="pricing">
+          <article class="plan" aria-labelledby="plan-basica">
+            <h3 id="plan-basica" data-i18n="plan_basic_name">Landing Básica</h3>
+            <div class="price" data-i18n="plan_basic_price">USD 40</div>
+            <ul>
+              <li data-i18n="plan_basic_f1">1 sección larga y clara</li>
+              <li data-i18n="plan_basic_f2">Diseño adaptable a móvil</li>
+              <li data-i18n="plan_basic_f3">Optimización básica de carga</li>
+              <li data-i18n="plan_basic_f4">Botones de llamada a la acción</li>
+            </ul>
+            <a class="cta-plan" href="#contacto" data-i18n="plan_cta">Quiero este plan</a>
+          </article>
 
-        <article class="plan" aria-labelledby="plan-pro">
-          <span class="badge" data-i18n="plan_badge">Más elegido</span>
-          <h3 id="plan-pro" data-i18n="plan_pro_name">Landing PRO</h3>
-          <div class="price" data-i18n="plan_pro_price">USD 90</div>
-          <ul>
-            <li data-i18n="plan_pro_f1">Todo lo del paquete Básico</li>
-            <li data-i18n="plan_pro_f2">Hasta 5 secciones (contacto, acerca de, etc.)</li>
-            <li data-i18n="plan_pro_f3">Integración de mapa</li>
-            <li data-i18n="plan_pro_f4">Acceso rápido a WhatsApp</li>
-          </ul>
-          <a class="cta-plan" href="#contacto" data-i18n="plan_cta">Quiero este plan</a>
-        </article>
+          <article class="plan" aria-labelledby="plan-pro">
+            <span class="badge" data-i18n="plan_badge">Más elegido</span>
+            <h3 id="plan-pro" data-i18n="plan_pro_name">Landing PRO</h3>
+            <div class="price" data-i18n="plan_pro_price">USD 90</div>
+            <ul>
+              <li data-i18n="plan_pro_f1">Todo lo del paquete Básico</li>
+              <li data-i18n="plan_pro_f2">Hasta 5 secciones (contacto, acerca de, etc.)</li>
+              <li data-i18n="plan_pro_f3">Integración de mapa</li>
+              <li data-i18n="plan_pro_f4">Acceso rápido a WhatsApp</li>
+            </ul>
+            <a class="cta-plan" href="#contacto" data-i18n="plan_cta">Quiero este plan</a>
+          </article>
 
-        <article class="plan" aria-labelledby="plan-promax">
-          <h3 id="plan-promax" data-i18n="plan_promax_name">Landing PRO MAX</h3>
-          <div class="price" data-i18n="plan_promax_price">USD 150</div>
-          <ul>
-            <li data-i18n="plan_promax_f1">Todo lo del paquete PRO</li>
-            <li data-i18n="plan_promax_f2">Hasta 10 secciones (contacto, acerca de, etc.)</li>
-            <li data-i18n="plan_promax_f3">Integración de mapa</li>
-            <li data-i18n="plan_promax_f4">Acceso rápido a WhatsApp</li>
-            <li data-i18n="plan_promax_f5">5 casillas de correo corporativo con tu dominio</li>
-          </ul>
-          <a class="cta-plan" href="#contacto" data-i18n="plan_cta">Quiero este plan</a>
-        </article>
+          <article class="plan" aria-labelledby="plan-promax">
+            <h3 id="plan-promax" data-i18n="plan_promax_name">Landing PRO MAX</h3>
+            <div class="price" data-i18n="plan_promax_price">USD 150</div>
+            <ul>
+              <li data-i18n="plan_promax_f1">Todo lo del paquete PRO</li>
+              <li data-i18n="plan_promax_f2">Hasta 10 secciones (contacto, acerca de, etc.)</li>
+              <li data-i18n="plan_promax_f3">Integración de mapa</li>
+              <li data-i18n="plan_promax_f4">Acceso rápido a WhatsApp</li>
+              <li data-i18n="plan_promax_f5">5 casillas de correo corporativo con tu dominio</li>
+            </ul>
+            <a class="cta-plan" href="#contacto" data-i18n="plan_cta">Quiero este plan</a>
+          </article>
+        </div>
+
+        <p class="note" data-i18n="pricing_note">Nota: el <strong>dominio no está incluido</strong> en el costo de los paquetes.</p>
       </div>
+    </section>
 
-      <p class="note" data-i18n="pricing_note">Nota: el <strong>dominio no está incluido</strong> en el costo de los paquetes.</p>
-    </div>
-  </section>
-
+    <section id="contacto">
+      <div class="container">
+        <h2 class="section-title" data-i18n="contact_title">Contacto</h2>
+        <p class="muted" data-i18n="contact_sub">Contame brevemente tu idea y el objetivo de tu página. Te respondo con una propuesta simple y un tiempo estimado de entrega.</p>
+        
+        <form class="form-grid" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <div class="form-field field-name">
+            <label for="name" data-i18n="label_name">Nombre</label>
+            <input type="text" id="name" name="name" required data-i18n-attr="placeholder:ph_name" placeholder="Tu nombre">
+          </div>
+          <div class="form-field field-email">
+            <label for="email" data-i18n="label_email">Email</label>
+            <input type="email" id="email" name="email" required data-i18n-attr="placeholder:ph_email" placeholder="tunombre@correo.com">
+          </div>
+          <div class="form-field field-phone">
+            <label for="phone" data-i18n="label_phone">Teléfono (opcional)</label>
+            <input type="tel" id="phone" name="phone" data-i18n-attr="placeholder:ph_phone" placeholder="+54 9 11 ...">
+          </div>
+          <div class="form-field field-msg">
+            <label for="message" data-i18n="label_message">Mensaje</label>
+            <textarea id="message" name="message" rows="4" required data-i18n-attr="placeholder:ph_message" placeholder="Quiero una landing para…"></textarea>
+          </div>
+          <div class="field-btn">
+            <button type="submit" class="form-btn" data-i18n="btn_send">Enviar</button>
+          </div>
+        </form>
+  
+        <div class="alt-contact">
+          <p class="muted" data-i18n="contact_alt_title">También podés escribirme directo:</p>
+          <div class="cta-buttons">
+            <a href="mailto:info@andromadorian.site" class="ghost" data-i18n="btn_email">Enviame un mail</a>
+            <a href="https://wa.me/5491162857653" target="_blank" rel="noopener noreferrer" class="ghost" data-i18n="btn_whatsapp">Enviame un WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    </main>
+  
   <footer>
     <div class="container">
       <div class="foot">
@@ -476,13 +565,16 @@
         contact_sub: "Contame brevemente tu idea y el objetivo de tu página. Te respondo con una propuesta simple y un tiempo estimado de entrega.",
         label_name: "Nombre",
         label_email: "Email",
+        label_phone: "Teléfono (opcional)",
         label_message: "Mensaje",
         ph_name: "Tu nombre",
         ph_email: "tunombre@correo.com",
+        ph_phone: "+54 9 11...",
         ph_message: "Quiero una landing para…",
         btn_send: "Enviar",
-        contact_alt_title: "También podés escribirme directo",
-        contact_reply: "Responderé lo antes posible.",
+        contact_alt_title: "También podés escribirme directo:",
+        btn_email: "Enviame un mail",
+        btn_whatsapp: "Enviame un WhatsApp",
 
         footer_tag: "Sitios web profesionales",
         legal_prefix: "Al usar este sitio aceptás nuestros",
@@ -562,13 +654,16 @@
         contact_sub: "Tell me briefly your idea and your page’s goal. I’ll reply with a simple proposal and an estimated delivery time.",
         label_name: "Name",
         label_email: "Email",
+        label_phone: "Phone (optional)",
         label_message: "Message",
         ph_name: "Your name",
         ph_email: "you@email.com",
+        ph_phone: "+1 123-456-7890",
         ph_message: "I want a landing page for…",
         btn_send: "Send",
-        contact_alt_title: "You can also write me directly",
-        contact_reply: "I'll reply as soon as possible.",
+        contact_alt_title: "You can also write me directly:",
+        btn_email: "Send me an email",
+        btn_whatsapp: "Send me a WhatsApp",
 
         footer_tag: "Professional websites",
         legal_prefix: "By using this site you accept our",
