@@ -12,7 +12,7 @@
       --ink:#111319;
       --bg:#f4f6fa;
       --muted:#6b7280;
-      --brand:#ec6a66; /* coral del header derecho */
+      --brand:#ec6a66;
       --brand-dark:#d85753;
       --line:#e5e7eb;
       --white:#fff;
@@ -26,7 +26,6 @@
     }
     img{max-width:100%;display:block}
 
-    /* Utilidad: solo lectores de pantalla */
     .sr-only{
       position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
       clip:rect(0,0,0,0);white-space:nowrap;border:0
@@ -78,15 +77,14 @@
     .dots span{width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,.55)}
     .dots span:nth-child(1){background:#fff}
 
-    /* Mejoras mobile del hero:
-       - mayor altura en móviles
-       - background-position elevado para mostrar más la cara */
+    /* Mobile hero improvements */
     @media (max-width:880px){
       .hero{grid-template-columns:1fr}
       .hero .right{padding:24px 24px 40px}
-      .badge{right:18px}
+      /* Ocultamos solo en móvil el círculo para no tapar la cara */
+      .badge{display:none}
       .hero .left{
-        min-height:clamp(320px,45vh,520px);
+        min-height:clamp(360px,48vh,560px);
         background-position:center 22%;
       }
     }
@@ -100,20 +98,21 @@
 
     /* ABOUT ME */
     .about-card{
+      position:relative; /* para posicionar el avatar absoluto */
       background:var(--white);border:1px solid var(--line);border-radius:16px;overflow:hidden;
       box-shadow:var(--elev)
     }
-    /* Header de la tarjeta: sin texto visible para evitar solapamiento con el avatar */
     .about-top{
-      background:#f1f2f6;padding:34px 22px;border-bottom:1px solid var(--line);text-align:center;
-      min-height:70px; /* reserva de espacio para el avatar */
-      position:relative
+      background:#f1f2f6;padding:0 22px;border-bottom:1px solid var(--line);
+      height:110px; /* reserva de espacio superior */
     }
+    /* Avatar ahora absoluto para que nunca lo corte el borde */
     .avatar{
-      width:120px;height:120px;border-radius:999px;margin:-70px auto 10px;border:6px solid var(--white);
-      background:url('/landing-eg/freelancer.jpg') center/cover no-repeat
+      position:absolute;left:50%;top:110px;transform:translate(-50%, -50%);
+      width:120px;height:120px;border-radius:999px;border:6px solid var(--white);
+      background:url('/landing-eg/freelancer.jpg') center/cover no-repeat;z-index:2
     }
-    .about-body{padding:18px}
+    .about-body{padding:70px 18px 18px} /* padding-top para despejar el avatar */
     .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
     @media (max-width:720px){.grid-2{grid-template-columns:1fr}}
 
@@ -210,11 +209,13 @@
     <h2 id="about" class="section">Sobre mí</h2>
     <div class="about-card" aria-labelledby="about-title">
       <div class="about-top">
-        <!-- Para accesibilidad, mantenemos el rotulo como sr-only para evitar el solapamiento visual -->
+        <!-- Mantengo el rótulo para accesibilidad sin afectar la UI -->
         <span id="about-title" class="sr-only">Resumen</span>
       </div>
+      <!-- Avatar absoluto para evitar cortes -->
+      <div class="avatar" title="Foto de perfil"></div>
+
       <div class="about-body">
-        <div class="avatar" title="Foto de perfil"></div>
         <p>Me apasiona capturar la personalidad de la gente con luz natural y composiciones simples. Trabajo con empresas, emprendedores y familias para crear imágenes memorables.</p>
         <div class="grid-2" style="margin-top:8px">
           <div>
