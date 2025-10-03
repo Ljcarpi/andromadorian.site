@@ -236,9 +236,6 @@
     .alt-contact .cta-buttons{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
     .alt-contact .ghost{padding:.75rem 1rem;border-radius:12px}
 
-    /* íconos pequeños en enlaces alternativos */
-    .alt-contact .cta-buttons a{display:inline-flex;align-items:center;gap:8px}
-    .alt-contact .cta-buttons svg{width:16px;height:16px;vertical-align:middle}
 
     /* Footer */
     footer{padding:30px 0 50px;color:var(--muted);border-top:var(--hdr-border)}
@@ -247,11 +244,11 @@
     .legal{margin-top:8px;text-align:center}
     .legal a{text-decoration:underline;text-decoration-color:var(--link-underline)}
 
-    /* Botón flotante (ahora "Contactame") */
+    /* Botón flotante a paquetes */
     .float-cta{position:fixed;right:18px;bottom:18px;z-index:20}
     .float-cta a{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.05rem;border-radius:999px;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#041015;font-weight:900;box-shadow:0 12px 28px rgba(6,182,212,.22)}
 
-    /* Botón flotante de WhatsApp */
+    /* Botón flotante de WhatsApp (estilo igual al de negocio-local.html con Feather) */
     .whatsapp-float {
       position: fixed;
       width: 60px;
@@ -271,34 +268,6 @@
     }
     .whatsapp-float:hover { background-color: #128C7E; transform: scale(1.06); }
     .whatsapp-float svg { width: 32px; height: 32px; }
-    
-    /* Recuadro único de precios */
-    .pricing-single{display:grid;gap:18px;margin-top:12px}
-    .plan-single{
-      background:var(--surface-grad-dark);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      padding:26px;
-    }
-    .plan-single .overline{
-      font-weight:800;
-      letter-spacing:.2px;
-      font-size:1rem;
-      opacity:.9;
-      margin:0 0 .2rem;
-    }
-    .plan-single .headline{
-      font-weight:900;
-      font-size:2rem;
-      margin:.2rem 0 1rem;
-      background:linear-gradient(135deg,var(--brand),var(--brand-2));
-      -webkit-background-clip:text;background-clip:text;color:transparent;
-      filter:saturate(120%);
-    }
-    .plan-single ul{
-      list-style:none;margin:0;padding:0;display:grid;gap:8px;color:var(--muted)
-    }
-    .plan-single li::before{content:"• ";color:var(--brand)}
   </style>
 </head>
 <body>
@@ -313,7 +282,7 @@
         <nav class="links">
           <a href="#ejemplos" data-i18n="nav_examples">Ejemplos</a>
           <a href="#contacto" data-i18n="nav_contact">Contacto</a>
-          <a class="btn" href="#paquetes" data-i18n="nav_packages">Ver paquetes</a>
+          <a class="btn" href="#contacto">Contactame</a>
         </nav>
 
 <div class="lang-switch" role="group" aria-label="Idioma / Language">
@@ -410,23 +379,27 @@
       </div>
     </section>
 
-    <!-- PAQUETES: sección simplificada sin título ni subtítulo, con 1 recuadro -->
     <section id="paquetes">
       <div class="container">
-        <div class="pricing-single">
-          <article class="plan-single" aria-label="Oferta única">
-            <p class="overline">Obten tu sitio web</p>
-            <h3 class="headline">Desde 50usd!</h3>
-            <ul>
-              <li>Cientos de estilos diferentes</li>
-              <li>Sitio personalizado a tu eleccion</li>
-              <li>Boton flotante de Whatsapp</li>
-              <li>Formulario de consulta</li>
-              <li>5 casillas de correo con tu dominio (ej: info@tu-dominio.com)</li>
-              <li>Soporte para tu sitio</li>
-            </ul>
-          </article>
-        </div>
+        <article class="plan" style="max-width: 720px; margin-inline: auto; text-align: center;">
+          <h4 style="font-weight: 700; color: var(--muted); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;">Obten tu sitio web</h4>
+          <div class="price" style="font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: 1rem;">Desde 50usd!</div>
+          <ul style="text-align: left; max-width: 450px; margin-inline: auto; display: grid; gap: 10px;">
+            <li>Cientos de estilos diferentes</li>
+            <li>Sitio personalizado a tu eleccion</li>
+            <li>Boton flotante de Whatsapp</li>
+            <li>Formulario de consulta</li>
+            <li>5 casillas de correo con tu dominio (ej: info@tu-dominio.com)</li>
+            <li>Soporte para tu sitio</li>
+            <li>Diseño responsive (se ve perfecto en móviles y tablets)</li>
+            <li>Optimizado para SEO (aparece en Google más rápido)</li>
+            <li>Certificado SSL gratis (sitio seguro con https://)</li>
+            <li>Integración con redes sociales (comparte fácil en Facebook/Instagram)</li>
+          </ul>
+          <p style="font-size: 0.9rem; color: var(--muted); margin-top: 20px; text-align: left; max-width: 450px; margin-inline: auto;">
+            *El dominio no esta incluido. Contactame para saber como obtener uno.
+          </p>
+        </article>
       </div>
     </section>
 
@@ -435,7 +408,6 @@
         <h2 class="section-title" data-i18n="contact_title">Contacto</h2>
         <p class="muted" data-i18n="contact_sub">Contame brevemente tu idea y el objetivo de tu página. Te respondo con una propuesta simple y un tiempo estimado de entrega.</p>
         
-        <!-- NO MODIFICAR FORMULARIO -->
         <form class="form-grid" action="https://formspree.io/f/myznjagg" method="POST">
           <div class="form-field field-name">
             <label for="name" data-i18n="label_name">Nombre</label>
@@ -461,13 +433,13 @@
         <div class="alt-contact">
           <p class="muted" data-i18n="contact_alt_title">También podés escribirme directo:</p>
           <div class="cta-buttons">
-            <a href="mailto:info@andromadorian.site" class="ghost" data-i18n="btn_email">
-              <i data-feather="mail" aria-hidden="true"></i>
-              Enviame un mail
+            <a href="mailto:info@andromadorian.site" class="ghost" style="display: inline-flex; align-items: center; gap: 8px;">
+              <i data-feather="mail"></i>
+              <span data-i18n="btn_email">Enviame un mail</span>
             </a>
-            <a href="https://wa.me/5491162857653" target="_blank" rel="noopener noreferrer" class="ghost" data-i18n="btn_whatsapp">
-              <i data-feather="phone" aria-hidden="true"></i>
-              Enviame un WhatsApp
+            <a href="https://wa.me/5491162857653" target="_blank" rel="noopener noreferrer" class="ghost" style="display: inline-flex; align-items: center; gap: 8px;">
+              <i data-feather="message-circle"></i>
+              <span data-i18n="btn_whatsapp">Enviame un WhatsApp</span>
             </a>
           </div>
         </div>
@@ -491,10 +463,8 @@
     </div>
   </footer>
 
-  <!-- Botón flotante actualizado -->
-  <div class="float-cta"><a href="#contacto" data-i18n="float_cta">Contactame</a></div>
+  <div class="float-cta"><a href="#contacto">Contactame</a></div>
 
-  <!-- Botón flotante WhatsApp -->
   <a href="https://wa.me/5491162857653"
      class="whatsapp-float"
      target="_blank"
@@ -503,7 +473,6 @@
     <i data-feather="message-circle" aria-hidden="true"></i>
   </a>
 
-  <!-- Scripts -->
   <script>
     // Año en footer
     document.getElementById('year').textContent = new Date().getFullYear()
@@ -595,8 +564,7 @@
         legal_and: "y",
         legal_priv: "Privacidad",
 
-        /* Actualizado para el botón flotante */
-        float_cta: "Contactame",
+        float_cta: "Ver paquetes",
         theme_dark: "Tema oscuro",
         theme_light: "Tema claro"
       },
@@ -685,8 +653,7 @@
         legal_and: "and",
         legal_priv: "Privacy",
 
-        /* Updated */
-        float_cta: "Contact me",
+        float_cta: "See packages",
         theme_dark: "Dark theme",
         theme_light: "Light theme"
       }
@@ -778,7 +745,6 @@
     })();
   </script>
 
-  <!-- Feather Icons -->
   <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
   <script>feather.replace();</script>
 </body>
