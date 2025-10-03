@@ -128,11 +128,10 @@
     }
 
     /* Solo aplica la animación en el tema oscuro y no en el claro */
-    html:not(.theme-light) body {
+    /* *** CORRECCIÓN: Aplicar la animación al HTML, no al BODY, para animar las variables de :root. *** */
+    html:not(.theme-light) { 
         animation: flow-background 20s ease-in-out infinite alternate; 
     }
-    /* El selector original del body necesita reescribirse para incluir la animación si no es light-theme */
-    /* Lo reescribo arriba e incluyo la animación solo para el tema oscuro. */
 
     *{box-sizing:border-box}
     /* html,body{margin:0;background:var(--bg);color:var(--text);
