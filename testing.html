@@ -78,9 +78,13 @@
     /* Evitar afectar el texto con filtros */
     #page-content-wrapper { backdrop-filter: blur(0.5px); }
 
-    /* Tarjetas base */
+    /* Tarjetas y botones */
+    .gradient-text{
+      background: linear-gradient(135deg, var(--violet), var(--teal));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
     .soft-card{
-      background: rgba(255,255,255,0.85);
+      background: rgba(255,255,255,0.85); /* un toque más opaco para subir contraste */
       backdrop-filter: blur(8px);
       border:1px solid rgba(0,0,0,.06);
     }
@@ -88,28 +92,8 @@
       background: rgba(23,25,28,0.6);
       border: 1px solid rgba(255,255,255,0.06);
     }
-
-    /* ===== 👇 Corrección puntual para el card de "Incluye / Y también" (tema claro) */
-    html:not(.dark) #pack-card{
-      background: rgba(255,255,255,0.95);       /* un poco más oscuro para subir contraste */
-      color:#0f172a;                             /* texto oscuro por defecto dentro del card */
-      border-color: rgba(0,0,0,.10);
-    }
-    html:not(.dark) #pack-card h3{ color:#111827 !important; }        /* títulos */
-    html:not(.dark) #pack-card p,
-    html:not(.dark) #pack-card li span{ color:#1f2937 !important; }   /* listas y párrafos */
-    /* si una dark: quedara “pegada”, la desactivamos dentro del card */
-    html:not(.dark) #pack-card .dark\:text-white,
-    html:not(.dark) #pack-card .dark\:text-gray-200,
-    html:not(.dark) #pack-card .dark\:text-gray-300{ color:#1f2937 !important; }
-
     .hover-lift{transition:transform .25s ease, box-shadow .25s ease}
     .hover-lift:hover{transform:translateY(-4px)}
-
-    .gradient-text{
-      background: linear-gradient(135deg, var(--violet), var(--teal));
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-    }
 
     .btn-primary{
       background: linear-gradient(135deg, var(--violet), var(--teal));
@@ -178,7 +162,8 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
           <div class="flex items-center space-x-2">
-            <img src="/assets/favicon-16.png" alt="Logo" class="w-4 h-4"/>
+            <!-- Logo más grande: w-8 h-8 -->
+            <img src="/assets/favicon-16.png" alt="Logo" class="w-8 h-8"/>
             <span class="text-xl font-bold gradient-text">Andromadorian</span>
           </div>
 
@@ -300,8 +285,7 @@
           <p class="text-gray-700 dark:text-gray-300" data-i18n="price_sub">Todo incluido en un precio transparente</p>
         </div>
 
-        <!-- 👇 id para aplicar las correcciones de contraste solo a este card -->
-        <div id="pack-card" class="soft-card max-w-4xl mx-auto rounded-2xl shadow-xl overflow-hidden">
+        <div class="soft-card max-w-4xl mx-auto rounded-2xl shadow-xl overflow-hidden">
           <div class="p-8">
             <div class="grid md:grid-cols-2 gap-8">
               <div>
@@ -328,7 +312,7 @@
             <div class="mt-8 p-4 rounded-lg border border-yellow-300/50 bg-yellow-100/70 dark:bg-yellow-900/30 dark:border-yellow-800">
               <p class="text-yellow-900 dark:text-yellow-200 text-sm flex items-center">
                 <i data-feather="info" class="w-4 h-4 mr-2"></i>
-                <em data-i18n="note_domain">El dominio no está incluido. Contactame para saber cómo obtener uno.</em>
+                <em data-i18n="note_domain">El dominio esta incluido en el costo final.</em>
               </p>
             </div>
           </div>
@@ -388,7 +372,7 @@
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-10">
           <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4" data-i18n="ct_title">Contacto</h2>
-          <p class="text-lg md:text-1xl text-gray-700 dark:text-gray-300" data-i18n="ct_sub">
+        <p class="text-lg md:text-1xl text-gray-700 dark:text-gray-300" data-i18n="ct_sub">
             Contame brevemente tu idea y el objetivo de tu página. Te respondo con una propuesta simple y un tiempo estimado de entrega.
           </p>
         </div>
@@ -434,6 +418,92 @@
       </div>
     </section>
 
+    <!-- FAQ (debajo de Contacto) -->
+    <section id="faq" class="py-16">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Preguntas frecuentes (FAQ)</h2>
+          <p class="text-lg text-gray-700 dark:text-gray-300">Hacé click en una pregunta para ver la respuesta.</p>
+        </div>
+
+        <div class="soft-card rounded-2xl p-2 divide-y divide-black/10 dark:divide-white/10">
+          <!-- Item -->
+          <div class="faq-item">
+            <button class="w-full flex items-center justify-between px-5 py-4 text-left">
+              <span class="font-semibold text-gray-900 dark:text-white">¿Cuánto me sale un sitio web?</span>
+              <i data-feather="chevron-down" class="w-5 h-5 faq-icon transition-transform"></i>
+            </button>
+            <div class="faq-panel hidden px-5 pb-5 text-gray-700 dark:text-gray-300">
+              El costo final depende de las funcionalidades que necesites (secciones, formularios, integraciones, etc.). Contame tu idea y te paso un presupuesto sin cargo.
+            </div>
+          </div>
+
+          <!-- Item -->
+          <div class="faq-item">
+            <button class="w-full flex items-center justify-between px-5 py-4 text-left">
+              <span class="font-semibold text-gray-900 dark:text-white">¿Cuánto demora la creación y lanzamiento de un sitio web?</span>
+              <i data-feather="chevron-down" class="w-5 h-5 faq-icon transition-transform"></i>
+            </button>
+            <div class="faq-panel hidden px-5 pb-5 text-gray-700 dark:text-gray-300">
+              Por lo general entre <strong>2 y 3 días</strong> desde que definimos el contenido y el estilo. Sitios más complejos pueden requerir un poco más.
+            </div>
+          </div>
+
+          <!-- Item -->
+          <div class="faq-item">
+            <button class="w-full flex items-center justify-between px-5 py-4 text-left">
+              <span class="font-semibold text-gray-900 dark:text-white">¿Tengo soporte luego de la compra?</span>
+              <i data-feather="chevron-down" class="w-5 h-5 faq-icon transition-transform"></i>
+            </button>
+            <div class="faq-panel hidden px-5 pb-5 text-gray-700 dark:text-gray-300">
+              Sí, <strong>3 meses de soporte gratuito</strong> + <strong>1 cambio</strong> de diseño/contenido dentro de ese período. Pasado ese tiempo, los cambios se cotizan (un cambio menor suele ser &lt;= 10 USD).
+            </div>
+          </div>
+
+          <!-- Extra comunes -->
+          <div class="faq-item">
+            <button class="w-full flex items-center justify-between px-5 py-4 text-left">
+              <span class="font-semibold text-gray-900 dark:text-white">¿Qué necesito para empezar?</span>
+              <i data-feather="chevron-down" class="w-5 h-5 faq-icon transition-transform"></i>
+            </button>
+            <div class="faq-panel hidden px-5 pb-5 text-gray-700 dark:text-gray-300">
+              Un breve resumen de tu negocio/idea, logotipo (si tenés), paleta de colores deseada y ejemplos de sitios que te gusten. Si no tenés nada de eso, te ayudo a definirlo.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="w-full flex items-center justify-between px-5 py-4 text-left">
+              <span class="font-semibold text-gray-900 dark:text-white">¿Incluye dominio y dónde aloja el sitio?</span>
+              <i data-feather="chevron-down" class="w-5 h-5 faq-icon transition-transform"></i>
+            </button>
+            <div class="faq-panel hidden px-5 pb-5 text-gray-700 dark:text-gray-300">
+              El <strong>dominio está incluido</strong> según lo indicado en la sección de precios. Para hosting suelo usar <em>GitHub Pages</em> o <em>Netlify</em> con <strong>SSL gratis</strong>. Si necesitás backend o base de datos, lo vemos a medida.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="w-full flex items-center justify-between px-5 py-4 text-left">
+              <span class="font-semibold text-gray-900 dark:text-white">¿Puedo pagar en cuotas o con diferentes medios de pago?</span>
+              <i data-feather="chevron-down" class="w-5 h-5 faq-icon transition-transform"></i>
+            </button>
+            <div class="faq-panel hidden px-5 pb-5 text-gray-700 dark:text-gray-300">
+              Sí, coordino <strong>múltiples medios de pago</strong> y planes en cuotas según el alcance del proyecto.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="w-full flex items-center justify-between px-5 py-4 text-left">
+              <span class="font-semibold text-gray-900 dark:text-white">¿Podés mejorar o migrar mi sitio actual?</span>
+              <i data-feather="chevron-down" class="w-5 h-5 faq-icon transition-transform"></i>
+            </button>
+            <div class="faq-panel hidden px-5 pb-5 text-gray-700 dark:text-gray-300">
+              Claro. Puedo <strong>modernizar diseño</strong>, <strong>optimizar performance/SEO</strong> y migrar tu contenido a una nueva plataforma manteniendo SEO y enlaces.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- FOOTER -->
     <footer class="border-t border-black/10 dark:border-white/10 py-8">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -457,7 +527,7 @@
     // ===== MENU MÓVIL =====
     const menuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
-    menuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+    menuButton?.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
     document.querySelectorAll('#mobile-menu a[href^="#"]').forEach(link => {
       link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
     });
@@ -472,8 +542,8 @@
       localStorage.setItem('theme', htmlEl.classList.contains('dark') ? 'dark' : 'light');
       setTimeout(()=>feather.replace(),0);
     };
-    document.getElementById('theme-toggle').addEventListener('click', themeToggleHandler);
-    document.getElementById('theme-toggle-mobile').addEventListener('click', themeToggleHandler);
+    document.getElementById('theme-toggle')?.addEventListener('click', themeToggleHandler);
+    document.getElementById('theme-toggle-mobile')?.addEventListener('click', themeToggleHandler);
 
     // ===== I18N =====
     const t = {
@@ -489,7 +559,7 @@
         price_title:'Obten tu sitio web', price_from:'¡Desde 50 U$D!', price_sub:'Todo incluido en un precio transparente',
         inc_title:'Incluye:', inc_1:'Cientos de estilos diferentes', inc_2:'Sitio personalizado a tu elección', inc_3:'Botón flotante de WhatsApp', inc_4:'Formulario de consulta', inc_5:'5 casillas de correo con tu dominio',
         and_title:'Y también:', and_1:'Soporte para tu sitio', and_2:'Diseño responsive completo', and_3:'Optimizado para SEO', and_4:'Certificado SSL gratis', and_5:'Integración con redes sociales',
-        note_domain:'El dominio no está incluido. Contactame para saber cómo obtener uno.',
+        note_domain:'El dominio está incluido en el costo final.',
         ex_title:'Ejemplos', ex_sub:'Subsitios simples que muestran diferentes usos. Cada ejemplo abre en una página dedicada.',
         ex_1_t:'Sitio de freelancer - CV personal', ex_1_d:'Ideal para mostrar tu trabajo, habilidades y contacto de manera profesional.',
         ex_2_t:'Negocio o Local', ex_2_d:'Página de aterrizaje optimizada para reservas, menús o información de tu tienda física.',
@@ -532,13 +602,37 @@
     };
 
     const langHandler = (lang) => () => applyI18n(lang);
-    document.getElementById('lang-es').addEventListener('click', langHandler('es'));
-    document.getElementById('lang-en').addEventListener('click', langHandler('en'));
-    document.getElementById('lang-es-mobile').addEventListener('click', langHandler('es'));
-    document.getElementById('lang-en-mobile').addEventListener('click', langHandler('en'));
+    document.getElementById('lang-es')?.addEventListener('click', langHandler('es'));
+    document.getElementById('lang-en')?.addEventListener('click', langHandler('en'));
+    document.getElementById('lang-es-mobile')?.addEventListener('click', langHandler('es'));
+    document.getElementById('lang-en-mobile')?.addEventListener('click', langHandler('en'));
 
     const savedLang = localStorage.getItem('lang');
     applyI18n(savedLang === 'en' ? 'en' : 'es');
+
+    // ===== FAQ: acordeón =====
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+      const btn = item.querySelector('button');
+      const panel = item.querySelector('.faq-panel');
+      const icon = item.querySelector('.faq-icon');
+
+      btn.addEventListener('click', () => {
+        const isOpen = !panel.classList.contains('hidden');
+
+        // Cerrar otros (acordeón exclusivo)
+        faqItems.forEach(other => {
+          if (other !== item) {
+            other.querySelector('.faq-panel').classList.add('hidden');
+            other.querySelector('.faq-icon')?.classList.remove('rotate-180');
+          }
+        });
+
+        // Toggle actual
+        panel.classList.toggle('hidden');
+        icon.classList.toggle('rotate-180');
+      });
+    });
 
     // Iconos
     feather.replace();
