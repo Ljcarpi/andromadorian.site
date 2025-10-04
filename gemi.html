@@ -11,38 +11,33 @@
     tailwind = { config: { darkMode: 'class' } };
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
     :root{
-      /* Paleta para tema claro (inspirada en la imagen adjunta) */
-      --yellow: #e7ee6a;
-      --lime:   #7be457;
-      --green:  #35d07c;
-      --teal:   #27c0bd;
-      --blue:   #2ba0f1;
-
-      /* Accentos heredados */
-      --violet:#9b5fe0;
-      --violet-soft:#cda7ff;
+      /* Colores aproximados de la imagen adjunta (tema claro) */
+      --violet:#d187e8;     /* rosa/lila suave */
+      --violet-2:#e887e2;   /* magenta suave */
+      --blue:#87c9e8;       /* cian suave */
+      --teal:#e8e287;       /* lima/amarillo verdoso */
+      --teal-2:#f3f0ad;     /* lima claro */
     }
-
     html,body{height:100%}
     body{font-family:'Inter',sans-serif;}
 
-    /* ===== Fondo difuminado ===== */
+    /* Capa de fondo con manchas difuminadas (solo decorativo) */
     .blurred-gradient-bg{
       position:fixed;
       inset:0;
       z-index:-1;
       pointer-events:none;
+      filter: blur(42px) saturate(108%);
+      transform: translateZ(0);
     }
-
-    /* Tema oscuro: SIN CAMBIOS (se respeta tu fondo actual) */
+    /* Fondo para tema oscuro (se mantiene igual) */
     .dark .blurred-gradient-bg{
-      filter: blur(40px) saturate(110%);
       background:
         radial-gradient(60% 60% at 20% 0%, #7c2aa6 0%, transparent 60%),
         radial-gradient(70% 70% at 85% 10%, #165e57 0%, transparent 60%),
@@ -50,117 +45,72 @@
         radial-gradient(80% 80% at 80% 85%, #2a427a 0%, transparent 60%),
         radial-gradient(120% 120% at 50% 30%, rgba(0,0,0,.25) 0%, rgba(0,0,0,0) 60%);
     }
-
-    /* Tema claro: degradado + difuminado + grano sutil (legible en centro) */
-    html:not(.dark) .blurred-gradient-bg{
-      /* Capa base: gradiente diagonal tipo imagen */
+    /* Fondo para tema claro (paleta de la imagen) */
+    .blurred-gradient-bg:not(.dark-bg){
       background:
-        linear-gradient(135deg,
-          var(--yellow) 0%,
-          var(--lime) 30%,
-          var(--green) 55%,
-          var(--teal) 75%,
-          var(--blue) 100%
-        );
-      /* Capas glow suaves para “bloom” */
-      mask-image: radial-gradient(150% 120% at 50% 40%, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.95) 55%, rgba(0,0,0,0.8) 70%, rgba(0,0,0,0.6) 85%, rgba(0,0,0,0.35) 100%);
-      filter: blur(36px) saturate(110%);
-    }
-    /* Grano sutil para romper banding en tema claro */
-    html:not(.dark) .blurred-gradient-bg::after{
-      content:'';
-      position:absolute; inset:-2px;
-      background-image:
-        url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'>\
-<filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='table' tableValues='0 0 0 0 .04 .04 .04 .04 .04'/></feComponentTransfer></filter>\
-<rect width='100%' height='100%' filter='url(%23n)'/>\
-</svg>");
-      mix-blend-mode: overlay;
-      pointer-events:none;
+        radial-gradient(75% 75% at 0% 0%, #ff66b3 0%, rgba(255,102,179,0.0) 55%), /* esquina magenta */
+        radial-gradient(75% 75% at 100% 0%, #a3d98a 0%, rgba(163,217,138,0.0) 55%), /* verde lima */
+        radial-gradient(80% 80% at 100% 100%, #4aa0d8 0%, rgba(74,160,216,0.0) 58%), /* cian/azul */
+        radial-gradient(110% 110% at 35% 35%, rgba(255,255,255,.35) 0%, rgba(255,255,255,0) 60%);
     }
 
-    /* ===== Bases de color y contraste ===== */
-    /* Tema claro: por defecto texto oscuro y fondo translúcido blanco */
-    html:not(.dark) body{
-      background: rgba(255,255,255,0.86);
+    /* Base visual: claro con texto oscuro; oscuro se maneja por clase .dark */
+    body{
+      background: rgba(255,255,255,0.88);
       color: #0f172a; /* slate-900 */
     }
-    /* Tema oscuro intacto */
-    .dark{
-      background: rgba(7,8,10,0.85);
+    .dark body, .dark{
+      background: rgba(7,8,10,0.88);
       color-scheme: dark;
     }
 
-    /* Tarjetas “glass” con mayor opacidad en claro para legibilidad */
+    /* Forzar legibilidad en tema claro cuando hay utilidades grises muy claras */
+    html:not(.dark) .text-gray-800,
+    html:not(.dark) .text-gray-700,
+    html:not(.dark) .dark\:text-gray-200,
+    html:not(.dark) .dark\:text-gray-300{
+      color:#1f2937 !important; /* gray-800 */
+    }
+
+    /* Cards translúcidas */
     .soft-card{
-      background: rgba(255,255,255,0.82);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(15,23,42,0.06); /* slate-900 low */
+      background: rgba(255,255,255,0.78);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(0,0,0,.04);
     }
     .dark .soft-card{
       background: rgba(23,25,28,0.6);
       border: 1px solid rgba(255,255,255,0.06);
     }
 
-    /* Nav glass */
-    .nav-glass{
-      background: rgba(255,255,255,0.70);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(15,23,42,0.08);
-    }
-    .dark .nav-glass{
-      background: rgba(16,18,21,0.55);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-
-    /* Titulares y párrafos en CLARO (forzar contraste) */
-    html:not(.dark) .text-gray-900,
-    html:not(.dark) h1, html:not(.dark) h2, html:not(.dark) h3,
-    html:not(.dark) .prose :where(h1,h2,h3,h4){
-      color:#0b1220 !important; /* aún más oscuro */
-    }
-    html:not(.dark) .text-gray-800{ color:#111827 !important; }
-    html:not(.dark) .text-gray-700{ color:#1f2937 !important; }
-    html:not(.dark) .text-gray-600{ color:#374151 !important; }
-
-    /* Enlaces en claro con color accesible */
-    html:not(.dark) a{
-      color:#0e7490; /* cyan-700 */
-    }
-    html:not(.dark) a:hover{ color:#155e75; }
-
-    /* Botón primario: queda igual (alto contraste) */
-    .btn-primary{
-      background: linear-gradient(135deg, var(--violet), var(--blue));
-      color:#fff; border:0;
-      transition:opacity .2s ease, transform .2s ease;
-    }
-    .btn-primary:hover{opacity:.95; transform:translateY(-1px)}
-
-    /* Botón ghost: en claro le damos borde y texto oscuro para no “perderse” */
-    .btn-ghost{
-      background: rgba(255,255,255,0.92);
-      color:#0f172a;
-      border:1px solid rgba(15,23,42,0.12);
-      transition: background .2s ease, transform .2s ease;
-    }
-    .btn-ghost:hover{ background:#fff; transform:translateY(-1px) }
-    .dark .btn-ghost{
-      background: rgba(30,33,36,0.6);
-      color:#d3b7ff;
-      border:1px solid rgba(255,255,255,.08);
-    }
-
+    /* Tipografía con degradado para acentos */
     .gradient-text{
-      background: linear-gradient(135deg, var(--violet-soft), var(--blue));
+      background: linear-gradient(135deg, var(--violet), var(--teal));
       -webkit-background-clip:text; -webkit-text-fill-color:transparent;
     }
 
     .hover-lift{transition:transform .25s ease, box-shadow .25s ease}
     .hover-lift:hover{transform:translateY(-4px)}
 
-    /* WhatsApp floating button */
+    /* Botones con contraste adecuado en claro */
+    .btn-primary{
+      background: linear-gradient(135deg, var(--violet), var(--teal));
+      color:#fff !important;
+    }
+    .btn-primary:hover{opacity:.95}
+
+    .btn-ghost{
+      background: rgba(255,255,255,0.92);
+      color: #4c1d95; /* violet-900 aprox para buen contraste */
+      border:1px solid rgba(0,0,0,.08);
+    }
+    .dark .btn-ghost{
+      background: rgba(30,33,36,0.6);
+      color:#d3b7ff;
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    /* FAB WhatsApp */
     .whatsapp-fab{
       position:fixed; right:18px; bottom:18px; z-index:60;
       width:56px; height:56px; border-radius:9999px;
@@ -169,6 +119,17 @@
       transition: transform .2s ease, box-shadow .2s ease;
     }
     .whatsapp-fab:hover{ transform: translateY(-2px); box-shadow:0 14px 28px rgba(0,0,0,.28) }
+
+    /* Nav translúcida */
+    .nav-glass{
+      background: rgba(255,255,255,0.70);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .dark .nav-glass{
+      background: rgba(16,18,21,0.55);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
   </style>
 </head>
 <body class="min-h-screen">
@@ -236,7 +197,7 @@
 
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="soft-card p-7 rounded-xl hover-lift">
-          <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style="background:linear-gradient(135deg,var(--violet),var(--blue));">
+          <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style="background:linear-gradient(135deg,var(--violet),var(--teal));">
             <i data-feather="zap" class="text-white w-6 h-6"></i>
           </div>
           <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2" data-i18n="svc_1_t">Entrega Rápida</h3>
@@ -244,7 +205,7 @@
         </div>
 
         <div class="soft-card p-7 rounded-xl hover-lift">
-          <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style="background:linear-gradient(135deg,var(--violet),var(--blue));">
+          <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style="background:linear-gradient(135deg,var(--violet),var(--teal));">
             <i data-feather="smartphone" class="text-white w-6 h-6"></i>
           </div>
           <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2" data-i18n="svc_2_t">Responsive Design</h3>
@@ -252,7 +213,7 @@
         </div>
 
         <div class="soft-card p-7 rounded-xl hover-lift">
-          <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style="background:linear-gradient(135deg,var(--violet),var(--blue));">
+          <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style="background:linear-gradient(135deg,var(--violet),var(--teal));">
             <i data-feather="search" class="text-white w-6 h-6"></i>
           </div>
           <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2" data-i18n="svc_3_t">SEO Optimizado</h3>
@@ -321,8 +282,8 @@
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-i18n="ex_1_t">Sitio de freelancer - CV personal</h3>
             <p class="text-gray-700 dark:text-gray-300 text-sm mb-4" data-i18n="ex_1_d">Ideal para mostrar tu trabajo, habilidades y contacto de manera profesional.</p>
             <button class="btn-ghost inline-flex items-center px-4 py-2 rounded-lg font-semibold text-sm">
-                <i data-feather="eye" class="w-4 h-4 mr-2"></i>
-                Ver ejemplo
+              <i data-feather="eye" class="w-4 h-4 mr-2"></i>
+              Ver ejemplo
             </button>
           </div>
         </a>
@@ -332,9 +293,9 @@
           <div class="p-6">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-i18n="ex_2_t">Negocio o Local</h3>
             <p class="text-gray-700 dark:text-gray-300 text-sm mb-4" data-i18n="ex_2_d">Página de aterrizaje optimizada para reservas, menús o información de tu tienda física.</p>
-             <button class="btn-ghost inline-flex items-center px-4 py-2 rounded-lg font-semibold text-sm">
-                <i data-feather="eye" class="w-4 h-4 mr-2"></i>
-                Ver ejemplo
+            <button class="btn-ghost inline-flex items-center px-4 py-2 rounded-lg font-semibold text-sm">
+              <i data-feather="eye" class="w-4 h-4 mr-2"></i>
+              Ver ejemplo
             </button>
           </div>
         </a>
@@ -345,8 +306,8 @@
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-i18n="ex_3_t">Producto Digital</h3>
             <p class="text-gray-700 dark:text-gray-300 text-sm mb-4" data-i18n="ex_3_d">Landings con llamadas a la acción claras para vender tu software, curso o ebook.</p>
             <button class="btn-ghost inline-flex items-center px-4 py-2 rounded-lg font-semibold text-sm">
-                <i data-feather="eye" class="w-4 h-4 mr-2"></i>
-                Ver ejemplo
+              <i data-feather="eye" class="w-4 h-4 mr-2"></i>
+              Ver ejemplo
             </button>
           </div>
         </a>
@@ -368,20 +329,20 @@
           <div class="grid md:grid-cols-2 gap-6">
             <div>
               <label for="name" class="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-2" data-i18n="ct_name_l">Nombre</label>
-              <input id="name" type="text" name="Nombre" required class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="Tu nombre"/>
+              <input id="name" type="text" name="Nombre" required class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="Tu nombre"/>
             </div>
             <div>
               <label for="email" class="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-2" data-i18n="ct_email_l">Email</label>
-              <input id="email" type="email" name="Email" required class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="tu@email.com"/>
+              <input id="email" type="email" name="Email" required class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="tu@email.com"/>
             </div>
           </div>
           <div>
             <label for="phone" class="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-2" data-i18n="ct_phone_l">Teléfono (Opcional)</label>
-            <input id="phone" type="tel" name="Teléfono" class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="(Opcional)"/>
+            <input id="phone" type="tel" name="Teléfono" class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="(Opcional)"/>
           </div>
           <div>
             <label for="message" class="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-2" data-i18n="ct_msg_l">Tu idea y objetivos</label>
-            <textarea id="message" name="Mensaje" rows="6" required class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="Contame sobre tu proyecto..."></textarea>
+            <textarea id="message" name="Mensaje" rows="6" required class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="Contame sobre tu proyecto..."></textarea>
           </div>
           <button type="submit" class="btn-primary w-full font-semibold py-4 px-6 rounded-lg hover-lift transition-all">
             <i data-feather="send" class="w-5 h-5 mr-2 inline"></i>
@@ -392,10 +353,10 @@
         <div class="mt-8 pt-8 border-t border-black/10 dark:border-white/10 text-center">
           <p class="text-gray-800 dark:text-gray-300 mb-4" data-i18n="ct_alt">También podés escribirme directo:</p>
           <div class="flex justify-center gap-6">
-            <a href="https://wa.me/5491162857653" target="_blank" class="inline-flex items-center text-green-700 dark:text-green-400 hover:opacity-90">
+            <a href="https://wa.me/5491162857653" target="_blank" class="inline-flex items-center text-green-600 dark:text-green-400 hover:opacity-90">
               <i data-feather="message-circle" class="w-5 h-5 mr-2"></i><span>WhatsApp</span>
             </a>
-            <a href="mailto:hola@andromadorian.site" class="inline-flex items-center text-cyan-700 dark:text-[#d3b7ff] hover:opacity-90">
+            <a href="mailto:hola@andromadorian.site" class="inline-flex items-center text-[color:var(--violet)] dark:text-[#d3b7ff] hover:opacity-90">
               <i data-feather="mail" class="w-5 h-5 mr-2"></i><span>Email</span>
             </a>
           </div>
