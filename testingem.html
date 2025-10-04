@@ -60,8 +60,8 @@
       background: transparent;
       color: #0f172a; /* slate-900 → texto oscuro por defecto en CLARO */
     }
-    /* ✔ CORRECCIÓN 1: Se mueve el backdrop-filter a un contenedor para no afectar al FAB */
-    #main-content {
+    /* ✔ CORRECCIÓN: Se aplica el filtro al contenedor del contenido, no al body */
+    #page-content-wrapper {
       backdrop-filter: blur(0.5px);
     }
     .dark body, .dark{
@@ -80,16 +80,10 @@
     html:not(.dark) .text-gray-600{ color:#1f2937 !important; }
 
     /* Botones y tarjetas pensados para CLARO sin afectar OSCURO */
-    /* ✔ CORRECCIÓN 2: Gradiente oscuro por defecto (tema claro) para mejorar contraste */
     .gradient-text{
-      background: linear-gradient(135deg, #6b21a8, #1d4ed8);
+      background: linear-gradient(135deg, var(--violet), var(--teal));
       -webkit-background-clip:text; -webkit-text-fill-color:transparent;
     }
-    /* Gradiente original (claro) para el tema oscuro */
-    .dark .gradient-text{
-      background: linear-gradient(135deg, var(--violet), var(--teal));
-    }
-
     .soft-card{
       background: rgba(255,255,255,0.78);
       backdrop-filter: blur(8px);
@@ -102,15 +96,16 @@
     .hover-lift{transition:transform .25s ease, box-shadow .25s ease}
     .hover-lift:hover{transform:translateY(-4px)}
 
+    /* ✔ Requisito 3: texto negro en botones primarios (ambos temas) */
     .btn-primary{
       background: linear-gradient(135deg, var(--violet), var(--teal));
-      color:#000 !important;
+      color:#000 !important; /* ← texto/ícono negro */
     }
     .btn-primary:hover{opacity:.95}
 
     .btn-ghost{
       background: rgba(255,255,255,0.9);
-      color: #0f172a;
+      color: #0f172a;            /* texto oscuro en CLARO */
       border:1px solid rgba(0,0,0,.08);
     }
     .btn-ghost:hover{background:rgba(255,255,255,1)}
@@ -120,7 +115,7 @@
       border:1px solid rgba(255,255,255,.08);
     }
 
-    /* Estilo del botón de WhatsApp sin cambios, ya era correcto */
+    /* ✔ Requisito 1: FAB WhatsApp realmente flotante + safe-area */
     .whatsapp-fab{
       position:fixed; right:18px; bottom:calc(env(safe-area-inset-bottom, 0px) + 18px); z-index:9999;
       width:56px; height:56px; border-radius:9999px;
@@ -142,28 +137,31 @@
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
 
+    /* ✔ Requisito 2: en oscuro, ES/EN y “Tema” en blanco */
     .dark #lang-es, .dark #lang-en{ color:#ffffff !important; }
     .dark #theme-toggle{ color:#ffffff !important; border-color: rgba(255,255,255,0.5) !important; }
     .dark #theme-toggle span{ color:#ffffff !important; }
 
+    /* ✔ Requisito 4: en claro, aviso de dominio negro + negrita */
     html:not(.dark) [data-i18n="note_domain"]{
       color:#000 !important;
       font-weight:700;
-      font-style:normal;
+      font-style:normal; /* quitar cursiva del <em> */
     }
 
+    /* ✔ Requisito 5: en claro, placeholders del form negro + negrita */
     html:not(.dark) input::placeholder,
     html:not(.dark) textarea::placeholder{
       color:#000 !important;
       font-weight:700;
-      opacity:1;
+      opacity:1; /* asegurar color pleno en algunos navegadores */
     }
   </style>
 </head>
 <body class="min-h-screen">
   <div class="blurred-gradient-bg"></div>
-
-  <div id="main-content">
+  
+  <div id="page-content-wrapper">
     <nav class="nav-glass sticky top-0 z-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
