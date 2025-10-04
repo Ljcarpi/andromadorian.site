@@ -57,12 +57,12 @@
 
     /* Bases */
     body{
-      background: rgba(255,255,255,0.85);
+      background: transparent; /* Se quita el fondo semi-opaco para que el gradiente se vea siempre */
       backdrop-filter: blur(0.5px);
       color: #0f172a; /* slate-900 → texto oscuro por defecto en CLARO */
     }
     .dark body, .dark{
-      background: rgba(7,8,10,0.85);
+      background: transparent;
       color-scheme: dark;
     }
 
@@ -76,11 +76,22 @@
     }
     html:not(.dark) .text-gray-600{ color:#1f2937 !important; }
 
-    /* Botones y tarjetas pensados para CLARO sin afectar OSCURO */
+    /* Texto con gradiente
+       - En oscuro: mantiene la paleta original (violeta→teal)
+       - En claro: forzamos un difuminado oscuro para contraste del “venden”
+    */
     .gradient-text{
       background: linear-gradient(135deg, var(--violet), var(--teal));
       -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text; color:transparent;
     }
+    html:not(.dark) .gradient-text{
+      /* Difuminado oscuro para tema claro */
+      background: linear-gradient(135deg, #1f1b2e, #0b2a4a);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text; color:transparent;
+    }
+
     .soft-card{
       background: rgba(255,255,255,0.78);
       backdrop-filter: blur(8px);
@@ -93,10 +104,10 @@
     .hover-lift{transition:transform .25s ease, box-shadow .25s ease}
     .hover-lift:hover{transform:translateY(-4px)}
 
-    /* ✔ Requisito 3: texto negro en botones primarios (ambos temas) */
+    /* Botón primario con texto negro en ambos temas */
     .btn-primary{
       background: linear-gradient(135deg, var(--violet), var(--teal));
-      color:#000 !important; /* ← texto/ícono negro */
+      color:#000 !important; /* texto/ícono negro */
     }
     .btn-primary:hover{opacity:.95}
 
@@ -112,9 +123,12 @@
       border:1px solid rgba(255,255,255,.08);
     }
 
-    /* ✔ Requisito 1: FAB WhatsApp realmente flotante + safe-area */
+    /* FAB WhatsApp realmente flotante + safe-area */
     .whatsapp-fab{
-      position:fixed; right:18px; bottom:calc(env(safe-area-inset-bottom, 0px) + 18px); z-index:9999;
+      position:fixed !important; /* refuerzo para evitar overrides */
+      right:18px;
+      bottom:calc(env(safe-area-inset-bottom, 0px) + 18px);
+      z-index:9999;
       width:56px; height:56px; border-radius:9999px;
       display:grid; place-items:center;
       background:#25D366; color:#fff; box-shadow:0 10px 20px rgba(0,0,0,.25);
@@ -134,19 +148,19 @@
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
 
-    /* ✔ Requisito 2: en oscuro, ES/EN y “Tema” en blanco */
+    /* En oscuro, ES/EN y “Tema” en blanco */
     .dark #lang-es, .dark #lang-en{ color:#ffffff !important; }
     .dark #theme-toggle{ color:#ffffff !important; border-color: rgba(255,255,255,0.5) !important; }
     .dark #theme-toggle span{ color:#ffffff !important; }
 
-    /* ✔ Requisito 4: en claro, aviso de dominio negro + negrita */
+    /* En claro, aviso de dominio negro + negrita */
     html:not(.dark) [data-i18n="note_domain"]{
       color:#000 !important;
       font-weight:700;
       font-style:normal; /* quitar cursiva del <em> */
     }
 
-    /* ✔ Requisito 5: en claro, placeholders del form negro + negrita */
+    /* En claro, placeholders del form negro + negrita */
     html:not(.dark) input::placeholder,
     html:not(.dark) textarea::placeholder{
       color:#000 !important;
@@ -177,7 +191,7 @@
             <button id="lang-en" class="px-2 py-1 text-xs rounded border border-transparent hover:border-gray-300 dark:hover:border-gray-600">EN</button>
           </div>
 
-          <button id="theme-toggle" class="flex items-center space-x-2 px-3 py-1.5 text-xs rounded border border-gray-300 dark:border-gray-600 hover:bg-black/5 dark:hover:bg-white/5">
+          <button id="theme-toggle" class="flex items-center space-x-2 px-3 py-1.5 text-xs rounded border border-gray-300 dark:border-gray-600 hover:bg-black/5 dark:hover:bg白/5">
             <i data-feather="moon" class="w-4 h-4"></i>
             <span data-i18n="toggle_theme">Tema</span>
           </button>
@@ -400,7 +414,7 @@
     </div>
   </footer>
 
-  <!-- ✔ FAB flotante persistente -->
+  <!-- FAB WhatsApp flotante -->
   <a class="whatsapp-fab" href="https://wa.me/5491162857653" target="_blank" aria-label="WhatsApp">
     <i data-feather="phone-call" class="w-6 h-6"></i>
   </a>
