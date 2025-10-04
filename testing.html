@@ -16,17 +16,18 @@
 
   <!-- VANTA deps -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+  <!-- Cambiado a RINGS -->
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.rings.min.js"></script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     :root{
-      /* Paleta aproximada extraída de la imagen adjunta (para TEMA CLARO) */
-      --violet:#d187e8;     /* rosa-violáceo */
-      --violet-2:#e887e2;   /* magenta suave */
-      --blue:#87c9e8;       /* cian */
-      --teal:#e8e287;       /* verde-amarillo/crema */
-      --teal-2:#f5f0ab;     /* amarillo más claro */
+      /* Paleta (tema claro) */
+      --violet:#d187e8;
+      --violet-2:#e887e2;
+      --blue:#87c9e8;
+      --teal:#e8e287;
+      --teal-2:#f5f0ab;
     }
     html,body{height:100%}
     body{font-family:'Inter',sans-serif;}
@@ -37,20 +38,20 @@
       inset:0 auto auto 0;   /* top:0; left:0 */
       width:100%;
       height:60vh;           /* se recalcula por JS */
-      z-index:0;             /* por encima del blur (que queda en -1) y por debajo del contenido */
+      z-index:0;
       pointer-events:none;   /* no bloquea clics */
     }
 
-    /* Capa de fondo difuminado (queda debajo del VANTA) */
+    /* Capa de fondo difuminado (debajo del VANTA) */
     .blurred-gradient-bg{
       position:fixed;
       inset:0;
-      z-index:-1;            /* ← debajo del VANTA */
+      z-index:-1;
       pointer-events:none;
       filter: blur(40px) saturate(110%);
       transform: translateZ(0);
     }
-    /* Fondo para TEMA OSCURO (sin cambios) */
+    /* Fondo tema oscuro (sin cambios) */
     .dark .blurred-gradient-bg{
       background:
         radial-gradient(60% 60% at 20% 0%, #7c2aa6 0%, transparent 60%),
@@ -59,7 +60,7 @@
         radial-gradient(80% 80% at 80% 85%, #2a427a 0%, transparent 60%),
         radial-gradient(120% 120% at 50% 30%, rgba(0,0,0,.25) 0%, rgba(0,0,0,0) 60%);
     }
-    /* Fondo para TEMA CLARO (colores/efecto de la imagen) */
+    /* Fondo tema claro */
     .blurred-gradient-bg:not(.dark-bg){
        background:
         radial-gradient(60% 60% at 20% 0%, var(--teal-2) 0%, transparent 60%),
@@ -72,12 +73,11 @@
     /* Bases */
     body{
       background: transparent;
-      color: #0f172a; /* slate-900 → texto oscuro por defecto en CLARO */
+      color: #0f172a; /* texto oscuro en CLARO */
     }
-    /* El contenido se apila por encima del VANTA */
     #page-content-wrapper {
       position: relative;
-      z-index: 1;            /* ← encima del #vanta-bg */
+      z-index: 1;  /* encima del #vanta-bg */
       backdrop-filter: blur(0.5px);
     }
     .dark body, .dark{
@@ -85,17 +85,16 @@
       color-scheme: dark;
     }
 
-    /* Fuerza de contraste en tema claro: textos utilitarios Tailwind */
+    /* Contraste en claro */
     html:not(.dark) .text-gray-900,
     html:not(.dark) .text-gray-800,
     html:not(.dark) .text-gray-700,
     html:not(.dark) .dark\:text-white,
     html:not(.dark) .dark\:text-gray-300{
-      color:#0f172a !important; /* negro/gris muy oscuro */
+      color:#0f172a !important;
     }
     html:not(.dark) .text-gray-600{ color:#1f2937 !important; }
 
-    /* Botones y tarjetas pensados para CLARO sin afectar OSCURO */
     .gradient-text{
       background: linear-gradient(135deg, var(--violet), var(--teal));
       -webkit-background-clip:text; -webkit-text-fill-color:transparent;
@@ -114,13 +113,13 @@
 
     .btn-primary{
       background: linear-gradient(135deg, var(--violet), var(--teal));
-      color:#000 !important; /* ← texto/ícono negro */
+      color:#000 !important;
     }
     .btn-primary:hover{opacity:.95}
 
     .btn-ghost{
       background: rgba(255,255,255,0.9);
-      color: #0f172a;            /* texto oscuro en CLARO */
+      color: #0f172a;
       border:1px solid rgba(0,0,0,.08);
     }
     .btn-ghost:hover{background:rgba(255,255,255,1)}
@@ -177,7 +176,7 @@
   <!-- VANTA: capa dinámica hasta antes de #servicios -->
   <div id="vanta-bg"></div>
 
-  <!-- Fondo difuminado (queda debajo del VANTA) -->
+  <!-- Fondo difuminado (debajo del VANTA) -->
   <div class="blurred-gradient-bg"></div>
   
   <div id="page-content-wrapper">
@@ -200,7 +199,7 @@
               <button id="lang-en" class="px-2 py-1 text-xs rounded border border-transparent hover:border-gray-300 dark:hover:border-gray-600">EN</button>
             </div>
 
-            <button id="theme-toggle" class="flex items-center space-x-2 px-3 py-1.5 text-xs rounded border border-gray-300 dark:border-gray-600 hover:bg-black/5 dark:hover:bg-white/5">
+            <button id="theme-toggle" class="flex items-center space-x-2 px-3 py-1.5 text-xs rounded border border-gray-300 dark:border-gray-600 hover:bg:black/5 dark:hover:bg-white/5">
               <i data-feather="moon" class="w-4 h-4"></i>
               <span data-i18n="toggle_theme">Tema</span>
             </button>
@@ -392,9 +391,6 @@
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-10">
           <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4" data-i18n="ct_title">Contacto</h2>
-          <p class="text-lg md:text-xl text-gray-700 dark:text-gray-300" data-i18n="ct_sub">
-            Contame brevemente tu idea y el objetivo de tu página. Te respondo con una propuesta simple y un tiempo estimado de entrega.
-          </p>
         </div>
 
         <div class="soft-card rounded-2xl p-8">
@@ -402,20 +398,20 @@
             <div class="grid md:grid-cols-2 gap-6">
               <div>
                 <label for="name" class="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-2" data-i18n="ct_name_l">Nombre</label>
-                <input id="name" type="text" name="Nombre" required class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="Tu nombre"/>
+                <input id="name" type="text" name="Nombre" required class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg:black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="Tu nombre"/>
               </div>
               <div>
                 <label for="email" class="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-2" data-i18n="ct_email_l">Email</label>
-                <input id="email" type="email" name="Email" required class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="tu@email.com"/>
+                <input id="email" type="email" name="Email" required class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg:black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="tu@email.com"/>
               </div>
             </div>
             <div>
               <label for="phone" class="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-2" data-i18n="ct_phone_l">Teléfono (Opcional)</label>
-              <input id="phone" type="tel" name="Teléfono" class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="(Opcional)"/>
+              <input id="phone" type="tel" name="Teléfono" class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg:black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring:[color:var(--violet)]" placeholder="(Opcional)"/>
             </div>
             <div>
               <label for="message" class="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-2" data-i18n="ct_msg_l">Tu idea y objetivos</label>
-              <textarea id="message" name="Mensaje" rows="6" required class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="Contame sobre tu proyecto..."></textarea>
+              <textarea id="message" name="Mensaje" rows="6" required class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg:black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring:[color:var(--violet)]" placeholder="Contame sobre tu proyecto..."></textarea>
             </div>
             <button type="submit" class="btn-primary w-full font-semibold py-4 px-6 rounded-lg hover-lift transition-all">
               <i data-feather="send" class="w-5 h-5 mr-2 inline"></i>
@@ -461,7 +457,6 @@
     menuButton.addEventListener('click', () => {
       mobileMenu.classList.toggle('hidden');
     });
-    // Cierra el menú móvil al hacer clic en un enlace
     document.querySelectorAll('#mobile-menu a[href^="#"]').forEach(link => {
       link.addEventListener('click', () => {
         mobileMenu.classList.add('hidden');
@@ -503,7 +498,6 @@
         ex_2_t:'Negocio o Local', ex_2_d:'Página de aterrizaje optimizada para reservas, menús o información de tu tienda física.',
         ex_3_t:'Producto Digital', ex_3_d:'Landings con llamadas a la acción claras para vender tu software, curso o ebook.',
         ct_title:'Contacto',
-        ct_sub:'Contame brevemente tu idea y el objetivo de tu página. Te respondo con una propuesta simple y un tiempo estimado de entrega.',
         ct_name_l:'Nombre', ct_email_l:'Email', ct_phone_l:'Teléfono (Opcional)', ct_msg_l:'Tu idea y objetivos', ct_send:'Enviar Mensaje', ct_alt:'También podés escribirme directo:',
         foot_all:'Todos los derechos reservados.', foot_legal_1:'Al usar este sitio aceptás nuestros', foot_terms:'Términos y condiciones', foot_y:'y', foot_priv:'Privacidad'
       },
@@ -526,7 +520,6 @@
         ex_2_t:'Business or Local Store', ex_2_d:'Optimized landing page for reservations, menus, or information about your physical store.',
         ex_3_t:'Digital Product', ex_3_d:'Landings with clear calls to action to sell your software, course, or ebook.',
         ct_title:'Contact',
-        ct_sub:'Briefly tell me your idea and page objective. I’ll reply with a simple proposal and ETA.',
         ct_name_l:'Name', ct_email_l:'Email', ct_phone_l:'Phone (Optional)', ct_msg_l:'Your idea and goals', ct_send:'Send Message', ct_alt:'You can also write me directly:',
         foot_all:'All rights reserved.', foot_legal_1:'By using this site you accept our', foot_terms:'Terms & Conditions', foot_y:'and', foot_priv:'Privacy'
       }
@@ -541,7 +534,7 @@
       localStorage.setItem('lang', lang);
     };
 
-    // Aplica el manejador a los 4 botones de idioma
+    // Idioma
     const langHandler = (lang) => () => applyI18n(lang);
     document.getElementById('lang-es').addEventListener('click', langHandler('es'));
     document.getElementById('lang-en').addEventListener('click', langHandler('en'));
@@ -567,11 +560,11 @@
     });
 
     /* ===========================
-       VANTA HEIGHT + INIT
+       VANTA HEIGHT + INIT (RINGS)
        =========================== */
     let vantaInstance = null;
 
-    // --- VANTA HEIGHT: ajustar altura hasta el inicio de #servicios
+    // --- Ajustar altura hasta el inicio de #servicios
     function setVantaHeight() {
       const v = document.getElementById('vanta-bg');
       const target = document.getElementById('servicios');
@@ -582,7 +575,7 @@
 
     function initVanta(){
       if (vantaInstance) return;
-      vantaInstance = VANTA.NET({
+      vantaInstance = VANTA.RINGS({
         el: "#vanta-bg",
         mouseControls: true,
         touchControls: true,
@@ -591,19 +584,18 @@
         minWidth: 200.00,
         scale: 1.0,
         scaleMobile: 1.0,
-        color: 0x4f46e5,           // indigo-600
-        backgroundAlpha: 0.0,      // ← transparente para mezclar con tu fondo difuminado
-        points: 12.0,
-        maxDistance: 22.0,
-        spacing: 18.0
+        color: 0x4f46e5,        // indigo-600
+        backgroundAlpha: 0.0,   // transparente para mezclar con el fondo difuminado
+        // Opcionales que suelen funcionar en RINGS:
+        waveHeight: 20.0,
+        shininess: 45.0,
+        ringRadius: 14.0
       });
     }
 
-    // Recalcular en resize/orientación (layout responsive)
     window.addEventListener('resize', setVantaHeight);
     window.addEventListener('orientationchange', setVantaHeight);
 
-    // Inicializar cuando el DOM esté listo
     document.addEventListener('DOMContentLoaded', () => {
       setVantaHeight();
       initVanta();
