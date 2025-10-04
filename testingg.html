@@ -60,15 +60,22 @@
       background: transparent;
       color: #0f172a; /* slate-900 → texto oscuro por defecto en CLARO */
     }
-    /* ✔ CORRECCIÓN: Se aplica el filtro al contenedor del contenido, no al body */
     #page-content-wrapper {
       backdrop-filter: blur(0.5px);
     }
     .dark body, .dark{
       background: transparent;
       color-scheme: dark;
-      color: #e5e7eb; /* <-- CAMBIO APLICADO AQUÍ */
     }
+
+    /* ===== INICIO: CORRECCIÓN DEFINITIVA PARA TEXTO EN MODO OSCURO ===== */
+    /* Se establece un color de texto base claro en el elemento raíz (html) cuando está en modo oscuro. */
+    /* Esto asegura que todos los elementos hijos hereden un color legible por defecto. */
+    html.dark {
+        color: #d1d5db; /* Equivalente a text-gray-300 de Tailwind */
+    }
+    /* Las clases de utilidad de Tailwind (ej: dark:text-white) anularán este estilo por ser más específicas. */
+    /* ===== FIN: CORRECCIÓN DEFINITIVA ===== */
 
     /* Fuerza de contraste en tema claro: textos utilitarios Tailwind */
     html:not(.dark) .text-gray-900,
