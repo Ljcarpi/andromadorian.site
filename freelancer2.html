@@ -32,6 +32,23 @@
             50% { transform: translate(0, -15px); }
             100% { transform: translate(0, -0px); }
         }
+
+        /* --- VANTA: canvas fijo hasta antes de #experiencia --- */
+        #vanta-bg {
+            position: fixed;     /* se mantiene mientras hacés scroll */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60vh;        /* valor inicial; se corrige por JS */
+            z-index: 0;
+            pointer-events: none; /* no bloquea clics */
+        }
+
+        /* Asegurar que el contenido quede por encima del efecto */
+        nav, section, footer {
+            position: relative;
+            z-index: 1;
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-indigo-100 font-sans">
@@ -353,22 +370,14 @@
     </footer>
 
     <script>
-        // Vanta.js background effect
-        VANTA.NET({
-            el: "#vanta-bg",
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
-            minHeight: 200.00,
-            minWidth: 200.00,
-            scale: 1.00,
-            scaleMobile: 1.00,
-            color: 0x4f46e5,
-            backgroundColor: 0xf8fafc,
-            points: 12.00,
-            maxDistance: 22.00,
-            spacing: 18.00
-        });
+        // --- VANTA HEIGHT: ajustar altura hasta el inicio de #experiencia
+        function setVantaHeight() {
+            const v = document.getElementById('vanta-bg');
+            const exp = document.getElementById('experiencia');
+            if (!v || !exp) return;
+            const top = exp.getBoundingClientRect().top + window.pageYOffset;
+            v.style.height = top + 'px';
+        }
 
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -385,10 +394,7 @@
         });
 
         // Animate skill bars on scroll
-        const observerOptions = {
-            threshold: 0.5
-        };
-
+        const observerOptions = { threshold: 0.5 };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -402,10 +408,32 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const skillsSection = document.getElementById('habilidades');
-            if (skillsSection) {
-                observer.observe(skillsSection);
-            }
+            if (skillsSection) observer.observe(skillsSection);
+
+            // Calcular altura antes de inicializar VANTA
+            setVantaHeight();
+
+            // Vanta.js background effect
+            VANTA.NET({
+                el: "#vanta-bg",
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: false,
+                minHeight: 200.00,
+                minWidth: 200.00,
+                scale: 1.00,
+                scaleMobile: 1.00,
+                color: 0x4f46e5,
+                backgroundColor: 0xf8fafc,
+                points: 12.00,
+                maxDistance: 22.00,
+                spacing: 18.00
+            });
         });
+
+        // Recalcular en resize/orientación (layout responsive)
+        window.addEventListener('resize', setVantaHeight);
+        window.addEventListener('orientationchange', setVantaHeight);
 
         // Initialize feather icons
         feather.replace();
