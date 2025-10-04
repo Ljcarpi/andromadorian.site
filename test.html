@@ -17,17 +17,17 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     :root{
-      /* Colores extraídos visualmente de la imagen adjunta (modificados para el tema claro) */
-      --violet:#d187e8; /* Rosa suave */
-      --violet-2:#e887e2; /* Magenta suave */
-      --blue:#87c9e8; /* Cian suave */
-      --teal:#e8e287; /* Amarillo suave/Crema */
-      --teal-2:#f5f0ab; /* Amarillo más claro */
+      /* Paleta aproximada extraída de la imagen adjunta (para TEMA CLARO) */
+      --violet:#d187e8;     /* rosa-violáceo */
+      --violet-2:#e887e2;   /* magenta suave */
+      --blue:#87c9e8;       /* cian */
+      --teal:#e8e287;       /* verde-amarillo/crema */
+      --teal-2:#f5f0ab;     /* amarillo más claro */
     }
     html,body{height:100%}
     body{font-family:'Inter',sans-serif;}
 
-    /* Fondo difuminado con gradientes suaves y viñeta */
+    /* Capa de fondo difuminado */
     .blurred-gradient-bg{
       position:fixed;
       inset:0;
@@ -36,7 +36,7 @@
       filter: blur(40px) saturate(110%);
       transform: translateZ(0);
     }
-    /* Colores del fondo para el tema oscuro (originales) */
+    /* Fondo para TEMA OSCURO (sin cambios) */
     .dark .blurred-gradient-bg{
       background:
         radial-gradient(60% 60% at 20% 0%, #7c2aa6 0%, transparent 60%),
@@ -45,43 +45,46 @@
         radial-gradient(80% 80% at 80% 85%, #2a427a 0%, transparent 60%),
         radial-gradient(120% 120% at 50% 30%, rgba(0,0,0,.25) 0%, rgba(0,0,0,0) 60%);
     }
-    /* Colores del fondo para el tema claro (de la imagen adjunta) */
+    /* Fondo para TEMA CLARO (colores/efecto de la imagen) */
     .blurred-gradient-bg:not(.dark-bg){
        background:
-        radial-gradient(60% 60% at 20% 0%, var(--teal-2) 0%, transparent 60%), /* Amarillo */
-        radial-gradient(70% 70% at 85% 10%, var(--violet-2) 0%, transparent 60%), /* Magenta */
-        radial-gradient(65% 65% at 15% 90%, var(--violet) 0%, transparent 60%), /* Rosa */
-        radial-gradient(80% 80% at 80% 85%, var(--blue) 0%, transparent 60%), /* Cian */
+        radial-gradient(60% 60% at 20% 0%, var(--teal-2) 0%, transparent 60%),
+        radial-gradient(70% 70% at 85% 10%, var(--violet-2) 0%, transparent 60%),
+        radial-gradient(65% 65% at 15% 90%, var(--violet) 0%, transparent 60%),
+        radial-gradient(80% 80% at 80% 85%, var(--blue) 0%, transparent 60%),
         radial-gradient(120% 120% at 50% 30%, rgba(255,255,255,.25) 0%, rgba(255,255,255,0) 60%);
     }
 
-    /* Capas base para tema claro/oscuro */
+    /* Bases */
     body{
       background: rgba(255,255,255,0.85);
       backdrop-filter: blur(0.5px);
-      /* Asegurar que el texto oscuro sea el default en tema claro */
-      color: theme('colors.gray.900');
+      color: #0f172a; /* slate-900 → texto oscuro por defecto en CLARO */
     }
     .dark body, .dark{
       background: rgba(7,8,10,0.85);
       color-scheme: dark;
     }
-    /* Arreglo para la visibilidad del texto en tema claro */
-    html:not(.dark) .text-gray-800:not(.dark\:text-gray-200),
-    html:not(.dark) .text-gray-700:not(.dark\:text-gray-300),
-    html:not(.dark) .text-gray-800.dark\:text-gray-200,
-    html:not(.dark) .text-gray-700.dark\:text-gray-300{
-      color: theme('colors.gray.800') !important; /* Fuerza el color oscuro */
-    }
 
-    /* Utilidades visuales heredadas */
+    /* Fuerza de contraste en tema claro: textos utilitarios Tailwind */
+    html:not(.dark) .text-gray-900,
+    html:not(.dark) .text-gray-800,
+    html:not(.dark) .text-gray-700,
+    html:not(.dark) .dark\:text-white,
+    html:not(.dark) .dark\:text-gray-300{
+      color:#0f172a !important; /* negro/gris muy oscuro */
+    }
+    html:not(.dark) .text-gray-600{ color:#1f2937 !important; }
+
+    /* Botones y tarjetas pensados para CLARO sin afectar OSCURO */
     .gradient-text{
       background: linear-gradient(135deg, var(--violet), var(--teal));
       -webkit-background-clip:text; -webkit-text-fill-color:transparent;
     }
     .soft-card{
-      background: rgba(255,255,255,0.75);
+      background: rgba(255,255,255,0.78);
       backdrop-filter: blur(8px);
+      border:1px solid rgba(0,0,0,.06);
     }
     .dark .soft-card{
       background: rgba(23,25,28,0.6);
@@ -89,41 +92,66 @@
     }
     .hover-lift{transition:transform .25s ease, box-shadow .25s ease}
     .hover-lift:hover{transform:translateY(-4px)}
+
+    /* ✔ Requisito 3: texto negro en botones primarios (ambos temas) */
     .btn-primary{
       background: linear-gradient(135deg, var(--violet), var(--teal));
-      color:#fff;
+      color:#000 !important; /* ← texto/ícono negro */
     }
     .btn-primary:hover{opacity:.95}
+
     .btn-ghost{
-      background: rgba(255,255,255,0.85);
-      color: var(--violet);
-      border:1px solid rgba(0,0,0,.06);
+      background: rgba(255,255,255,0.9);
+      color: #0f172a;            /* texto oscuro en CLARO */
+      border:1px solid rgba(0,0,0,.08);
     }
+    .btn-ghost:hover{background:rgba(255,255,255,1)}
     .dark .btn-ghost{
       background: rgba(30,33,36,0.6);
       color:#d3b7ff;
       border:1px solid rgba(255,255,255,.08);
     }
 
-    /* WhatsApp floating button */
+    /* ✔ Requisito 1: FAB WhatsApp realmente flotante + safe-area */
     .whatsapp-fab{
-      position:fixed; right:18px; bottom:18px; z-index:60;
+      position:fixed; right:18px; bottom:calc(env(safe-area-inset-bottom, 0px) + 18px); z-index:9999;
       width:56px; height:56px; border-radius:9999px;
       display:grid; place-items:center;
       background:#25D366; color:#fff; box-shadow:0 10px 20px rgba(0,0,0,.25);
       transition: transform .2s ease, box-shadow .2s ease;
+      pointer-events:auto;
     }
     .whatsapp-fab:hover{ transform: translateY(-2px); box-shadow:0 14px 28px rgba(0,0,0,.28) }
 
-    /* Nav glass */
+    /* Barra superior “glass” */
     .nav-glass{
-      background: rgba(255,255,255,0.65);
+      background: rgba(255,255,255,0.72);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(0,0,0,0.06);
     }
     .dark .nav-glass{
       background: rgba(16,18,21,0.55);
       border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* ✔ Requisito 2: en oscuro, ES/EN y “Tema” en blanco */
+    .dark #lang-es, .dark #lang-en{ color:#ffffff !important; }
+    .dark #theme-toggle{ color:#ffffff !important; border-color: rgba(255,255,255,0.5) !important; }
+    .dark #theme-toggle span{ color:#ffffff !important; }
+
+    /* ✔ Requisito 4: en claro, aviso de dominio negro + negrita */
+    html:not(.dark) [data-i18n="note_domain"]{
+      color:#000 !important;
+      font-weight:700;
+      font-style:normal; /* quitar cursiva del <em> */
+    }
+
+    /* ✔ Requisito 5: en claro, placeholders del form negro + negrita */
+    html:not(.dark) input::placeholder,
+    html:not(.dark) textarea::placeholder{
+      color:#000 !important;
+      font-weight:700;
+      opacity:1; /* asegurar color pleno en algunos navegadores */
     }
   </style>
 </head>
@@ -372,6 +400,7 @@
     </div>
   </footer>
 
+  <!-- ✔ FAB flotante persistente -->
   <a class="whatsapp-fab" href="https://wa.me/5491162857653" target="_blank" aria-label="WhatsApp">
     <i data-feather="phone-call" class="w-6 h-6"></i>
   </a>
@@ -384,18 +413,16 @@
     if (savedTheme) {
       htmlEl.classList.toggle('dark', savedTheme === 'dark');
     } else {
-      // Respeta prefers-color-scheme
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       htmlEl.classList.toggle('dark', prefersDark);
     }
     themeBtn.addEventListener('click', () => {
       htmlEl.classList.toggle('dark');
       localStorage.setItem('theme', htmlEl.classList.contains('dark') ? 'dark' : 'light');
-      // refrescar icono
       setTimeout(()=>feather.replace(),0);
     });
 
-    // ===== I18N (Actualizado con nuevos textos de ejemplo y campo de teléfono) =====
+    // ===== I18N =====
     const t = {
       es:{
         nav_services:'Servicios', nav_examples:'Ejemplos', nav_contact:'Contacto', toggle_theme:'Tema',
