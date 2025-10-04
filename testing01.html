@@ -25,7 +25,10 @@
       --teal-2:#f5f0ab;     /* amarillo más claro */
     }
     html,body{height:100%}
-    body{font-family:'Inter',sans-serif;}
+    body{
+      font-family:'Inter',sans-serif;
+      background: transparent;
+    }
 
     /* Capa de fondo difuminado */
     .blurred-gradient-bg{
@@ -55,27 +58,23 @@
         radial-gradient(120% 120% at 50% 30%, rgba(255,255,255,.25) 0%, rgba(255,255,255,0) 60%);
     }
 
-    /* Bases */
-    body{
-      background: transparent;
-      color: #0f172a; /* slate-900 → texto oscuro por defecto en CLARO */
+    /* ===== Bases / Contraste garantizado incluso si Tailwind CDN falla ===== */
+    /* Texto base CLARO solo cuando NO está en modo oscuro */
+    html:not(.dark) body{
+      color: #0f172a; /* slate-900 */
     }
-    #page-content-wrapper {
-      backdrop-filter: blur(0.5px);
+    /* Texto base OSCURO (fallback legible sin utilidades dark: de Tailwind) */
+    html.dark body{
+      color: #e5e7eb; /* slate-200 */
     }
-    .dark body, .dark{
-      background: transparent;
+    html.dark{
       color-scheme: dark;
     }
 
-    /* ===== INICIO: CORRECCIÓN DEFINITIVA PARA TEXTO EN MODO OSCURO ===== */
-    /* Se establece un color de texto base claro en el elemento raíz (html) cuando está en modo oscuro. */
-    /* Esto asegura que todos los elementos hijos hereden un color legible por defecto. */
-    html.dark {
-        color: #d1d5db; /* Equivalente a text-gray-300 de Tailwind */
+    /* ✔ CORRECCIÓN: Se aplica el filtro al contenedor del contenido, no al body */
+    #page-content-wrapper {
+      backdrop-filter: blur(0.5px);
     }
-    /* Las clases de utilidad de Tailwind (ej: dark:text-white) anularán este estilo por ser más específicas. */
-    /* ===== FIN: CORRECCIÓN DEFINITIVA ===== */
 
     /* Fuerza de contraste en tema claro: textos utilitarios Tailwind */
     html:not(.dark) .text-gray-900,
@@ -104,7 +103,7 @@
     .hover-lift{transition:transform .25s ease, box-shadow .25s ease}
     .hover-lift:hover{transform:translateY(-4px)}
 
-    /* ✔ Requisito 3: texto negro en botones primarios (ambos temas) */
+    /* Texto negro en botones primarios (ambos temas) */
     .btn-primary{
       background: linear-gradient(135deg, var(--violet), var(--teal));
       color:#000 !important; /* ← texto/ícono negro */
@@ -123,7 +122,7 @@
       border:1px solid rgba(255,255,255,.08);
     }
 
-    /* ✔ Requisito 1: FAB WhatsApp realmente flotante + safe-area */
+    /* FAB WhatsApp realmente flotante + safe-area */
     .whatsapp-fab{
       position:fixed; right:18px; bottom:calc(env(safe-area-inset-bottom, 0px) + 18px); z-index:9999;
       width:56px; height:56px; border-radius:9999px;
@@ -145,19 +144,19 @@
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
 
-    /* ✔ Requisito 2: en oscuro, ES/EN y “Tema” en blanco */
+    /* En oscuro, ES/EN y “Tema” en blanco */
     .dark #lang-es, .dark #lang-en, .dark #lang-es-mobile, .dark #lang-en-mobile { color:#ffffff !important; }
     .dark #theme-toggle, .dark #theme-toggle-mobile { color:#ffffff !important; border-color: rgba(255,255,255,0.5) !important; }
     .dark #theme-toggle span, .dark #theme-toggle-mobile span { color:#ffffff !important; }
 
-    /* ✔ Requisito 4: en claro, aviso de dominio negro + negrita */
+    /* En claro, aviso de dominio negro + negrita */
     html:not(.dark) [data-i18n="note_domain"]{
       color:#000 !important;
       font-weight:700;
       font-style:normal; /* quitar cursiva del <em> */
     }
 
-    /* ✔ Requisito 5: en claro, placeholders del form negro + negrita */
+    /* En claro, placeholders del form negro + negrita */
     html:not(.dark) input::placeholder,
     html:not(.dark) textarea::placeholder{
       color:#000 !important;
@@ -189,7 +188,7 @@
               <button id="lang-en" class="px-2 py-1 text-xs rounded border border-transparent hover:border-gray-300 dark:hover:border-gray-600">EN</button>
             </div>
 
-            <button id="theme-toggle" class="flex items-center space-x-2 px-3 py-1.5 text-xs rounded border border-gray-300 dark:border-gray-600 hover:bg-black/5 dark:hover:bg-white/5">
+            <button id="theme-toggle" class="flex items-center space-x-2 px-3 py-1.5 text-xs rounded border border-gray-300 dark:border-gray-600 hover:bg-black/5 dark:hover:bg:white/5">
               <i data-feather="moon" class="w-4 h-4"></i>
               <span data-i18n="toggle_theme">Tema</span>
             </button>
@@ -232,7 +231,7 @@
             Sitios web que <span class="gradient-text">venden</span>
           </h1>
           <p class="text-lg md:text-2xl text-gray-700 dark:text-gray-300 mb-8" data-i18n="hero_sub">
-            Rápidos, limpios y con estilo. Diseño landings claras con mensajes directos y llamados a la acción efectivos.
+            Rápidos, limpios y con estilo. Diseño sitios wen claros con mensajes directos y llamados a la acción efectivos.
           </p>
           <div class="flex flex-col sm:flex-row justify-center gap-4">
             <a href="#contacto" class="btn-primary inline-flex items-center px-7 py-3 rounded-lg font-semibold">
@@ -339,6 +338,7 @@
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <a href="/freelancer" target="_blank" class="soft-card rounded-xl overflow-hidden hover-lift block">
+            <!-- Imagen actualizada -->
             <img src="/assets/freelancer.png" alt="" class="w-full h-48 object-cover">
             <div class="p-6">
               <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-i18n="ex_1_t">Sitio de freelancer - CV personal</h3>
@@ -351,6 +351,7 @@
           </a>
 
           <a href="/negocio-local" target="_blank" class="soft-card rounded-xl overflow-hidden hover-lift block">
+            <!-- Imagen actualizada -->
             <img src="/assets/negocio-local.png" alt="" class="w-full h-48 object-cover">
             <div class="p-6">
               <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-i18n="ex_2_t">Negocio o Local</h3>
@@ -363,10 +364,11 @@
           </a>
 
           <a href="/producto-digital" target="_blank" class="soft-card rounded-xl overflow-hidden hover-lift block">
+            <!-- Imagen actualizada -->
             <img src="/assets/producto-digital.png" alt="" class="w-full h-48 object-cover">
             <div class="p-6">
               <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-i18n="ex_3_t">Producto Digital</h3>
-              <p class="text-gray-700 dark:text-gray-300 text-sm mb-4" data-i18n="ex_3_d">Landings con llamadas a la acción claras para vender tu software, curso o ebook.</p>
+              <p class="text-gray-700 dark:text-gray-300 text-sm mb-4" data-i18n="ex_3_d">Web con llamadas a la acción claras para vender tu software, curso o ebook.</p>
               <button class="btn-ghost inline-flex items-center px-4 py-2 rounded-lg font-semibold text-sm">
                   <i data-feather="eye" class="w-4 h-4 mr-2"></i>
                   Ver ejemplo
@@ -400,11 +402,11 @@
             </div>
             <div>
               <label for="phone" class="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-2" data-i18n="ct_phone_l">Teléfono (Opcional)</label>
-              <input id="phone" type="tel" name="Teléfono" class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="(Opcional)"/>
+              <input id="phone" type="tel" name="Teléfono" class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg:black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring:[color:var(--violet)]" placeholder="(Opcional)"/>
             </div>
             <div>
               <label for="message" class="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-2" data-i18n="ct_msg_l">Tu idea y objetivos</label>
-              <textarea id="message" name="Mensaje" rows="6" required class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="Contame sobre tu proyecto..."></textarea>
+              <textarea id="message" name="Mensaje" rows="6" required class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring:[color:var(--violet)]" placeholder="Contame sobre tu proyecto..."></textarea>
             </div>
             <button type="submit" class="btn-primary w-full font-semibold py-4 px-6 rounded-lg hover-lift transition-all">
               <i data-feather="send" class="w-5 h-5 mr-2 inline"></i>
@@ -412,7 +414,7 @@
             </button>
           </form>
 
-          <div class="mt-8 pt-8 border-t border-black/10 dark:border-white/10 text-center">
+          <div class="mt-8 pt-8 border-t border-black/10 dark:border:white/10 text-center">
             <p class="text-gray-800 dark:text-gray-300 mb-4" data-i18n="ct_alt">También podés escribirme directo:</p>
             <div class="flex justify-center gap-6">
               <a href="https://wa.me/5491162857653" target="_blank" class="inline-flex items-center text-green-600 dark:text-green-400 hover:opacity-90">
@@ -438,7 +440,8 @@
         </p>
       </div>
     </footer>
-  </div> <a class="whatsapp-fab" href="https://wa.me/5491162857653" target="_blank" aria-label="WhatsApp">
+  </div> 
+  <a class="whatsapp-fab" href="https://wa.me/5491162857653" target="_blank" aria-label="WhatsApp">
     <i data-feather="phone-call" class="w-6 h-6"></i>
   </a>
 
@@ -478,7 +481,7 @@
       es:{
         nav_services:'Servicios', nav_examples:'Ejemplos', nav_contact:'Contacto', toggle_theme:'Tema',
         hero_title:'Sitios web que <span class="gradient-text">venden</span>',
-        hero_sub:'Rápidos, limpios y con estilo. Diseño landings claras con mensajes directos y llamados a la acción efectivos.',
+        hero_sub:'Rápidos, limpios y con estilo. Diseño sitios wen claros con mensajes directos y llamados a la acción efectivos.',
         cta_start:'Empezar Proyecto', cta_examples:'Ver Ejemplos',
         svc_title:'¿Por qué elegir Andromadorian?',
         svc_sub:'Me enfoco en mensajes simples, diseño limpio y acciones directas. Vos me contás la idea, yo me encargo del resto.',
@@ -492,7 +495,7 @@
         ex_title:'Ejemplos', ex_sub:'Subsitios simples que muestran diferentes usos. Cada ejemplo abre en una página dedicada.',
         ex_1_t:'Sitio de freelancer - CV personal', ex_1_d:'Ideal para mostrar tu trabajo, habilidades y contacto de manera profesional.',
         ex_2_t:'Negocio o Local', ex_2_d:'Página de aterrizaje optimizada para reservas, menús o información de tu tienda física.',
-        ex_3_t:'Producto Digital', ex_3_d:'Landings con llamadas a la acción claras para vender tu software, curso o ebook.',
+        ex_3_t:'Producto Digital', ex_3_d:'Web con llamadas a la acción claras para vender tu software, curso o ebook.',
         ct_title:'Contacto',
         ct_sub:'Contame brevemente tu idea y el objetivo de tu página. Te respondo con una propuesta simple y un tiempo estimado de entrega.',
         ct_name_l:'Nombre', ct_email_l:'Email', ct_phone_l:'Teléfono (Opcional)', ct_msg_l:'Tu idea y objetivos', ct_send:'Enviar Mensaje', ct_alt:'También podés escribirme directo:',
