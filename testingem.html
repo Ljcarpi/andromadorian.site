@@ -138,9 +138,9 @@
     }
 
     /* ✔ Requisito 2: en oscuro, ES/EN y “Tema” en blanco */
-    .dark #lang-es, .dark #lang-en{ color:#ffffff !important; }
-    .dark #theme-toggle{ color:#ffffff !important; border-color: rgba(255,255,255,0.5) !important; }
-    .dark #theme-toggle span{ color:#ffffff !important; }
+    .dark #lang-es, .dark #lang-en, .dark #lang-es-mobile, .dark #lang-en-mobile { color:#ffffff !important; }
+    .dark #theme-toggle, .dark #theme-toggle-mobile { color:#ffffff !important; border-color: rgba(255,255,255,0.5) !important; }
+    .dark #theme-toggle span, .dark #theme-toggle-mobile span { color:#ffffff !important; }
 
     /* ✔ Requisito 4: en claro, aviso de dominio negro + negrita */
     html:not(.dark) [data-i18n="note_domain"]{
@@ -170,7 +170,7 @@
             <span class="text-xl font-bold gradient-text">Andromadorian</span>
           </div>
 
-          <div class="flex items-center space-x-6">
+          <div class="hidden md:flex md:items-center md:space-x-6">
             <a href="#servicios" class="text-sm md:text-base text-gray-800 dark:text-gray-200 hover:underline" data-i18n="nav_services">Servicios</a>
             <a href="#ejemplos" class="text-sm md:text-base text-gray-800 dark:text-gray-200 hover:underline" data-i18n="nav_examples">Ejemplos</a>
             <a href="#contacto" class="text-sm md:text-base text-gray-800 dark:text-gray-200 hover:underline" data-i18n="nav_contact">Contacto</a>
@@ -182,6 +182,33 @@
             </div>
 
             <button id="theme-toggle" class="flex items-center space-x-2 px-3 py-1.5 text-xs rounded border border-gray-300 dark:border-gray-600 hover:bg-black/5 dark:hover:bg-white/5">
+              <i data-feather="moon" class="w-4 h-4"></i>
+              <span data-i18n="toggle_theme">Tema</span>
+            </button>
+          </div>
+
+          <div class="md:hidden">
+            <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none">
+              <i data-feather="menu" class="h-6 w-6"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="mobile-menu" class="hidden md:hidden">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          <a href="#servicios" class="block px-3 py-2 rounded-md text-base font-medium text-gray-800 dark:text-gray-200" data-i18n="nav_services">Servicios</a>
+          <a href="#ejemplos" class="block px-3 py-2 rounded-md text-base font-medium text-gray-800 dark:text-gray-200" data-i18n="nav_examples">Ejemplos</a>
+          <a href="#contacto" class="block px-3 py-2 rounded-md text-base font-medium text-gray-800 dark:text-gray-200" data-i18n="nav_contact">Contacto</a>
+        </div>
+        <div class="px-4 py-3 border-t border-black/10 dark:border-white/10">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <button id="lang-es-mobile" class="px-2 py-1 text-xs rounded border border-transparent hover:border-gray-300 dark:hover:border-gray-600">ES</button>
+              <span class="text-gray-400">|</span>
+              <button id="lang-en-mobile" class="px-2 py-1 text-xs rounded border border-transparent hover:border-gray-300 dark:hover:border-gray-600">EN</button>
+            </div>
+            <button id="theme-toggle-mobile" class="flex items-center space-x-2 px-3 py-1.5 text-xs rounded border border-gray-300 dark:border-gray-600 hover:bg-black/5 dark:hover:bg-white/5">
               <i data-feather="moon" class="w-4 h-4"></i>
               <span data-i18n="toggle_theme">Tema</span>
             </button>
@@ -408,21 +435,35 @@
   </a>
 
   <script>
+    // ===== MOBILE MENU TOGGLE =====
+    const menuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+    // Cierra el menú móvil al hacer clic en un enlace
+    document.querySelectorAll('#mobile-menu a[href^="#"]').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
     // ===== THEME =====
     const htmlEl = document.documentElement;
-    const themeBtn = document.getElementById('theme-toggle');
+    // La etiqueta <html> ya incluye la clase "dark".
+    // El script solo cambiará a claro si el usuario lo guardó explícitamente.
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
       htmlEl.classList.toggle('dark', savedTheme === 'dark');
-    } else {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      htmlEl.classList.toggle('dark', prefersDark);
     }
-    themeBtn.addEventListener('click', () => {
+    // El manejador del evento se comparte entre ambos botones (escritorio y móvil)
+    const themeToggleHandler = () => {
       htmlEl.classList.toggle('dark');
       localStorage.setItem('theme', htmlEl.classList.contains('dark') ? 'dark' : 'light');
       setTimeout(()=>feather.replace(),0);
-    });
+    };
+    document.getElementById('theme-toggle').addEventListener('click', themeToggleHandler);
+    document.getElementById('theme-toggle-mobile').addEventListener('click', themeToggleHandler);
 
     // ===== I18N =====
     const t = {
@@ -482,12 +523,16 @@
       document.documentElement.lang = (lang === 'en' ? 'en' : 'es');
       localStorage.setItem('lang', lang);
     };
-    const langES = document.getElementById('lang-es');
-    const langEN = document.getElementById('lang-en');
+
+    // Aplica el manejador a los 4 botones de idioma
+    const langHandler = (lang) => () => applyI18n(lang);
+    document.getElementById('lang-es').addEventListener('click', langHandler('es'));
+    document.getElementById('lang-en').addEventListener('click', langHandler('en'));
+    document.getElementById('lang-es-mobile').addEventListener('click', langHandler('es'));
+    document.getElementById('lang-en-mobile').addEventListener('click', langHandler('en'));
+
     const savedLang = localStorage.getItem('lang');
     applyI18n(savedLang === 'en' ? 'en' : 'es');
-    langES.addEventListener('click',()=>applyI18n('es'));
-    langEN.addEventListener('click',()=>applyI18n('en'));
 
     // Icons
     feather.replace();
