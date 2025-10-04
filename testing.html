@@ -58,13 +58,22 @@
     html.dark body{ color:#e5e7eb; }                /* oscuro */
     html.dark{ color-scheme: dark; }
 
-    /* Fallbacks extra en oscuro si fallan utilidades dark: */
+    /* Fallbacks EXTRA en oscuro si fallan utilidades dark: */
     html.dark .text-gray-900,
     html.dark .text-gray-800,
     html.dark .text-gray-700,
     html.dark .text-black{ color:#e5e7eb !important; }
     html.dark .text-gray-600,
     html.dark .text-gray-500{ color:#d1d5db !important; }
+
+    /* 🔧 Fallbacks tema CLARO: si por cualquier motivo quedó una clase de texto “clara”, la forzamos a oscuro */
+    html:not(.dark) .text-white,
+    html:not(.dark) .text-gray-100,
+    html:not(.dark) .text-gray-200,
+    html:not(.dark) .text-gray-300,
+    html:not(.dark) .dark\:text-white,
+    html:not(.dark) .dark\:text-gray-300{ color:#0f172a !important; }
+    html:not(.dark) .text-gray-600{ color:#1f2937 !important; }
 
     /* Evitar afectar el texto con filtros */
     #page-content-wrapper { backdrop-filter: blur(0.5px); }
@@ -75,7 +84,7 @@
       -webkit-background-clip:text; -webkit-text-fill-color:transparent;
     }
     .soft-card{
-      background: rgba(255,255,255,0.78);
+      background: rgba(255,255,255,0.85); /* un toque más opaco para subir contraste */
       backdrop-filter: blur(8px);
       border:1px solid rgba(0,0,0,.06);
     }
@@ -271,7 +280,7 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
           <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2" data-i18n="price_title">Obten tu sitio web</h2>
-        <p class="text-2xl font-extrabold gradient-text mb-1" data-i18n="price_from">¡Desde 50 U$D!</p>
+          <p class="text-2xl font-extrabold gradient-text mb-1" data-i18n="price_from">¡Desde 50 U$D!</p>
           <p class="text-gray-700 dark:text-gray-300" data-i18n="price_sub">Todo incluido en un precio transparente</p>
         </div>
 
@@ -362,7 +371,7 @@
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-10">
           <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4" data-i18n="ct_title">Contacto</h2>
-          <p class="text-lg md:text-xl text-gray-700 dark:text-gray-300" data-i18n="ct_sub">
+          <p class="text-lg md:text-1xl text-gray-700 dark:text-gray-300" data-i18n="ct_sub">
             Contame brevemente tu idea y el objetivo de tu página. Te respondo con una propuesta simple y un tiempo estimado de entrega.
           </p>
         </div>
@@ -449,7 +458,7 @@
     document.getElementById('theme-toggle').addEventListener('click', themeToggleHandler);
     document.getElementById('theme-toggle-mobile').addEventListener('click', themeToggleHandler);
 
-    // ===== I18N (igual que antes) =====
+    // ===== I18N =====
     const t = {
       es:{ nav_services:'Servicios', nav_examples:'Ejemplos', nav_contact:'Contacto', toggle_theme:'Tema',
         hero_title:'Sitios web que <span class="gradient-text">venden</span>',
