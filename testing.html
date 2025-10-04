@@ -14,6 +14,10 @@
 
   <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 
+  <!-- VANTA deps -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     :root{
@@ -27,11 +31,21 @@
     html,body{height:100%}
     body{font-family:'Inter',sans-serif;}
 
-    /* Capa de fondo difuminado */
+    /* === VANTA: capa fija detrás del contenido hasta #servicios === */
+    #vanta-bg{
+      position:fixed;
+      inset:0 auto auto 0;   /* top:0; left:0 */
+      width:100%;
+      height:60vh;           /* se recalcula por JS */
+      z-index:0;             /* por encima del blur (que queda en -1) y por debajo del contenido */
+      pointer-events:none;   /* no bloquea clics */
+    }
+
+    /* Capa de fondo difuminado (queda debajo del VANTA) */
     .blurred-gradient-bg{
       position:fixed;
       inset:0;
-      z-index:-1;
+      z-index:-1;            /* ← debajo del VANTA */
       pointer-events:none;
       filter: blur(40px) saturate(110%);
       transform: translateZ(0);
@@ -60,8 +74,10 @@
       background: transparent;
       color: #0f172a; /* slate-900 → texto oscuro por defecto en CLARO */
     }
-    /* ✔ CORRECCIÓN: Se aplica el filtro al contenedor del contenido, no al body */
+    /* El contenido se apila por encima del VANTA */
     #page-content-wrapper {
+      position: relative;
+      z-index: 1;            /* ← encima del #vanta-bg */
       backdrop-filter: blur(0.5px);
     }
     .dark body, .dark{
@@ -96,7 +112,6 @@
     .hover-lift{transition:transform .25s ease, box-shadow .25s ease}
     .hover-lift:hover{transform:translateY(-4px)}
 
-    /* ✔ Requisito 3: texto negro en botones primarios (ambos temas) */
     .btn-primary{
       background: linear-gradient(135deg, var(--violet), var(--teal));
       color:#000 !important; /* ← texto/ícono negro */
@@ -115,7 +130,7 @@
       border:1px solid rgba(255,255,255,.08);
     }
 
-    /* ✔ Requisito 1: FAB WhatsApp realmente flotante + safe-area */
+    /* FAB WhatsApp */
     .whatsapp-fab{
       position:fixed; right:18px; bottom:calc(env(safe-area-inset-bottom, 0px) + 18px); z-index:9999;
       width:56px; height:56px; border-radius:9999px;
@@ -137,28 +152,32 @@
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
 
-    /* ✔ Requisito 2: en oscuro, ES/EN y “Tema” en blanco */
+    /* En oscuro, ES/EN y “Tema” en blanco */
     .dark #lang-es, .dark #lang-en, .dark #lang-es-mobile, .dark #lang-en-mobile { color:#ffffff !important; }
     .dark #theme-toggle, .dark #theme-toggle-mobile { color:#ffffff !important; border-color: rgba(255,255,255,0.5) !important; }
     .dark #theme-toggle span, .dark #theme-toggle-mobile span { color:#ffffff !important; }
 
-    /* ✔ Requisito 4: en claro, aviso de dominio negro + negrita */
+    /* En claro, aviso de dominio negro + negrita */
     html:not(.dark) [data-i18n="note_domain"]{
       color:#000 !important;
       font-weight:700;
-      font-style:normal; /* quitar cursiva del <em> */
+      font-style:normal;
     }
 
-    /* ✔ Requisito 5: en claro, placeholders del form negro + negrita */
+    /* En claro, placeholders del form negro + negrita */
     html:not(.dark) input::placeholder,
     html:not(.dark) textarea::placeholder{
       color:#000 !important;
       font-weight:700;
-      opacity:1; /* asegurar color pleno en algunos navegadores */
+      opacity:1;
     }
   </style>
 </head>
 <body class="min-h-screen">
+  <!-- VANTA: capa dinámica hasta antes de #servicios -->
+  <div id="vanta-bg"></div>
+
+  <!-- Fondo difuminado (queda debajo del VANTA) -->
   <div class="blurred-gradient-bg"></div>
   
   <div id="page-content-wrapper">
@@ -331,7 +350,7 @@
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <a href="/freelancer" target="_blank" class="soft-card rounded-xl overflow-hidden hover-lift block">
-            <img src="http://static.photos/technology/640x360/1" alt="" class="w-full h-48 object-cover">
+            <img src="/assets/freelancer.png" alt="" class="w-full h-48 object-cover">
             <div class="p-6">
               <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-i18n="ex_1_t">Sitio de freelancer - CV personal</h3>
               <p class="text-gray-700 dark:text-gray-300 text-sm mb-4" data-i18n="ex_1_d">Ideal para mostrar tu trabajo, habilidades y contacto de manera profesional.</p>
@@ -343,7 +362,7 @@
           </a>
 
           <a href="/negocio-local" target="_blank" class="soft-card rounded-xl overflow-hidden hover-lift block">
-            <img src="http://static.photos/restaurant/640x360/2" alt="" class="w-full h-48 object-cover">
+            <img src="/assets/negocio-local.png" alt="" class="w-full h-48 object-cover">
             <div class="p-6">
               <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-i18n="ex_2_t">Negocio o Local</h3>
               <p class="text-gray-700 dark:text-gray-300 text-sm mb-4" data-i18n="ex_2_d">Página de aterrizaje optimizada para reservas, menús o información de tu tienda física.</p>
@@ -355,7 +374,7 @@
           </a>
 
           <a href="/producto-digital" target="_blank" class="soft-card rounded-xl overflow-hidden hover-lift block">
-            <img src="http://static.photos/wellness/640x360/3" alt="" class="w-full h-48 object-cover">
+            <img src="/assets/producto-digital.png" alt="" class="w-full h-48 object-cover">
             <div class="p-6">
               <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-i18n="ex_3_t">Producto Digital</h3>
               <p class="text-gray-700 dark:text-gray-300 text-sm mb-4" data-i18n="ex_3_d">Landings con llamadas a la acción claras para vender tu software, curso o ebook.</p>
@@ -430,7 +449,8 @@
         </p>
       </div>
     </footer>
-  </div> <a class="whatsapp-fab" href="https://wa.me/5491162857653" target="_blank" aria-label="WhatsApp">
+  </div>
+  <a class="whatsapp-fab" href="https://wa.me/5491162857653" target="_blank" aria-label="WhatsApp">
     <i data-feather="phone-call" class="w-6 h-6"></i>
   </a>
 
@@ -450,13 +470,10 @@
 
     // ===== THEME =====
     const htmlEl = document.documentElement;
-    // La etiqueta <html> ya incluye la clase "dark".
-    // El script solo cambiará a claro si el usuario lo guardó explícitamente.
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
       htmlEl.classList.toggle('dark', savedTheme === 'dark');
     }
-    // El manejador del evento se comparte entre ambos botones (escritorio y móvil)
     const themeToggleHandler = () => {
       htmlEl.classList.toggle('dark');
       localStorage.setItem('theme', htmlEl.classList.contains('dark') ? 'dark' : 'light');
@@ -547,6 +564,49 @@
           el.scrollIntoView({behavior:'smooth', block:'start'});
         }
       });
+    });
+
+    /* ===========================
+       VANTA HEIGHT + INIT
+       =========================== */
+    let vantaInstance = null;
+
+    // --- VANTA HEIGHT: ajustar altura hasta el inicio de #servicios
+    function setVantaHeight() {
+      const v = document.getElementById('vanta-bg');
+      const target = document.getElementById('servicios');
+      if (!v || !target) return;
+      const top = target.getBoundingClientRect().top + window.pageYOffset;
+      v.style.height = top + 'px';
+    }
+
+    function initVanta(){
+      if (vantaInstance) return;
+      vantaInstance = VANTA.NET({
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        scale: 1.0,
+        scaleMobile: 1.0,
+        color: 0x4f46e5,           // indigo-600
+        backgroundAlpha: 0.0,      // ← transparente para mezclar con tu fondo difuminado
+        points: 12.0,
+        maxDistance: 22.0,
+        spacing: 18.0
+      });
+    }
+
+    // Recalcular en resize/orientación (layout responsive)
+    window.addEventListener('resize', setVantaHeight);
+    window.addEventListener('orientationchange', setVantaHeight);
+
+    // Inicializar cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', () => {
+      setVantaHeight();
+      initVanta();
     });
   </script>
 </body>
