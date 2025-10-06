@@ -3,16 +3,51 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Andromadorian — Sitios web profesionales</title>
 
-  <link rel="icon" type="image/png" href="/andro.png"/>
+  <!-- ====== SEO BÁSICO ====== -->
+  <title>Andromadorian — Sitios web profesionales | Diseño rápido, limpio y optimizado</title>
+  <meta name="description" content="Andromadorian crea sitios web profesionales: rápidos, limpios y optimizados para SEO. Diseño responsive, formularios, WhatsApp flotante, SSL, integración con redes y más. ¡Desde 50 USD!">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+
+  <!-- Canonical: apunta al dominio preferido (ajústalo si hospedas en otra URL) -->
+  <link rel="canonical" href="https://www.andromadorian.site/"/>
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" href="/andro.png" sizes="32x32"/>
+  <link rel="icon" type="image/png" href="/andro.png" sizes="192x192"/>
+  <link rel="apple-touch-icon" href="/andro.png">
+
+  <!-- Theme color (mejora UI en Android/iOS) -->
+  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+
+  <!-- ====== OPEN GRAPH / TWITTER ====== -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Andromadorian">
+  <meta property="og:title" content="Sitios web profesionales que venden">
+  <meta property="og:description" content="Landing pages rápidas, limpias y con estilo. Diseño claro, CTAs efectivos y SEO listo para Google.">
+  <meta property="og:url" content="https://www.andromadorian.site/">
+  <!-- Cambia por una imagen 1200x630 real si la tienes en /assets/og-cover.jpg -->
+  <meta property="og:image" content="https://www.andromadorian.site/assets/producto-digital.png">
+  <meta property="og:image:alt" content="Ejemplo de sitio profesional Andromadorian">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sitios web profesionales que venden">
+  <meta name="twitter:description" content="Diseño web claro, rápido y optimizado para SEO. Desde 50 USD.">
+  <meta name="twitter:image" content="https://www.andromadorian.site/assets/producto-digital.png">
+
+  <!-- ====== PERFORMANCE HINTS ====== -->
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <!-- Tailwind CDN con darkMode por clase -->
   <script>tailwind = { config: { darkMode: 'class' } };</script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com" defer></script>
 
   <!-- Iconos -->
-  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js" defer></script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -152,18 +187,64 @@
       color:#000 !important; font-weight:700; opacity:1;
     }
   </style>
+
+  <!-- ====== JSON-LD: ORGANIZATION + WEBSITE ====== -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"Andromadorian",
+    "url":"https://www.andromadorian.site/",
+    "logo":"https://www.andromadorian.site/andro.png",
+    "sameAs":[
+      "https://www.instagram.com/andromadorian", 
+      "https://www.facebook.com/andromadorian"
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "name":"Andromadorian",
+    "url":"https://www.andromadorian.site/",
+    "potentialAction":{
+      "@type":"SearchAction",
+      "target":"https://www.andromadorian.site/?q={search_term_string}",
+      "query-input":"required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- ====== JSON-LD: FAQPAGE (aprovecha tu acordeón para rich results) ====== -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"¿Cuánto me sale un sitio web?","acceptedAnswer":{"@type":"Answer","text":"El costo final depende de las funcionalidades que necesites (secciones, formularios, integraciones, etc.). Contame tu idea y te paso un presupuesto sin cargo."}},
+      {"@type":"Question","name":"¿Cuánto demora la creación y lanzamiento de un sitio web?","acceptedAnswer":{"@type":"Answer","text":"Por lo general entre 2 y 3 días desde que definimos el contenido y el estilo. Sitios más complejos pueden requerir un poco más."}},
+      {"@type":"Question","name":"¿Tengo soporte luego de la compra?","acceptedAnswer":{"@type":"Answer","text":"Sí, 3 meses de soporte gratuito + 1 cambio de diseño/contenido dentro de ese período. Pasado ese tiempo, los cambios se cotizan."}},
+      {"@type":"Question","name":"¿Qué necesito para empezar?","acceptedAnswer":{"@type":"Answer","text":"Un breve resumen de tu negocio/idea, logotipo (si tenés), paleta de colores deseada y ejemplos de sitios que te gusten. Si no tenés nada de eso, te ayudo a definirlo."}},
+      {"@type":"Question","name":"¿Incluye dominio y dónde aloja el sitio?","acceptedAnswer":{"@type":"Answer","text":"El dominio está incluido dentro del presupuesto final."}},
+      {"@type":"Question","name":"¿Puedo pagar en cuotas o con diferentes medios de pago?","acceptedAnswer":{"@type":"Answer","text":"Sí, coordino múltiples medios de pago y planes en cuotas según el alcance del proyecto."}},
+      {"@type":"Question","name":"¿Podés mejorar o migrar mi sitio actual?","acceptedAnswer":{"@type":"Answer","text":"Claro. Puedo modernizar diseño, optimizar performance/SEO y migrar tu contenido a una nueva plataforma manteniendo SEO y enlaces."}}
+    ]
+  }
+  </script>
 </head>
 <body class="min-h-screen">
-  <div class="blurred-gradient-bg"></div>
+  <div class="blurred-gradient-bg" aria-hidden="true"></div>
 
   <div id="page-content-wrapper">
     <!-- NAV -->
-    <nav class="nav-glass sticky top-0 z-50">
+    <nav class="nav-glass sticky top-0 z-50" role="navigation" aria-label="Principal">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
           <div class="flex items-center space-x-2">
             <!-- Logo más grande: w-8 h-8 -->
-            <img src="/andro.png" alt="Logo" class="w-10 h-10"/>
+            <img src="/andro.png" alt="Logo Andromadorian" class="w-10 h-10" width="40" height="40"/>
             <span class="text-xl font-bold gradient-text">Andromadorian</span>
           </div>
 
@@ -172,21 +253,21 @@
             <a href="#ejemplos" class="text-sm md:text-base text-gray-800 dark:text-gray-200 hover:underline" data-i18n="nav_examples">Ejemplos</a>
             <a href="#contacto" class="text-sm md:text-base text-gray-800 dark:text-gray-200 hover:underline" data-i18n="nav_contact">Contacto</a>
 
-            <div class="flex items-center space-x-2">
-              <button id="lang-es" class="px-2 py-1 text-xs rounded border border-transparent hover:border-gray-300 dark:hover:border-gray-600">ES</button>
-              <span class="text-gray-400">|</span>
-              <button id="lang-en" class="px-2 py-1 text-xs rounded border border-transparent hover:border-gray-300 dark:hover:border-gray-600">EN</button>
+            <div class="flex items-center space-x-2" aria-label="Selector de idioma">
+              <button id="lang-es" class="px-2 py-1 text-xs rounded border border-transparent hover:border-gray-300 dark:hover:border-gray-600" aria-pressed="true">ES</button>
+              <span class="text-gray-400" aria-hidden="true">|</span>
+              <button id="lang-en" class="px-2 py-1 text-xs rounded border border-transparent hover:border-gray-300 dark:hover:border-gray-600" aria-pressed="false">EN</button>
             </div>
 
-            <button id="theme-toggle" class="flex items-center space-x-2 px-3 py-1.5 text-xs rounded border border-gray-300 dark:border-gray-600 hover:bg-black/5 dark:hover:bg-white/5">
-              <i data-feather="moon" class="w-4 h-4"></i>
+            <button id="theme-toggle" class="flex items-center space-x-2 px-3 py-1.5 text-xs rounded border border-gray-300 dark:border-gray-600 hover:bg-black/5 dark:hover:bg-white/5" aria-label="Cambiar tema">
+              <i data-feather="moon" class="w-4 h-4" aria-hidden="true"></i>
               <span data-i18n="toggle_theme">Tema</span>
             </button>
           </div>
 
           <div class="md:hidden">
-            <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none">
-              <i data-feather="menu" class="h-6 w-6"></i>
+            <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menú">
+              <i data-feather="menu" class="h-6 w-6" aria-hidden="true"></i>
             </button>
           </div>
         </div>
@@ -200,13 +281,13 @@
         </div>
         <div class="px-4 py-3 border-t border-black/10 dark:border-white/10">
           <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-2" aria-label="Selector de idioma móvil">
               <button id="lang-es-mobile" class="px-2 py-1 text-xs rounded border border-transparent hover:border-gray-300 dark:hover:border-gray-600">ES</button>
-              <span class="text-gray-400">|</span>
+              <span class="text-gray-400" aria-hidden="true">|</span>
               <button id="lang-en-mobile" class="px-2 py-1 text-xs rounded border border-transparent hover:border-gray-300 dark:hover:border-gray-600">EN</button>
             </div>
-            <button id="theme-toggle-mobile" class="flex items-center space-x-2 px-3 py-1.5 text-xs rounded border border-gray-300 dark:border-gray-600 hover:bg-black/5 dark:hover:bg-white/5">
-              <i data-feather="moon" class="w-4 h-4"></i>
+            <button id="theme-toggle-mobile" class="flex items-center space-x-2 px-3 py-1.5 text-xs rounded border border-gray-300 dark:border-gray-600 hover:bg-black/5 dark:hover:bg-white/5" aria-label="Cambiar tema">
+              <i data-feather="moon" class="w-4 h-4" aria-hidden="true"></i>
               <span data-i18n="toggle_theme">Tema</span>
             </button>
           </div>
@@ -226,14 +307,35 @@
           </p>
           <div class="flex flex-col sm:flex-row justify-center gap-4">
             <a href="#contacto" class="btn-primary inline-flex items-center px-7 py-3 rounded-lg font-semibold">
-              <i data-feather="message-circle" class="w-5 h-5 mr-2"></i>
+              <i data-feather="message-circle" class="w-5 h-5 mr-2" aria-hidden="true"></i>
               <span data-i18n="cta_start">Empezar Proyecto</span>
             </a>
             <a href="#ejemplos" class="btn-ghost inline-flex items-center px-7 py-3 rounded-lg font-semibold">
-              <i data-feather="eye" class="w-5 h-5 mr-2"></i>
+              <i data-feather="eye" class="w-5 h-5 mr-2" aria-hidden="true"></i>
               <span data-i18n="cta_examples">Ver Ejemplos</span>
             </a>
           </div>
+
+          <!-- === REDES SOCIALES (debajo de los botones) === -->
+          <div class="mt-5 flex items-center justify-center gap-6">
+            <!-- TikTok -->
+            <a href="https://www.tiktok.com/@andromadorian" target="_blank" rel="noopener" aria-label="TikTok @andromadorian" class="inline-flex items-center justify-center p-2 rounded hover:opacity-85 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black/20 dark:focus:ring-white/30">
+              <img src="https://cdn.jsdelivr.net/npm/simple-icons@11.16.0/icons/tiktok.svg" alt="TikTok" class="w-6 h-6" loading="lazy" width="24" height="24">
+              <span class="sr-only">@andromadorian</span>
+            </a>
+            <!-- YouTube -->
+            <a href="https://www.youtube.com/@andromadorian" target="_blank" rel="noopener" aria-label="YouTube @andromadorian" class="inline-flex items-center justify-center p-2 rounded hover:opacity-85 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black/20 dark:focus:ring-white/30">
+              <img src="https://cdn.jsdelivr.net/npm/simple-icons@11.16.0/icons/youtube.svg" alt="YouTube" class="w-6 h-6" loading="lazy" width="24" height="24">
+              <span class="sr-only">@andromadorian</span>
+            </a>
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/andromadorian" target="_blank" rel="noopener" aria-label="Instagram @andromadorian" class="inline-flex items-center justify-center p-2 rounded hover:opacity-85 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black/20 dark:focus:ring-white/30">
+              <img src="https://cdn.jsdelivr.net/npm/simple-icons@11.16.0/icons/instagram.svg" alt="Instagram" class="w-6 h-6" loading="lazy" width="24" height="24">
+              <span class="sr-only">@andromadorian</span>
+            </a>
+          </div>
+          <!-- === /REDES SOCIALES === -->
+
         </div>
       </div>
     </section>
@@ -251,7 +353,7 @@
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div class="soft-card p-7 rounded-xl hover-lift">
             <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style="background:linear-gradient(135deg,var(--violet),var(--teal));">
-              <i data-feather="zap" class="text-white w-6 h-6"></i>
+              <i data-feather="zap" class="text-white w-6 h-6" aria-hidden="true"></i>
             </div>
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2" data-i18n="svc_1_t">Entrega Rápida</h3>
             <p class="text-gray-700 dark:text-gray-300" data-i18n="svc_1_d">Tu sitio web listo en tiempo récord sin comprometer la calidad del diseño.</p>
@@ -259,7 +361,7 @@
 
           <div class="soft-card p-7 rounded-xl hover-lift">
             <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style="background:linear-gradient(135deg,var(--violet),var(--teal));">
-              <i data-feather="smartphone" class="text-white w-6 h-6"></i>
+              <i data-feather="smartphone" class="text-white w-6 h-6" aria-hidden="true"></i>
             </div>
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2" data-i18n="svc_2_t">Responsive Design</h3>
             <p class="text-gray-700 dark:text-gray-300" data-i18n="svc_2_d">Perfecto en móviles, tablets y desktop. Tu sitio se ve impecable en cualquier dispositivo.</p>
@@ -267,7 +369,7 @@
 
           <div class="soft-card p-7 rounded-xl hover-lift">
             <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style="background:linear-gradient(135deg,var(--violet),var(--teal));">
-              <i data-feather="search" class="text-white w-6 h-6"></i>
+              <i data-feather="search" class="text-white w-6 h-6" aria-hidden="true"></i>
             </div>
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2" data-i18n="svc_3_t">SEO Optimizado</h3>
             <p class="text-gray-700 dark:text-gray-300" data-i18n="svc_3_d">Aparece más rápido en Google y atrae más clientes a tu negocio.</p>
@@ -281,7 +383,7 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
           <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2" data-i18n="price_title">Obten tu sitio web</h2>
-          <p class="text-2xl font-extrabold gradient-text mb-1" data-i18n="price_from">¡Desde 50 U$D!</p>
+        <p class="text-2xl font-extrabold gradient-text mb-1" data-i18n="price_from">¡Desde 50 U$D!</p>
           <p class="text-gray-700 dark:text-gray-300" data-i18n="price_sub">Todo incluido en un precio transparente</p>
         </div>
 
@@ -291,27 +393,27 @@
               <div>
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4" data-i18n="inc_title">Incluye:</h3>
                 <ul class="space-y-3 text-gray-800 dark:text-gray-200">
-                  <li class="flex items-center"><i data-feather="check" class="text-green-500 w-5 h-5 mr-3"></i><span data-i18n="inc_1">Cientos de estilos diferentes</span></li>
-                  <li class="flex items-center"><i data-feather="check" class="text-green-500 w-5 h-5 mr-3"></i><span data-i18n="inc_2">Sitio personalizado a tu elección</span></li>
-                  <li class="flex items-center"><i data-feather="check" class="text-green-500 w-5 h-5 mr-3"></i><span data-i18n="inc_3">Botón flotante de WhatsApp</span></li>
-                  <li class="flex items-center"><i data-feather="check" class="text-green-500 w-5 h-5 mr-3"></i><span data-i18n="inc_4">Formulario de consulta</span></li>
-                  <li class="flex items-center"><i data-feather="check" class="text-green-500 w-5 h-5 mr-3"></i><span data-i18n="inc_5">5 casillas de correo con tu dominio</span></li>
+                  <li class="flex items-center"><i data-feather="check" class="text-green-500 w-5 h-5 mr-3" aria-hidden="true"></i><span data-i18n="inc_1">Cientos de estilos diferentes</span></li>
+                  <li class="flex items-center"><i data-feather="check" class="text-green-500 w-5 h-5 mr-3" aria-hidden="true"></i><span data-i18n="inc_2">Sitio personalizado a tu elección</span></li>
+                  <li class="flex items-center"><i data-feather="check" class="text-green-500 w-5 h-5 mr-3" aria-hidden="true"></i><span data-i18n="inc_3">Botón flotante de WhatsApp</span></li>
+                  <li class="flex items-center"><i data-feather="check" class="text-green-500 w-5 h-5 mr-3" aria-hidden="true"></i><span data-i18n="inc_4">Formulario de consulta</span></li>
+                  <li class="flex items-center"><i data-feather="check" class="text-green-500 w-5 h-5 mr-3" aria-hidden="true"></i><span data-i18n="inc_5">5 casillas de correo con tu dominio</span></li>
                 </ul>
               </div>
               <div>
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4" data-i18n="and_title">Y también:</h3>
                 <ul class="space-y-3 text-gray-800 dark:text-gray-200">
-                  <li class="flex items-center"><i data-feather="check" class="text-green-500 w-5 h-5 mr-3"></i><span data-i18n="and_1">Soporte para tu sitio</span></li>
-                  <li class="flex items-center"><i data-feather="check" class="text-green-500 w-5 h-5 mr-3"></i><span data-i18n="and_2">Diseño responsive completo</span></li>
-                  <li class="flex items-center"><i data-feather="check" class="text-green-500 w-5 h-5 mr-3"></i><span data-i18n="and_3">Optimizado para SEO</span></li>
-                  <li class="flex items-center"><i data-feather="check" class="text-green-500 w-5 h-5 mr-3"></i><span data-i18n="and_4">Certificado SSL gratis</span></li>
-                  <li class="flex items-center"><i data-feather="check" class="text-green-500 w-5 h-5 mr-3"></i><span data-i18n="and_5">Integración con redes sociales</span></li>
+                  <li class="flex items-center"><i data-feather="check" class="text-green-500 w-5 h-5 mr-3" aria-hidden="true"></i><span data-i18n="and_1">Soporte para tu sitio</span></li>
+                  <li class="flex items-center"><i data-feather="check" class="text-green-500 w-5 h-5 mr-3" aria-hidden="true"></i><span data-i18n="and_2">Diseño responsive completo</span></li>
+                  <li class="flex items-center"><i data-feather="check" class="text-green-500 w-5 h-5 mr-3" aria-hidden="true"></i><span data-i18n="and_3">Optimizado para SEO</span></li>
+                  <li class="flex items-center"><i data-feather="check" class="text-green-500 w-5 h-5 mr-3" aria-hidden="true"></i><span data-i18n="and_4">Certificado SSL gratis</span></li>
+                  <li class="flex items-center"><i data-feather="check" class="text-green-500 w-5 h-5 mr-3" aria-hidden="true"></i><span data-i18n="and_5">Integración con redes sociales</span></li>
                 </ul>
               </div>
             </div>
-            <div class="mt-8 p-4 rounded-lg border border-yellow-300/50 bg-yellow-100/70 dark:bg-yellow-900/30 dark:border-yellow-800">
+            <div class="mt-8 p-4 rounded-lg border border-yellow-300/50 bg-yellow-100/70 dark:bg-yellow-900/30 dark:border-yellow-800" role="note">
               <p class="text-yellow-900 dark:text-yellow-200 text-sm flex items-center">
-                <i data-feather="info" class="w-4 h-4 mr-2"></i>
+                <i data-feather="info" class="w-4 h-4 mr-2" aria-hidden="true"></i>
                 <em data-i18n="note_domain">El dominio esta incluido en el costo final.</em>
               </p>
             </div>
@@ -331,34 +433,34 @@
         </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <a href="/freelancer" target="_blank" class="soft-card rounded-xl overflow-hidden hover-lift block">
-            <img src="/assets/freelancer.png" alt="" class="w-full h-48 object-cover">
+          <a href="/freelancer" target="_blank" rel="noopener" class="soft-card rounded-xl overflow-hidden hover-lift block" aria-label="Ejemplo: Sitio de freelancer - CV personal">
+            <img src="/assets/freelancer.png" alt="Ejemplo sitio freelancer CV" class="w-full h-48 object-cover" loading="lazy" width="640" height="320">
             <div class="p-6">
               <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-i18n="ex_1_t">Sitio de freelancer - CV personal</h3>
               <p class="text-gray-700 dark:text-gray-300 text-sm mb-4" data-i18n="ex_1_d">Ideal para mostrar tu trabajo, habilidades y contacto de manera profesional.</p>
-              <button class="btn-ghost inline-flex items-center px-4 py-2 rounded-lg font-semibold text-sm">
+              <button class="btn-ghost inline-flex items-center px-4 py-2 rounded-lg font-semibold text-sm" type="button" aria-hidden="true">
                 <i data-feather="eye" class="w-4 h-4 mr-2"></i>Ver ejemplo
               </button>
             </div>
           </a>
 
-          <a href="/negocio-local" target="_blank" class="soft-card rounded-xl overflow-hidden hover-lift block">
-            <img src="/assets/negocio-local.png" alt="" class="w-full h-48 object-cover">
+          <a href="/negocio-local" target="_blank" rel="noopener" class="soft-card rounded-xl overflow-hidden hover-lift block" aria-label="Ejemplo: Negocio o Local">
+            <img src="/assets/negocio-local.png" alt="Ejemplo sitio para negocio local" class="w-full h-48 object-cover" loading="lazy" width="640" height="320">
             <div class="p-6">
               <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-i18n="ex_2_t">Negocio o Local</h3>
               <p class="text-gray-700 dark:text-gray-300 text-sm mb-4" data-i18n="ex_2_d">Página de aterrizaje optimizada para reservas, menús o información de tu tienda física.</p>
-              <button class="btn-ghost inline-flex items-center px-4 py-2 rounded-lg font-semibold text-sm">
+              <button class="btn-ghost inline-flex items-center px-4 py-2 rounded-lg font-semibold text-sm" type="button" aria-hidden="true">
                 <i data-feather="eye" class="w-4 h-4 mr-2"></i>Ver ejemplo
               </button>
             </div>
           </a>
 
-          <a href="/producto-digital" target="_blank" class="soft-card rounded-xl overflow-hidden hover-lift block">
-            <img src="/assets/producto-digital.png" alt="" class="w-full h-48 object-cover">
+          <a href="/producto-digital" target="_blank" rel="noopener" class="soft-card rounded-xl overflow-hidden hover-lift block" aria-label="Ejemplo: Producto Digital">
+            <img src="/assets/producto-digital.png" alt="Ejemplo sitio para producto digital" class="w-full h-48 object-cover" loading="lazy" width="640" height="320">
             <div class="p-6">
               <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-i18n="ex_3_t">Producto Digital</h3>
               <p class="text-gray-700 dark:text-gray-300 text-sm mb-4" data-i18n="ex_3_d">Web con llamadas a la acción claras para vender tu software, curso o ebook.</p>
-              <button class="btn-ghost inline-flex items-center px-4 py-2 rounded-lg font-semibold text-sm">
+              <button class="btn-ghost inline-flex items-center px-4 py-2 rounded-lg font-semibold text-sm" type="button" aria-hidden="true">
                 <i data-feather="eye" class="w-4 h-4 mr-2"></i>Ver ejemplo
               </button>
             </div>
@@ -382,23 +484,23 @@
             <div class="grid md:grid-cols-2 gap-6">
               <div>
                 <label for="name" class="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-2" data-i18n="ct_name_l">Nombre</label>
-                <input id="name" type="text" name="Nombre" required class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="Tu nombre"/>
+                <input id="name" type="text" name="Nombre" required class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="Tu nombre" autocomplete="name"/>
               </div>
               <div>
                 <label for="email" class="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-2" data-i18n="ct_email_l">Email</label>
-                <input id="email" type="email" name="Email" required class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="tu@email.com"/>
+                <input id="email" type="email" name="Email" required class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="tu@email.com" autocomplete="email"/>
               </div>
             </div>
             <div>
               <label for="phone" class="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-2" data-i18n="ct_phone_l">Teléfono (Opcional)</label>
-              <input id="phone" type="tel" name="Teléfono" class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="(Opcional)"/>
+              <input id="phone" type="tel" name="Teléfono" class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="(Opcional)" autocomplete="tel"/>
             </div>
             <div>
               <label for="message" class="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-2" data-i18n="ct_msg_l">Tu idea y objetivos</label>
-              <textarea id="message" name="Mensaje" rows="6" required class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="Contame sobre tu proyecto..."></textarea>
+              <textarea id="message" name="Mensaje" rows="6" required class="w-full px-4 py-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--violet)]" placeholder="Contame sobre tu proyecto..." autocomplete="off"></textarea>
             </div>
             <button type="submit" class="btn-primary w-full font-semibold py-4 px-6 rounded-lg hover-lift transition-all">
-              <i data-feather="send" class="w-5 h-5 mr-2 inline"></i>
+              <i data-feather="send" class="w-5 h-5 mr-2 inline" aria-hidden="true"></i>
               <span data-i18n="ct_send">Enviar Mensaje</span>
             </button>
           </form>
@@ -406,11 +508,11 @@
           <div class="mt-8 pt-8 border-t border-black/10 dark:border-white/10 text-center">
             <p class="text-gray-800 dark:text-gray-300 mb-4" data-i18n="ct_alt">También podés escribirme directo:</p>
             <div class="flex justify-center gap-6">
-              <a href="https://wa.me/5491162857653" target="_blank" class="inline-flex items-center text-green-600 dark:text-green-400 hover:opacity-90">
-                <i data-feather="message-circle" class="w-5 h-5 mr-2"></i><span>WhatsApp</span>
+              <a href="https://wa.me/5491162857653" target="_blank" rel="noopener" class="inline-flex items-center text-green-600 dark:text-green-400 hover:opacity-90">
+                <i data-feather="message-circle" class="w-5 h-5 mr-2" aria-hidden="true"></i><span>WhatsApp</span>
               </a>
               <a href="mailto:hola@andromadorian.site" class="inline-flex items-center text-[color:var(--violet)] dark:text-[#d3b7ff] hover:opacity-90">
-                <i data-feather="mail" class="w-5 h-5 mr-2"></i><span>Email</span>
+                <i data-feather="mail" class="w-5 h-5 mr-2" aria-hidden="true"></i><span>Email</span>
               </a>
             </div>
           </div>
@@ -429,74 +531,74 @@
         <div class="soft-card rounded-2xl p-2 divide-y divide-black/10 dark:divide-white/10">
           <!-- Item -->
           <div class="faq-item">
-            <button class="w-full flex items-center justify-between px-5 py-4 text-left">
+            <button class="w-full flex items-center justify-between px-5 py-4 text-left" aria-expanded="false" aria-controls="faq-1">
               <span class="font-semibold text-gray-900 dark:text-white">¿Cuánto me sale un sitio web?</span>
-              <i data-feather="chevron-down" class="w-5 h-5 faq-icon transition-transform"></i>
+              <i data-feather="chevron-down" class="w-5 h-5 faq-icon transition-transform" aria-hidden="true"></i>
             </button>
-            <div class="faq-panel hidden px-5 pb-5 text-gray-700 dark:text-gray-300">
+            <div id="faq-1" class="faq-panel hidden px-5 pb-5 text-gray-700 dark:text-gray-300">
               El costo final depende de las funcionalidades que necesites (secciones, formularios, integraciones, etc.). Contame tu idea y te paso un presupuesto sin cargo.
             </div>
           </div>
 
           <!-- Item -->
           <div class="faq-item">
-            <button class="w-full flex items-center justify-between px-5 py-4 text-left">
+            <button class="w-full flex items-center justify-between px-5 py-4 text-left" aria-expanded="false" aria-controls="faq-2">
               <span class="font-semibold text-gray-900 dark:text-white">¿Cuánto demora la creación y lanzamiento de un sitio web?</span>
-              <i data-feather="chevron-down" class="w-5 h-5 faq-icon transition-transform"></i>
+              <i data-feather="chevron-down" class="w-5 h-5 faq-icon transition-transform" aria-hidden="true"></i>
             </button>
-            <div class="faq-panel hidden px-5 pb-5 text-gray-700 dark:text-gray-300">
+            <div id="faq-2" class="faq-panel hidden px-5 pb-5 text-gray-700 dark:text-gray-300">
               Por lo general entre <strong>2 y 3 días</strong> desde que definimos el contenido y el estilo. Sitios más complejos pueden requerir un poco más.
             </div>
           </div>
 
           <!-- Item -->
           <div class="faq-item">
-            <button class="w-full flex items-center justify-between px-5 py-4 text-left">
+            <button class="w-full flex items-center justify-between px-5 py-4 text-left" aria-expanded="false" aria-controls="faq-3">
               <span class="font-semibold text-gray-900 dark:text-white">¿Tengo soporte luego de la compra?</span>
-              <i data-feather="chevron-down" class="w-5 h-5 faq-icon transition-transform"></i>
+              <i data-feather="chevron-down" class="w-5 h-5 faq-icon transition-transform" aria-hidden="true"></i>
             </button>
-            <div class="faq-panel hidden px-5 pb-5 text-gray-700 dark:text-gray-300">
+            <div id="faq-3" class="faq-panel hidden px-5 pb-5 text-gray-700 dark:text-gray-300">
               Sí, <strong>3 meses de soporte gratuito</strong> + <strong>1 cambio</strong> de diseño/contenido dentro de ese período. Pasado ese tiempo, los cambios se cotizan (un cambio menor suele ser &lt;= 10 USD).
             </div>
           </div>
 
           <!-- Extra comunes -->
           <div class="faq-item">
-            <button class="w-full flex items-center justify-between px-5 py-4 text-left">
+            <button class="w-full flex items-center justify-between px-5 py-4 text-left" aria-expanded="false" aria-controls="faq-4">
               <span class="font-semibold text-gray-900 dark:text-white">¿Qué necesito para empezar?</span>
-              <i data-feather="chevron-down" class="w-5 h-5 faq-icon transition-transform"></i>
+              <i data-feather="chevron-down" class="w-5 h-5 faq-icon transition-transform" aria-hidden="true"></i>
             </button>
-            <div class="faq-panel hidden px-5 pb-5 text-gray-700 dark:text-gray-300">
+            <div id="faq-4" class="faq-panel hidden px-5 pb-5 text-gray-700 dark:text-gray-300">
               Un breve resumen de tu negocio/idea, logotipo (si tenés), paleta de colores deseada y ejemplos de sitios que te gusten. Si no tenés nada de eso, te ayudo a definirlo.
             </div>
           </div>
 
           <div class="faq-item">
-            <button class="w-full flex items-center justify-between px-5 py-4 text-left">
+            <button class="w-full flex items-center justify-between px-5 py-4 text-left" aria-expanded="false" aria-controls="faq-5">
               <span class="font-semibold text-gray-900 dark:text-white">¿Incluye dominio y dónde aloja el sitio?</span>
-              <i data-feather="chevron-down" class="w-5 h-5 faq-icon transition-transform"></i>
+              <i data-feather="chevron-down" class="w-5 h-5 faq-icon transition-transform" aria-hidden="true"></i>
             </button>
-            <div class="faq-panel hidden px-5 pb-5 text-gray-700 dark:text-gray-300">
+            <div id="faq-5" class="faq-panel hidden px-5 pb-5 text-gray-700 dark:text-gray-300">
               El <strong>dominio está incluido dentro del presupuesto final</strong>
             </div>
           </div>
 
           <div class="faq-item">
-            <button class="w-full flex items-center justify-between px-5 py-4 text-left">
+            <button class="w-full flex items-center justify-between px-5 py-4 text-left" aria-expanded="false" aria-controls="faq-6">
               <span class="font-semibold text-gray-900 dark:text-white">¿Puedo pagar en cuotas o con diferentes medios de pago?</span>
-              <i data-feather="chevron-down" class="w-5 h-5 faq-icon transition-transform"></i>
+              <i data-feather="chevron-down" class="w-5 h-5 faq-icon transition-transform" aria-hidden="true"></i>
             </button>
-            <div class="faq-panel hidden px-5 pb-5 text-gray-700 dark:text-gray-300">
+            <div id="faq-6" class="faq-panel hidden px-5 pb-5 text-gray-700 dark:text-gray-300">
               Sí, coordino <strong>múltiples medios de pago</strong> y planes en cuotas según el alcance del proyecto.
             </div>
           </div>
 
           <div class="faq-item">
-            <button class="w-full flex items-center justify-between px-5 py-4 text-left">
+            <button class="w-full flex items-center justify-between px-5 py-4 text-left" aria-expanded="false" aria-controls="faq-7">
               <span class="font-semibold text-gray-900 dark:text-white">¿Podés mejorar o migrar mi sitio actual?</span>
-              <i data-feather="chevron-down" class="w-5 h-5 faq-icon transition-transform"></i>
+              <i data-feather="chevron-down" class="w-5 h-5 faq-icon transition-transform" aria-hidden="true"></i>
             </button>
-            <div class="faq-panel hidden px-5 pb-5 text-gray-700 dark:text-gray-300">
+            <div id="faq-7" class="faq-panel hidden px-5 pb-5 text-gray-700 dark:text-gray-300">
               Claro. Puedo <strong>modernizar diseño</strong>, <strong>optimizar performance/SEO</strong> y migrar tu contenido a una nueva plataforma manteniendo SEO y enlaces.
             </div>
           </div>
@@ -519,17 +621,24 @@
   </div>
 
   <!-- FAB WhatsApp -->
-  <a class="whatsapp-fab" href="https://wa.me/5491162857653" target="_blank" aria-label="WhatsApp">
-    <i data-feather="phone-call" class="w-6 h-6"></i>
+  <a class="whatsapp-fab" href="https://wa.me/5491162857653" target="_blank" rel="noopener" aria-label="Abrir chat de WhatsApp">
+    <i data-feather="phone-call" class="w-6 h-6" aria-hidden="true"></i>
   </a>
 
   <script>
     // ===== MENU MÓVIL =====
     const menuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
-    menuButton?.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+    menuButton?.addEventListener('click', () => {
+      const expanded = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!expanded));
+      mobileMenu.classList.toggle('hidden');
+    });
     document.querySelectorAll('#mobile-menu a[href^="#"]').forEach(link => {
-      link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        menuButton.setAttribute('aria-expanded','false');
+      });
     });
 
     // ===== THEME =====
@@ -625,17 +734,21 @@
           if (other !== item) {
             other.querySelector('.faq-panel').classList.add('hidden');
             other.querySelector('.faq-icon')?.classList.remove('rotate-180');
+            other.querySelector('button')?.setAttribute('aria-expanded','false');
           }
         });
 
         // Toggle actual
         panel.classList.toggle('hidden');
         icon.classList.toggle('rotate-180');
+        btn.setAttribute('aria-expanded', String(!isOpen));
       });
     });
 
-    // Iconos
-    feather.replace();
+    // Iconos (ejecutar cuando el DOM/JS está listo)
+    document.addEventListener('DOMContentLoaded', () => {
+      feather.replace();
+    });
 
     // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(a=>{
@@ -648,6 +761,8 @@
   </script>
 
   <!-- Fallback si no hay JS -->
-  <noscript><style>html.dark body{color:#e5e7eb}</style></noscript>
+  <noscript><style>html.dark body{color:#e5e7eb}</style>
+    Tu navegador tiene JavaScript deshabilitado. El contenido sigue visible, pero algunos elementos interactivos (iconos, acordeón de FAQ, cambio de idioma/tema) no funcionarán.
+  </noscript>
 </body>
 </html>
