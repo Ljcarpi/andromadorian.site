@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Uller Reparaciones – Service de Aires Acondicionados</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet" />
+  <!-- Font Awesome (para iconos) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg: #000000;
+      --bg-alt: #050608;
+      --text: #ffffff;
+      --muted: #bbbbbb;
+      --accent: #00e5ff;
+      --accent-soft: rgba(0, 229, 255, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Questrial", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #101320 0, #000000 55%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* HEADER / NAV */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.92);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.7rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      white-space: nowrap;
+    }
+
+    .brand-ico-row {
+      display: flex;
+      gap: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .brand-ico-row i {
+      color: var(--accent);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .brand-main {
+      font-size: 1.1rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      position: relative;
+      padding-bottom: 0.2rem;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.25s ease;
+    }
+
+    nav a:hover,
+    nav a:focus {
+      color: var(--text);
+    }
+
+    nav a:hover::after,
+    nav a:focus::after {
+      width: 100%;
+    }
+
+    /* LAYOUT */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 6rem 1.5rem 4rem;
+    }
+
+    section {
+      padding: 4rem 0 3rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    section:last-of-type {
+      border-bottom: none;
+      padding-bottom: 1rem;
+    }
+
+    h1,
+    h2 {
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: 1.7rem;
+      margin-bottom: 0.7rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 0.98rem;
+      max-width: 700px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(5, 7, 10, 0.85);
+      color: var(--muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.9rem;
+    }
+
+    .pill i {
+      color: var(--accent);
+      font-size: 0.75rem;
+    }
+
+    /* HERO + CARROUSEL */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.1fr);
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .hero-highlight {
+      font-size: 1.05rem;
+      margin-top: 0.8rem;
+      color: #e5f9ff;
+    }
+
+    .hero-badges {
+      margin-top: 1.3rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .hero-badge {
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      padding: 0.35rem 0.8rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      background: rgba(0, 229, 255, 0.04);
+    }
+
+    .hero-badge i {
+      margin-right: 0.35rem;
+      color: var(--accent);
+    }
+
+    .hero-note {
+      margin-top: 1.3rem;
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    .carousel {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      background: radial-gradient(circle at top, #1a2336, #050608);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.8);
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.6s ease-in-out;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      height: 260px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: contrast(1.02) saturate(1.1);
+    }
+
+    .carousel-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.65), transparent 50%);
+      pointer-events: none;
+    }
+
+    .carousel-caption {
+      position: absolute;
+      left: 1.2rem;
+      bottom: 1.1rem;
+      z-index: 2;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+
+    .carousel-caption span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .carousel-dots {
+      position: absolute;
+      right: 0.9rem;
+      bottom: 0.9rem;
+      display: flex;
+      gap: 0.35rem;
+      z-index: 2;
+    }
+
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      border: none;
+      padding: 0;
+    }
+
+    .carousel-dot.active {
+      width: 18px;
+      background: var(--accent);
+    }
+
+    /* SERVICIOS */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.2rem;
+    }
+
+    .card {
+      border-radius: 16px;
+      padding: 1.1rem 1rem 1.2rem;
+      background: radial-gradient(circle at top left, var(--accent-soft), rgba(8, 8, 10, 0.9));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 26px rgba(0, 0, 0, 0.7);
+    }
+
+    .card-icon {
+      font-size: 1.4rem;
+      margin-bottom: 0.6rem;
+      color: var(--accent);
+    }
+
+    .card h3 {
+      font-size: 0.98rem;
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+    }
+
+    /* QUIENES SOMOS */
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 2rem;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+
+    .badge-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      font-size: 0.84rem;
+    }
+
+    .badge-stack-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--muted);
+    }
+
+    .badge-stack-item i {
+      color: var(--accent);
+      font-size: 0.9rem;
+    }
+
+    /* DONDE ESTAMOS */
+    .location-wrapper {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr);
+      gap: 1.8rem;
+      align-items: flex-start;
+    }
+
+    .location-details p {
+      margin-bottom: 0.4rem;
+    }
+
+    .location-details strong {
+      color: var(--text);
+    }
+
+    .location-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 0.7rem;
+    }
+
+    .location-tag i {
+      color: var(--accent);
+    }
+
+    .map {
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      min-height: 260px;
+    }
+
+    .map iframe {
+      border: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* CONTACTO */
+    .contact-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 1.8rem;
+      align-items: center;
+    }
+
+    .contact-callout {
+      border-radius: 18px;
+      padding: 1.3rem 1.3rem 1.5rem;
+      background: radial-gradient(circle at top, rgba(0, 229, 255, 0.14), #050608);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 16px 38px rgba(0, 0, 0, 0.85);
+    }
+
+    .contact-callout h3 {
+      font-size: 1.05rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .contact-callout p {
+      font-size: 0.9rem;
+    }
+
+    .contact-items {
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      font-size: 0.93rem;
+    }
+
+    .contact-item i {
+      margin-right: 0.45rem;
+      color: var(--accent);
+    }
+
+    .whatsapp-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.1rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: 999px;
+      background: #25d366;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.8);
+    }
+
+    .whatsapp-cta i {
+      font-size: 1rem;
+    }
+
+    .contact-note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.7rem;
+    }
+
+    .mini-list {
+      font-size: 0.86rem;
+      color: var(--muted);
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .mini-list li::before {
+      content: "•";
+      margin-right: 0.4rem;
+      color: var(--accent);
+    }
+
+    /* FOOTER */
+    footer {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 1.5rem 2.2rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-content span {
+      opacity: 0.9;
+    }
+
+    /* WHATSAPP FLOTANTE */
+    .whatsapp-float {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 1500;
+    }
+
+    .whatsapp-float a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: #25d366;
+      color: #ffffff;
+      text-decoration: none;
+      box-shadow: 0 18px 30px rgba(0, 0, 0, 0.8);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .whatsapp-float a i {
+      font-size: 1.5rem;
+    }
+
+    .whatsapp-float a:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.95);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .hero,
+      .grid,
+      .two-col,
+      .location-wrapper,
+      .contact-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-container {
+        padding-inline: 1rem;
+      }
+
+      nav ul {
+        justify-content: flex-end;
+        gap: 0.8rem;
+      }
+
+      .carousel-slide {
+        height: 220px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      nav ul {
+        font-size: 0.78rem;
+        gap: 0.6rem;
+      }
+
+      .brand-main {
+        font-size: 0.98rem;
+      }
+
+      main {
+        padding-top: 5.5rem;
+      }
+
+      section {
+        padding-top: 3rem;
+      }
+
+      .carousel-slide {
+        height: 200px;
+      }
+
+      .footer-content {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- BOTÓN WHATSAPP FLOTANTE -->
+  <div class="whatsapp-float">
+    <a href="https://wa.me/541131290853" target="_blank" aria-label="Contactar por WhatsApp">
+      <i class="fas fa-phone"></i>
+    </a>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="nav-container">
+      <div class="brand">
+        <div class="brand-ico-row" aria-hidden="true">
+          <i class="far fa-snowflake"></i>
+          <i class="far fa-sun"></i>
+          <i class="fas fa-wind"></i>
+          <i class="fas fa-droplet"></i>
+        </div>
+        <div class="brand-text">
+          <span class="brand-main">Uller Refrigeración</span>
+          <span class="brand-sub">Soluciones profesionales bajo cero</span>
+        </div>
+      </div>
+
+      <nav>
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#quienes-somos">Quienes Somos</a></li>
+          <li><a href="#donde-estamos">Dónde Estamos</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- INICIO + CARROUSEL -->
+    <section id="inicio">
+      <div class="hero">
+        <div>
+          <div class="pill">
+            <i class="fas fa-snowflake"></i>
+            Service de Aires Acondicionados
+          </div>
+          <h1>Uller Reparaciones</h1>
+          <p class="hero-highlight">
+            Mantenimiento, instalación y reparación de equipos de aire acondicionado
+            para hogares y comercios de la Ciudad de Buenos Aires.
+          </p>
+          <div class="hero-badges">
+            <span class="hero-badge">
+              <i class="fas fa-toolbox"></i> Diagnóstico rápido
+            </span>
+            <span class="hero-badge">
+              <i class="fas fa-bolt"></i> Urgencias en días de calor
+            </span>
+            <span class="hero-badge">
+              <i class="fas fa-shield-halved"></i> Trabajo garantizado
+            </span>
+          </div>
+          <p class="hero-note">
+            Atendemos equipos split, de ventana y sistemas centrales. Limpieza profunda,
+            recarga de gas, instalación completa y puesta a punto para cada temporada.
+          </p>
+        </div>
+
+        <!-- CARROUSEL DE IMÁGENES -->
+        <div class="carousel" aria-label="Galería de trabajos de Uller Reparaciones">
+          <div class="carousel-track" id="carouselTrack">
+            <div class="carousel-slide">
+              <img src="img/aire-instalacion-1.jpg" alt="Técnico instalando aire acondicionado en pared" />
+              <div class="carousel-overlay"></div>
+              <div class="carousel-caption">
+                <span><i class="fas fa-screwdriver-wrench"></i> Instalación precisa</span>
+              </div>
+            </div>
+            <div class="carousel-slide">
+              <img src="img/aire-mantenimiento-2.jpg" alt="Limpieza y mantenimiento interno de un aire acondicionado" />
+              <div class="carousel-overlay"></div>
+              <div class="carousel-caption">
+                <span><i class="fas fa-brush"></i> Limpieza y mantenimiento</span>
+              </div>
+            </div>
+            <div class="carousel-slide">
+              <img src="img/aire-comercial-3.jpg" alt="Sistema de aire acondicionado en local comercial" />
+              <div class="carousel-overlay"></div>
+              <div class="carousel-caption">
+                <span><i class="fas fa-store"></i> Soluciones para comercios</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-dots" id="carouselDots" aria-hidden="true">
+            <button class="carousel-dot active"></button>
+            <button class="carousel-dot"></button>
+            <button class="carousel-dot"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICIOS -->
+    <section id="servicios">
+      <h2>Servicios</h2>
+      <p>
+        Pensado para que tu equipo rinda al máximo todo el año. Trabajo prolijo,
+        materiales de calidad y asesoramiento honesto antes de cada intervención.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <div class="card-icon">
+            <i class="fas fa-screwdriver-wrench"></i>
+          </div>
+          <h3>Reparación</h3>
+          <p>
+            Solución de fallas eléctricas, mecánicas y de funcionamiento.
+            Detección de pérdidas de gas, ruidos extraños, congelamiento y más.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">
+            <i class="fas fa-spray-can-sparkles"></i>
+          </div>
+          <h3>Mantenimiento</h3>
+          <p>
+            Limpieza profunda de filtros, turbinas y radiadores. Desinfección del
+            circuito de aire para mejorar el rendimiento y la calidad del ambiente.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">
+            <i class="fas fa-temperature-arrow-up"></i>
+          </div>
+          <h3>Instalación</h3>
+          <p>
+            Instalación de equipos nuevos y relocalización de unidades exteriores
+            y interiores, cuidando la estética y la seguridad de tu espacio.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUIENES SOMOS -->
+    <section id="quienes-somos">
+      <h2>Quienes Somos</h2>
+      <div class="two-col">
+        <div>
+          <p>
+            Uller Reparaciones nace con el objetivo de brindar un service de aire
+            acondicionado confiable, transparente y profesional, combinando
+            experiencia técnica con una atención cercana.
+          </p>
+          <p style="margin-top:0.6rem;">
+            Trabajamos en la Ciudad Autónoma de Buenos Aires, especializados en
+            climatización residencial y de pequeños comercios. Nos enfocamos en
+            diagnósticos claros, presupuestos sin sorpresas y respeto por tu hogar.
+          </p>
+        </div>
+
+        <div>
+          <div class="badge-stack">
+            <div class="badge-stack-item">
+              <i class="fas fa-user-shield"></i>
+              Técnicos especializados en refrigeración
+            </div>
+            <div class="badge-stack-item">
+              <i class="fas fa-thumbs-up"></i>
+              Enfoque en seguridad, prolijidad y durabilidad
+            </div>
+            <div class="badge-stack-item">
+              <i class="fas fa-clock"></i>
+              Coordinamos día y horario para afectar lo menos posible tu rutina
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DONDE ESTAMOS -->
+    <section id="donde-estamos">
+      <h2>Dónde Estamos</h2>
+      <div class="location-wrapper">
+        <div class="location-details">
+          <div class="location-tag">
+            <i class="fas fa-location-dot"></i>
+            Taller y zona de cobertura
+          </div>
+          <p>
+            <strong>Dirección:</strong><br />
+            Pje. José Julián Pérez 589, C1217 ACA<br />
+            Ciudad Autónoma de Buenos Aires
+          </p>
+          <p style="margin-top:0.6rem;">
+            Trabajamos principalmente en CABA y alrededores. Consultanos por otras
+            zonas de atención.
+          </p>
+          <p style="margin-top:0.6rem;">
+            Al coordinar un servicio, te indicamos franjas horarias y estimaciones
+            de llegada según el tránsito y el clima.
+          </p>
+        </div>
+
+        <div class="map" aria-label="Mapa de ubicación de Uller Reparaciones">
+          <!-- Puedes ajustar el alto del iframe si lo necesitás -->
+          <iframe
+            src="https://www.google.com/maps/place/Uller+Reparaciones/@-34.6185213,-58.4189765,17z"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTO (WHATSAPP) -->
+    <section id="contacto">
+      <h2>Contacto</h2>
+      <div class="contact-layout">
+        <div class="contact-callout">
+          <h3>Agenda tu servicio</h3>
+          <p>
+            El canal de contacto es exclusivamente por WhatsApp. Enviános un mensaje
+            con el modelo del equipo, el problema que notás y tu barrio, y coordinamos
+            día y horario.
+          </p>
+
+          <div class="contact-items">
+            <div class="contact-item">
+              <i class="fas fa-phone"></i>
+              <strong>Tel / WhatsApp:</strong> 011&nbsp;3129&nbsp;0853
+            </div>
+          </div>
+
+          <a class="whatsapp-cta" href="https://wa.me/541131290853" target="_blank">
+            <i class="fab fa-whatsapp"></i>
+            Escribir por WhatsApp
+          </a>
+
+          <p class="contact-note">
+            Atendemos mensajes dentro del horario habitual. Si escribís fuera de
+            horario, te respondemos a la brevedad posible.
+          </p>
+        </div>
+
+        <div>
+          <p>
+            Para agilizar la visita, podés incluir en tu mensaje:
+          </p>
+          <ul class="mini-list" style="margin-top:0.5rem;">
+            <li>Modelo y marca del aire acondicionado.</li>
+            <li>Si el equipo enfría poco, hace ruido, se congela o no enciende.</li>
+            <li>Tiempo aproximado desde la última limpieza o mantenimiento.</li>
+            <li>Si el equipo está en altura o de difícil acceso.</li>
+          </ul>
+          <p style="margin-top:0.8rem;">
+            Con esa información preparamos las herramientas y materiales necesarios
+            para resolverlo en una sola visita siempre que sea posible.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <span>© <span id="year"></span> Uller Reparaciones. Todos los derechos reservados.</span>
+      <span>Climatización confiable para tu hogar y tu negocio.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Año dinámico en el footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Carrousel simple
+    const track = document.getElementById("carouselTrack");
+    const dotsContainer = document.getElementById("carouselDots");
+    const dots = Array.from(dotsContainer.querySelectorAll(".carousel-dot"));
+    const slides = track.children;
+    let currentSlide = 0;
+
+    function goToSlide(index) {
+      currentSlide = index;
+      const offset = -index * 100;
+      track.style.transform = `translateX(${offset}%)`;
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("active", i === index);
+      });
+    }
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener("click", () => goToSlide(index));
+    });
+
+    // Auto-play
+    setInterval(() => {
+      const next = (currentSlide + 1) % slides.length;
+      goToSlide(next);
+    }, 5000);
+  </script>
+</body>
+</html>
