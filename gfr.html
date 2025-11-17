@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>GFR Full Service Car – Taller Mecánico</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg: #000000;
+      --bg-alt: #050608;
+      --text: #ffffff;
+      --muted: #bbbbbb;
+      --accent: #00e5ff;
+      --accent-soft: rgba(0, 229, 255, 0.15);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Questrial", system-ui, sans-serif;
+      background: radial-gradient(circle at top, #101320 0, #000000 55%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(0,0,0,0.92);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.7rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand { display: flex; align-items: center; gap: 0.9rem; }
+
+    .brand-logo {
+      height: 46px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+    .brand-main { font-size: 1.1rem; letter-spacing: .12em; text-transform: uppercase; }
+    .brand-sub { font-size: .75rem; color: var(--muted); letter-spacing: .18em; text-transform: uppercase; }
+
+    nav {
+      position: relative;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: .9rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      position: relative;
+      padding-bottom: .2rem;
+    }
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width .25s ease;
+    }
+    nav a:hover { color: var(--text); }
+    nav a:hover::after { width: 100%; }
+
+    /* Toggle menú móvil */
+    .menu-toggle {
+      display: none;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 999px;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 19px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 999px;
+      margin: 3px 0;
+      transition: transform .22s ease, opacity .22s ease;
+    }
+
+    .menu-toggle.open span:nth-child(1) {
+      transform: translateY(5px) rotate(45deg);
+    }
+    .menu-toggle.open span:nth-child(2) {
+      transform: translateY(-5px) rotate(-45deg);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 6rem 1.5rem 4rem;
+    }
+    section {
+      padding: 4rem 0 3rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    section:last-of-type {
+      border-bottom: none;
+      padding-bottom: 1rem;
+    }
+
+    h1, h2 {
+      font-weight: 400;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    h1 { font-size: 1.7rem; margin-bottom: .7rem; }
+    h2 { font-size: 1.2rem; margin-bottom: 1.2rem; }
+
+    p {
+      color: var(--muted);
+      font-size: .98rem;
+      max-width: 700px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .35rem .9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(5,7,10,0.85);
+      font-size: .75rem;
+      letter-spacing: .12em;
+      margin-bottom: .9rem;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .pill i { color: var(--accent); }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 1.1fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .hero-highlight {
+      font-size: 1.05rem;
+      margin-top: .8rem;
+      color: #e5f9ff;
+    }
+    .hero-badges {
+      margin-top: 1.3rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+    .hero-badge {
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+      padding: .35rem .8rem;
+      font-size: .8rem;
+      background: rgba(0,229,255,0.04);
+      color: var(--muted);
+    }
+    .hero-badge i {
+      margin-right: .35rem;
+      color: var(--accent);
+    }
+
+    .carousel {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      background: radial-gradient(circle at top, #1a2336, #050608);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.8);
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.6s ease-in-out;
+    }
+    .carousel-slide {
+      min-width: 100%;
+      height: 260px;
+      position: relative;
+    }
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .carousel-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,0,0,0.65), transparent 50%);
+    }
+
+    .carousel-caption {
+      position: absolute;
+      left: 1.2rem;
+      bottom: 1.1rem;
+      z-index: 2;
+      font-size: .85rem;
+    }
+    .carousel-caption span {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .25rem .7rem;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.65);
+      border: 1px solid rgba(255,255,255,0.24);
+      font-size: .74rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .carousel-dots {
+      position: absolute;
+      right: .9rem;
+      bottom: .9rem;
+      display: flex;
+      gap: .35rem;
+      z-index: 2;
+    }
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 999px;
+      cursor: pointer;
+      border: none;
+    }
+    .carousel-dot.active {
+      width: 18px;
+      background: var(--accent);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 1.5rem;
+      margin-top: 1.2rem;
+    }
+
+    .card {
+      border-radius: 16px;
+      padding: 1.1rem 1rem 1.2rem;
+      background: radial-gradient(circle at top left, var(--accent-soft), rgba(8,8,10,0.9));
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 8px 26px rgba(0,0,0,0.7);
+    }
+
+    .card-icon {
+      font-size: 1.4rem;
+      margin-bottom: .6rem;
+      color: var(--accent);
+    }
+    .card h3 {
+      font-size: .98rem;
+      margin-bottom: .35rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .card p { font-size: .9rem; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .badge-stack {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+    .badge-stack-item {
+      padding: .45rem .8rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.12);
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      color: var(--muted);
+    }
+    .badge-stack-item i { color: var(--accent); }
+
+    .location-wrapper {
+      display: grid;
+      grid-template-columns: 1.1fr 1.2fr;
+      gap: 1.8rem;
+    }
+
+    .location-details p { margin-bottom: .4rem; }
+    .location-details strong { color: var(--text); }
+
+    .location-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .35rem .8rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      font-size: .82rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .7rem;
+    }
+    .location-tag i { color: var(--accent); }
+
+    .map {
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.85);
+      border: 1px solid rgba(255,255,255,0.08);
+      min-height: 260px;
+    }
+    .map iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1.1fr 1.1fr;
+      gap: 1.8rem;
+    }
+
+    .contact-callout {
+      padding: 1.3rem;
+      border-radius: 18px;
+      background: radial-gradient(circle at top, rgba(0,229,255,0.14), #050608);
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: 0 16px 38px rgba(0,0,0,0.85);
+    }
+    .contact-callout h3 {
+      font-size: 1.05rem;
+      margin-bottom: .6rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .contact-callout p { font-size: .9rem; }
+
+    .contact-items {
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+    }
+    .contact-item i {
+      margin-right: .45rem;
+      color: var(--accent);
+    }
+
+    .whatsapp-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      margin-top: 1.1rem;
+      padding: .55rem 1.1rem;
+      background: #25d366;
+      color: #fff;
+      border-radius: 999px;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.8);
+    }
+
+    .contact-note {
+      font-size: .85rem;
+      margin-top: .7rem;
+      color: var(--muted);
+    }
+
+    .mini-list {
+      margin-top: .5rem;
+      list-style: none;
+      color: var(--muted);
+    }
+    .mini-list li::before {
+      content: "•";
+      margin-right: .4rem;
+      color: var(--accent);
+    }
+
+    footer {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem;
+      font-size: .78rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .whatsapp-float {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 1500;
+    }
+    .whatsapp-float a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: #25d366;
+      color: #fff;
+      text-decoration: none;
+      box-shadow: 0 18px 30px rgba(0,0,0,0.8);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .whatsapp-float a:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.95);
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 900px) {
+      main {
+        padding-top: 5.8rem;
+      }
+
+      .hero,
+      .grid,
+      .two-col,
+      .location-wrapper,
+      .contact-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .grid {
+        gap: 1.2rem;
+      }
+
+      .carousel-slide {
+        height: 220px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-container {
+        padding-inline: 1.1rem;
+      }
+
+      .brand-main {
+        font-size: 1rem;
+      }
+
+      .brand-sub {
+        font-size: 0.7rem;
+        letter-spacing: .16em;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      nav ul {
+        position: absolute;
+        right: 0;
+        top: calc(100% + 0.35rem);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+        background: rgba(0,0,0,0.96);
+        padding: 0.8rem 1.3rem 1rem;
+        border-radius: 16px;
+        border: 1px solid rgba(255,255,255,0.09);
+        min-width: 190px;
+        transform-origin: top;
+        transform: scaleY(0);
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      nav ul.open {
+        transform: scaleY(1);
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
+
+    @media (max-width: 600px) {
+      main {
+        padding: 5.5rem 1.1rem 3.5rem;
+      }
+
+      section {
+        padding: 3rem 0 2.2rem;
+      }
+
+      h1 {
+        font-size: 1.4rem;
+      }
+
+      .hero {
+        gap: 1.8rem;
+      }
+
+      .carousel-slide {
+        height: 210px;
+      }
+
+      .footer-content {
+        flex-direction: column;
+      }
+
+      .whatsapp-float a {
+        width: 52px;
+        height: 52px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Botón flotante de WhatsApp -->
+  <div class="whatsapp-float">
+    <a href="https://wa.me/541131338438" target="_blank" aria-label="Contactar por WhatsApp">
+      <i class="fas fa-phone"></i>
+    </a>
+  </div>
+
+  <header>
+    <div class="nav-container">
+      <div class="brand">
+        <!-- Logo: subí el archivo a assets/gfr-logo.png en tu repo -->
+        <img src="assets/gfr-logo.png" alt="GFR Full Service Car" class="brand-logo">
+        <div class="brand-text">
+          <span class="brand-main">GFR Full Service Car</span>
+          <span class="brand-sub">Taller mecánico integral</span>
+        </div>
+      </div>
+
+      <button class="menu-toggle" aria-label="Abrir menú principal">
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav>
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#quienes-somos">Quienes Somos</a></li>
+          <li><a href="#donde-estamos">Dónde Estamos</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- INICIO -->
+    <section id="inicio">
+      <div class="hero">
+
+        <div>
+          <div class="pill"><i class="fas fa-wrench"></i> Taller mecánico – Servicio completo</div>
+
+          <h1>GFR Full Service Car</h1>
+
+          <p class="hero-highlight">
+            Mantenimiento y reparación integral de vehículos: mecánica ligera, frenos, tren delantero,
+            cambio de aceite y filtros, diagnóstico electrónico y más.
+          </p>
+
+          <div class="hero-badges">
+            <span class="hero-badge"><i class="fas fa-toolbox"></i> Diagnóstico rápido</span>
+            <span class="hero-badge"><i class="fas fa-bolt"></i> Reparaciones ágiles</span>
+            <span class="hero-badge"><i class="fas fa-shield-halved"></i> Trabajo garantizado</span>
+          </div>
+        </div>
+
+        <!-- CARRUSEL -->
+        <div class="carousel">
+          <div class="carousel-track" id="carouselTrack">
+
+            <div class="carousel-slide">
+              <img src="assets/gfr/service1.jpg"
+                   alt="Mecánico trabajando en el motor de un auto" />
+              <div class="carousel-overlay"></div>
+              <div class="carousel-caption">
+                <span><i class="fas fa-screwdriver-wrench"></i> Mecánica general</span>
+              </div>
+            </div>
+
+            <div class="carousel-slide">
+              <img src="assets/gfr/service2.jpg"
+                   alt="Revisión de frenos y suspensión" />
+              <div class="carousel-overlay"></div>
+              <div class="carousel-caption">
+                <span><i class="fas fa-car"></i> Frenos y suspensión</span>
+              </div>
+            </div>
+
+            <div class="carousel-slide">
+              <img src="assets/gfr/service3.jpg"
+                   alt="Diagnóstico computarizado de vehículo" />
+              <div class="carousel-overlay"></div>
+              <div class="carousel-caption">
+                <span><i class="fas fa-laptop-code"></i> Diagnóstico electrónico</span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="carousel-dots" id="carouselDots">
+            <button class="carousel-dot active"></button>
+            <button class="carousel-dot"></button>
+            <button class="carousel-dot"></button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SERVICIOS -->
+    <section id="servicios">
+      <h2>Servicios</h2>
+      <p>
+        Realizamos las reparaciones más habituales de un taller mecánico:
+        <strong>cambio de aceite y filtros, frenos, embrague, tren delantero,
+        suspensión, correas, sistema de refrigeración y diagnóstico electrónico</strong>,
+        entre otros servicios.
+      </p>
+
+      <div class="grid">
+
+        <div class="card">
+          <div class="card-icon"><i class="fas fa-gears"></i></div>
+          <h3>Mecánica general</h3>
+          <p>Reparación de fallas mecánicas, cambio de aceite y filtros, correas, bombas de agua y más.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon"><i class="fas fa-car-crash"></i></div>
+          <h3>Frenos y suspensión</h3>
+          <p>Cambio de pastillas, discos, campanas, amortiguadores, bujes y componentes de tren delantero.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon"><i class="fas fa-laptop-code"></i></div>
+          <h3>Diagnóstico electrónico</h3>
+          <p>Lectura de scanner, borrado de fallas, comprobación de sensores y sistemas electrónicos del vehículo.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- QUIENES SOMOS -->
+    <section id="quienes-somos">
+      <h2>Quienes Somos</h2>
+      <div class="two-col">
+
+        <div>
+          <p>
+            GFR Full Service Car es un taller mecánico orientado a brindar un
+            servicio confiable y transparente. Trabajamos con dedicación para
+            que tu auto vuelva a estar en condiciones óptimas, ya sea para uso
+            diario o profesional.
+          </p>
+        </div>
+
+        <div class="badge-stack">
+          <div class="badge-stack-item"><i class="fas fa-user-shield"></i> Mecánicos con experiencia</div>
+          <div class="badge-stack-item"><i class="fas fa-thumbs-up"></i> Atención personalizada</div>
+          <div class="badge-stack-item"><i class="fas fa-clock"></i> Turnos coordinados</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- DONDE ESTAMOS -->
+    <section id="donde-estamos">
+      <h2>Dónde Estamos</h2>
+      <div class="location-wrapper">
+
+        <div class="location-details">
+          <div class="location-tag"><i class="fas fa-location-dot"></i> Taller mecánico</div>
+
+          <p>
+            <strong>Dirección:</strong><br>
+            Martínez Rosas 1155, C1414<br>
+            Ciudad Autónoma de Buenos Aires
+          </p>
+
+          <p>Atendemos principalmente zona CABA. Consultanos por otras zonas de servicio.</p>
+        </div>
+
+        <div class="map">
+          <iframe
+            src="https://www.google.com/maps?q=Mart%C3%ADnez+Rosas+1155,+C1414,+Ciudad+Aut%C3%B3noma+de+Buenos+Aires&z=17&output=embed"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto">
+      <h2>Contacto</h2>
+
+      <div class="contact-layout">
+
+        <div class="contact-callout">
+          <h3>Agenda tu turno</h3>
+          <p>El contacto es exclusivamente por WhatsApp.</p>
+
+          <div class="contact-items">
+            <div class="contact-item"><i class="fas fa-phone"></i>011 3133 8438</div>
+          </div>
+
+          <a class="whatsapp-cta" href="https://wa.me/541131338438" target="_blank">
+            <i class="fab fa-whatsapp"></i> Escribir por WhatsApp
+          </a>
+
+          <p class="contact-note">
+            Respondemos a la brevedad dentro del horario habitual del taller.
+          </p>
+        </div>
+
+        <div>
+          <p>Al escribir, es útil que nos indiques:</p>
+          <ul class="mini-list">
+            <li>Marca, modelo y año del vehículo</li>
+            <li>Tipo de falla o servicio que necesitás (frenos, aceite, ruidos, etc.)</li>
+            <li>Si el auto se puede trasladar o está detenido</li>
+            <li>Fotos o videos de referencia si los tenés</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <span>© <span id="year"></span> GFR Full Service Car</span>
+      <span>Taller mecánico – Servicio integral</span>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Menú móvil
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navList = document.querySelector('nav ul');
+
+    if (menuToggle && navList) {
+      menuToggle.addEventListener('click', () => {
+        navList.classList.toggle('open');
+        menuToggle.classList.toggle('open');
+      });
+
+      navList.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navList.classList.remove('open');
+          menuToggle.classList.remove('open');
+        });
+      });
+    }
+
+    // Carrusel
+    const track = document.getElementById("carouselTrack");
+    const dots = [...document.querySelectorAll(".carousel-dot")];
+    let currentSlide = 0;
+
+    function goToSlide(i) {
+      currentSlide = i;
+      track.style.transform = `translateX(${-i * 100}%)`;
+      dots.forEach((d, idx) => d.classList.toggle("active", idx === i));
+    }
+
+    dots.forEach((d, i) => d.addEventListener('click', () => goToSlide(i)));
+
+    setInterval(() => {
+      const next = (currentSlide + 1) % dots.length;
+      goToSlide(next);
+    }, 5000);
+  </script>
+
+</body>
+</html>
