@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Uller Reparaciones - Service de Aires Acondicionados</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Uller Reparaciones - Servicio técnico de aires acondicionados. Instalación, mantenimiento y reparación profesional." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" 
+    rel="stylesheet"
+  >
+  <style>
+    :root {
+      --bg-main: #050509;
+      --bg-secondary: #101019;
+      --accent: #00e6ff;
+      --accent-soft: rgba(0, 230, 255, 0.16);
+      --text-main: #f4f4f4;
+      --text-muted: #b5b5c0;
+      --danger: #ff4b6a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #16162a 0, #050509 55%);
+      color: var(--text-main);
+      font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* NAVBAR */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: linear-gradient(90deg, rgba(5,5,15,.96), rgba(5,5,10,.96));
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .nav {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0.9rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: var(--accent);
+      box-shadow: 0 0 18px rgba(0, 230, 255, 0.4);
+    }
+
+    .logo-text span:first-child {
+      font-size: 0.75rem;
+      color: var(--accent);
+    }
+
+    .logo-text span:last-child {
+      font-size: 1rem;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 1.3rem;
+      font-size: 0.9rem;
+    }
+
+    .nav-menu a {
+      position: relative;
+      padding: 0.2rem 0;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 500;
+      font-size: 0.78rem;
+    }
+
+    .nav-menu a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--danger));
+      border-radius: 999px;
+      transition: width 0.22s ease;
+    }
+
+    .nav-menu a:hover {
+      color: var(--text-main);
+    }
+
+    .nav-menu a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .nav-cta .phone {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .nav-cta .phone strong {
+      color: var(--accent);
+    }
+
+    .btn-cta {
+      border-radius: 999px;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: radial-gradient(circle at top left, var(--accent), var(--danger));
+      color: #020206;
+      box-shadow: 0 0 20px rgba(0, 230, 255, 0.3);
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .btn-cta:hover {
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: 0 0 28px rgba(0, 230, 255, 0.45);
+    }
+
+    .btn-cta:active {
+      transform: translateY(0);
+      box-shadow: 0 0 14px rgba(0, 230, 255, 0.3);
+    }
+
+    /* LAYOUT */
+    main {
+      padding-top: 80px; /* espacio por el header fijo */
+    }
+
+    section {
+      padding: 4rem 1.5rem;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 640px;
+    }
+
+    .section-title span {
+      color: var(--accent);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      margin-bottom: 0.8rem;
+      background: radial-gradient(circle at left, rgba(0,230,255,0.16), transparent);
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(0,230,255,0.8);
+    }
+
+    /* HERO + CAROUSEL */
+    #inicio {
+      padding-top: 3.5rem;
+      padding-bottom: 3rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 3vw, 2.6rem);
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+    }
+
+    .hero-title span {
+      background: linear-gradient(90deg, var(--accent), var(--danger));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-text {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin-bottom: 1rem;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .badge {
+      font-size: 0.78rem;
+      border-radius: 999px;
+      padding: 0.25rem 0.8rem;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--text-muted);
+      background-color: rgba(255,255,255,0.02);
+    }
+
+    .badge strong {
+      color: var(--accent);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      align-items: center;
+    }
+
+    .btn-outline {
+      border-radius: 999px;
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.25);
+      background: transparent;
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .btn-outline span.icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+    }
+
+    .hero-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* CAROUSEL */
+    .carousel-wrapper {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      background: radial-gradient(circle at top left, var(--accent-soft), #050509);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.75);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .carousel {
+      position: relative;
+      width: 100%;
+      height: 280px;
+      overflow: hidden;
+    }
+
+    .carousel-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .carousel-slide.active {
+      opacity: 1;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .carousel-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.68), rgba(0,0,0,0.2));
+    }
+
+    .carousel-caption {
+      position: absolute;
+      left: 1.4rem;
+      right: 1.4rem;
+      bottom: 1.3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1rem;
+      z-index: 2;
+    }
+
+    .carousel-caption-main {
+      max-width: 70%;
+    }
+
+    .carousel-caption-main h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .carousel-caption-main p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .carousel-indicators {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .indicator {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.55);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .indicator.active {
+      width: 18px;
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 12px rgba(0,230,255,0.75);
+    }
+
+    .carousel-nav {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+      padding: 0 0.8rem;
+    }
+
+    .carousel-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.3);
+      background: rgba(0,0,0,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 0.8rem;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+
+    .carousel-btn:hover {
+      background: rgba(0,0,0,0.7);
+      transform: scale(1.02);
+    }
+
+    /* QUIENES SOMOS */
+    #quienes-somos {
+      background: radial-gradient(circle at top, rgba(0,230,255,0.05), transparent 45%),
+                  radial-gradient(circle at bottom, rgba(255,75,106,0.06), transparent 50%);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 2rem;
+      margin-top: 2.3rem;
+    }
+
+    .about-text p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+
+    .about-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.9rem;
+      margin-top: 1rem;
+    }
+
+    .card {
+      padding: 1rem;
+      border-radius: 16px;
+      background: rgba(10,10,20,0.8);
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.7);
+    }
+
+    .card h4 {
+      font-size: 0.95rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .card p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .about-highlight {
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: radial-gradient(circle at top left, rgba(0,230,255,0.12), rgba(0,0,0,0.9));
+      padding: 1.3rem 1.4rem;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.7);
+    }
+
+    .about-highlight strong {
+      color: var(--accent);
+    }
+
+    .about-highlight small {
+      display: block;
+      color: var(--text-muted);
+      margin-top: 0.4rem;
+      font-size: 0.78rem;
+    }
+
+    /* SERVICIOS */
+    #servicios {
+      background: var(--bg-main);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+      margin-top: 2.1rem;
+    }
+
+    .service-card {
+      background: var(--bg-secondary);
+      border-radius: 18px;
+      padding: 1.2rem 1.1rem;
+      border: 1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.75);
+    }
+
+    .service-tag {
+      font-size: 0.75rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 0.3rem;
+    }
+
+    .service-card h3 {
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .service-card p {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .service-list {
+      list-style: none;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .service-list li::before {
+      content: "•";
+      color: var(--accent);
+      margin-right: 0.4rem;
+    }
+
+    .service-price {
+      font-size: 0.85rem;
+      margin-top: 0.7rem;
+      color: var(--text-main);
+    }
+
+    .service-price span {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* UBICACION / MAPS */
+    #donde-estamos {
+      background: radial-gradient(circle at bottom, rgba(0,230,255,0.05), transparent 50%);
+    }
+
+    .location-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      gap: 2rem;
+      margin-top: 2rem;
+      align-items: stretch;
+    }
+
+    .location-details p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .location-details h4 {
+      margin-top: 0.8rem;
+      font-size: 0.95rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .location-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 0.25rem 0.7rem;
+      font-size: 0.72rem;
+      color: var(--accent);
+      margin-top: 0.7rem;
+    }
+
+    .map-wrapper {
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 18px 45px rgba(0,0,0,0.85);
+      min-height: 260px;
+    }
+
+    .map-wrapper iframe {
+      border: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* CONTACTO */
+    #contacto {
+      background: var(--bg-main);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    form {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 0.6rem 0.7rem;
+      background: #070711;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(0,230,255,0.4);
+      background: #05050c;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .contact-extra {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    .contact-extra p {
+      margin-bottom: 0.5rem;
+    }
+
+    .contact-methods {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    .contact-methods div {
+      margin-bottom: 0.25rem;
+    }
+
+    .contact-methods span {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      background: #030309;
+      padding: 1rem 1.5rem 1.4rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .footer-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      align-items: center;
+    }
+
+    .footer-inner a {
+      color: var(--accent);
+    }
+
+    /* WHATSAPP FLOATING BUTTON */
+    .whatsapp-float {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 1200;
+    }
+
+    .whatsapp-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      background: #25d366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .whatsapp-btn span {
+      font-size: 1.6rem;
+      color: #021309;
+    }
+
+    .whatsapp-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.8);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .hero-grid,
+      .about-grid,
+      .location-grid,
+      .contact-grid {
+        grid-template-columns: minmax(0,1fr);
+      }
+
+      .nav {
+        flex-wrap: wrap;
+      }
+
+      .nav-menu {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        padding-top: 0.5rem;
+        border-top: 1px solid rgba(255,255,255,0.05);
+      }
+
+      .nav-cta {
+        order: 2;
+      }
+
+      .carousel {
+        height: 230px;
+      }
+
+      .carousel-caption-main {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 600px) {
+      section {
+        padding: 3.3rem 1.2rem;
+      }
+
+      .nav {
+        padding-inline: 1.1rem;
+      }
+
+      .hero-title {
+        font-size: 1.8rem;
+      }
+
+      .carousel {
+        height: 200px;
+      }
+
+      .carousel-caption {
+        left: 1rem;
+        right: 1rem;
+      }
+
+      .whatsapp-btn {
+        width: 52px;
+        height: 52px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header>
+    <nav class="nav">
+      <div class="nav-logo">
+        <div class="logo-icon">UR</div>
+        <div class="logo-text">
+          <span>Aires acondicionados</span><br />
+          <span>Uller Reparaciones</span>
+        </div>
+      </div>
+      <div class="nav-menu">
+        <a href="#inicio">Inicio</a>
+        <a href="#quienes-somos">Quiénes Somos</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#donde-estamos">Dónde Estamos</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+      <div class="nav-cta">
+        <div class="phone">Urgencias: <strong>+54 9 11 0000-0000</strong></div>
+        <button class="btn-cta" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">
+          Pedir turno
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO + CAROUSEL -->
+    <section id="inicio">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <div class="pill">
+              <span class="pill-dot"></span> Servicio técnico certificado
+            </div>
+            <h1 class="hero-title">
+              Mantenimiento e instalación de <span>aires acondicionados</span> sin sorpresas.
+            </h1>
+            <p class="hero-text">
+              En Uller Reparaciones nos especializamos en instalación, service y reparación de equipos
+              split, ventana e inverter. Trabajamos con repuestos originales y diagnóstico preciso
+              para que tu aire rinda al máximo todo el año.
+            </p>
+
+            <div class="hero-badges">
+              <div class="badge"><strong>24/7</strong> emergencias de verano</div>
+              <div class="badge"><strong>+10 años</strong> de experiencia</div>
+              <div class="badge"><strong>Garantía</strong> escrita en cada trabajo</div>
+            </div>
+
+            <div class="hero-actions">
+              <button class="btn-cta" onclick="window.location.href='#contacto'">
+                Solicitar presupuesto
+              </button>
+              <button class="btn-outline" onclick="window.location.href='#donde-estamos'">
+                <span class="icon">📍</span> Ver zona de cobertura
+              </button>
+              <div class="hero-note">
+                Respuesta en menos de 1 hora en temporada alta.
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-wrapper">
+            <div class="carousel" id="heroCarousel">
+              <!-- Slide 1 -->
+              <div class="carousel-slide active">
+                <img src="https://images.pexels.com/photos/3964346/pexels-photo-3964346.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Técnico revisando aire acondicionado" />
+                <div class="carousel-gradient"></div>
+                <div class="carousel-caption">
+                  <div class="carousel-caption-main">
+                    <h3>Service preventivo completo</h3>
+                    <p>Limpieza profunda, control de gas y chequeo eléctrico para evitar fallas en plena ola de calor.</p>
+                  </div>
+                  <div class="carousel-indicators">
+                    <div class="indicator active" data-slide="0"></div>
+                    <div class="indicator" data-slide="1"></div>
+                    <div class="indicator" data-slide="2"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Slide 2 -->
+              <div class="carousel-slide">
+                <img src="https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Instalación de equipo de aire" />
+                <div class="carousel-gradient"></div>
+                <div class="carousel-caption">
+                  <div class="carousel-caption-main">
+                    <h3>Instalación profesional</h3>
+                    <p>Instalaciones prolijas, drenajes correctos y nivelación perfecta para mayor vida útil del equipo.</p>
+                  </div>
+                  <div class="carousel-indicators">
+                    <div class="indicator" data-slide="0"></div>
+                    <div class="indicator active" data-slide="1"></div>
+                    <div class="indicator" data-slide="2"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Slide 3 -->
+              <div class="carousel-slide">
+                <img src="https://images.pexels.com/photos/15006209/pexels-photo-15006209/free-photo-of-instalar-aire-acondicionado-mantenimiento-tecnico.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Reparación de aire acondicionado" />
+                <div class="carousel-gradient"></div>
+                <div class="carousel-caption">
+                  <div class="carousel-caption-main">
+                    <h3>Reparación y diagnóstico</h3>
+                    <p>Detectamos rápidamente la falla, cotizamos antes de intervenir y sólo cambiamos lo necesario.</p>
+                  </div>
+                  <div class="carousel-indicators">
+                    <div class="indicator" data-slide="0"></div>
+                    <div class="indicator" data-slide="1"></div>
+                    <div class="indicator active" data-slide="2"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="carousel-nav">
+                <button class="carousel-btn" id="prevSlide" aria-label="Anterior">‹</button>
+                <button class="carousel-btn" id="nextSlide" aria-label="Siguiente">›</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUIENES SOMOS -->
+    <section id="quienes-somos">
+      <div class="container">
+        <h2 class="section-title">Quiénes <span>somos</span></h2>
+        <p class="section-subtitle">
+          Somos un equipo de técnicos matriculados especializados en climatización residencial y comercial.
+          Nos enfocamos en la seguridad, prolijidad y transparencia en cada visita.
+        </p>
+
+        <div class="about-grid">
+          <div class="about-text">
+            <p>
+              Uller Reparaciones nace con la intención de profesionalizar el servicio de mantenimiento de
+              aires acondicionados, ofreciendo diagnósticos claros, presupuesto antes de iniciar el trabajo
+              y garantía escrita en cada intervención.
+            </p>
+            <p>
+              Trabajamos tanto con clientes particulares como con empresas, locales comerciales y oficinas.
+              Nos actualizamos constantemente en nuevas tecnologías, especialmente en equipos inverter
+              de alta eficiencia energética.
+            </p>
+
+            <div class="about-cards">
+              <div class="card">
+                <h4>Transparencia total</h4>
+                <p>Explicamos cada paso del trabajo, qué repuestos usamos y por qué son necesarios.</p>
+              </div>
+              <div class="card">
+                <h4>Puntualidad y respeto</h4>
+                <p>Agendamos turnos concretos y respetamos tu tiempo, tu hogar y tus vecinos.</p>
+              </div>
+              <div class="card">
+                <h4>Equipos certificados</h4>
+                <p>Herramientas calibradas, manómetros digitales y medidores de consumo reales.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-highlight">
+            <strong>+1500 equipos</strong> intervenidos entre instalaciones, service y reparaciones
+            en hogares, oficinas y comercios.
+            <small>
+              Cada equipo tiene su historial: cómo se instaló, qué fallas tuvo y qué se hizo para
+              evitar que se repitan. Para nosotros, cada cliente es un vínculo a largo plazo.
+            </small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICIOS -->
+    <section id="servicios">
+      <div class="container">
+        <h2 class="section-title">Nuestros <span>servicios</span></h2>
+        <p class="section-subtitle">
+          Cubrimos todas las etapas del ciclo de vida de tu aire acondicionado:
+          desde la instalación inicial hasta el service anual y la reparación de emergencias.
+        </p>
+
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-tag">Service completo</div>
+            <h3>Mantenimiento preventivo</h3>
+            <p>
+              Ideal antes de la temporada de calor. Limpieza profunda de filtros, turbina y serpentinas,
+              control de gas y verificación de drenaje.
+            </p>
+            <ul class="service-list">
+              <li>Limpieza de unidad interior y exterior</li>
+              <li>Control de consumo eléctrico</li>
+              <li>Chequeo de pérdidas de gas</li>
+            </ul>
+            <div class="service-price">
+              Desde <span>$XXXX</span> por equipo (consultar por promos x cantidad).
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-tag">Instalación</div>
+            <h3>Montaje de equipos nuevos</h3>
+            <p>
+              Instalación de splits, inverter y equipos ventana respetando pendientes, distancias
+              y recomendaciones de fábrica.
+            </p>
+            <ul class="service-list">
+              <li>Caños aislados y drenajes correctos</li>
+              <li>Pasamuros prolijos y sellados</li>
+              <li>Pruebas de funcionamiento y explicación de uso</li>
+            </ul>
+            <div class="service-price">
+              Instalaciones desde <span>$XXXX</span>. Presupuesto personalizado según recorrido.
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-tag">Reparación</div>
+            <h3>Diagnóstico y arreglo</h3>
+            <p>
+              Cuando el equipo no enfría, gotea o hace ruidos extraños, detectamos la causa real
+              y te ofrecemos la solución más conveniente.
+            </p>
+            <ul class="service-list">
+              <li>Carga de gas y detección de pérdidas</li>
+              <li>Cambio de plaquetas y sensores</li>
+              <li>Reparación de compresores y ventiladores</li>
+            </ul>
+            <div class="service-price">
+              Diagnóstico desde <span>$XXXX</span> (se descuenta si se realiza el trabajo).
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-tag">Empresas</div>
+            <h3>Plan de mantenimiento</h3>
+            <p>
+              Planes de visita programada para oficinas, locales y edificios, evitando paradas en momentos críticos.
+            </p>
+            <ul class="service-list">
+              <li>Calendario de service acordado</li>
+              <li>Informe técnico por visita</li>
+              <li>Asistencia prioritaria</li>
+            </ul>
+            <div class="service-price">
+              Planes a medida. Escribinos para evaluar tus equipos.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DONDE ESTAMOS / MAPS -->
+    <section id="donde-estamos">
+      <div class="container">
+        <h2 class="section-title">Dónde <span>estamos</span></h2>
+        <p class="section-subtitle">
+          Trabajamos principalmente en la zona de ejemplo (podés editar esto con tu ciudad / barrio),
+          y alrededores. Consultanos si tu zona no figura.
+        </p>
+
+        <div class="location-grid">
+          <div class="location-details">
+            <p><strong>Zona de cobertura habitual:</strong></p>
+            <p>• Barrio / Ciudad 1</p>
+            <p>• Barrio / Ciudad 2</p>
+            <p>• Barrio / Ciudad 3</p>
+
+            <h4>Horarios de atención</h4>
+            <p>Lunes a viernes de 9 a 18 hs.</p>
+            <p>Guardias especiales los fines de semana en temporada de verano.</p>
+
+            <h4>Retiro y visita a domicilio</h4>
+            <p>
+              Nos acercamos a tu domicilio con todo lo necesario. Si el equipo lo requiere,
+              lo retiramos para un trabajo más profundo y luego lo reinstalamos.
+            </p>
+
+            <div class="location-badge">
+              <span>🚐</span> Salidas diarias en la zona.
+            </div>
+          </div>
+
+          <div class="map-wrapper">
+            <!-- Reemplaza el src del iframe por el embed de tu ubicación real -->
+            <iframe 
+              loading="lazy"
+              allowfullscreen
+              referrerpolicy="no-referrer-when-downgrade"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.9552596430233!2d-58.381559!3d-34.603684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccacd3f3fbb0b%3A0x2b2cd8886ba4c747!2sObelisco!5e0!3m2!1ses-419!2sar!4v1700000000000">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto">
+      <div class="container">
+        <h2 class="section-title">Pedí tu <span>presupuesto</span></h2>
+        <p class="section-subtitle">
+          Contanos qué equipo tenés, qué problema notaste y en qué zona estás.
+          Te respondemos con una estimación y disponibilidad de turnos.
+        </p>
+
+        <div class="contact-grid">
+          <div>
+            <form>
+              <div>
+                <label for="nombre">Nombre y apellido</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan Pérez" required />
+              </div>
+              <div>
+                <label for="telefono">Teléfono / WhatsApp</label>
+                <input type="tel" id="telefono" name="telefono" placeholder="+54 9 ..." required />
+              </div>
+              <div>
+                <label for="email">Correo electrónico (opcional)</label>
+                <input type="email" id="email" name="email" placeholder="tu@email.com" />
+              </div>
+              <div>
+                <label for="servicio">Tipo de servicio</label>
+                <select id="servicio" name="servicio" required>
+                  <option value="">Seleccionar...</option>
+                  <option value="service">Service / mantenimiento</option>
+                  <option value="instalacion">Instalación</option>
+                  <option value="reparacion">Reparación</option>
+                  <option value="empresa">Plan para empresa / comercio</option>
+                </select>
+              </div>
+              <div>
+                <label for="mensaje">Contanos tu caso</label>
+                <textarea id="mensaje" name="mensaje" placeholder="Ej: Tengo un split frío/calor de 3000 frigorías que gotea adentro del departamento..."></textarea>
+              </div>
+              <button type="submit" class="btn-cta">
+                Enviar consulta
+              </button>
+            </form>
+          </div>
+
+          <div class="contact-extra">
+            <p>
+              Si preferís, podés enviarnos directamente un mensaje por WhatsApp con fotos o videos del
+              equipo para un diagnóstico más rápido.
+            </p>
+            <div class="contact-methods">
+              <div><span>WhatsApp:</span> +54 9 11 0000-0000</div>
+              <div><span>Teléfono fijo:</span> 011 0000-0000</div>
+              <div><span>Correo:</span> contacto@ullerreparaciones.com</div>
+            </div>
+            <p style="margin-top:0.8rem;">
+              También podés seguirnos en redes para ver trabajos realizados, tips de mantenimiento
+              y promociones de temporada.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>© <span id="year"></span> Uller Reparaciones. Todos los derechos reservados.</div>
+      <div>Diseño web editable a medida. Sitio demo.</div>
+    </div>
+  </footer>
+
+  <!-- WHATSAPP FLOATING BUTTON -->
+  <div class="whatsapp-float">
+    <!-- Reemplaza el número con el real -->
+    <a href="https://wa.me/5491100000000" target="_blank" rel="noopener noreferrer">
+      <button class="whatsapp-btn" aria-label="Contactar por WhatsApp">
+        <span>🟢</span>
+      </button>
+    </a>
+  </div>
+
+  <script>
+    // Año dinámico en el footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Carousel básico
+    (function() {
+      const slides = document.querySelectorAll(".carousel-slide");
+      const indicators = document.querySelectorAll(".indicator");
+      const prev = document.getElementById("prevSlide");
+      const next = document.getElementById("nextSlide");
+
+      let current = 0;
+      let timer = null;
+
+      function showSlide(index) {
+        slides.forEach((slide, i) => {
+          slide.classList.toggle("active", i === index);
+        });
+        indicators.forEach((ind, i) => {
+          ind.classList.toggle("active", i === index);
+        });
+        current = index;
+      }
+
+      function nextSlide() {
+        const nextIndex = (current + 1) % slides.length;
+        showSlide(nextIndex);
+      }
+
+      function prevSlideFn() {
+        const prevIndex = (current - 1 + slides.length) % slides.length;
+        showSlide(prevIndex);
+      }
+
+      function startAuto() {
+        stopAuto();
+        timer = setInterval(nextSlide, 5000);
+      }
+
+      function stopAuto() {
+        if (timer) clearInterval(timer);
+      }
+
+      indicators.forEach((indicator) => {
+        indicator.addEventListener("click", () => {
+          const index = parseInt(indicator.getAttribute("data-slide"), 10);
+          showSlide(index);
+          startAuto();
+        });
+      });
+
+      if (next && prev) {
+        next.addEventListener("click", () => {
+          nextSlide();
+          startAuto();
+        });
+        prev.addEventListener("click", () => {
+          prevSlideFn();
+          startAuto();
+        });
+      }
+
+      // Inicializar
+      showSlide(0);
+      startAuto();
+    })();
+  </script>
+</body>
+</html>
