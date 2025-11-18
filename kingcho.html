@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kingcho Burger – Quincho, Delivery & Take Away</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Questrial&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg: #fdf7ef;
+      --bg-alt: #f8efe1;
+      --text: #113a63;
+      --muted: #5f6b7a;
+      --accent: #e53935;
+      --accent-soft: rgba(229, 57, 53, 0.12);
+      --accent-blue: #1a78b6;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Questrial", system-ui, sans-serif;
+      background: radial-gradient(circle at top, #ffffff 0, var(--bg) 50%, var(--bg-alt) 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: #ffffffee;
+      border-bottom: 3px solid var(--accent-blue);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.6rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .logo-placeholder {
+      width: 64px;
+      height: 64px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #ffffff 0, #f4e0d0 60%, #f5d0c9 100%);
+      border: 3px solid var(--accent-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .logo-placeholder img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+      font-family: "Fredoka", system-ui, sans-serif;
+    }
+
+    .brand-main {
+      font-size: 1.2rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--accent-blue);
+    }
+
+    .brand-sub {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      color: var(--accent);
+    }
+
+    nav {
+      position: relative;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+      font-family: "Fredoka", system-ui, sans-serif;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--accent-blue);
+      font-size: .9rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      position: relative;
+      padding-bottom: .2rem;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 99px;
+      transition: width .22s ease;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .menu-toggle {
+      display: none;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 999px;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--accent-blue);
+      border-radius: 999px;
+      margin: 3px 0;
+      transition: transform .22s ease, opacity .22s ease;
+    }
+
+    .menu-toggle.open span:nth-child(1) {
+      transform: translateY(5px) rotate(45deg);
+    }
+    .menu-toggle.open span:nth-child(2) {
+      transform: translateY(-5px) rotate(-45deg);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 6.2rem 1.5rem 4rem;
+    }
+
+    section {
+      padding: 4rem 0 3rem;
+      border-bottom: 2px dashed rgba(26, 120, 182, 0.18);
+    }
+
+    section:last-of-type {
+      border-bottom: none;
+      padding-bottom: 1.5rem;
+    }
+
+    h1, h2 {
+      font-family: "Fredoka", system-ui, sans-serif;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: 1.9rem;
+      margin-bottom: .6rem;
+      color: var(--accent-blue);
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      margin-bottom: 1.2rem;
+      color: var(--accent-blue);
+    }
+
+    p {
+      color: var(--muted);
+      font-size: .98rem;
+      max-width: 720px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .32rem .9rem;
+      border-radius: 999px;
+      border: 2px solid var(--accent-blue);
+      background: #ffffff;
+      font-size: .78rem;
+      letter-spacing: .12em;
+      margin-bottom: .9rem;
+      text-transform: uppercase;
+      color: var(--accent-blue);
+      font-family: "Fredoka", system-ui, sans-serif;
+    }
+
+    .pill i { color: var(--accent); }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 1.1fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .hero-highlight {
+      font-size: 1.05rem;
+      margin-top: .7rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .hero-badges {
+      margin-top: 1.3rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+    }
+
+    .hero-badge {
+      border-radius: 999px;
+      border: 2px solid rgba(0, 0, 0, 0.06);
+      padding: .4rem .9rem;
+      font-size: .86rem;
+      background: #ffffff;
+      color: var(--accent-blue);
+      font-family: "Fredoka", system-ui, sans-serif;
+      box-shadow: 0 5px 0 rgba(17, 58, 99, 0.15);
+    }
+
+    .hero-badge i {
+      margin-right: .35rem;
+      color: var(--accent);
+    }
+
+    .hero-note {
+      margin-top: 1.2rem;
+      font-size: .9rem;
+      color: var(--muted);
+    }
+
+    .carousel {
+      position: relative;
+      border-radius: 22px;
+      overflow: hidden;
+      background: radial-gradient(circle at top, #ffffff, #f3e3d1);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15);
+      border: 3px solid var(--accent-blue);
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.6s ease-in-out;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      height: 260px;
+      position: relative;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .carousel-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.45), transparent 55%);
+    }
+
+    .carousel-caption {
+      position: absolute;
+      left: 1.2rem;
+      bottom: 1.1rem;
+      z-index: 2;
+      font-size: .86rem;
+      font-family: "Fredoka", system-ui, sans-serif;
+    }
+
+    .carousel-caption span {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .25rem .7rem;
+      border-radius: 999px;
+      background: #ffffffee;
+      border: 2px solid rgba(0, 0, 0, 0.06);
+      font-size: .78rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent-blue);
+    }
+
+    .carousel-caption i {
+      color: var(--accent);
+    }
+
+    .carousel-dots {
+      position: absolute;
+      right: .9rem;
+      bottom: .95rem;
+      display: flex;
+      gap: .35rem;
+      z-index: 2;
+    }
+
+    .carousel-dot {
+      width: 9px;
+      height: 9px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 999px;
+      border: 2px solid var(--accent-blue);
+      cursor: pointer;
+    }
+
+    .carousel-dot.active {
+      width: 20px;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 1.4rem;
+    }
+
+    .card {
+      border-radius: 18px;
+      padding: 1.2rem 1rem 1.3rem;
+      background: linear-gradient(145deg, #ffffff, #f7e3d3);
+      border: 2px solid rgba(0, 0, 0, 0.05);
+      box-shadow: 0 12px 0 rgba(17, 58, 99, 0.12);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      opacity: 0.07;
+      background-image: radial-gradient(circle, #000 1px, transparent 1px);
+      background-size: 6px 6px;
+      pointer-events: none;
+    }
+
+    .card-icon {
+      font-size: 1.5rem;
+      margin-bottom: .7rem;
+      color: var(--accent);
+      position: relative;
+      z-index: 1;
+    }
+
+    .card h3 {
+      font-size: 1rem;
+      margin-bottom: .35rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent-blue);
+      font-family: "Fredoka", system-ui, sans-serif;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card p {
+      font-size: .9rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .badge-stack {
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+    }
+
+    .badge-stack-item {
+      padding: .55rem .9rem;
+      border-radius: 999px;
+      background: #ffffff;
+      border: 2px solid rgba(0, 0, 0, 0.06);
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      color: var(--accent-blue);
+      font-size: .86rem;
+      font-family: "Fredoka", system-ui, sans-serif;
+      box-shadow: 0 6px 0 rgba(17, 58, 99, 0.12);
+    }
+
+    .badge-stack-item i {
+      color: var(--accent);
+    }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1.1fr 1.1fr;
+      gap: 1.8rem;
+    }
+
+    .contact-callout {
+      padding: 1.4rem;
+      border-radius: 20px;
+      background: linear-gradient(145deg, #ffffff, #f9e1d3);
+      border: 3px solid var(--accent-blue);
+      box-shadow: 0 16px 0 rgba(17, 58, 99, 0.18);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-callout::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      opacity: 0.06;
+      background-image: radial-gradient(circle, #000 1px, transparent 1px);
+      background-size: 6px 6px;
+      pointer-events: none;
+    }
+
+    .contact-callout h3 {
+      font-size: 1.1rem;
+      margin-bottom: .6rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--accent-blue);
+      font-family: "Fredoka", system-ui, sans-serif;
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-callout p {
+      font-size: .9rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-items {
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-item i {
+      margin-right: .45rem;
+      color: var(--accent);
+    }
+
+    .whatsapp-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      margin-top: 1.1rem;
+      padding: .6rem 1.3rem;
+      background: #25d366;
+      color: #fff;
+      border-radius: 999px;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-family: "Fredoka", system-ui, sans-serif;
+      box-shadow: 0 14px 0 rgba(0, 0, 0, 0.25);
+      position: relative;
+      z-index: 1;
+    }
+
+    .whatsapp-cta i {
+      font-size: 1.1rem;
+    }
+
+    .contact-note {
+      font-size: .85rem;
+      margin-top: .8rem;
+      color: var(--muted);
+      position: relative;
+      z-index: 1;
+    }
+
+    .mini-list {
+      margin-top: .5rem;
+      list-style: none;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .mini-list li::before {
+      content: "•";
+      margin-right: .4rem;
+      color: var(--accent);
+    }
+
+    footer {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.6rem 1.5rem 2.2rem;
+      font-size: .78rem;
+      color: var(--muted);
+      border-top: 3px solid var(--accent-blue);
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      font-family: "Fredoka", system-ui, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--accent-blue);
+    }
+
+    .whatsapp-float {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 1500;
+    }
+
+    .whatsapp-float a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #25d366;
+      color: #fff;
+      text-decoration: none;
+      box-shadow: 0 18px 30px rgba(0, 0, 0, 0.45);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .whatsapp-float a:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    @media (max-width: 900px) {
+      main {
+        padding-top: 5.8rem;
+      }
+
+      .hero,
+      .grid,
+      .two-col,
+      .contact-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .grid {
+        gap: 1.2rem;
+      }
+
+      .carousel-slide {
+        height: 230px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-container {
+        padding-inline: 1.1rem;
+      }
+
+      .brand-main {
+        font-size: 1.05rem;
+      }
+
+      .brand-sub {
+        font-size: 0.75rem;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      nav ul {
+        position: absolute;
+        right: 0;
+        top: calc(100% + 0.35rem);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+        background: #ffffffee;
+        padding: 0.8rem 1.3rem 1rem;
+        border-radius: 18px;
+        border: 2px solid rgba(17, 58, 99, 0.22);
+        min-width: 190px;
+        transform-origin: top;
+        transform: scaleY(0);
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      nav ul.open {
+        transform: scaleY(1);
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
+
+    @media (max-width: 600px) {
+      main {
+        padding: 5.6rem 1.1rem 3.5rem;
+      }
+
+      section {
+        padding: 3.1rem 0 2.3rem;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      .hero {
+        gap: 1.9rem;
+      }
+
+      .carousel-slide {
+        height: 210px;
+      }
+
+      .footer-content {
+        flex-direction: column;
+      }
+
+      .whatsapp-float a {
+        width: 54px;
+        height: 54px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="whatsapp-float">
+    <a href="https://wa.me/541169966283" target="_blank" aria-label="Pedir por WhatsApp">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+  </div>
+
+  <header>
+    <div class="nav-container">
+      <div class="brand">
+        <div class="logo-placeholder">
+          <!-- Aquí se insertará el logo definitivo -->
+          <img src="/assets/pot/logoburger.png" alt="Kingcho Burger" />
+        </div>
+        <div class="brand-text">
+          <span class="brand-main">Kingcho Burger</span>
+          <span class="brand-sub">Quincho · Delivery · Take Away</span>
+        </div>
+      </div>
+
+      <button class="menu-toggle" aria-label="Abrir menú principal">
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav>
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#menu">Menú</a></li>
+          <li><a href="#quincho">El Quincho</a></li>
+          <li><a href="#contacto">Pedidos</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- INICIO -->
+    <section id="inicio">
+      <div class="hero">
+
+        <div>
+          <div class="pill"><i class="fas fa-burger"></i> Hamburguesería de quincho</div>
+
+          <h1>Kingcho Burger</h1>
+
+          <p class="hero-highlight">
+            Hamburguesas caseras, pan tostado y ese sabor a quincho que sólo se consigue en una reunión entre amigos.
+            Pedí por delivery o pasá a retirar.
+          </p>
+
+          <div class="hero-badges">
+            <span class="hero-badge"><i class="fas fa-moped"></i> Delivery</span>
+            <span class="hero-badge"><i class="fas fa-bag-shopping"></i> Take away</span>
+            <span class="hero-badge"><i class="fas fa-fire-flame-curved"></i> Carne a la parrilla</span>
+          </div>
+
+          <p class="hero-note">
+            Armamos tus combos al momento en nuestro quincho, con ingredientes frescos y un estilo retro bien Kingcho.
+          </p>
+        </div>
+
+        <!-- CARRUSEL -->
+        <div class="carousel">
+          <div class="carousel-track" id="carouselTrack">
+
+            <div class="carousel-slide">
+              <img src="/assets/pot/burger1.png"
+                   alt="Hamburguesa Kingcho con queso derretido" />
+              <div class="carousel-overlay"></div>
+              <div class="carousel-caption">
+                <span><i class="fas fa-burger"></i> Clásicas Kingcho</span>
+              </div>
+            </div>
+
+            <div class="carousel-slide">
+              <img src="/assets/pot/burger2.png"
+                   alt="Combo de hamburguesa, papas y bebida" />
+              <div class="carousel-overlay"></div>
+              <div class="carousel-caption">
+                <span><i class="fas fa-mug-hot"></i> Combos de quincho</span>
+              </div>
+            </div>
+
+            <div class="carousel-slide">
+              <img src="/assets/pot/burger3.png"
+                   alt="Hamburguesas servidas en el quincho" />
+              <div class="carousel-overlay"></div>
+              <div class="carousel-caption">
+                <span><i class="fas fa-house-chimney"></i> Vibe retro</span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="carousel-dots" id="carouselDots">
+            <button class="carousel-dot active"></button>
+            <button class="carousel-dot"></button>
+            <button class="carousel-dot"></button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- MENÚ -->
+    <section id="menu">
+      <h2>Menú y combos</h2>
+      <p>
+        Pensado para comer rico y abundante, con espíritu de quincho. Podés combinar tus hamburguesas con papas,
+        salsas caseras y bebidas frías. Algunos destacados:
+      </p>
+
+      <div class="grid">
+
+        <div class="card">
+          <div class="card-icon"><i class="fas fa-cheese"></i></div>
+          <h3>Clásica Kingcho</h3>
+          <p>Hamburguesa simple o doble, queso, lechuga, tomate, pepinillos y salsa de la casa en pan tostado.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon"><i class="fas fa-pepper-hot"></i></div>
+          <h3>Picante del Quincho</h3>
+          <p>Hamburguesa con cheddar, jalapeños, cebolla crispy y salsa especial picante. Ideal para los valientes.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon"><i class="fas fa-utensils"></i></div>
+          <h3>Combos completos</h3>
+          <p>Armá tu combo con burger, papas rústicas o fritas, bebida y opción de agregar salsas extra.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- EL QUINCHO -->
+    <section id="quincho">
+      <h2>El Quincho Kingcho</h2>
+      <div class="two-col">
+
+        <div>
+          <p>
+            Kingcho Burger nace en un quincho, donde el humo de la parrilla y las luces cálidas se mezclan con música,
+            risas y hamburguesas gigantes. Mantenemos ese espíritu en cada pedido: comida abundante, sabor casero
+            y atención cercana.
+          </p>
+          <p style="margin-top:0.8rem;">
+            Todo se cocina al momento. Pedís, prendemos el fuego y en pocos minutos tu burger está lista para ir a tu
+            mesa o a tu casa.
+          </p>
+        </div>
+
+        <div class="badge-stack">
+          <div class="badge-stack-item">
+            <i class="fas fa-house-chimney"></i> Ambientes y recetas de quincho
+          </div>
+          <div class="badge-stack-item">
+            <i class="fas fa-kitchen-set"></i> Ingredientes frescos y seleccionados
+          </div>
+          <div class="badge-stack-item">
+            <i class="fas fa-box-open"></i> Empaques pensados para delivery y take away
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CONTACTO / PEDIDOS -->
+    <section id="contacto">
+      <h2>Pedidos y contacto</h2>
+
+      <div class="contact-layout">
+
+        <div class="contact-callout">
+          <h3>Pedí tu Kingcho</h3>
+          <p>Los pedidos se realizan exclusivamente por WhatsApp. Nos escribís, elegís tu combo y coordinamos entrega o retiro.</p>
+
+          <div class="contact-items">
+            <div class="contact-item"><i class="fas fa-phone"></i>11 6996 6283</div>
+          </div>
+
+          <a class="whatsapp-cta" href="https://wa.me/541169966283" target="_blank">
+            <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+          </a>
+
+          <p class="contact-note">
+            Enviá tu mensaje con tu nombre, pedido, cantidad de hamburguesas y si preferís delivery o take away.
+          </p>
+        </div>
+
+        <div>
+          <p>Para agilizar tu pedido, podés incluir:</p>
+          <ul class="mini-list">
+            <li>Detalle de hamburguesas y combos que querés</li>
+            <li>Si necesitás opción sin picante o sin ciertos ingredientes</li>
+            <li>Horario aproximado en el que querés recibir o retirar</li>
+            <li>Dirección completa en caso de delivery</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <span>© <span id="year"></span> Kingcho Burger</span>
+      <span>Hamburguesas de quincho · Delivery & Take Away</span>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navList = document.querySelector('nav ul');
+
+    if (menuToggle && navList) {
+      menuToggle.addEventListener('click', () => {
+        navList.classList.toggle('open');
+        menuToggle.classList.toggle('open');
+      });
+
+      navList.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navList.classList.remove('open');
+          menuToggle.classList.remove('open');
+        });
+      });
+    }
+
+    const track = document.getElementById("carouselTrack");
+    const dots = [...document.querySelectorAll(".carousel-dot")];
+    let currentSlide = 0;
+
+    function goToSlide(i) {
+      currentSlide = i;
+      track.style.transform = `translateX(${-i * 100}%)`;
+      dots.forEach((d, idx) => d.classList.toggle("active", idx === i));
+    }
+
+    dots.forEach((d, i) => d.addEventListener('click', () => goToSlide(i)));
+
+    setInterval(() => {
+      const next = (currentSlide + 1) % dots.length;
+      goToSlide(next);
+    }, 5000);
+  </script>
+
+</body>
+</html>
