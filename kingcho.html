@@ -2,29 +2,32 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Kingcho Burger – Quincho, Delivery & Take Away</title>
+  <title>Kingcho Burger – Hamburguesería de Quincho</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Questrial&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Bungee&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
     :root {
-      --bg: #fdf7ef;
-      --bg-alt: #f8efe1;
-      --text: #113a63;
-      --muted: #5f6b7a;
-      --accent: #e53935;
-      --accent-soft: rgba(229, 57, 53, 0.12);
-      --accent-blue: #1a78b6;
+      --bg: #fdfbff;
+      --bg-alt: #ffffff;
+      --text: #05213b;
+      --muted: #415167;
+      --accent: #0c7acb;
+      --accent-soft: rgba(12, 122, 203, 0.12);
+      --accent-red: #e53935;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: "Questrial", system-ui, sans-serif;
-      background: radial-gradient(circle at top, #ffffff 0, var(--bg) 50%, var(--bg-alt) 100%);
+      font-family: "Fredoka", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(12,122,203,0.12) 0, transparent 55%),
+        radial-gradient(circle at top right, rgba(229,57,53,0.12) 0, transparent 55%),
+        linear-gradient(135deg, #ffffff 0%, #fdfbff 40%, #f4f8ff 70%, #fff5f5 100%);
       color: var(--text);
       line-height: 1.6;
     }
@@ -33,15 +36,15 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 1000;
-      background: #ffffffee;
-      border-bottom: 3px solid var(--accent-blue);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+      background: rgba(255,255,255,0.96);
+      border-bottom: 2px solid rgba(12,122,203,0.18);
+      backdrop-filter: blur(12px);
     }
 
     .nav-container {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 0.6rem 1.5rem;
+      padding: 0.7rem 1.5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -51,47 +54,43 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 0.9rem;
+      gap: 0.8rem;
     }
 
-    .logo-placeholder {
-      width: 64px;
-      height: 64px;
+    .brand-logo {
+      width: 52px;
+      height: 52px;
       border-radius: 999px;
-      background: radial-gradient(circle at 30% 20%, #ffffff 0, #f4e0d0 60%, #f5d0c9 100%);
-      border: 3px solid var(--accent-blue);
+      background: #f0f6ff;
+      border: 2px solid #0c7acb;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
     }
-
-    .logo-placeholder img {
-      max-width: 100%;
-      max-height: 100%;
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
       object-fit: contain;
-      display: block;
     }
 
     .brand-text {
       display: flex;
       flex-direction: column;
-      line-height: 1.15;
-      font-family: "Fredoka", system-ui, sans-serif;
+      line-height: 1.1;
     }
-
     .brand-main {
-      font-size: 1.2rem;
+      font-family: "Bungee", system-ui, sans-serif;
+      font-size: 1.15rem;
       letter-spacing: .08em;
       text-transform: uppercase;
-      color: var(--accent-blue);
-    }
-
-    .brand-sub {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: .16em;
       color: var(--accent);
+    }
+    .brand-sub {
+      font-size: .75rem;
+      color: var(--muted);
+      letter-spacing: .16em;
+      text-transform: uppercase;
     }
 
     nav {
@@ -103,38 +102,31 @@
       display: flex;
       gap: 1.2rem;
       align-items: center;
-      font-family: "Fredoka", system-ui, sans-serif;
     }
 
     nav a {
       text-decoration: none;
-      color: var(--accent-blue);
+      color: var(--muted);
       font-size: .9rem;
-      letter-spacing: .08em;
+      letter-spacing: .1em;
       text-transform: uppercase;
       position: relative;
       padding-bottom: .2rem;
     }
-
     nav a::after {
       content: "";
       position: absolute;
       left: 0;
       bottom: 0;
       width: 0;
-      height: 3px;
+      height: 2px;
       background: var(--accent);
-      border-radius: 99px;
-      transition: width .22s ease;
+      transition: width .25s ease;
     }
+    nav a:hover { color: var(--accent); }
+    nav a:hover::after { width: 100%; }
 
-    nav a:hover {
-      color: var(--accent);
-    }
-    nav a:hover::after {
-      width: 100%;
-    }
-
+    /* Toggle menú móvil */
     .menu-toggle {
       display: none;
       border: none;
@@ -148,7 +140,7 @@
       display: block;
       width: 20px;
       height: 2px;
-      background: var(--accent-blue);
+      background: var(--accent);
       border-radius: 999px;
       margin: 3px 0;
       transition: transform .22s ease, opacity .22s ease;
@@ -164,37 +156,25 @@
     main {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 6.2rem 1.5rem 4rem;
+      padding: 6rem 1.5rem 4rem;
     }
-
     section {
       padding: 4rem 0 3rem;
-      border-bottom: 2px dashed rgba(26, 120, 182, 0.18);
+      border-bottom: 1px dashed rgba(12,122,203,0.22);
     }
-
     section:last-of-type {
       border-bottom: none;
       padding-bottom: 1.5rem;
     }
 
     h1, h2 {
-      font-family: "Fredoka", system-ui, sans-serif;
       font-weight: 600;
-      letter-spacing: .14em;
+      letter-spacing: .16em;
       text-transform: uppercase;
+      font-family: "Bungee", system-ui, sans-serif;
     }
-
-    h1 {
-      font-size: 1.9rem;
-      margin-bottom: .6rem;
-      color: var(--accent-blue);
-    }
-
-    h2 {
-      font-size: 1.3rem;
-      margin-bottom: 1.2rem;
-      color: var(--accent-blue);
-    }
+    h1 { font-size: 1.7rem; margin-bottom: .7rem; color: var(--accent); }
+    h2 { font-size: 1.25rem; margin-bottom: 1.2rem; color: var(--accent); }
 
     p {
       color: var(--muted);
@@ -205,84 +185,88 @@
     .pill {
       display: inline-flex;
       align-items: center;
-      gap: .45rem;
-      padding: .32rem .9rem;
+      gap: .5rem;
+      padding: .35rem .9rem;
       border-radius: 999px;
-      border: 2px solid var(--accent-blue);
-      background: #ffffff;
-      font-size: .78rem;
+      border: 2px solid rgba(12,122,203,0.25);
+      background: rgba(255,255,255,0.96);
+      font-size: .75rem;
       letter-spacing: .12em;
       margin-bottom: .9rem;
       text-transform: uppercase;
-      color: var(--accent-blue);
-      font-family: "Fredoka", system-ui, sans-serif;
+      color: var(--accent);
     }
-
-    .pill i { color: var(--accent); }
+    .pill i { color: var(--accent-red); }
 
     .hero {
       display: grid;
-      grid-template-columns: 1.1fr 1.1fr;
+      grid-template-columns: 1.2fr 1.1fr;
       gap: 2.5rem;
       align-items: center;
     }
 
     .hero-highlight {
       font-size: 1.05rem;
-      margin-top: .7rem;
-      color: var(--text);
-      font-weight: 500;
+      margin-top: .8rem;
+      color: #d2232a;
     }
-
     .hero-badges {
-      margin-top: 1.3rem;
+      margin-top: 1.4rem;
       display: flex;
       flex-wrap: wrap;
       gap: .6rem;
     }
-
     .hero-badge {
       border-radius: 999px;
-      border: 2px solid rgba(0, 0, 0, 0.06);
-      padding: .4rem .9rem;
-      font-size: .86rem;
-      background: #ffffff;
-      color: var(--accent-blue);
-      font-family: "Fredoka", system-ui, sans-serif;
-      box-shadow: 0 5px 0 rgba(17, 58, 99, 0.15);
+      border: 2px solid rgba(12,122,203,0.18);
+      padding: .35rem .9rem;
+      font-size: .8rem;
+      background: rgba(12,122,203,0.06);
+      color: var(--muted);
     }
-
     .hero-badge i {
       margin-right: .35rem;
       color: var(--accent);
     }
 
-    .hero-note {
-      margin-top: 1.2rem;
+    .primary-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1.4rem;
+      padding: 0.6rem 1.5rem;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, var(--accent-red), #ff7043);
+      color: #ffffff;
+      font-family: "Bungee", system-ui, sans-serif;
       font-size: .9rem;
-      color: var(--muted);
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      text-decoration: none;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+    }
+    .primary-btn:hover {
+      filter: brightness(1.05);
     }
 
     .carousel {
       position: relative;
       border-radius: 22px;
       overflow: hidden;
-      background: radial-gradient(circle at top, #ffffff, #f3e3d1);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15);
-      border: 3px solid var(--accent-blue);
+      background: radial-gradient(circle at top, #e3f1ff, #fef5f4);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.15);
+      border: 3px solid rgba(12,122,203,0.3);
     }
-
     .carousel-track {
       display: flex;
       transition: transform 0.6s ease-in-out;
     }
-
     .carousel-slide {
       min-width: 100%;
       height: 260px;
       position: relative;
     }
-
     .carousel-slide img {
       width: 100%;
       height: 100%;
@@ -292,7 +276,7 @@
     .carousel-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(0, 0, 0, 0.45), transparent 55%);
+      background: linear-gradient(135deg, rgba(0,0,0,0.38), transparent 55%);
     }
 
     .carousel-caption {
@@ -300,107 +284,77 @@
       left: 1.2rem;
       bottom: 1.1rem;
       z-index: 2;
-      font-size: .86rem;
-      font-family: "Fredoka", system-ui, sans-serif;
+      font-size: .85rem;
     }
-
     .carousel-caption span {
       display: inline-flex;
       align-items: center;
       gap: .4rem;
       padding: .25rem .7rem;
       border-radius: 999px;
-      background: #ffffffee;
-      border: 2px solid rgba(0, 0, 0, 0.06);
-      font-size: .78rem;
+      background: rgba(255,255,255,0.92);
+      border: 2px solid rgba(12,122,203,0.4);
+      font-size: .74rem;
       letter-spacing: .14em;
       text-transform: uppercase;
-      color: var(--accent-blue);
-    }
-
-    .carousel-caption i {
       color: var(--accent);
     }
 
     .carousel-dots {
       position: absolute;
       right: .9rem;
-      bottom: .95rem;
+      bottom: .9rem;
       display: flex;
       gap: .35rem;
       z-index: 2;
     }
-
     .carousel-dot {
-      width: 9px;
-      height: 9px;
-      background: rgba(255, 255, 255, 0.7);
+      width: 8px;
+      height: 8px;
+      background: rgba(255,255,255,0.7);
       border-radius: 999px;
-      border: 2px solid var(--accent-blue);
       cursor: pointer;
+      border: none;
     }
-
     .carousel-dot.active {
-      width: 20px;
-      background: var(--accent);
-      border-color: var(--accent);
+      width: 18px;
+      background: var(--accent-red);
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3,1fr);
       gap: 1.5rem;
-      margin-top: 1.4rem;
+      margin-top: 1.2rem;
     }
 
     .card {
       border-radius: 18px;
-      padding: 1.2rem 1rem 1.3rem;
-      background: linear-gradient(145deg, #ffffff, #f7e3d3);
-      border: 2px solid rgba(0, 0, 0, 0.05);
-      box-shadow: 0 12px 0 rgba(17, 58, 99, 0.12);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      opacity: 0.07;
-      background-image: radial-gradient(circle, #000 1px, transparent 1px);
-      background-size: 6px 6px;
-      pointer-events: none;
+      padding: 1.1rem 1rem 1.2rem;
+      background:
+        radial-gradient(circle at top left, rgba(229,57,53,0.08), rgba(243,248,255,0.98));
+      border: 2px solid rgba(12,122,203,0.2);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
     }
 
     .card-icon {
-      font-size: 1.5rem;
-      margin-bottom: .7rem;
-      color: var(--accent);
-      position: relative;
-      z-index: 1;
+      font-size: 1.4rem;
+      margin-bottom: .6rem;
+      color: var(--accent-red);
     }
-
     .card h3 {
-      font-size: 1rem;
+      font-size: .98rem;
       margin-bottom: .35rem;
       letter-spacing: .12em;
       text-transform: uppercase;
-      color: var(--accent-blue);
-      font-family: "Fredoka", system-ui, sans-serif;
-      position: relative;
-      z-index: 1;
+      color: var(--accent);
+      font-family: "Bungee", system-ui, sans-serif;
     }
-
-    .card p {
-      font-size: .9rem;
-      position: relative;
-      z-index: 1;
-    }
+    .card p { font-size: .9rem; }
 
     .two-col {
       display: grid;
-      grid-template-columns: 1.3fr 1fr;
+      grid-template-columns: 1.4fr 1fr;
       gap: 2rem;
       align-items: center;
     }
@@ -408,82 +362,56 @@
     .badge-stack {
       display: flex;
       flex-direction: column;
-      gap: .6rem;
+      gap: .5rem;
     }
-
     .badge-stack-item {
       padding: .55rem .9rem;
       border-radius: 999px;
-      background: #ffffff;
-      border: 2px solid rgba(0, 0, 0, 0.06);
+      background: rgba(255,255,255,0.96);
+      border: 2px dashed rgba(12,122,203,0.35);
       display: flex;
       align-items: center;
-      gap: .6rem;
-      color: var(--accent-blue);
-      font-size: .86rem;
-      font-family: "Fredoka", system-ui, sans-serif;
-      box-shadow: 0 6px 0 rgba(17, 58, 99, 0.12);
+      gap: .5rem;
+      color: var(--muted);
+      font-size: .9rem;
     }
-
-    .badge-stack-item i {
-      color: var(--accent);
-    }
+    .badge-stack-item i { color: var(--accent-red); }
 
     .contact-layout {
       display: grid;
       grid-template-columns: 1.1fr 1.1fr;
       gap: 1.8rem;
+      align-items: flex-start;
     }
 
     .contact-callout {
-      padding: 1.4rem;
+      padding: 1.3rem;
       border-radius: 20px;
-      background: linear-gradient(145deg, #ffffff, #f9e1d3);
-      border: 3px solid var(--accent-blue);
-      box-shadow: 0 16px 0 rgba(17, 58, 99, 0.18);
-      position: relative;
-      overflow: hidden;
+      background:
+        radial-gradient(circle at top, rgba(12,122,203,0.16), #ffffff);
+      border: 2px solid rgba(12,122,203,0.28);
+      box-shadow: 0 16px 38px rgba(0,0,0,0.08);
     }
-
-    .contact-callout::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      opacity: 0.06;
-      background-image: radial-gradient(circle, #000 1px, transparent 1px);
-      background-size: 6px 6px;
-      pointer-events: none;
-    }
-
     .contact-callout h3 {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       margin-bottom: .6rem;
       letter-spacing: .16em;
       text-transform: uppercase;
-      color: var(--accent-blue);
-      font-family: "Fredoka", system-ui, sans-serif;
-      position: relative;
-      z-index: 1;
+      font-family: "Bungee", system-ui, sans-serif;
+      color: var(--accent);
     }
-
-    .contact-callout p {
-      font-size: .9rem;
-      position: relative;
-      z-index: 1;
-    }
+    .contact-callout p { font-size: .9rem; }
 
     .contact-items {
       margin-top: 1rem;
       display: flex;
       flex-direction: column;
       gap: .4rem;
-      position: relative;
-      z-index: 1;
+      font-size: .9rem;
     }
-
     .contact-item i {
       margin-right: .45rem;
-      color: var(--accent);
+      color: var(--accent-red);
     }
 
     .whatsapp-cta {
@@ -491,29 +419,21 @@
       align-items: center;
       gap: .5rem;
       margin-top: 1.1rem;
-      padding: .6rem 1.3rem;
+      padding: .55rem 1.2rem;
       background: #25d366;
       color: #fff;
       border-radius: 999px;
       text-decoration: none;
       text-transform: uppercase;
       letter-spacing: .12em;
-      font-family: "Fredoka", system-ui, sans-serif;
-      box-shadow: 0 14px 0 rgba(0, 0, 0, 0.25);
-      position: relative;
-      z-index: 1;
-    }
-
-    .whatsapp-cta i {
-      font-size: 1.1rem;
+      font-size: .85rem;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.25);
     }
 
     .contact-note {
       font-size: .85rem;
-      margin-top: .8rem;
+      margin-top: .7rem;
       color: var(--muted);
-      position: relative;
-      z-index: 1;
     }
 
     .mini-list {
@@ -522,31 +442,29 @@
       color: var(--muted);
       font-size: .9rem;
     }
-
+    .mini-list li {
+      margin-bottom: .25rem;
+    }
     .mini-list li::before {
       content: "•";
       margin-right: .4rem;
-      color: var(--accent);
+      color: var(--accent-red);
     }
 
     footer {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 1.6rem 1.5rem 2.2rem;
+      padding: 1.5rem;
       font-size: .78rem;
       color: var(--muted);
-      border-top: 3px solid var(--accent-blue);
+      border-top: 2px dashed rgba(12,122,203,0.22);
     }
 
     .footer-content {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 0.6rem;
-      font-family: "Fredoka", system-ui, sans-serif;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      color: var(--accent-blue);
+      gap: 0.5rem;
     }
 
     .whatsapp-float {
@@ -555,25 +473,25 @@
       bottom: 18px;
       z-index: 1500;
     }
-
     .whatsapp-float a {
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 60px;
-      height: 60px;
+      width: 58px;
+      height: 58px;
       border-radius: 50%;
       background: #25d366;
       color: #fff;
       text-decoration: none;
-      box-shadow: 0 18px 30px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 18px 30px rgba(0,0,0,0.3);
       transition: transform .18s ease, box-shadow .18s ease;
     }
-
     .whatsapp-float a:hover {
       transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.38);
     }
+
+    /* RESPONSIVE */
 
     @media (max-width: 900px) {
       main {
@@ -602,11 +520,12 @@
       }
 
       .brand-main {
-        font-size: 1.05rem;
+        font-size: 1rem;
       }
 
       .brand-sub {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
+        letter-spacing: .14em;
       }
 
       .menu-toggle {
@@ -620,10 +539,10 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 0.6rem;
-        background: #ffffffee;
+        background: rgba(255,255,255,0.98);
         padding: 0.8rem 1.3rem 1rem;
-        border-radius: 18px;
-        border: 2px solid rgba(17, 58, 99, 0.22);
+        border-radius: 16px;
+        border: 2px solid rgba(12,122,203,0.24);
         min-width: 190px;
         transform-origin: top;
         transform: scaleY(0);
@@ -640,19 +559,19 @@
 
     @media (max-width: 600px) {
       main {
-        padding: 5.6rem 1.1rem 3.5rem;
+        padding: 5.5rem 1.1rem 3.5rem;
       }
 
       section {
-        padding: 3.1rem 0 2.3rem;
+        padding: 3rem 0 2.2rem;
       }
 
       h1 {
-        font-size: 1.6rem;
+        font-size: 1.4rem;
       }
 
       .hero {
-        gap: 1.9rem;
+        gap: 1.8rem;
       }
 
       .carousel-slide {
@@ -664,8 +583,8 @@
       }
 
       .whatsapp-float a {
-        width: 54px;
-        height: 54px;
+        width: 52px;
+        height: 52px;
       }
     }
   </style>
@@ -674,7 +593,7 @@
 <body>
 
   <div class="whatsapp-float">
-    <a href="https://wa.me/541169966283" target="_blank" aria-label="Pedir por WhatsApp">
+    <a href="https://wa.me/541169966283" target="_blank" aria-label="Contactar por WhatsApp">
       <i class="fab fa-whatsapp"></i>
     </a>
   </div>
@@ -682,13 +601,13 @@
   <header>
     <div class="nav-container">
       <div class="brand">
-        <div class="logo-placeholder">
-          <!-- Aquí se insertará el logo definitivo -->
+        <div class="brand-logo">
+          <!-- Logo Kingcho Burger -->
           <img src="/assets/pot/logoburger.png" alt="Kingcho Burger" />
         </div>
         <div class="brand-text">
           <span class="brand-main">Kingcho Burger</span>
-          <span class="brand-sub">Quincho · Delivery · Take Away</span>
+          <span class="brand-sub">Hamburguesería de quincho · Delivery & Take Away</span>
         </div>
       </div>
 
@@ -700,9 +619,9 @@
       <nav>
         <ul>
           <li><a href="#inicio">Inicio</a></li>
-          <li><a href="#menu">Menú</a></li>
-          <li><a href="#quincho">El Quincho</a></li>
-          <li><a href="#contacto">Pedidos</a></li>
+          <li><a href="#servicios">Delivery y Take Away</a></li>
+          <li><a href="#quienes-somos">El Quincho</a></li>
+          <li><a href="#contacto">Contacto</a></li>
         </ul>
       </nav>
     </div>
@@ -715,24 +634,23 @@
       <div class="hero">
 
         <div>
-          <div class="pill"><i class="fas fa-burger"></i> Hamburguesería de quincho</div>
+          <div class="pill"><i class="fas fa-burger"></i> Hamburguesería de quincho · Delivery & Take Away</div>
 
           <h1>Kingcho Burger</h1>
 
           <p class="hero-highlight">
-            Hamburguesas caseras, pan tostado y ese sabor a quincho que sólo se consigue en una reunión entre amigos.
-            Pedí por delivery o pasá a retirar.
+            Un quincho convertido en punto de encuentro, con hamburguesas hechas al momento para llevar o recibir en casa.
           </p>
 
           <div class="hero-badges">
-            <span class="hero-badge"><i class="fas fa-moped"></i> Delivery</span>
-            <span class="hero-badge"><i class="fas fa-bag-shopping"></i> Take away</span>
-            <span class="hero-badge"><i class="fas fa-fire-flame-curved"></i> Carne a la parrilla</span>
+            <span class="hero-badge"><i class="fas fa-motorcycle"></i> Envíos por delivery</span>
+            <span class="hero-badge"><i class="fas fa-bag-shopping"></i> Retiro en el quincho</span>
+            <span class="hero-badge"><i class="fas fa-heart"></i> Atención cercana y casera</span>
           </div>
 
-          <p class="hero-note">
-            Armamos tus combos al momento en nuestro quincho, con ingredientes frescos y un estilo retro bien Kingcho.
-          </p>
+          <a class="primary-btn" href="https://andromadorian.site/kingcho-menu" target="_blank" rel="noopener">
+            Menu
+          </a>
         </div>
 
         <!-- CARRUSEL -->
@@ -740,29 +658,26 @@
           <div class="carousel-track" id="carouselTrack">
 
             <div class="carousel-slide">
-              <img src="/assets/pot/burger1.png"
-                   alt="Hamburguesa Kingcho con queso derretido" />
+              <img src="/assets/pot/burger1.png" alt="Hamburguesas en el quincho" />
               <div class="carousel-overlay"></div>
               <div class="carousel-caption">
-                <span><i class="fas fa-burger"></i> Clásicas Kingcho</span>
+                <span><i class="fas fa-fire"></i> Quincho encendido</span>
               </div>
             </div>
 
             <div class="carousel-slide">
-              <img src="/assets/pot/burger2.png"
-                   alt="Combo de hamburguesa, papas y bebida" />
+              <img src="/assets/pot/burger2.png" alt="Hamburguesas listas para llevar" />
               <div class="carousel-overlay"></div>
               <div class="carousel-caption">
-                <span><i class="fas fa-mug-hot"></i> Combos de quincho</span>
+                <span><i class="fas fa-box"></i> Take Away</span>
               </div>
             </div>
 
             <div class="carousel-slide">
-              <img src="/assets/pot/burger3.png"
-                   alt="Hamburguesas servidas en el quincho" />
+              <img src="/assets/pot/burger3.png" alt="Delivery de hamburguesas" />
               <div class="carousel-overlay"></div>
               <div class="carousel-caption">
-                <span><i class="fas fa-house-chimney"></i> Vibe retro</span>
+                <span><i class="fas fa-motorcycle"></i> Delivery</span>
               </div>
             </div>
 
@@ -778,99 +693,93 @@
       </div>
     </section>
 
-    <!-- MENÚ -->
-    <section id="menu">
-      <h2>Menú y combos</h2>
+    <!-- SERVICIOS -->
+    <section id="servicios">
+      <h2>Delivery y Take Away</h2>
       <p>
-        Pensado para comer rico y abundante, con espíritu de quincho. Podés combinar tus hamburguesas con papas,
-        salsas caseras y bebidas frías. Algunos destacados:
+        Pedís, preparan tu pedido en el quincho y lo disfrutás donde quieras. Podés elegir retirar en el lugar o recibirlo por delivery.
       </p>
 
       <div class="grid">
 
         <div class="card">
-          <div class="card-icon"><i class="fas fa-cheese"></i></div>
-          <h3>Clásica Kingcho</h3>
-          <p>Hamburguesa simple o doble, queso, lechuga, tomate, pepinillos y salsa de la casa en pan tostado.</p>
+          <div class="card-icon"><i class="fas fa-motorcycle"></i></div>
+          <h3>Delivery</h3>
+          <p>
+            Hacés tu pedido por WhatsApp y lo recibís en tu domicilio dentro del área de reparto disponible.
+          </p>
         </div>
 
         <div class="card">
-          <div class="card-icon"><i class="fas fa-pepper-hot"></i></div>
-          <h3>Picante del Quincho</h3>
-          <p>Hamburguesa con cheddar, jalapeños, cebolla crispy y salsa especial picante. Ideal para los valientes.</p>
+          <div class="card-icon"><i class="fas fa-bag-shopping"></i></div>
+          <h3>Take Away</h3>
+          <p>
+            Encargás con anticipación, pasás por el quincho y retirás tu pedido listo para disfrutar.
+          </p>
         </div>
 
         <div class="card">
-          <div class="card-icon"><i class="fas fa-utensils"></i></div>
-          <h3>Combos completos</h3>
-          <p>Armá tu combo con burger, papas rústicas o fritas, bebida y opción de agregar salsas extra.</p>
+          <div class="card-icon"><i class="fas fa-people-group"></i></div>
+          <h3>Pedidos para compartir</h3>
+          <p>
+            Consultá por pedidos para reuniones, juntadas en el quincho o encuentros con amigos.
+          </p>
         </div>
 
       </div>
     </section>
 
-    <!-- EL QUINCHO -->
-    <section id="quincho">
-      <h2>El Quincho Kingcho</h2>
+    <!-- QUIENES SOMOS -->
+    <section id="quienes-somos">
+      <h2>El Quincho</h2>
       <div class="two-col">
 
         <div>
           <p>
-            Kingcho Burger nace en un quincho, donde el humo de la parrilla y las luces cálidas se mezclan con música,
-            risas y hamburguesas gigantes. Mantenemos ese espíritu en cada pedido: comida abundante, sabor casero
-            y atención cercana.
-          </p>
-          <p style="margin-top:0.8rem;">
-            Todo se cocina al momento. Pedís, prendemos el fuego y en pocos minutos tu burger está lista para ir a tu
-            mesa o a tu casa.
+            Kingcho Burger nace en un quincho, con ambiente relajado y espíritu de reunión entre amigos.
+            El foco está puesto en preparar hamburguesas en el momento y entregar cada pedido con atención cercana.
           </p>
         </div>
 
         <div class="badge-stack">
-          <div class="badge-stack-item">
-            <i class="fas fa-house-chimney"></i> Ambientes y recetas de quincho
-          </div>
-          <div class="badge-stack-item">
-            <i class="fas fa-kitchen-set"></i> Ingredientes frescos y seleccionados
-          </div>
-          <div class="badge-stack-item">
-            <i class="fas fa-box-open"></i> Empaques pensados para delivery y take away
-          </div>
+          <div class="badge-stack-item"><i class="fas fa-house-chimney"></i> Ambiente de quincho, simple y cálido</div>
+          <div class="badge-stack-item"><i class="fas fa-face-smile-beam"></i> Atención directa y personalizada</div>
+          <div class="badge-stack-item"><i class="fas fa-clock"></i> Pedidos coordinados por WhatsApp</div>
         </div>
 
       </div>
     </section>
 
-    <!-- CONTACTO / PEDIDOS -->
+    <!-- CONTACTO -->
     <section id="contacto">
-      <h2>Pedidos y contacto</h2>
+      <h2>Contacto</h2>
 
       <div class="contact-layout">
 
         <div class="contact-callout">
-          <h3>Pedí tu Kingcho</h3>
-          <p>Los pedidos se realizan exclusivamente por WhatsApp. Nos escribís, elegís tu combo y coordinamos entrega o retiro.</p>
+          <h3>Hacé tu pedido</h3>
+          <p>El contacto y los pedidos se realizan exclusivamente por WhatsApp.</p>
 
           <div class="contact-items">
-            <div class="contact-item"><i class="fas fa-phone"></i>11 6996 6283</div>
+            <div class="contact-item"><i class="fas fa-phone"></i>011 6996 6283</div>
           </div>
 
           <a class="whatsapp-cta" href="https://wa.me/541169966283" target="_blank">
-            <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+            <i class="fab fa-whatsapp"></i> Escribir por WhatsApp
           </a>
 
           <p class="contact-note">
-            Enviá tu mensaje con tu nombre, pedido, cantidad de hamburguesas y si preferís delivery o take away.
+            Dejanos tu mensaje y coordinamos el horario de retiro o envío según disponibilidad.
           </p>
         </div>
 
         <div>
-          <p>Para agilizar tu pedido, podés incluir:</p>
+          <p>Al escribir por WhatsApp, podés indicar:</p>
           <ul class="mini-list">
-            <li>Detalle de hamburguesas y combos que querés</li>
-            <li>Si necesitás opción sin picante o sin ciertos ingredientes</li>
-            <li>Horario aproximado en el que querés recibir o retirar</li>
-            <li>Dirección completa en caso de delivery</li>
+            <li>Tu nombre</li>
+            <li>Horario aproximado en el que querés recibir o retirar el pedido</li>
+            <li>Si preferís delivery o take away</li>
+            <li>Zona de entrega, en caso de envío</li>
           </ul>
         </div>
 
@@ -882,13 +791,14 @@
   <footer>
     <div class="footer-content">
       <span>© <span id="year"></span> Kingcho Burger</span>
-      <span>Hamburguesas de quincho · Delivery & Take Away</span>
+      <span>Hamburguesería de quincho · Delivery & Take Away</span>
     </div>
   </footer>
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
+    // Menú móvil
     const menuToggle = document.querySelector('.menu-toggle');
     const navList = document.querySelector('nav ul');
 
@@ -906,6 +816,7 @@
       });
     }
 
+    // Carrusel
     const track = document.getElementById("carouselTrack");
     const dots = [...document.querySelectorAll(".carousel-dot")];
     let currentSlide = 0;
