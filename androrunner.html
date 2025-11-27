@@ -897,11 +897,11 @@
 
     let difficulty = "normal";
 
-    /* Más velocidad en cada modo */
+    // Velocidades y spawn ligeramente ajustados y con límite de objetos para mejorar rendimiento
     const difficultySettings = {
-      easy:  { speed: 380, minSpawn: 0.5,  maxSpawn: 0.75 },
-      normal:{ speed: 500, minSpawn: 0.35, maxSpawn: 0.55 },
-      hard:  { speed: 620, minSpawn: 0.25, maxSpawn: 0.45 },
+      easy:  { speed: 380, minSpawn: 0.55, maxSpawn: 0.8 },
+      normal:{ speed: 500, minSpawn: 0.4,  maxSpawn: 0.6 },
+      hard:  { speed: 620, minSpawn: 0.3,  maxSpawn: 0.5 },
     };
 
     diffButtons.forEach((btn) => {
@@ -938,7 +938,7 @@
 
     const GROUND_HEIGHT = 110;
     const GROUND_Y = WORLD_HEIGHT - GROUND_HEIGHT;
-    const CEILING_Y = 40;
+    const CEILING_Y = 40; // se mantiene, pero bajamos el 3er piso
 
     const GRAVITY = 2200;
     const JUMP_FORCE = 800;
@@ -1025,14 +1025,16 @@
     function initPlatforms() {
       platforms = [];
 
+      // Bajamos un poco el tercer piso (más cerca del piso) para ampliar espacio con el techo
       const bands = [
         { y: GROUND_Y - 130, offset: 120 },
         { y: GROUND_Y - 250, offset: 350 },
-        { y: GROUND_Y - 370, offset: 610 },
+        { y: GROUND_Y - 320, offset: 610 }, // antes -370, ahora más abajo
       ];
 
       bands.forEach((band, index) => {
-        for (let i = 0; i < 3; i++) {
+        // 2 plataformas en lugar de 3 para reducir objetos y mejorar rendimiento
+        for (let i = 0; i < 2; i++) {
           platforms.push({
             x: band.offset + i * (PLATFORM_LENGTH + PLATFORM_GAP),
             y: band.y,
@@ -1061,7 +1063,7 @@
     function resetGameState() {
       currentTheme = themes[0];
 
-      /* Solo cabeza (sin cuerpo) */
+      // Solo cabeza
       player = {
         w: 40,
         h: 40,
@@ -1170,9 +1172,9 @@
       const windowSpawn = obstacleSpawnWindow();
       nextObstacleSpawn = rand(windowSpawn.min, windowSpawn.max);
 
-      // Límite duro para no acumular demasiados obstáculos
-      if (obstacles.length > 45) {
-        obstacles.splice(0, obstacles.length - 45);
+      // Límite más bajo para no acumular demasiados obstáculos
+      if (obstacles.length > 30) {
+        obstacles.splice(0, obstacles.length - 30);
       }
     }
 
@@ -1191,8 +1193,8 @@
 
       nextPowerSpawn = rand(6, 11);
 
-      if (powerups.length > 15) {
-        powerups.splice(0, powerups.length - 15);
+      if (powerups.length > 10) {
+        powerups.splice(0, powerups.length - 10);
       }
     }
 
@@ -1306,14 +1308,16 @@
         pl.x -= worldSpeed * dt;
       });
       platforms = platforms.filter((pl) => pl.x + pl.w > -60);
+
+      // Misma configuración de bandas que en initPlatforms (incluyendo 3er piso más bajo)
       const bands = [
         { y: GROUND_Y - 130, offset: 120 },
         { y: GROUND_Y - 250, offset: 350 },
-        { y: GROUND_Y - 370, offset: 610 },
+        { y: GROUND_Y - 320, offset: 610 },
       ];
       for (let b = 0; b < PLATFORM_BANDS; b++) {
         const bandPlatforms = platforms.filter((pl) => pl.band === b);
-        if (bandPlatforms.length < 3) {
+        if (bandPlatforms.length < 2) {
           const lastX =
             bandPlatforms.length > 0
               ? Math.max(...bandPlatforms.map((pl) => pl.x + pl.w))
@@ -1532,17 +1536,7 @@
         else if (p.kind === "jump") color = "#3b82f6";
         else if (p.kind === "score") color = "#f97316";
         else if (p.kind === "slow") color = "#a855f7";
-        const grad = ctx.createRadialGradient(
-          p.x - p.r * 0.4,
-          p.y - p.r * 0.4,
-          2,
-          p.x,
-          p.y,
-          p.r
-        );
-        grad.addColorStop(0, "#ffffff");
-        grad.addColorStop(1, color);
-        ctx.fillStyle = grad;
+        ctx.fillStyle = color;
         ctx.fill();
         ctx.restore();
       });
