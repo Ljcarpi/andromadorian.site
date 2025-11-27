@@ -62,7 +62,7 @@
       inset: 0;
       z-index: -1;
       pointer-events: none;
-      filter: blur(40px) saturate(110%);
+      filter: blur(30px) saturate(110%);
       transform: translateZ(0);
     }
 
@@ -88,6 +88,38 @@
       width: 100%;
       max-width: 1400px;
       padding: 12px;
+    }
+
+    /* Barra superior de navegación */
+    .top-nav {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .top-nav a {
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+      color: #e5e7eb;
+      transition:
+        background 0.15s ease,
+        color 0.15s ease,
+        box-shadow 0.15s ease,
+        transform 0.1s ease;
+    }
+
+    .top-nav a:hover {
+      background: radial-gradient(circle, rgba(129, 140, 248, 0.16), transparent 70%);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.9);
+      transform: translateY(-1px);
     }
 
     .view {
@@ -540,6 +572,11 @@
   <div class="blurred-gradient-bg" aria-hidden="true"></div>
 
   <div class="app">
+    <div class="top-nav">
+      <a href="https://andromadorian.site/juegos">Volver al menú de juegos</a>
+      <a href="https://andromadorian.site">Volver al sitio principal</a>
+    </div>
+
     <!-- MAIN MENU -->
     <section id="viewMenu" class="view active">
       <div class="view-header">
@@ -583,9 +620,6 @@
                 <div class="skin-label">Skin 3</div>
               </div>
             </div>
-            <p class="hint">
-              Place PNGs in <span class="kbd">/assets/faces/face1.png</span>, <span class="kbd">face2.png</span>, etc.
-            </p>
           </div>
 
           <div class="section">
@@ -723,7 +757,8 @@
         </div>
       </div>
 
-      <canvas id="gameCanvas" width="1280" height="640"></canvas>
+      <!-- Menor resolución interna para mejor rendimiento -->
+      <canvas id="gameCanvas" width="960" height="540"></canvas>
       <p class="touch-hint">
         Space / tap = jump (up to 3 default jumps). Shift = drop down from platforms.<br />
         Stomp from above to crush hazards and refill jumps.
@@ -864,9 +899,9 @@
 
     /* Más velocidad en cada modo */
     const difficultySettings = {
-      easy:  { speed: 360, minSpawn: 0.5,  maxSpawn: 0.75 },
-      normal:{ speed: 460, minSpawn: 0.35, maxSpawn: 0.55 },
-      hard:  { speed: 560, minSpawn: 0.25, maxSpawn: 0.45 },
+      easy:  { speed: 380, minSpawn: 0.5,  maxSpawn: 0.75 },
+      normal:{ speed: 500, minSpawn: 0.35, maxSpawn: 0.55 },
+      hard:  { speed: 620, minSpawn: 0.25, maxSpawn: 0.45 },
     };
 
     diffButtons.forEach((btn) => {
@@ -910,7 +945,7 @@
     const BASE_MAX_JUMPS = 3;
     const LEVEL_DURATION = 26;
 
-    const PLATFORM_LENGTH = 300;
+    const PLATFORM_LENGTH = 260;
     const PLATFORM_GAP = 200;
     const PLATFORM_BANDS = 3;
 
@@ -962,8 +997,6 @@
         skyTop: "#0ea5e9",
         skyBottom: "#020617",
         glow: "#fde047",
-        far: "#0f172a",
-        mid: "#1e293b",
         ground: "#16a34a",
       },
       {
@@ -971,8 +1004,6 @@
         skyTop: "#fb923c",
         skyBottom: "#7c2d12",
         glow: "#facc15",
-        far: "#92400e",
-        mid: "#b45309",
         ground: "#ca8a04",
       },
       {
@@ -980,42 +1011,15 @@
         skyTop: "#1e293b",
         skyBottom: "#020617",
         glow: "#a855f7",
-        far: "#020617",
-        mid: "#1f2937",
         ground: "#16a34a",
       },
     ];
 
-    let parallaxLayers = [];
+    let currentTheme = themes[0];
 
     function applyTheme() {
-      const theme = themes[currentLevel % themes.length];
-
-      parallaxLayers = [
-        {
-          color: theme.far,
-          y: WORLD_HEIGHT - 380,
-          h: 260,
-          speedFactor: 0.2,
-          offset: 0,
-        },
-        {
-          color: theme.mid,
-          y: WORLD_HEIGHT - 290,
-          h: 230,
-          speedFactor: 0.45,
-          offset: 0,
-        },
-        {
-          color: theme.ground,
-          y: GROUND_Y,
-          h: GROUND_HEIGHT + 60,
-          speedFactor: 1,
-          offset: 0,
-        },
-      ];
-
-      levelText.textContent = `${currentLevel + 1} – ${theme.name}`;
+      currentTheme = themes[currentLevel % themes.length];
+      levelText.textContent = `${currentLevel + 1} – ${currentTheme.name}`;
     }
 
     function initPlatforms() {
@@ -1055,30 +1059,7 @@
     }
 
     function resetGameState() {
-      const theme = themes[0];
-      parallaxLayers = [
-        {
-          color: theme.far,
-          y: WORLD_HEIGHT - 380,
-          h: 260,
-          speedFactor: 0.2,
-          offset: 0,
-        },
-        {
-          color: theme.mid,
-          y: WORLD_HEIGHT - 290,
-          h: 230,
-          speedFactor: 0.45,
-          offset: 0,
-        },
-        {
-          color: theme.ground,
-          y: GROUND_Y,
-          h: GROUND_HEIGHT + 60,
-          speedFactor: 1,
-          offset: 0,
-        },
-      ];
+      currentTheme = themes[0];
 
       /* Solo cabeza (sin cuerpo) */
       player = {
@@ -1188,6 +1169,11 @@
 
       const windowSpawn = obstacleSpawnWindow();
       nextObstacleSpawn = rand(windowSpawn.min, windowSpawn.max);
+
+      // Límite duro para no acumular demasiados obstáculos
+      if (obstacles.length > 45) {
+        obstacles.splice(0, obstacles.length - 45);
+      }
     }
 
     function spawnPowerup() {
@@ -1204,6 +1190,10 @@
       });
 
       nextPowerSpawn = rand(6, 11);
+
+      if (powerups.length > 15) {
+        powerups.splice(0, powerups.length - 15);
+      }
     }
 
     function liveScore() {
@@ -1311,13 +1301,7 @@
         updatePowerHUD();
       }
 
-      parallaxLayers.forEach((layer) => {
-        layer.offset -= worldSpeed * layer.speedFactor * dt;
-        if (layer.offset < -WORLD_WIDTH) {
-          layer.offset += WORLD_WIDTH;
-        }
-      });
-
+      // Plataformas
       platforms.forEach((pl) => {
         pl.x -= worldSpeed * dt;
       });
@@ -1344,20 +1328,21 @@
         }
       }
 
+      // Obstáculos
       obstacleTimer += dt;
       if (obstacleTimer >= nextObstacleSpawn) {
         obstacleTimer = 0;
         spawnObstacle();
       }
 
+      // Powerups
       powerTimer += dt;
       if (powerTimer >= nextPowerSpawn) {
         powerTimer = 0;
         spawnPowerup();
       }
 
-      const pRect = playerRect();
-
+      // Física del jugador
       player.vy += GRAVITY * dt;
       let newY = player.y + player.vy * dt;
 
@@ -1398,6 +1383,7 @@
 
       player.y = newY;
 
+      // Movimiento de obstáculos y powerups
       obstacles.forEach((o) => {
         o.baseX -= worldSpeed * dt;
         if (o.moveType === "hmove") {
@@ -1414,6 +1400,7 @@
 
       const pRectNow = playerRect();
 
+      // Colisiones con powerups
       for (let i = powerups.length - 1; i >= 0; i--) {
         const p = powerups[i];
         const puRect = {
@@ -1428,6 +1415,7 @@
         }
       }
 
+      // Colisiones con obstáculos
       let collided = false;
       for (let i = obstacles.length - 1; i >= 0; i--) {
         const o = obstacles[i];
@@ -1465,7 +1453,7 @@
     }
 
     function drawBackground(ctx) {
-      const theme = themes[currentLevel % themes.length];
+      const theme = currentTheme;
 
       const grad = ctx.createLinearGradient(0, 0, 0, WORLD_HEIGHT);
       grad.addColorStop(0, theme.skyTop);
@@ -1481,21 +1469,7 @@
       ctx.fill();
       ctx.restore();
 
-      parallaxLayers.forEach((layer) => {
-        ctx.fillStyle = layer.color;
-        let x = layer.offset;
-        while (x < WORLD_WIDTH + 200) {
-          ctx.beginPath();
-          ctx.moveTo(x, layer.y + layer.h);
-          ctx.lineTo(x + 160, layer.y);
-          ctx.lineTo(x + 320, layer.y + layer.h);
-          ctx.closePath();
-          ctx.fill();
-          x += 320;
-        }
-      });
-
-      /* Piso bien marcado */
+      // Piso bien marcado
       ctx.save();
       ctx.fillStyle = "#111827";
       ctx.fillRect(0, GROUND_Y, WORLD_WIDTH, GROUND_HEIGHT);
@@ -1525,12 +1499,9 @@
     function drawObstacles(ctx) {
       obstacles.forEach((o) => {
         ctx.save();
-        const baseColor = "#f97316";
-        ctx.shadowColor = "rgba(249, 115, 22, 0.8)";
-        ctx.shadowBlur = 18;
 
         if (o.shape === "box") {
-          ctx.fillStyle = baseColor;
+          ctx.fillStyle = "#f97316";
           ctx.fillRect(o.x, o.y, o.w, o.h);
         } else if (o.shape === "circle") {
           ctx.fillStyle = "#22d3ee";
@@ -1572,8 +1543,6 @@
         grad.addColorStop(0, "#ffffff");
         grad.addColorStop(1, color);
         ctx.fillStyle = grad;
-        ctx.shadowColor = color;
-        ctx.shadowBlur = 14;
         ctx.fill();
         ctx.restore();
       });
@@ -1586,7 +1555,6 @@
       const headX = player.x - 10;
       const headY = player.y - 10;
 
-      ctx.shadowBlur = 0;
       if (faceImg.complete && faceImg.naturalWidth > 0) {
         ctx.drawImage(faceImg, headX, headY, headSize, headSize);
       } else {
