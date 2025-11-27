@@ -2,22 +2,19 @@
 <html lang="es" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <title>Andromadorian Runner – Neon Skies</title>
+  <title>Andro Runner – Neon Skies</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    /* Fuente y fondo del sitio principal */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
     :root {
-      /* Paleta del sitio principal */
       --violet: #d187e8;
       --violet-2: #e887e2;
       --blue: #87c9e8;
       --teal: #e8e287;
       --teal-2: #f5f0ab;
 
-      /* Paleta original del juego */
       --bg-main: radial-gradient(circle at top, #0b1120 0, #020617 60%);
       --panel: rgba(15, 23, 42, 0.98);
       --accent: #06b6d4;
@@ -46,7 +43,7 @@
 
     body {
       min-height: 100vh;
-      background: #020617; /* base oscura; el gradient real va en la capa difuminada */
+      background: #020617;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -60,7 +57,6 @@
       padding: 0;
     }
 
-    /* Capa de fondo difuminado tomada del indextest */
     .blurred-gradient-bg {
       position: fixed;
       inset: 0;
@@ -88,7 +84,6 @@
         radial-gradient(120% 120% at 50% 30%, rgba(255, 255, 255, .25) 0%, rgba(255, 255, 255, 0) 60%);
     }
 
-    /* App del juego (igual que antes, con pequeños ajustes para móviles) */
     .app {
       width: 100%;
       max-width: 1400px;
@@ -104,7 +99,6 @@
       min-height: min(96vh, 780px);
       position: relative;
       overflow: hidden;
-      /* ligero efecto glass para acercarse al sitio principal */
       background-color: rgba(10, 12, 20, 0.94);
       border: 1px solid rgba(255, 255, 255, 0.06);
       backdrop-filter: blur(10px);
@@ -138,7 +132,6 @@
       color: var(--muted);
     }
 
-    /* CARD / MENU */
     .card {
       background: radial-gradient(circle at top, #0b1120 0, #020617 52%, #020617 100%);
       border-radius: 20px;
@@ -342,7 +335,6 @@
         Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     }
 
-    /* INSTRUCTIONS */
     #viewInstructions .card {
       max-width: 760px;
     }
@@ -383,7 +375,6 @@
       flex-wrap: wrap;
     }
 
-    /* GAME */
     #viewGame {
       align-items: stretch;
       justify-content: flex-start;
@@ -466,7 +457,6 @@
       color: var(--muted);
     }
 
-    /* GAME OVER */
     #viewGameOver .card {
       max-width: 440px;
       background: radial-gradient(circle at top, #0f172a 0, #020617 70%);
@@ -547,14 +537,13 @@
   </style>
 </head>
 <body>
-  <!-- Fondo con el mismo estilo del sitio principal -->
   <div class="blurred-gradient-bg" aria-hidden="true"></div>
 
   <div class="app">
     <!-- MAIN MENU -->
     <section id="viewMenu" class="view active">
       <div class="view-header">
-        <h1>ANDROMADORIAN RUNNER</h1>
+        <h1>ANDRO RUNNER</h1>
         <p>Triple-jump skies, sliding islands and swappable neon heads.</p>
       </div>
 
@@ -773,7 +762,7 @@
           </div>
 
           <p class="go-tip">
-            Tip: Pick a skin you like, ride upper lanes, drop down with Shift and chain stomps to keep your triple jump alive.
+            Tip: Ride upper lanes, drop down with Shift and chain stomps to keep your triple jump alive.
           </p>
         </div>
       </div>
@@ -781,10 +770,6 @@
   </div>
 
   <script>
-    // AUDIO:
-    // Coloca un archivo MP3 de música de partida en:
-    // /assets/audio/game-start.mp3
-    // Se reproducirá en loop SOLO mientras la partida esté en curso.
     const bgMusic = new Audio("assets/audio/game-start.mp3");
     bgMusic.loop = true;
 
@@ -857,7 +842,6 @@
       } catch (_) {}
     }
 
-    // VIEWS
     const views = {
       menu: document.getElementById("viewMenu"),
       instructions: document.getElementById("viewInstructions"),
@@ -872,17 +856,17 @@
       currentView = id;
     }
 
-    // DIFFICULTY
     const diffToggle = document.getElementById("diffToggle");
     const diffButtons = diffToggle.querySelectorAll(".diff-btn");
     const modeText = document.getElementById("modeText");
 
     let difficulty = "normal";
 
+    /* Más velocidad en cada modo */
     const difficultySettings = {
-      easy: { speed: 280, minSpawn: 0.5, maxSpawn: 0.75 },
-      normal: { speed: 340, minSpawn: 0.35, maxSpawn: 0.55 },
-      hard: { speed: 400, minSpawn: 0.22, maxSpawn: 0.42 },
+      easy:  { speed: 360, minSpawn: 0.5,  maxSpawn: 0.75 },
+      normal:{ speed: 460, minSpawn: 0.35, maxSpawn: 0.55 },
+      hard:  { speed: 560, minSpawn: 0.25, maxSpawn: 0.45 },
     };
 
     diffButtons.forEach((btn) => {
@@ -895,12 +879,10 @@
       });
     });
 
-    // SKINS
     const skinGrid = document.getElementById("skinGrid");
     const skinOptions = skinGrid.querySelectorAll(".skin-option");
     let selectedSkinFile = "face1.png";
 
-    // Runner head image (big)
     const faceImg = new Image();
     faceImg.src = "assets/faces/" + selectedSkinFile;
 
@@ -913,14 +895,12 @@
       });
     });
 
-    // GAME CONSTANTS & STATE
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
 
     const WORLD_WIDTH = canvas.width;
     const WORLD_HEIGHT = canvas.height;
 
-    // Menos piso, más espacio superior
     const GROUND_HEIGHT = 110;
     const GROUND_Y = WORLD_HEIGHT - GROUND_HEIGHT;
     const CEILING_Y = 40;
@@ -934,7 +914,6 @@
     const PLATFORM_GAP = 200;
     const PLATFORM_BANDS = 3;
 
-    // HUD refs
     const scoreText = document.getElementById("scoreText");
     const levelText = document.getElementById("levelText");
     const shieldText = document.getElementById("shieldText");
@@ -975,8 +954,6 @@
     let speedFactor = 1;
 
     let runAnimTime = 0;
-
-    // Drop-through control
     let dropRequested = false;
 
     const themes = [
@@ -987,7 +964,7 @@
         glow: "#fde047",
         far: "#0f172a",
         mid: "#1e293b",
-        ground: "#22c55e",
+        ground: "#16a34a",
       },
       {
         name: "Solar Desert",
@@ -996,7 +973,7 @@
         glow: "#facc15",
         far: "#92400e",
         mid: "#b45309",
-        ground: "#facc15",
+        ground: "#ca8a04",
       },
       {
         name: "Night Peaks",
@@ -1005,7 +982,7 @@
         glow: "#a855f7",
         far: "#020617",
         mid: "#1f2937",
-        ground: "#22c55e",
+        ground: "#16a34a",
       },
     ];
 
@@ -1103,12 +1080,12 @@
         },
       ];
 
-      // Runner: solo piernitas + cabeza grande
+      /* Solo cabeza (sin cuerpo) */
       player = {
-        w: 34,
-        h: 56,
+        w: 40,
+        h: 40,
         x: WORLD_WIDTH * 0.16,
-        y: GROUND_Y - 56,
+        y: GROUND_Y - 40,
         vy: 0,
         jumpsUsed: 0,
       };
@@ -1140,14 +1117,12 @@
       runAnimTime = 0;
       dropRequested = false;
 
-      // aplicar skin seleccionada
       faceImg.src = "assets/faces/" + selectedSkinFile;
     }
 
     function spawnObstacle() {
       const typeRoll = Math.random();
 
-      // un poco más pequeños
       let w, h;
       if (typeRoll < 0.4) {
         w = 30;
@@ -1182,7 +1157,6 @@
       else if (shapeRoll < 0.8) shape = "circle";
       else shape = "spike";
 
-      // Movimiento horizontal más marcado
       let moveType = "static";
       let amplitude = 0;
       let moveSpeed = 0;
@@ -1319,18 +1293,15 @@
 
       const worldSpeed = targetSpeed * speedFactor;
 
-      // time & score
       survivalTime += dt;
       updateScoreHUD();
 
-      // level progression
       const newLevel = Math.floor(survivalTime / LEVEL_DURATION);
       if (newLevel !== currentLevel) {
         currentLevel = newLevel;
         applyTheme();
       }
 
-      // jump boost decay
       if (jumpBoostTime > 0) {
         jumpBoostTime -= dt;
         if (jumpBoostTime <= 0) {
@@ -1340,7 +1311,6 @@
         updatePowerHUD();
       }
 
-      // parallax
       parallaxLayers.forEach((layer) => {
         layer.offset -= worldSpeed * layer.speedFactor * dt;
         if (layer.offset < -WORLD_WIDTH) {
@@ -1348,7 +1318,6 @@
         }
       });
 
-      // platforms
       platforms.forEach((pl) => {
         pl.x -= worldSpeed * dt;
       });
@@ -1375,14 +1344,12 @@
         }
       }
 
-      // spawn obstacles
       obstacleTimer += dt;
       if (obstacleTimer >= nextObstacleSpawn) {
         obstacleTimer = 0;
         spawnObstacle();
       }
 
-      // spawn powerups
       powerTimer += dt;
       if (powerTimer >= nextPowerSpawn) {
         powerTimer = 0;
@@ -1391,11 +1358,9 @@
 
       const pRect = playerRect();
 
-      // physics
       player.vy += GRAVITY * dt;
       let newY = player.y + player.vy * dt;
 
-      // drop-through logic
       let onPlatform = false;
       const feetY = newY + player.h;
       for (const pl of platforms) {
@@ -1418,7 +1383,6 @@
       }
       dropRequested = false;
 
-      // ground
       if (!onPlatform) {
         if (feetY >= GROUND_Y) {
           newY = GROUND_Y - player.h;
@@ -1427,7 +1391,6 @@
         }
       }
 
-      // ceiling
       if (newY < CEILING_Y) {
         newY = CEILING_Y;
         if (player.vy < 0) player.vy = 0;
@@ -1435,7 +1398,6 @@
 
       player.y = newY;
 
-      // move obstacles & powerups
       obstacles.forEach((o) => {
         o.baseX -= worldSpeed * dt;
         if (o.moveType === "hmove") {
@@ -1450,10 +1412,8 @@
         p.x -= worldSpeed * dt;
       });
 
-      // collisions
       const pRectNow = playerRect();
 
-      // powerup collisions
       for (let i = powerups.length - 1; i >= 0; i--) {
         const p = powerups[i];
         const puRect = {
@@ -1468,7 +1428,6 @@
         }
       }
 
-      // obstacle collisions
       let collided = false;
       for (let i = obstacles.length - 1; i >= 0; i--) {
         const o = obstacles[i];
@@ -1484,7 +1443,6 @@
           const obstacleTop = oRect.y;
 
           if (player.vy > 0 && playerBottom - obstacleTop < 18) {
-            // stomp
             crushObstacle(i);
             player.vy = -JUMP_FORCE * 0.7;
             player.jumpsUsed = 0;
@@ -1500,25 +1458,21 @@
         return;
       }
 
-      // cleanup offscreen
       obstacles = obstacles.filter((o) => o.x + o.w > -80);
       powerups = powerups.filter((p) => p.x + p.r > -80);
 
-      // run animation time
       runAnimTime += dt;
     }
 
     function drawBackground(ctx) {
       const theme = themes[currentLevel % themes.length];
 
-      // sky gradient
       const grad = ctx.createLinearGradient(0, 0, 0, WORLD_HEIGHT);
       grad.addColorStop(0, theme.skyTop);
       grad.addColorStop(1, theme.skyBottom);
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
 
-      // sun / glow
       ctx.save();
       ctx.globalAlpha = 0.55;
       ctx.fillStyle = theme.glow;
@@ -1527,7 +1481,6 @@
       ctx.fill();
       ctx.restore();
 
-      // parallax layers
       parallaxLayers.forEach((layer) => {
         ctx.fillStyle = layer.color;
         let x = layer.offset;
@@ -1541,6 +1494,18 @@
           x += 320;
         }
       });
+
+      /* Piso bien marcado */
+      ctx.save();
+      ctx.fillStyle = "#111827";
+      ctx.fillRect(0, GROUND_Y, WORLD_WIDTH, GROUND_HEIGHT);
+      ctx.strokeStyle = "#22c55e";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(0, GROUND_Y);
+      ctx.lineTo(WORLD_WIDTH, GROUND_Y);
+      ctx.stroke();
+      ctx.restore();
     }
 
     function drawPlatforms(ctx) {
@@ -1561,8 +1526,6 @@
       obstacles.forEach((o) => {
         ctx.save();
         const baseColor = "#f97316";
-
-        // glow
         ctx.shadowColor = "rgba(249, 115, 22, 0.8)";
         ctx.shadowBlur = 18;
 
@@ -1575,7 +1538,6 @@
           ctx.arc(o.x + o.w / 2, o.y + o.h / 2, o.w / 2, 0, Math.PI * 2);
           ctx.fill();
         } else {
-          // spike
           ctx.fillStyle = "#eab308";
           ctx.beginPath();
           ctx.moveTo(o.x, o.y + o.h);
@@ -1620,22 +1582,10 @@
     function drawPlayer(ctx) {
       ctx.save();
 
-      // legs / body
-      ctx.fillStyle = "#0f172a";
-      ctx.strokeStyle = "#22c55e";
-      ctx.lineWidth = 2;
-      ctx.shadowColor = "rgba(34, 197, 94, 0.8)";
-      ctx.shadowBlur = 16;
-
-      const bodyH = 22;
-      const bodyY = player.y + player.h - bodyH;
-      ctx.fillRect(player.x, bodyY, player.w, bodyH);
-      ctx.strokeRect(player.x, bodyY, player.w, bodyH);
-
-      // head (PNG)
-      const headSize = 52;
+      const headSize = 60;
       const headX = player.x - 10;
-      const headY = player.y - 12;
+      const headY = player.y - 10;
+
       ctx.shadowBlur = 0;
       if (faceImg.complete && faceImg.naturalWidth > 0) {
         ctx.drawImage(faceImg, headX, headY, headSize, headSize);
@@ -1646,7 +1596,6 @@
         ctx.fill();
       }
 
-      // shield
       if (shieldActive) {
         ctx.strokeStyle = "#22c55e";
         ctx.lineWidth = 3;
@@ -1655,7 +1604,7 @@
         ctx.arc(
           headX + headSize / 2,
           headY + headSize / 2,
-          headSize * 0.7,
+          headSize * 0.75,
           0,
           Math.PI * 2
         );
@@ -1663,29 +1612,9 @@
         ctx.globalAlpha = 1;
       }
 
-      // small note with jumps left
-      const jumpsLeft = Math.max(0, maxJumps - player.jumpsUsed);
-      const noteX = player.x + player.w + 12;
-      const noteY = player.y + 2;
-      const noteW = 90;
-      const noteH = 26;
-      ctx.fillStyle = "rgba(15, 23, 42, 0.9)";
-      ctx.fillRect(noteX, noteY, noteW, noteH);
-      ctx.strokeStyle = "rgba(148, 163, 184, 0.9)";
-      ctx.lineWidth = 1.5;
-      ctx.strokeRect(noteX, noteY, noteW, noteH);
-      ctx.fillStyle = "#e5f0ff";
-      ctx.font = "10px system-ui";
-      ctx.textAlign = "left";
-      ctx.textBaseline = "top";
-      ctx.fillText("JUMPS", noteX + 6, noteY + 3);
-      ctx.fillStyle = "#22c55e";
-      ctx.fillText("LEFT: " + jumpsLeft, noteX + 6, noteY + 13);
-
       ctx.restore();
     }
 
-    // LOOP
     function drawGame() {
       ctx.clearRect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
       drawBackground(ctx);
@@ -1732,7 +1661,6 @@
       showView("gameOver");
     }
 
-    // INPUT
     function tryJump() {
       if (!isRunning) return;
       if (player.jumpsUsed < maxJumps) {
@@ -1772,11 +1700,9 @@
       );
     }
 
-    // Soporta tap tanto en el canvas como en el body (móvil)
     addTapJump(canvas);
     addTapJump(document.body);
 
-    // BUTTONS
     document.getElementById("btnPlay").addEventListener("click", () => {
       startGame();
     });
