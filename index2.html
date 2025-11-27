@@ -187,63 +187,61 @@
       color:#000 !important; font-weight:700; opacity:1;
     }
 
-    /* ===== OJOS QUE SIGUEN EL CURSOR ===== */
-    .eyes-wrapper{
-      display:flex;
-      justify-content:center;
-      margin-bottom:1.5rem;
+    // ===== OJOS SIGUIENDO EL CURSOR (versión suave) =====
+    const eyes = document.querySelectorAll('.eye');
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+
+    // Posición “objetivo” del mouse
+    window.addEventListener('mousemove', (event) => {
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+    });
+
+    // Si el mouse sale de la ventana, los ojos vuelven al centro
+    window.addEventListener('mouseleave', () => {
+      mouseX = window.innerWidth / 2;
+      mouseY = window.innerHeight / 2;
+    });
+
+    // Estado por ojo (posición actual suavizada)
+    const eyeState = new WeakMap();
+    eyes.forEach((eye) => {
+      eyeState.set(eye, { x: 0, y: 0 });
+    });
+
+    function animateEyes() {
+      eyes.forEach((eye) => {
+        const pupil = eye.querySelector('.pupil');
+        const rect = eye.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const dx = mouseX - centerX;
+        const dy = mouseY - centerY;
+        const angle = Math.atan2(dy, dx);
+
+        const maxOffset = rect.width * 0.18; // límite del movimiento
+        const targetX = Math.cos(angle) * maxOffset;
+        const targetY = Math.sin(angle) * maxOffset;
+
+        const state = eyeState.get(eye);
+        const smoothing = 0.15; // cuanto más bajo, más suave
+
+        state.x += (targetX - state.x) * smoothing;
+        state.y += (targetY - state.y) * smoothing;
+
+        pupil.style.transform =
+          `translate(calc(-50% + ${state.x}px), calc(-50% + ${state.y}px))`;
+      });
+
+      requestAnimationFrame(animateEyes);
     }
-    .eyes-container{
-      display:flex;
-      gap:1.5rem;
-      align-items:center;
+
+    if (eyes.length) {
+      animateEyes();
     }
-    .eye{
-      width:72px;
-      height:72px;
-      border-radius:9999px;
-      background:#ffffff;
-      border:3px solid #020617;
-      position:relative;
-      overflow:hidden;
-      box-shadow:0 8px 20px rgba(15,23,42,0.35);
-    }
-    .dark .eye{
-      background:#f9fafb;
-      border-color:#020617;
-    }
-    .eye .pupil{
-      width:28px;
-      height:28px;
-      border-radius:9999px;
-      background:#020617;
-      position:absolute;
-      top:50%;
-      left:50%;
-      transform:translate(-50%, -50%);
-      transition:transform .08s linear;
-    }
-    .eye .pupil::after{
-      content:'';
-      position:absolute;
-      width:10px;
-      height:10px;
-      border-radius:9999px;
-      background:rgba(255,255,255,0.95);
-      top:18%;
-      left:22%;
-    }
-    @media (max-width:640px){
-      .eye{
-        width:56px;
-        height:56px;
-      }
-      .eye .pupil{
-        width:22px;
-        height:22px;
-      }
-    }
-  </style>
 
   <!-- ====== JSON-LD: ORGANIZATION + WEBSITE ====== -->
   <script type="application/ld+json">
