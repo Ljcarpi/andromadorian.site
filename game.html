@@ -539,7 +539,7 @@
       <!-- Main menu -->
       <div id="main-menu" class="screen active">
         <h1 class="title">ANDRO RUNNER</h1>
-        <div class="subtitle">Endless runner neón en 4 carriles</div>
+        <div class="subtitle">Endless runner neón en 12 carriles</div>
         <div class="neon-divider"></div>
 
         <div class="menu-buttons">
@@ -563,7 +563,7 @@
 
         <div class="footer-text">
           Usa flechas o A/D en PC • Botones táctiles en móvil •
-          <span>4 carriles, obstáculos rojos, monedas doradas y corazones de vida.</span>
+          <span>12 carriles, obstáculos rojos, monedas doradas y corazones de vida.</span>
         </div>
       </div>
 
@@ -643,7 +643,7 @@
             <span>Guía rápida</span>
           </div>
           <h2>Instrucciones</h2>
-          <p><strong>Objetivo:</strong> Corre por los 4 carriles, esquiva obstáculos y recoge monedas de energía y corazones para sobrevivir el mayor tiempo posible. La velocidad aumenta de forma gradual.</p>
+          <p><strong>Objetivo:</strong> Corre por los 12 carriles, esquiva obstáculos y recoge monedas de energía y corazones para sobrevivir el mayor tiempo posible.</p>
           <p><strong>Controles en PC:</strong></p>
           <ul>
             <li><strong>Flecha izquierda</strong> o tecla <strong>A</strong>: mover al carril de la izquierda.</li>
@@ -657,10 +657,10 @@
           <p><strong>Elementos:</strong></p>
           <ul>
             <li><strong>Obstáculos rojos:</strong> bloques grandes que ocupan casi todo el carril; restan una vida.</li>
-            <li><strong>Monedas doradas:</strong> más grandes, con forma de moneda y relieve; suman puntos extra inmediatos.</li>
+            <li><strong>Monedas doradas:</strong> más grandes, con forma de moneda y relieve; cada una suma <strong>100 puntos</strong>.</li>
             <li><strong>Corazones</strong> (pocos): recuperan una vida hasta un máximo de 4.</li>
           </ul>
-          <p><strong>Puntuación:</strong> se calcula con la distancia recorrida + bonus por monedas. Se guardan las 5 mejores partidas en tu navegador.</p>
+          <p><strong>Puntuación:</strong> se obtiene únicamente por monedas recogidas (100 puntos por moneda). Se guardan las 5 mejores partidas en tu navegador.</p>
 
           <div class="modal-footer">
             <button id="btn-close-instructions" class="btn small">
@@ -770,7 +770,7 @@
     (function () {
       "use strict";
 
-      const LANE_COUNT = 4;
+      const LANE_COUNT = 12;
 
       const mainMenu = document.getElementById("main-menu");
       const gameScreen = document.getElementById("game-screen");
@@ -825,7 +825,7 @@
           coinInterval: 650,
           heartInterval: 12000,
           speedIncrease: 0.00012,
-          coinScore: 80
+          coinScore: 80 // ya no se usa, pero se mantiene
         },
         normal: {
           name: "Normal",
@@ -1060,7 +1060,7 @@
           lanesX.push((i + 0.5) * laneWidth);
         }
 
-        // jugador pequeño, cuadrado y más abajo
+        // jugador pequeño, casi cuadrado; usaremos su bounding para el triángulo
         player.width = laneWidth * 0.16;
         player.height = player.width;
         player.y = height * 0.9;
@@ -1104,7 +1104,7 @@
         hitEffectTimer = 0;
         lifeEffectTimer = 0;
 
-        player.lane = 1; // segundo carril desde la izquierda
+        player.lane = 1;
 
         updateLivesUI();
         scoreDisplay.textContent = "0";
@@ -1134,7 +1134,7 @@
         const deltaFactor = deltaMs / 16.67;
 
         currentSpeed += difficultyConfig.speedIncrease * deltaMs;
-        distance += currentSpeed * deltaFactor * 0.6;
+        distance += currentSpeed * deltaFactor * 0.6; // ya no se usa para puntaje, pero se deja
 
         obstacleTimer -= deltaMs;
         coinTimer -= deltaMs;
@@ -1160,7 +1160,6 @@
           heartTimer = difficultyConfig.heartInterval * (0.8 + Math.random() * 0.4);
         }
 
-        // desplazamiento
         const speedPx = currentSpeed * 1.4 * deltaFactor;
 
         obstacles.forEach(o => { o.y += speedPx; });
@@ -1179,8 +1178,8 @@
 
         comprobarColisiones();
 
-        const baseScore = distance * 1.1 + coinCount * difficultyConfig.coinScore;
-        score = baseScore;
+        // puntaje solo por moneda: 100 puntos por moneda
+        score = coinCount * 100;
         scoreDisplay.textContent = formatScore(score);
       }
 
@@ -1208,8 +1207,8 @@
         obstacles.push({
           lane,
           y,
-          width: laneWidth * 0.65,      // ocupa más el carril
-          height: player.height * 1.1   // un poco más alto
+          width: laneWidth * 0.65,
+          height: player.height * 1.1
         });
       }
 
@@ -1222,7 +1221,7 @@
         coins.push({
           lane,
           y,
-          radius: player.width * 0.6    // moneda más grande
+          radius: player.width * 0.6 // más grande
         });
       }
 
@@ -1315,8 +1314,8 @@
 
         const laneWidth = w / LANE_COUNT;
         ctx.setLineDash([12, 18]);
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = "rgba(0, 216, 255, 0.5)";
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = "rgba(0, 216, 255, 0.35)";
         for (let i = 1; i < LANE_COUNT; i++) {
           const x = laneWidth * i;
           ctx.beginPath();
@@ -1327,12 +1326,12 @@
         ctx.setLineDash([]);
 
         ctx.strokeStyle = "rgba(108, 92, 231, 0.3)";
-        ctx.lineWidth = 4;
+        ctx.lineWidth = 3;
         ctx.beginPath();
         ctx.moveTo(10, h * 0.12);
-        ctx.lineTo(laneWidth * 0.6, h * 0.95);
+        ctx.lineTo(laneWidth * 1.5, h * 0.95);
         ctx.moveTo(w - 10, h * 0.12);
-        ctx.lineTo(w - laneWidth * 0.6, h * 0.95);
+        ctx.lineTo(w - laneWidth * 1.5, h * 0.95);
         ctx.stroke();
 
         // obstáculos rojos (más grandes y con forma)
@@ -1355,7 +1354,6 @@
           roundRect(ctx, x, y, o.width, o.height, rad);
           ctx.fill();
 
-          // franja central
           ctx.shadowBlur = 0;
           ctx.fillStyle = "rgba(255, 255, 255, 0.08)";
           ctx.fillRect(x + o.width * 0.1, y + o.height * 0.4, o.width * 0.8, o.height * 0.2);
@@ -1388,21 +1386,18 @@
           ctx.strokeStyle = "rgba(255, 255, 255, 0.9)";
           ctx.stroke();
 
-          // borde interior
           ctx.beginPath();
           ctx.lineWidth = 1.9;
           ctx.strokeStyle = "rgba(200, 140, 20, 0.9)";
           ctx.arc(cx, cy, r * 0.7, 0, Math.PI * 2);
           ctx.stroke();
 
-          // relieve tipo "C"
           ctx.beginPath();
           ctx.lineWidth = 2;
           ctx.strokeStyle = "rgba(180, 110, 0, 0.9)";
           ctx.arc(cx, cy, r * 0.45, -0.8, 0.8);
           ctx.stroke();
 
-          // brillo lateral
           ctx.beginPath();
           ctx.strokeStyle = "rgba(255, 255, 255, 0.85)";
           ctx.lineWidth = 1.4;
@@ -1445,59 +1440,53 @@
           ctx.restore();
         });
 
-        // jugador: cuadrado con detalles
-        const px = lanesX[player.lane] - player.width / 2;
-        const py = player.y - player.height / 2;
+        // jugador: triángulo bicolor
+        const cxPlayer = lanesX[player.lane];
+        const pyTop = player.y - player.height / 2;
+        const pyBottom = player.y + player.height / 2;
+        const halfWidth = player.width / 2;
 
-        const gradientPlayer = ctx.createLinearGradient(px, py, px + player.width, py + player.height);
-        gradientPlayer.addColorStop(0, "#00d8ff");
-        gradientPlayer.addColorStop(0.5, "#3f9cff");
-        gradientPlayer.addColorStop(1, "#6c5ce7");
+        const gradPlayer = ctx.createLinearGradient(
+          cxPlayer - halfWidth,
+          pyBottom,
+          cxPlayer + halfWidth,
+          pyBottom
+        );
+        gradPlayer.addColorStop(0, "#00d8ff");
+        gradPlayer.addColorStop(0.5, "#3f9cff");
+        gradPlayer.addColorStop(1, "#ff6bcb");
 
-        ctx.fillStyle = gradientPlayer;
         ctx.shadowColor = "rgba(0, 216, 255, 0.9)";
         ctx.shadowBlur = 22;
 
-        const radius = 7;
+        ctx.fillStyle = gradPlayer;
         ctx.beginPath();
-        roundRect(ctx, px, py, player.width, player.height, radius);
+        ctx.moveTo(cxPlayer, pyTop);                   // punta superior
+        ctx.lineTo(cxPlayer - halfWidth, pyBottom);    // esquina inferior izquierda
+        ctx.lineTo(cxPlayer + halfWidth, pyBottom);    // esquina inferior derecha
+        ctx.closePath();
         ctx.fill();
 
         ctx.shadowBlur = 0;
-
-        // "ventana" central
-        ctx.fillStyle = "rgba(5, 12, 45, 0.95)";
-        const windowSize = player.height * 0.55;
-        ctx.beginPath();
-        roundRect(
-          ctx,
-          px + player.width * 0.18,
-          py + player.height * 0.12,
-          player.width * 0.64,
-          windowSize,
-          5
-        );
-        ctx.fill();
-
-        // marco de neón alrededor del jugador
-        ctx.strokeStyle = "rgba(255, 255, 255, 0.35)";
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        roundRect(ctx, px + 1.5, py + 1.5, player.width - 3, player.height - 3, radius - 2);
+        ctx.lineWidth = 1.7;
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
         ctx.stroke();
 
-        // detalles inferiores
-        ctx.fillStyle = "#00d8ff";
-        ctx.fillRect(px + 3, py + player.height * 0.75, player.width * 0.32, 3);
-        ctx.fillStyle = "#ff6bcb";
-        ctx.fillRect(px + player.width * 0.64, py + player.height * 0.75, player.width * 0.32 - 3, 3);
+        // línea interna que divide el triángulo (bicolor)
+        ctx.beginPath();
+        ctx.moveTo(cxPlayer, pyTop + (pyBottom - pyTop) * 0.4);
+        ctx.lineTo(cxPlayer, pyBottom - 1);
+        ctx.strokeStyle = "rgba(0, 0, 0, 0.25)";
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
 
+        // anillos de efectos
         if (coinEffectTimer > 0) {
           const alpha = coinEffectTimer / 180;
           ctx.strokeStyle = `rgba(255, 221, 100, ${alpha})`;
           ctx.lineWidth = 2;
           ctx.beginPath();
-          ctx.arc(px + player.width / 2, py + player.height / 2, player.width * 1.1, 0, Math.PI * 2);
+          ctx.arc(cxPlayer, player.y, player.width * 1.1, 0, Math.PI * 2);
           ctx.stroke();
         }
 
@@ -1506,7 +1495,7 @@
           ctx.strokeStyle = `rgba(255, 105, 180, ${alpha})`;
           ctx.lineWidth = 3;
           ctx.beginPath();
-          ctx.arc(px + player.width / 2, py + player.height / 2, player.width * 1.35, 0, Math.PI * 2);
+          ctx.arc(cxPlayer, player.y, player.width * 1.35, 0, Math.PI * 2);
           ctx.stroke();
         }
 
