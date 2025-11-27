@@ -797,7 +797,7 @@
                   <input type="radio" name="difficulty" value="hard">
                   <div>
                     <div class="label-main">Difícil</div>
-                    <div class="label-desc">Muy rápido, más obstáculos, 1 vida.</div>
+                    <div class="label-desc">Rápido, más obstáculos, 1 vida.</div>
                   </div>
                 </label>
               </div>
@@ -922,29 +922,29 @@
       const DIFFICULTIES = {
         easy: {
           name: "Fácil",
-          baseSpeed: 4,
+          baseSpeed: 3.2,
           lives: 3,
-          obstacleInterval: 900,
-          coinInterval: 600,
-          speedIncrease: 0.0009,
+          obstacleInterval: 950,
+          coinInterval: 650,
+          speedIncrease: 0.0007,
           coinScore: 60
         },
         normal: {
           name: "Normal",
-          baseSpeed: 5.5,
+          baseSpeed: 4.5,
           lives: 2,
-          obstacleInterval: 700,
-          coinInterval: 820,
-          speedIncrease: 0.0011,
+          obstacleInterval: 760,
+          coinInterval: 880,
+          speedIncrease: 0.0009,
           coinScore: 70
         },
         hard: {
           name: "Difícil",
-          baseSpeed: 7,
+          baseSpeed: 5.8,
           lives: 1,
-          obstacleInterval: 480,
-          coinInterval: 1050,
-          speedIncrease: 0.0016,
+          obstacleInterval: 520,
+          coinInterval: 1120,
+          speedIncrease: 0.0013,
           coinScore: 80
         }
       };
@@ -1063,10 +1063,8 @@
         const table = loadScoreTable();
         table.push(entry);
 
-        // ordena de mayor a menor
         table.sort((a, b) => b.points - a.points);
 
-        // mantén solo top 5
         const trimmed = table.slice(0, 5);
 
         try {
@@ -1173,15 +1171,14 @@
 
         const viewportH = window.innerHeight || document.documentElement.clientHeight || 700;
 
-        // Limita la altura del canvas para que siempre quepa sin necesidad de alejar el zoom
-        const maxCanvasHeight = Math.max(260, viewportH * 0.45);      // como mucho ~45% del alto de la ventana
-        const desiredByWidth = containerWidth * 0.75;                 // relación apaisada
+        // plataforma más larga pero que siga entrando en la pantalla
+        const maxCanvasHeight = Math.max(300, viewportH * 0.7);
+        const desiredByWidth = containerWidth * 0.8;
         const height = Math.min(desiredByWidth, maxCanvasHeight);
 
         canvas.width = containerWidth;
         canvas.height = height;
 
-        // recalcular posiciones de carriles
         const laneWidth = containerWidth / 3;
         lanesX = [
           laneWidth * 0.5,
@@ -1189,8 +1186,9 @@
           laneWidth * 2.5
         ];
 
-        player.width = laneWidth * 0.45;
-        player.height = height * 0.5;  // más alto en función de la nueva altura
+        // elementos más pequeños
+        player.width = laneWidth * 0.3;
+        player.height = height * 0.35;
         player.y = height * 0.78;
       }
 
@@ -1215,7 +1213,6 @@
       }
 
       function iniciarPartida() {
-        // reinicia estado
         gameRunning = false;
         if (animationFrameId) {
           cancelAnimationFrame(animationFrameId);
@@ -1275,7 +1272,7 @@
       ----------------------------- */
 
       function actualizar(deltaMs) {
-        const deltaFactor = deltaMs / 16.67; // normalizar aprox a 60fps
+        const deltaFactor = deltaMs / 16.67;
 
         currentSpeed += difficultyConfig.speedIncrease * deltaMs;
 
@@ -1299,7 +1296,8 @@
           coinTimer = coinIntervalRandom;
         }
 
-        const speedPx = currentSpeed * 4.1 * deltaFactor;
+        // más lento en general
+        const speedPx = currentSpeed * 3.2 * deltaFactor;
 
         obstacles.forEach(o => {
           o.y += speedPx;
@@ -1328,7 +1326,7 @@
         const y = -60;
 
         for (const o of obstacles) {
-          if (o.lane === lane && o.y < 120) {
+          if (o.lane === lane && o.y < 140) {
             return;
           }
         }
@@ -1337,7 +1335,7 @@
           lane,
           y,
           width: player.width * 0.9,
-          height: player.height * 0.8
+          height: player.height * 0.7
         });
       }
 
@@ -1346,7 +1344,7 @@
         const y = -40;
 
         for (const o of obstacles) {
-          if (o.lane === lane && o.y < 120) {
+          if (o.lane === lane && o.y < 140) {
             return;
           }
         }
@@ -1354,16 +1352,15 @@
         coins.push({
           lane,
           y,
-          radius: player.width * 0.28
+          radius: player.width * 0.22
         });
       }
 
       function comprobarColisiones() {
-        const playerX = lanesX[player.lane];
         const py = player.y;
         const ph = player.height;
 
-        const collisionRadiusY = ph * 0.6;
+        const collisionRadiusY = ph * 0.5;
 
         // Obstáculos
         for (let i = obstacles.length - 1; i >= 0; i--) {
@@ -1447,16 +1444,16 @@
         ctx.strokeStyle = "rgba(108, 92, 231, 0.3)";
         ctx.lineWidth = 4;
         ctx.beginPath();
-        ctx.moveTo(10, h * 0.15);
+        ctx.moveTo(10, h * 0.12);
         ctx.lineTo(laneWidth * 0.3, h * 0.95);
-        ctx.moveTo(w - 10, h * 0.15);
+        ctx.moveTo(w - 10, h * 0.12);
         ctx.lineTo(laneWidth * 2.7, h * 0.95);
         ctx.stroke();
 
         obstacles.forEach(o => {
           const x = lanesX[o.lane] - o.width / 2;
           const y = o.y - o.height / 2;
-          const rad = 10;
+          const rad = 8;
 
           const gradientObstacle = ctx.createLinearGradient(x, y, x + o.width, y + o.height);
           gradientObstacle.addColorStop(0, "#ff6bcb");
@@ -1516,7 +1513,7 @@
         ctx.shadowColor = "rgba(0, 216, 255, 0.9)";
         ctx.shadowBlur = 22;
 
-        const radius = 12;
+        const radius = 10;
         ctx.beginPath();
         roundRect(ctx, px, py, player.width, player.height, radius);
         ctx.fill();
@@ -1525,20 +1522,20 @@
         ctx.fillStyle = "rgba(5, 12, 45, 0.9)";
         const windowHeight = player.height * 0.4;
         ctx.beginPath();
-        roundRect(ctx, px + player.width * 0.18, py + player.height * 0.1, player.width * 0.64, windowHeight, 8);
+        roundRect(ctx, px + player.width * 0.18, py + player.height * 0.1, player.width * 0.64, windowHeight, 7);
         ctx.fill();
 
         ctx.fillStyle = "#00d8ff";
-        ctx.fillRect(px + 6, py + player.height * 0.7, player.width * 0.3, 5);
+        ctx.fillRect(px + 4, py + player.height * 0.7, player.width * 0.32, 4);
         ctx.fillStyle = "#ff6bcb";
-        ctx.fillRect(px + player.width * 0.64, py + player.height * 0.7, player.width * 0.3 - 6, 5);
+        ctx.fillRect(px + player.width * 0.64, py + player.height * 0.7, player.width * 0.32 - 4, 4);
 
         if (coinEffectTimer > 0) {
           const alpha = coinEffectTimer / 150;
           ctx.strokeStyle = `rgba(255, 221, 100, ${alpha})`;
           ctx.lineWidth = 2;
           ctx.beginPath();
-          ctx.arc(px + player.width / 2, py + player.height / 2, player.width * 0.9, 0, Math.PI * 2);
+          ctx.arc(px + player.width / 2, py + player.height / 2, player.width * 0.8, 0, Math.PI * 2);
           ctx.stroke();
         }
 
