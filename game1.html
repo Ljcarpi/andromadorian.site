@@ -212,7 +212,7 @@
       background: radial-gradient(circle at 50% 0, #14163c, #050518 50%, #02010a 100%);
       position: relative;
       box-shadow: 0 0 30px rgba(0, 216, 255, 0.35);
-      max-width: 520px; /* más angosto */
+      max-width: 500px;
       margin-left: auto;
       margin-right: auto;
     }
@@ -643,7 +643,7 @@
             <span>Guía rápida</span>
           </div>
           <h2>Instrucciones</h2>
-          <p><strong>Objetivo:</strong> Corre por los 3 carriles, esquiva obstáculos y recoge orbes de energía para sumar puntos. La velocidad aumenta con el tiempo.</p>
+          <p><strong>Objetivo:</strong> Corre por los 3 carriles, esquiva obstáculos y recoge orbes de energía (monedas) para sumar puntos. La velocidad aumenta con el tiempo.</p>
           <p><strong>Controles en PC:</strong></p>
           <ul>
             <li><strong>Flecha izquierda</strong> o tecla <strong>A</strong>: mover al carril de la izquierda.</li>
@@ -657,9 +657,9 @@
           <p><strong>Reglas básicas:</strong></p>
           <ul>
             <li>Tienes un número de vidas según la dificultad.</li>
-            <li>Chocar con un obstáculo resta 1 vida (o termina la partida si no quedan).</li>
-            <li>Recoger orbes suma puntos extra.</li>
-            <li>La puntuación se basa en la <strong>distancia recorrida</strong> + <strong>orbes recogidos</strong>.</li>
+            <li>Chocar con un obstáculo rojo resta 1 vida (o termina la partida si no quedan).</li>
+            <li>Recoger una moneda amarilla suma puntos extra de forma inmediata.</li>
+            <li>La puntuación se basa en la <strong>distancia recorrida</strong> + <strong>monedas recogidas</strong>.</li>
             <li>Se guardan las 5 mejores puntuaciones en tu navegador (localStorage).</li>
           </ul>
 
@@ -688,7 +688,7 @@
                   <input type="radio" name="difficulty" value="easy">
                   <div>
                     <div class="label-main">Fácil</div>
-                    <div class="label-desc">Velocidad baja, más orbes, menos obstáculos, 3 vidas.</div>
+                    <div class="label-desc">Velocidad baja, más monedas, menos obstáculos, 3 vidas.</div>
                   </div>
                 </label>
                 <label class="radio-item">
@@ -716,7 +716,7 @@
                   Volumen actual: <span id="volume-value">60%</span>
                 </div>
                 <p class="muted" style="margin-top: 6px;">
-                  Afecta a los sonidos de orbes y choques. Se guarda solo en esta sesión.
+                  Afecta a los sonidos de monedas y choques. Se guarda solo en esta sesión.
                 </p>
               </div>
             </div>
@@ -818,30 +818,30 @@
       const DIFFICULTIES = {
         easy: {
           name: "Fácil",
-          baseSpeed: 2.7,        // más lento
+          baseSpeed: 2.2,        // aún más lento
           lives: 3,
           obstacleInterval: 950,
           coinInterval: 650,
           speedIncrease: 0.0007,
-          coinScore: 60
+          coinScore: 80          // monedas impactan fuerte
         },
         normal: {
           name: "Normal",
-          baseSpeed: 3.6,        // más lento
+          baseSpeed: 2.9,
           lives: 2,
           obstacleInterval: 760,
           coinInterval: 880,
           speedIncrease: 0.0009,
-          coinScore: 70
+          coinScore: 100
         },
         hard: {
           name: "Difícil",
-          baseSpeed: 4.6,        // más lento
+          baseSpeed: 3.6,
           lives: 1,
           obstacleInterval: 520,
           coinInterval: 1120,
           speedIncrease: 0.0013,
-          coinScore: 80
+          coinScore: 120
         }
       };
 
@@ -1030,12 +1030,11 @@
       }
 
       function resizeCanvas() {
-        const maxWidth = 500; // aún más angosto
+        const maxWidth = 500;
         const containerWidth = Math.min(gameContainer.clientWidth || maxWidth, maxWidth);
 
         const viewportH = window.innerHeight || document.documentElement.clientHeight || 700;
 
-        // más largo, respetando la altura de pantalla
         const maxCanvasHeight = Math.max(360, viewportH * 0.75);
         const desiredByRatio = containerWidth * 1.6;
         const height = Math.min(desiredByRatio, maxCanvasHeight);
@@ -1050,10 +1049,10 @@
           laneWidth * 2.5
         ];
 
-        // jugador aún más pequeño
+        // jugador pequeño y más abajo
         player.width = laneWidth * 0.1;
         player.height = height * 0.12;
-        player.y = height * 0.84;
+        player.y = height * 0.9;  // más cerca del borde inferior
       }
 
       window.addEventListener("resize", resizeCanvas);
@@ -1141,8 +1140,8 @@
           coinTimer = coinIntervalRandom;
         }
 
-        // desplazamiento vertical más lento
-        const speedPx = currentSpeed * 2.0 * deltaFactor;
+        // desplazamiento más lento
+        const speedPx = currentSpeed * 1.6 * deltaFactor;
 
         obstacles.forEach(o => { o.y += speedPx; });
         coins.forEach(c => { c.y += speedPx; });
@@ -1173,8 +1172,8 @@
         obstacles.push({
           lane,
           y,
-          width: player.width * 0.9,
-          height: player.height * 0.7
+          width: player.width * 0.95,
+          height: player.height * 0.45   // menos largos
         });
       }
 
@@ -1189,14 +1188,14 @@
         coins.push({
           lane,
           y,
-          radius: player.width * 0.22
+          radius: player.width * 0.26
         });
       }
 
       function comprobarColisiones() {
         const py = player.y;
         const ph = player.height;
-        const collisionRadiusY = ph * 0.5;
+        const collisionRadiusY = ph * 0.45;
 
         for (let i = obstacles.length - 1; i >= 0; i--) {
           const o = obstacles[i];
@@ -1232,7 +1231,7 @@
 
       function manejarCoin() {
         coinCount += 1;
-        coinEffectTimer = 150;
+        coinEffectTimer = 180;
         playBeep("coin");
       }
 
@@ -1271,55 +1270,65 @@
         ctx.lineTo(laneWidth * 2.7, h * 0.95);
         ctx.stroke();
 
+        // obstáculos rojos
         obstacles.forEach(o => {
           const x = lanesX[o.lane] - o.width / 2;
           const y = o.y - o.height / 2;
-          const rad = 8;
+          const rad = 6;
 
           const gradientObstacle = ctx.createLinearGradient(x, y, x + o.width, y + o.height);
-          gradientObstacle.addColorStop(0, "#ff6bcb");
-          gradientObstacle.addColorStop(1, "#ff4d6a");
+          gradientObstacle.addColorStop(0, "#ff4040");
+          gradientObstacle.addColorStop(1, "#ff0000");
 
           ctx.fillStyle = gradientObstacle;
-          ctx.shadowColor = "rgba(255, 77, 106, 0.8)";
-          ctx.shadowBlur = 15;
+          ctx.shadowColor = "rgba(255, 0, 0, 0.9)";
+          ctx.shadowBlur = 18;
 
           ctx.beginPath();
           roundRect(ctx, x, y, o.width, o.height, rad);
           ctx.fill();
 
-          ctx.lineWidth = 2;
-          ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
+          ctx.lineWidth = 1.5;
+          ctx.strokeStyle = "rgba(255, 255, 255, 0.35)";
           ctx.stroke();
           ctx.shadowBlur = 0;
         });
 
+        // monedas amarillas
         coins.forEach(c => {
           const cx = lanesX[c.lane];
           const cy = c.y;
           const r = c.radius;
 
           const gradientCoin = ctx.createRadialGradient(cx, cy, r * 0.1, cx, cy, r);
-          gradientCoin.addColorStop(0, "#ffeeaa");
-          gradientCoin.addColorStop(1, "#ffbb33");
+          gradientCoin.addColorStop(0, "#fff7c2");
+          gradientCoin.addColorStop(0.4, "#ffdd55");
+          gradientCoin.addColorStop(1, "#e0a800");
 
           ctx.fillStyle = gradientCoin;
           ctx.shadowColor = "rgba(255, 221, 100, 0.9)";
-          ctx.shadowBlur = 15;
+          ctx.shadowBlur = 16;
           ctx.beginPath();
           ctx.arc(cx, cy, r, 0, Math.PI * 2);
           ctx.fill();
 
-          ctx.lineWidth = 2;
-          ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
+          ctx.lineWidth = 2.2;
+          ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.lineWidth = 1.6;
+          ctx.strokeStyle = "rgba(200, 140, 20, 0.9)";
+          ctx.arc(cx, cy, r * 0.6, 0, Math.PI * 2);
           ctx.stroke();
 
           ctx.shadowBlur = 0;
-          ctx.fillStyle = "rgba(120, 70, 10, 0.9)";
-          ctx.font = `${r * 1.2}px system-ui`;
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.fillText("+", cx, cy + 1);
+
+          ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.arc(cx - r * 0.3, cy - r * 0.3, r * 0.3, -0.2, 1.0);
+          ctx.stroke();
         });
 
         const px = lanesX[player.lane] - player.width / 2;
@@ -1351,11 +1360,11 @@
         ctx.fillRect(px + player.width * 0.64, py + player.height * 0.72, player.width * 0.32 - 3, 3);
 
         if (coinEffectTimer > 0) {
-          const alpha = coinEffectTimer / 150;
+          const alpha = coinEffectTimer / 180;
           ctx.strokeStyle = `rgba(255, 221, 100, ${alpha})`;
           ctx.lineWidth = 2;
           ctx.beginPath();
-          ctx.arc(px + player.width / 2, py + player.height / 2, player.width * 0.8, 0, Math.PI * 2);
+          ctx.arc(px + player.width / 2, py + player.height / 2, player.width * 0.95, 0, Math.PI * 2);
           ctx.stroke();
         }
 
