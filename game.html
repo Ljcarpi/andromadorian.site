@@ -110,13 +110,8 @@
       box-shadow: 0 0 10px rgba(0, 216, 255, 0.8);
     }
 
-    .screen {
-      display: none;
-    }
-
-    .screen.active {
-      display: block;
-    }
+    .screen { display: none; }
+    .screen.active { display: block; }
 
     .menu-buttons {
       display: flex;
@@ -143,9 +138,7 @@
       box-shadow: 0 0 12px rgba(0, 216, 255, 0.4);
     }
 
-    .btn span.icon {
-      font-size: 1.1rem;
-    }
+    .btn span.icon { font-size: 1.1rem; }
 
     .btn.primary {
       border-color: rgba(108, 92, 231, 0.9);
@@ -165,25 +158,11 @@
       box-shadow: 0 0 12px rgba(158, 164, 255, 0.7);
     }
 
-    .btn.small {
-      padding: 6px 14px;
-      font-size: 0.85rem;
-    }
+    .btn.small { padding: 6px 14px; font-size: 0.85rem; }
+    .btn:active { transform: translateY(1px) scale(0.98); box-shadow: none; }
+    .btn:hover { background: radial-gradient(circle at 0 0, rgba(0, 216, 255, 0.3), rgba(5, 5, 26, 1)); }
 
-    .btn:active {
-      transform: translateY(1px) scale(0.98);
-      box-shadow: none;
-    }
-
-    .btn:hover {
-      background: radial-gradient(circle at 0 0, rgba(0, 216, 255, 0.3), rgba(5, 5, 26, 1));
-    }
-
-    /* Game screen */
-
-    #game-screen {
-      margin-top: 8px;
-    }
+    #game-screen { margin-top: 8px; }
 
     .top-ui {
       display: flex;
@@ -205,19 +184,9 @@
       gap: 10px;
     }
 
-    .ui-label {
-      color: var(--text-muted);
-      font-size: 0.8rem;
-    }
-
-    .ui-value {
-      font-weight: 700;
-      color: var(--accent-2);
-    }
-
-    .ui-value.good {
-      color: var(--success);
-    }
+    .ui-label { color: var(--text-muted); font-size: 0.8rem; }
+    .ui-value { font-weight: 700; color: var(--accent-2); }
+    .ui-value.good { color: var(--success); }
 
     .lives {
       font-size: 1rem;
@@ -243,7 +212,7 @@
       background: radial-gradient(circle at 50% 0, #14163c, #050518 50%, #02010a 100%);
       position: relative;
       box-shadow: 0 0 30px rgba(0, 216, 255, 0.35);
-      max-width: 640px;            /* más angosto */
+      max-width: 520px; /* más angosto */
       margin-left: auto;
       margin-right: auto;
     }
@@ -306,12 +275,8 @@
     }
 
     @media (min-width: 720px) {
-      .mobile-controls {
-        display: none;
-      }
+      .mobile-controls { display: none; }
     }
-
-    /* Game over overlay */
 
     .overlay {
       position: absolute;
@@ -324,9 +289,7 @@
       padding: 16px;
     }
 
-    .overlay.hidden {
-      display: none;
-    }
+    .overlay.hidden { display: none; }
 
     .panel {
       width: 100%;
@@ -361,22 +324,10 @@
       font-size: 0.9rem;
     }
 
-    .panel-row span.label {
-      color: var(--text-muted);
-    }
-
-    .panel-row span.value {
-      font-weight: 700;
-    }
-
-    .panel-row span.value.big {
-      font-size: 1.1rem;
-      color: var(--accent-2);
-    }
-
-    .panel-row span.value.highlight {
-      color: var(--success);
-    }
+    .panel-row span.label { color: var(--text-muted); }
+    .panel-row span.value { font-weight: 700; }
+    .panel-row span.value.big { font-size: 1.1rem; color: var(--accent-2); }
+    .panel-row span.value.highlight { color: var(--success); }
 
     .panel-buttons {
       display: flex;
@@ -385,12 +336,7 @@
       margin-top: 12px;
     }
 
-    .panel-buttons .btn {
-      flex: 1;
-      min-width: 0;
-    }
-
-    /* Modal / secondary screen */
+    .panel-buttons .btn { flex: 1; min-width: 0; }
 
     .modal,
     .secondary-screen {
@@ -405,9 +351,7 @@
     }
 
     .modal.active,
-    .secondary-screen.active {
-      display: flex;
-    }
+    .secondary-screen.active { display: flex; }
 
     .modal-content,
     .secondary-content {
@@ -439,14 +383,8 @@
       line-height: 1.4;
     }
 
-    .modal-content p + p {
-      margin-top: 6px;
-    }
-
-    .modal-content ul {
-      margin-top: 6px;
-      padding-left: 18px;
-    }
+    .modal-content p + p { margin-top: 6px; }
+    .modal-content ul { margin-top: 6px; padding-left: 18px; }
 
     .modal-footer,
     .secondary-footer {
@@ -480,8 +418,6 @@
       box-shadow: 0 0 8px rgba(0, 216, 255, 0.9);
     }
 
-    /* Options */
-
     .options-grid {
       display: grid;
       grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr);
@@ -491,9 +427,7 @@
     }
 
     @media (max-width: 640px) {
-      .options-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
+      .options-grid { grid-template-columns: minmax(0, 1fr); }
     }
 
     .options-section-title {
@@ -525,31 +459,12 @@
       cursor: pointer;
     }
 
-    .radio-item span.label-main {
-      font-weight: 600;
-    }
+    .radio-item span.label-main { font-weight: 600; }
+    .radio-item span.label-desc { font-size: 0.78rem; color: var(--text-muted); }
 
-    .radio-item span.label-desc {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    .slider-wrap {
-      margin-top: 4px;
-    }
-
-    .slider-wrap input[type="range"] {
-      width: 100%;
-      accent-color: var(--accent-2);
-    }
-
-    .slider-value {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    /* Score table */
+    .slider-wrap { margin-top: 4px; }
+    .slider-wrap input[type="range"] { width: 100%; accent-color: var(--accent-2); }
+    .slider-value { font-size: 0.82rem; color: var(--text-muted); margin-top: 2px; }
 
     table.score-table {
       width: 100%;
@@ -604,13 +519,8 @@
       color: #050505;
     }
 
-    .muted {
-      color: var(--text-muted);
-    }
-
-    .hidden {
-      display: none !important;
-    }
+    .muted { color: var(--text-muted); }
+    .hidden { display: none !important; }
 
     .footer-text {
       margin-top: 8px;
@@ -620,9 +530,7 @@
       opacity: 0.85;
     }
 
-    .footer-text span {
-      color: var(--accent-3);
-    }
+    .footer-text span { color: var(--accent-3); }
   </style>
 </head>
 <body>
@@ -842,8 +750,7 @@
                 <th>Fecha</th>
               </tr>
             </thead>
-            <tbody id="score-table-body">
-            </tbody>
+            <tbody id="score-table-body"></tbody>
           </table>
 
           <p id="no-scores-text" class="muted" style="margin-top: 8px; display:none;">
@@ -911,7 +818,7 @@
       const DIFFICULTIES = {
         easy: {
           name: "Fácil",
-          baseSpeed: 3.2,
+          baseSpeed: 2.7,        // más lento
           lives: 3,
           obstacleInterval: 950,
           coinInterval: 650,
@@ -920,7 +827,7 @@
         },
         normal: {
           name: "Normal",
-          baseSpeed: 4.5,
+          baseSpeed: 3.6,        // más lento
           lives: 2,
           obstacleInterval: 760,
           coinInterval: 880,
@@ -929,7 +836,7 @@
         },
         hard: {
           name: "Difícil",
-          baseSpeed: 5.8,
+          baseSpeed: 4.6,        // más lento
           lives: 1,
           obstacleInterval: 520,
           coinInterval: 1120,
@@ -997,10 +904,8 @@
 
       function updateLivesUI() {
         let hearts = "";
-        for (let i = 0; i < lives; i++) {
-          hearts += "♥";
-        }
-        if (hearts === "") hearts = "✖";
+        for (let i = 0; i < lives; i++) hearts += "♥";
+        if (!hearts) hearts = "✖";
         livesDisplay.innerHTML = `<span class="lives">${hearts}</span>`;
       }
 
@@ -1015,7 +920,7 @@
           const arr = JSON.parse(raw);
           if (!Array.isArray(arr)) return [];
           return arr;
-        } catch (e) {
+        } catch {
           return [];
         }
       }
@@ -1043,7 +948,7 @@
         const trimmed = table.slice(0, 5);
         try {
           localStorage.setItem(LOCALSTORAGE_KEY_TABLE, JSON.stringify(trimmed));
-        } catch (e) {}
+        } catch {}
       }
 
       function renderScoreTable() {
@@ -1087,7 +992,7 @@
         if (!audioContext) {
           try {
             audioContext = new (window.AudioContext || window.webkitAudioContext)();
-          } catch (e) {
+          } catch {
             audioContext = null;
           }
         }
@@ -1125,14 +1030,14 @@
       }
 
       function resizeCanvas() {
-        const maxWidth = 620; // más angosto
+        const maxWidth = 500; // aún más angosto
         const containerWidth = Math.min(gameContainer.clientWidth || maxWidth, maxWidth);
 
         const viewportH = window.innerHeight || document.documentElement.clientHeight || 700;
 
-        // más largo (alto) pero siempre encajando en la pantalla
-        const maxCanvasHeight = Math.max(340, viewportH * 0.7);
-        const desiredByRatio = containerWidth * 1.2;
+        // más largo, respetando la altura de pantalla
+        const maxCanvasHeight = Math.max(360, viewportH * 0.75);
+        const desiredByRatio = containerWidth * 1.6;
         const height = Math.min(desiredByRatio, maxCanvasHeight);
 
         canvas.width = containerWidth;
@@ -1145,10 +1050,10 @@
           laneWidth * 2.5
         ];
 
-        // jugador mucho más pequeño
-        player.width = laneWidth * 0.16;
-        player.height = height * 0.18;
-        player.y = height * 0.82;
+        // jugador aún más pequeño
+        player.width = laneWidth * 0.1;
+        player.height = height * 0.12;
+        player.y = height * 0.84;
       }
 
       window.addEventListener("resize", resizeCanvas);
@@ -1236,8 +1141,8 @@
           coinTimer = coinIntervalRandom;
         }
 
-        // desplazamiento general (lento)
-        const speedPx = currentSpeed * 3.0 * deltaFactor;
+        // desplazamiento vertical más lento
+        const speedPx = currentSpeed * 2.0 * deltaFactor;
 
         obstacles.forEach(o => { o.y += speedPx; });
         coins.forEach(c => { c.y += speedPx; });
@@ -1291,7 +1196,6 @@
       function comprobarColisiones() {
         const py = player.y;
         const ph = player.height;
-
         const collisionRadiusY = ph * 0.5;
 
         for (let i = obstacles.length - 1; i >= 0; i--) {
@@ -1429,22 +1333,22 @@
         ctx.shadowColor = "rgba(0, 216, 255, 0.9)";
         ctx.shadowBlur = 22;
 
-        const radius = 10;
+        const radius = 8;
         ctx.beginPath();
         roundRect(ctx, px, py, player.width, player.height, radius);
         ctx.fill();
 
         ctx.shadowBlur = 0;
         ctx.fillStyle = "rgba(5, 12, 45, 0.9)";
-        const windowHeight = player.height * 0.4;
+        const windowHeight = player.height * 0.45;
         ctx.beginPath();
-        roundRect(ctx, px + player.width * 0.18, py + player.height * 0.1, player.width * 0.64, windowHeight, 7);
+        roundRect(ctx, px + player.width * 0.18, py + player.height * 0.08, player.width * 0.64, windowHeight, 6);
         ctx.fill();
 
         ctx.fillStyle = "#00d8ff";
-        ctx.fillRect(px + 4, py + player.height * 0.7, player.width * 0.32, 4);
+        ctx.fillRect(px + 3, py + player.height * 0.72, player.width * 0.32, 3);
         ctx.fillStyle = "#ff6bcb";
-        ctx.fillRect(px + player.width * 0.64, py + player.height * 0.7, player.width * 0.32 - 4, 4);
+        ctx.fillRect(px + player.width * 0.64, py + player.height * 0.72, player.width * 0.32 - 3, 3);
 
         if (coinEffectTimer > 0) {
           const alpha = coinEffectTimer / 150;
