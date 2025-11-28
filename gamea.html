@@ -11,7 +11,7 @@
       --bg-panel: #0a0b24;
       --accent: #6c5ce7;
       --accent-2: #00d8ff;
-      --accent-3: #ff6bcb;
+      --accent-3: #ffef5a;
       --text-main: #f5f7ff;
       --text-muted: #9ea4ff;
       --danger: #ff4d6a;
@@ -29,7 +29,7 @@
     }
 
     body {
-      background: radial-gradient(circle at top, #14163c 0, #050518 55%, #02010a 100%);
+      background: radial-gradient(circle at top, #161b4f 0, #050518 55%, #2d1b08 100%);
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
@@ -56,13 +56,13 @@
       inset: -30%;
       background: conic-gradient(
         from 120deg,
-        rgba(108, 92, 231, 0.1),
-        rgba(0, 216, 255, 0.08),
-        rgba(255, 107, 203, 0.08),
-        rgba(108, 92, 231, 0.1)
+        rgba(108, 92, 231, 0.12),
+        rgba(0, 216, 255, 0.1),
+        rgba(255, 239, 90, 0.12),
+        rgba(108, 92, 231, 0.12)
       );
       mix-blend-mode: screen;
-      opacity: 0.4;
+      opacity: 0.45;
       pointer-events: none;
       animation: aurora 18s linear infinite;
     }
@@ -104,7 +104,7 @@
         90deg,
         transparent,
         rgba(0, 216, 255, 0.9),
-        rgba(255, 107, 203, 0.9),
+        rgba(255, 239, 90, 0.9),
         transparent
       );
       box-shadow: 0 0 10px rgba(0, 216, 255, 0.8);
@@ -209,10 +209,10 @@
       border-radius: 16px;
       overflow: hidden;
       border: 1px solid rgba(0, 216, 255, 0.3);
-      background: radial-gradient(circle at 50% 0, #14163c, #050518 50%, #02010a 100%);
+      background: radial-gradient(circle at 50% 0, #161b4f, #050518 55%, #2d1b08 100%);
       position: relative;
       box-shadow: 0 0 26px rgba(0, 216, 255, 0.35);
-      max-width: 460px; /* más angosto */
+      max-width: 460px;
       margin-left: auto;
       margin-right: auto;
     }
@@ -566,7 +566,7 @@
 
         <div class="footer-text">
           Usa flechas o A/D en PC • Botones táctiles en móvil •
-          <span>¡Evita los bloques rojos y recolecta monedas!</span>
+          <span>¡Evita los bloques rojos, recolecta monedas y corazones!</span>
         </div>
       </div>
 
@@ -646,7 +646,7 @@
             <span>Guía rápida</span>
           </div>
           <h2>Instrucciones</h2>
-          <p><strong>Objetivo:</strong> Corre por los 3 carriles, esquiva bloques rojos y recoge monedas para sumar puntos. La velocidad de la pista es rápida, pero el aumento de dificultad es más gradual.</p>
+          <p><strong>Objetivo:</strong> Corre por los 3 carriles, esquiva bloques rojos y recoge monedas para sumar puntos. De vez en cuando aparecerán <strong>corazones rosas</strong> que te dan una vida extra.</p>
           <p><strong>Controles en PC:</strong></p>
           <ul>
             <li><strong>Flecha izquierda</strong> o tecla <strong>A</strong>: mover al carril de la izquierda.</li>
@@ -662,6 +662,7 @@
             <li>Tienes un número de vidas según la dificultad.</li>
             <li>Chocar con un bloque rojo resta 1 vida (con sonido de crash y destello rojo fuerte).</li>
             <li>Recoger monedas suma puntos extra y reproduce un sonido de moneda/éxito.</li>
+            <li>Recoger un corazón rosa suma <strong>+1 vida extra</strong> (hasta un máximo razonable).</li>
             <li>La puntuación se basa en la <strong>distancia recorrida</strong> + <strong>monedas recogidas</strong>.</li>
             <li>Se guardan las 5 mejores puntuaciones en tu navegador (localStorage).</li>
           </ul>
@@ -719,7 +720,7 @@
                   Volumen actual: <span id="volume-value">60%</span>
                 </div>
                 <p class="muted" style="margin-top: 6px;">
-                  Afecta a los sonidos de monedas (éxito) y choques (crash). Se guarda solo en esta sesión.
+                  Afecta a los sonidos de monedas, choques y corazones. Se guarda solo en esta sesión.
                 </p>
               </div>
             </div>
@@ -820,7 +821,7 @@
 
       const LOCALSTORAGE_KEY_TABLE = "androRunnerScoreTable";
 
-      // Más rápido de entrada, con aumento de velocidad más lento (más gradual)
+      // Configuración de dificultad
       const DIFFICULTIES = {
         easy: {
           name: "Fácil",
@@ -858,7 +859,7 @@
       let animationFrameId = null;
       let lastTimestamp = null;
 
-      // Jugador: rectángulo horizontal más pequeño
+      // Jugador: rectángulo horizontal pequeño
       let player = {
         lane: 1,
         y: 0,
@@ -870,6 +871,7 @@
 
       let obstacles = [];
       let coins = [];
+      let hearts = [];
 
       let currentSpeed = 0;
       let distance = 0;
@@ -879,10 +881,12 @@
 
       let obstacleTimer = 0;
       let coinTimer = 0;
+      let heartTimer = 0;
 
       let hitCooldown = 0;
       let coinEffectTimer = 0;
       let hitEffectTimer = 0;
+      let heartEffectTimer = 0;
 
       let volume = 0.6;
       let audioContext = null;
@@ -1025,7 +1029,7 @@
         } catch {}
       }
 
-      // Sonidos diferenciados para choque y moneda
+      // Sonidos diferenciados
       function playBeep(type) {
         if (!audioContext || volume <= 0) return;
         const now = audioContext.currentTime;
@@ -1077,17 +1081,48 @@
           osc.stop(now + 0.27);
           return;
         }
+
+        if (type === "life") {
+          // Sonido dulce de corazón
+          const osc2 = audioContext.createOscillator();
+          const gain2 = audioContext.createGain();
+
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(650, now);
+          osc.frequency.linearRampToValueAtTime(900, now + 0.1);
+
+          gain.gain.setValueAtTime(volume * 0.55, now);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.3);
+
+          osc2.type = "triangle";
+          osc2.frequency.setValueAtTime(970, now + 0.04);
+          osc2.frequency.linearRampToValueAtTime(1300, now + 0.18);
+
+          gain2.gain.setValueAtTime(volume * 0.45, now + 0.04);
+          gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.28);
+
+          osc.connect(gain);
+          osc2.connect(gain2);
+          gain.connect(audioContext.destination);
+          gain2.connect(audioContext.destination);
+
+          osc.start(now);
+          osc2.start(now + 0.04);
+          osc.stop(now + 0.32);
+          osc2.stop(now + 0.34);
+          return;
+        }
       }
 
       function resizeCanvas() {
-        // Menos ancho, más alto (menos zoom horizontal, pista más larga)
+        // Menos ancho, más alto (pista larga)
         const maxWidth = 420;
         const containerWidth = Math.min(gameContainer.clientWidth || maxWidth, maxWidth);
 
         const viewportH = window.innerHeight || document.documentElement.clientHeight || 700;
 
         const maxCanvasHeight = Math.max(480, viewportH * 0.8);
-        const desiredByRatio = containerWidth * 2.0; // pista más larga
+        const desiredByRatio = containerWidth * 2.0;
         const height = Math.min(desiredByRatio, maxCanvasHeight);
 
         canvas.width = containerWidth;
@@ -1135,11 +1170,14 @@
         lives = difficultyConfig.lives;
         obstacles = [];
         coins = [];
+        hearts = [];
         obstacleTimer = 0;
         coinTimer = 0;
+        heartTimer = 6000 + Math.random() * 4000; // corazones raros
         hitCooldown = 0;
         coinEffectTimer = 0;
         hitEffectTimer = 0;
+        heartEffectTimer = 0;
 
         player.lane = 1;
 
@@ -1176,11 +1214,14 @@
 
         obstacleTimer -= deltaMs;
         coinTimer -= deltaMs;
+        heartTimer -= deltaMs;
 
         const obstacleIntervalRandom =
           difficultyConfig.obstacleInterval * (0.85 + Math.random() * 0.5);
         const coinIntervalRandom =
           difficultyConfig.coinInterval * (0.8 + Math.random() * 0.5);
+        const heartIntervalRandom =
+          6000 + Math.random() * 6000; // 6–12 segundos
 
         if (obstacleTimer <= 0) {
           spawnObstacle();
@@ -1192,18 +1233,26 @@
           coinTimer = coinIntervalRandom;
         }
 
+        if (heartTimer <= 0) {
+          spawnHeart();
+          heartTimer = heartIntervalRandom;
+        }
+
         const speedPx = currentSpeed * 1.35 * deltaFactor;
 
         obstacles.forEach(o => { o.y += speedPx; });
         coins.forEach(c => { c.y += speedPx; });
+        hearts.forEach(h => { h.y += speedPx; });
 
         const h = canvas.height;
         obstacles = obstacles.filter(o => o.y < h + 90);
         coins = coins.filter(c => c.y < h + 90);
+        hearts = hearts.filter(he => he.y < h + 90);
 
         if (hitCooldown > 0) hitCooldown -= deltaMs;
         if (coinEffectTimer > 0) coinEffectTimer -= deltaMs;
         if (hitEffectTimer > 0) hitEffectTimer -= deltaMs;
+        if (heartEffectTimer > 0) heartEffectTimer -= deltaMs;
 
         comprobarColisiones();
 
@@ -1221,7 +1270,7 @@
         }
 
         const laneWidth = canvas.width / 3;
-        const size = laneWidth * 0.26; // cuadrados más pequeños
+        const size = laneWidth * 0.26;
         obstacles.push({
           lane,
           y,
@@ -1243,6 +1292,25 @@
           lane,
           y,
           radius: laneWidth * 0.16
+        });
+      }
+
+      function spawnHeart() {
+        const lane = Math.floor(Math.random() * 3);
+        const y = -50;
+
+        for (const o of obstacles) {
+          if (o.lane === lane && o.y < 180) return;
+        }
+        for (const c of coins) {
+          if (c.lane === lane && c.y < 180) return;
+        }
+
+        const laneWidth = canvas.width / 3;
+        hearts.push({
+          lane,
+          y,
+          size: laneWidth * 0.22
         });
       }
 
@@ -1271,6 +1339,15 @@
             manejarCoin();
           }
         }
+
+        for (let i = hearts.length - 1; i >= 0; i--) {
+          const h = hearts[i];
+          if (h.lane !== player.lane) continue;
+          if (Math.abs(h.y - py) < collisionRadiusY) {
+            hearts.splice(i, 1);
+            manejarHeart();
+          }
+        }
       }
 
       function manejarImpacto() {
@@ -1289,23 +1366,37 @@
         playBeep("coin");
       }
 
+      function manejarHeart() {
+        // tope de vidas para que el UI no se rompa
+        const maxLives = 6;
+        if (lives < maxLives) {
+          lives += 1;
+          updateLivesUI();
+        }
+        heartEffectTimer = 260;
+        playBeep("life");
+      }
+
       function dibujar() {
         const w = canvas.width;
         const h = canvas.height;
 
         ctx.clearRect(0, 0, w, h);
 
+        // Fondo con degrade azul-violeta-amarillo
         const grad = ctx.createLinearGradient(0, 0, 0, h);
-        grad.addColorStop(0, "#15163b");
-        grad.addColorStop(0.45, "#050518");
-        grad.addColorStop(1, "#02010a");
+        grad.addColorStop(0, "#161b4f");
+        grad.addColorStop(0.45, "#111032");
+        grad.addColorStop(1, "#2d1b08");
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, w, h);
 
         const laneWidth = w / 3;
         ctx.setLineDash([10, 18]);
         ctx.lineWidth = 2;
-        ctx.strokeStyle = "rgba(0, 216, 255, 0.45)";
+
+        // Línea central azul
+        ctx.strokeStyle = "rgba(0, 216, 255, 0.55)";
         for (let i = 1; i <= 2; i++) {
           const x = laneWidth * i;
           ctx.beginPath();
@@ -1314,15 +1405,6 @@
           ctx.stroke();
         }
         ctx.setLineDash([]);
-
-        ctx.strokeStyle = "rgba(108, 92, 231, 0.25)";
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.moveTo(10, h * 0.14);
-        ctx.lineTo(laneWidth * 0.3, h * 0.95);
-        ctx.moveTo(w - 10, h * 0.14);
-        ctx.lineTo(laneWidth * 2.7, h * 0.95);
-        ctx.stroke();
 
         // Obstáculos cuadrados pequeños y rojos
         obstacles.forEach(o => {
@@ -1394,6 +1476,38 @@
           ctx.stroke();
         });
 
+        // Corazones de vida
+        hearts.forEach(hh => {
+          const cx = lanesX[hh.lane];
+          const cy = hh.y;
+          const s = hh.size;
+
+          ctx.save();
+          ctx.translate(cx, cy);
+          ctx.shadowColor = "rgba(255,105,180,0.9)";
+          ctx.shadowBlur = 14;
+
+          const gradHeart = ctx.createLinearGradient(-s, -s, s, s);
+          gradHeart.addColorStop(0, "#ff9ad5");
+          gradHeart.addColorStop(0.5, "#ff5fb4");
+          gradHeart.addColorStop(1, "#ff2fa3");
+          ctx.fillStyle = gradHeart;
+
+          ctx.beginPath();
+          ctx.moveTo(0, s * 0.5);
+          ctx.bezierCurveTo(s * 0.9, -s * 0.1, s * 0.7, -s * 0.9, 0, -s * 0.4);
+          ctx.bezierCurveTo(-s * 0.7, -s * 0.9, -s * 0.9, -s * 0.1, 0, s * 0.5);
+          ctx.closePath();
+          ctx.fill();
+
+          ctx.shadowBlur = 0;
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = "rgba(255, 240, 255, 0.7)";
+          ctx.stroke();
+
+          ctx.restore();
+        });
+
         // Jugador: rectángulo horizontal pequeño
         const px = lanesX[player.lane] - player.width / 2;
         const py = player.y - player.height / 2;
@@ -1414,17 +1528,17 @@
 
         ctx.shadowBlur = 0;
 
-        // "Cabina" central (más bajita)
+        // "Cabina" central
         ctx.fillStyle = "rgba(5, 12, 45, 0.95)";
         const windowHeight = player.height * 0.7;
         ctx.beginPath();
         roundRect(ctx, px + player.width * 0.16, py + player.height * 0.15, player.width * 0.68, windowHeight, 6);
         ctx.fill();
 
-        // Banda inferior bicolor
+        // Banda inferior bicolor (azul/amarillo)
         ctx.fillStyle = "#00d8ff";
         ctx.fillRect(px + 3, py + player.height * 0.72, player.width * 0.35, 3);
-        ctx.fillStyle = "#ff6bcb";
+        ctx.fillStyle = "#ffef5a";
         ctx.fillRect(px + player.width * 0.62, py + player.height * 0.72, player.width * 0.33, 3);
 
         if (coinEffectTimer > 0) {
@@ -1433,6 +1547,15 @@
           ctx.lineWidth = 2;
           ctx.beginPath();
           ctx.arc(px + player.width / 2, py + player.height / 2, player.width * 0.9, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+
+        if (heartEffectTimer > 0) {
+          const alpha = heartEffectTimer / 260;
+          ctx.strokeStyle = `rgba(255, 150, 220, ${alpha})`;
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.arc(px + player.width / 2, py + player.height / 2, player.width * 1.05, 0, Math.PI * 2);
           ctx.stroke();
         }
 
