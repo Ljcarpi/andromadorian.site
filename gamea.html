@@ -212,7 +212,7 @@
       background: radial-gradient(circle at 50% 0, #14163c, #050518 50%, #02010a 100%);
       position: relative;
       box-shadow: 0 0 26px rgba(0, 216, 255, 0.35);
-      max-width: 520px;
+      max-width: 460px; /* más angosto */
       margin-left: auto;
       margin-right: auto;
     }
@@ -858,7 +858,7 @@
       let animationFrameId = null;
       let lastTimestamp = null;
 
-      // Jugador (mucho más ancho, casi cuadrado dentro del carril)
+      // Jugador: rectángulo horizontal más pequeño
       let player = {
         lane: 1,
         y: 0,
@@ -1033,7 +1033,6 @@
         const gain = audioContext.createGain();
 
         if (type === "coin") {
-          // Sonido de moneda/éxito: dos tonos ascendentes cortos
           const osc2 = audioContext.createOscillator();
           const gain2 = audioContext.createGain();
 
@@ -1064,7 +1063,6 @@
         }
 
         if (type === "hit") {
-          // Sonido de choque/crash: descenso grave y rasposo
           osc.type = "sawtooth";
           osc.frequency.setValueAtTime(650, now);
           osc.frequency.exponentialRampToValueAtTime(140, now + 0.22);
@@ -1082,13 +1080,14 @@
       }
 
       function resizeCanvas() {
-        const maxWidth = 500;
+        // Menos ancho, más alto (menos zoom horizontal, pista más larga)
+        const maxWidth = 420;
         const containerWidth = Math.min(gameContainer.clientWidth || maxWidth, maxWidth);
 
         const viewportH = window.innerHeight || document.documentElement.clientHeight || 700;
 
-        const maxCanvasHeight = Math.max(360, viewportH * 0.75);
-        const desiredByRatio = containerWidth * 1.5;
+        const maxCanvasHeight = Math.max(480, viewportH * 0.8);
+        const desiredByRatio = containerWidth * 2.0; // pista más larga
         const height = Math.min(desiredByRatio, maxCanvasHeight);
 
         canvas.width = containerWidth;
@@ -1101,10 +1100,10 @@
           laneWidth * 2.5
         ];
 
-        // Mucho más ancho, casi cuadrado dentro del carril
-        player.width = laneWidth * 0.58;       // ocupa gran parte del carril
-        player.height = laneWidth * 0.54;      // casi cuadrado
-        player.y = height * 0.82;
+        // Jugador: rectángulo horizontal pequeño
+        player.width = laneWidth * 0.46;
+        player.height = laneWidth * 0.22;
+        player.y = height * 0.86;
       }
 
       window.addEventListener("resize", resizeCanvas);
@@ -1172,7 +1171,6 @@
       function actualizar(deltaMs) {
         const deltaFactor = deltaMs / 16.67;
 
-        // Aumento de velocidad suave (tarda más en hacerse notar)
         currentSpeed += difficultyConfig.speedIncrease * deltaMs;
         distance += currentSpeed * deltaFactor * 0.6;
 
@@ -1194,7 +1192,6 @@
           coinTimer = coinIntervalRandom;
         }
 
-        // Movimiento general más rápido
         const speedPx = currentSpeed * 1.35 * deltaFactor;
 
         obstacles.forEach(o => { o.y += speedPx; });
@@ -1223,12 +1220,13 @@
           if (o.lane === lane && o.y < 160) return;
         }
 
-        const sizeFactor = 0.95;
+        const laneWidth = canvas.width / 3;
+        const size = laneWidth * 0.26; // cuadrados más pequeños
         obstacles.push({
           lane,
           y,
-          width: player.width * sizeFactor * 1.02, // más ancho
-          height: player.height * sizeFactor       // casi cuadrado
+          width: size,
+          height: size
         });
       }
 
@@ -1240,17 +1238,18 @@
           if (o.lane === lane && o.y < 150) return;
         }
 
+        const laneWidth = canvas.width / 3;
         coins.push({
           lane,
           y,
-          radius: player.width * 0.28
+          radius: laneWidth * 0.16
         });
       }
 
       function comprobarColisiones() {
         const py = player.y;
         const ph = player.height;
-        const collisionRadiusY = ph * 0.7;
+        const collisionRadiusY = ph * 0.9;
 
         for (let i = obstacles.length - 1; i >= 0; i--) {
           const o = obstacles[i];
@@ -1267,7 +1266,7 @@
         for (let i = coins.length - 1; i >= 0; i--) {
           const c = coins[i];
           if (c.lane !== player.lane) continue;
-          if (Math.abs(c.y - py) < collisionRadiusY * 0.9) {
+          if (Math.abs(c.y - py) < collisionRadiusY) {
             coins.splice(i, 1);
             manejarCoin();
           }
@@ -1279,7 +1278,7 @@
         lives -= 1;
         updateLivesUI();
         hitCooldown = 420;
-        hitEffectTimer = 360; // destello más pronunciado y algo más largo
+        hitEffectTimer = 360;
         playBeep("hit");
         if (lives <= 0) terminarPartida();
       }
@@ -1325,11 +1324,11 @@
         ctx.lineTo(laneWidth * 2.7, h * 0.95);
         ctx.stroke();
 
-        // Obstáculos cuadrados más anchos y rojos
+        // Obstáculos cuadrados pequeños y rojos
         obstacles.forEach(o => {
           const x = lanesX[o.lane] - o.width / 2;
           const y = o.y - o.height / 2;
-          const rad = 12;
+          const rad = 8;
 
           const gradientObstacle = ctx.createLinearGradient(x, y, x + o.width, y + o.height);
           gradientObstacle.addColorStop(0, "#ff3b3b");
@@ -1338,7 +1337,7 @@
 
           ctx.fillStyle = gradientObstacle;
           ctx.shadowColor = "rgba(255, 0, 0, 0.95)";
-          ctx.shadowBlur = 14;
+          ctx.shadowBlur = 12;
 
           ctx.beginPath();
           roundRect(ctx, x, y, o.width, o.height, rad);
@@ -1349,10 +1348,9 @@
           ctx.stroke();
           ctx.shadowBlur = 0;
 
-          // Detalle central para aspecto de "bloque"
           ctx.fillStyle = "rgba(80, 5, 5, 0.45)";
           ctx.beginPath();
-          roundRect(ctx, x + o.width * 0.18, y + o.height * 0.18, o.width * 0.64, o.height * 0.64, 8);
+          roundRect(ctx, x + o.width * 0.2, y + o.height * 0.2, o.width * 0.6, o.height * 0.6, 6);
           ctx.fill();
         });
 
@@ -1396,7 +1394,7 @@
           ctx.stroke();
         });
 
-        // Jugador ancho/casi cuadrado
+        // Jugador: rectángulo horizontal pequeño
         const px = lanesX[player.lane] - player.width / 2;
         const py = player.y - player.height / 2;
 
@@ -1407,39 +1405,37 @@
 
         ctx.fillStyle = gradientPlayer;
         ctx.shadowColor = "rgba(0, 216, 255, 0.9)";
-        ctx.shadowBlur = 20;
+        ctx.shadowBlur = 18;
 
-        const radius = 12;
+        const radius = 10;
         ctx.beginPath();
         roundRect(ctx, px, py, player.width, player.height, radius);
         ctx.fill();
 
         ctx.shadowBlur = 0;
 
-        // "Cabina" central
+        // "Cabina" central (más bajita)
         ctx.fillStyle = "rgba(5, 12, 45, 0.95)";
-        const windowHeight = player.height * 0.55;
+        const windowHeight = player.height * 0.7;
         ctx.beginPath();
-        roundRect(ctx, px + player.width * 0.16, py + player.height * 0.12, player.width * 0.68, windowHeight, 8);
+        roundRect(ctx, px + player.width * 0.16, py + player.height * 0.15, player.width * 0.68, windowHeight, 6);
         ctx.fill();
 
         // Banda inferior bicolor
         ctx.fillStyle = "#00d8ff";
-        ctx.fillRect(px + 3, py + player.height * 0.8, player.width * 0.38, 3);
+        ctx.fillRect(px + 3, py + player.height * 0.72, player.width * 0.35, 3);
         ctx.fillStyle = "#ff6bcb";
-        ctx.fillRect(px + player.width * 0.62, py + player.height * 0.8, player.width * 0.35, 3);
+        ctx.fillRect(px + player.width * 0.62, py + player.height * 0.72, player.width * 0.33, 3);
 
-        // Efecto de moneda
         if (coinEffectTimer > 0) {
           const alpha = coinEffectTimer / 200;
           ctx.strokeStyle = `rgba(255, 221, 100, ${alpha})`;
           ctx.lineWidth = 2;
           ctx.beginPath();
-          ctx.arc(px + player.width / 2, py + player.height / 2, player.width * 0.95, 0, Math.PI * 2);
+          ctx.arc(px + player.width / 2, py + player.height / 2, player.width * 0.9, 0, Math.PI * 2);
           ctx.stroke();
         }
 
-        // Pantallazo rojo más pronunciado al chocar
         if (hitEffectTimer > 0) {
           const t = hitEffectTimer / 360;
           const alpha = Math.min(0.95, t * 1.3);
