@@ -539,7 +539,7 @@
       <!-- Main menu -->
       <div id="main-menu" class="screen active">
         <h1 class="title">ANDRO RUNNER</h1>
-        <div class="subtitle">Endless runner neón en 12 carriles</div>
+        <div class="subtitle">Endless runner neón en 3 carriles</div>
         <div class="neon-divider"></div>
 
         <div class="menu-buttons">
@@ -563,7 +563,7 @@
 
         <div class="footer-text">
           Usa flechas o A/D en PC • Botones táctiles en móvil •
-          <span>12 carriles, obstáculos rojos, monedas doradas y corazones de vida.</span>
+          <span>¡Evita los obstáculos, toma monedas y atrapa corazones!</span>
         </div>
       </div>
 
@@ -643,7 +643,7 @@
             <span>Guía rápida</span>
           </div>
           <h2>Instrucciones</h2>
-          <p><strong>Objetivo:</strong> Corre por los 12 carriles, esquiva obstáculos y recoge monedas de energía y corazones para sobrevivir el mayor tiempo posible.</p>
+          <p><strong>Objetivo:</strong> Corre por los 3 carriles, esquiva obstáculos y recoge monedas de energía para sumar puntos. La velocidad aumenta de forma gradual.</p>
           <p><strong>Controles en PC:</strong></p>
           <ul>
             <li><strong>Flecha izquierda</strong> o tecla <strong>A</strong>: mover al carril de la izquierda.</li>
@@ -656,11 +656,11 @@
           </ul>
           <p><strong>Elementos:</strong></p>
           <ul>
-            <li><strong>Obstáculos rojos:</strong> bloques grandes que ocupan casi todo el carril; restan una vida.</li>
-            <li><strong>Monedas doradas:</strong> más grandes, con forma de moneda y relieve; cada una suma <strong>100 puntos</strong>.</li>
-            <li><strong>Corazones</strong> (pocos): recuperan una vida hasta un máximo de 4.</li>
+            <li><strong>Obstáculos rojos:</strong> restan una vida si los golpeas.</li>
+            <li><strong>Monedas doradas:</strong> suman puntos extra inmediatos.</li>
+            <li><strong>Corazones</strong> (muy pocos): recuperan una vida hasta un máximo.</li>
           </ul>
-          <p><strong>Puntuación:</strong> se obtiene únicamente por monedas recogidas (100 puntos por moneda). Se guardan las 5 mejores partidas en tu navegador.</p>
+          <p><strong>Puntuación:</strong> se calcula con la distancia recorrida + bonus por monedas. Se guardan las 5 mejores partidas en tu navegador.</p>
 
           <div class="modal-footer">
             <button id="btn-close-instructions" class="btn small">
@@ -770,8 +770,6 @@
     (function () {
       "use strict";
 
-      const LANE_COUNT = 12;
-
       const mainMenu = document.getElementById("main-menu");
       const gameScreen = document.getElementById("game-screen");
       const gameOverOverlay = document.getElementById("game-over-overlay");
@@ -825,7 +823,7 @@
           coinInterval: 650,
           heartInterval: 12000,
           speedIncrease: 0.00012,
-          coinScore: 80 // ya no se usa, pero se mantiene
+          coinScore: 80
         },
         normal: {
           name: "Normal",
@@ -863,7 +861,7 @@
         height: 40
       };
 
-      let lanesX = [];
+      let lanesX = [0, 0, 0];
 
       let obstacles = [];
       let coins = [];
@@ -912,10 +910,10 @@
       }
 
       function updateLivesUI() {
-        let heartsTxt = "";
-        for (let i = 0; i < lives; i++) heartsTxt += "♥";
-        if (!heartsTxt) heartsTxt = "✖";
-        livesDisplay.innerHTML = `<span class="lives">${heartsTxt}</span>`;
+        let hearts = "";
+        for (let i = 0; i < lives; i++) hearts += "♥";
+        if (!hearts) hearts = "✖";
+        livesDisplay.innerHTML = `<span class="lives">${hearts}</span>`;
       }
 
       function formatScore(n) {
@@ -1054,15 +1052,16 @@
         canvas.width = containerWidth;
         canvas.height = height;
 
-        const laneWidth = containerWidth / LANE_COUNT;
-        lanesX = [];
-        for (let i = 0; i < LANE_COUNT; i++) {
-          lanesX.push((i + 0.5) * laneWidth);
-        }
+        const laneWidth = containerWidth / 3;
+        lanesX = [
+          laneWidth * 0.5,
+          laneWidth * 1.5,
+          laneWidth * 2.5
+        ];
 
-        // jugador pequeño, casi cuadrado; usaremos su bounding para el triángulo
-        player.width = laneWidth * 0.16;
-        player.height = player.width;
+        // jugador pequeño y casi cuadrado, más abajo
+        player.width = laneWidth * 0.1;
+        player.height = player.width * 1.05;
         player.y = height * 0.9;
       }
 
@@ -1134,7 +1133,7 @@
         const deltaFactor = deltaMs / 16.67;
 
         currentSpeed += difficultyConfig.speedIncrease * deltaMs;
-        distance += currentSpeed * deltaFactor * 0.6; // ya no se usa para puntaje, pero se deja
+        distance += currentSpeed * deltaFactor * 0.6;
 
         obstacleTimer -= deltaMs;
         coinTimer -= deltaMs;
@@ -1160,6 +1159,7 @@
           heartTimer = difficultyConfig.heartInterval * (0.8 + Math.random() * 0.4);
         }
 
+        // desplazamiento más lento y estable
         const speedPx = currentSpeed * 1.4 * deltaFactor;
 
         obstacles.forEach(o => { o.y += speedPx; });
@@ -1178,8 +1178,8 @@
 
         comprobarColisiones();
 
-        // puntaje solo por moneda: 100 puntos por moneda
-        score = coinCount * 100;
+        const baseScore = distance * 1.1 + coinCount * difficultyConfig.coinScore;
+        score = baseScore;
         scoreDisplay.textContent = formatScore(score);
       }
 
@@ -1192,28 +1192,22 @@
         return false;
       }
 
-      function randomLane() {
-        return Math.floor(Math.random() * LANE_COUNT);
-      }
-
       function spawnObstacle() {
-        const lane = randomLane();
+        const lane = Math.floor(Math.random() * 3);
         const y = -40;
 
         if (laneHasNearEntity(lane, 140)) return;
 
-        const laneWidth = canvas.width / LANE_COUNT;
-
         obstacles.push({
           lane,
           y,
-          width: laneWidth * 0.65,
-          height: player.height * 1.1
+          width: player.width * 0.95,
+          height: player.height * 0.6   // menos largos
         });
       }
 
       function spawnCoin() {
-        const lane = randomLane();
+        const lane = Math.floor(Math.random() * 3);
         const y = -30;
 
         if (laneHasNearEntity(lane, 140)) return;
@@ -1221,12 +1215,12 @@
         coins.push({
           lane,
           y,
-          radius: player.width * 0.6 // más grande
+          radius: player.width * 0.28
         });
       }
 
       function spawnHeart() {
-        const lane = randomLane();
+        const lane = Math.floor(Math.random() * 3);
         const y = -30;
 
         if (laneHasNearEntity(lane, 160)) return;
@@ -1234,14 +1228,14 @@
         hearts.push({
           lane,
           y,
-          size: player.width * 0.9
+          size: player.width * 0.8
         });
       }
 
       function comprobarColisiones() {
         const py = player.y;
         const ph = player.height;
-        const collisionRadiusY = ph * 0.8;
+        const collisionRadiusY = ph * 0.55;
 
         for (let i = obstacles.length - 1; i >= 0; i--) {
           const o = obstacles[i];
@@ -1312,11 +1306,11 @@
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, w, h);
 
-        const laneWidth = w / LANE_COUNT;
+        const laneWidth = w / 3;
         ctx.setLineDash([12, 18]);
-        ctx.lineWidth = 1.5;
-        ctx.strokeStyle = "rgba(0, 216, 255, 0.35)";
-        for (let i = 1; i < LANE_COUNT; i++) {
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "rgba(0, 216, 255, 0.5)";
+        for (let i = 1; i <= 2; i++) {
           const x = laneWidth * i;
           ctx.beginPath();
           ctx.moveTo(x, 0);
@@ -1326,85 +1320,75 @@
         ctx.setLineDash([]);
 
         ctx.strokeStyle = "rgba(108, 92, 231, 0.3)";
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 4;
         ctx.beginPath();
         ctx.moveTo(10, h * 0.12);
-        ctx.lineTo(laneWidth * 1.5, h * 0.95);
+        ctx.lineTo(laneWidth * 0.3, h * 0.95);
         ctx.moveTo(w - 10, h * 0.12);
-        ctx.lineTo(w - laneWidth * 1.5, h * 0.95);
+        ctx.lineTo(laneWidth * 2.7, h * 0.95);
         ctx.stroke();
 
-        // obstáculos rojos (más grandes y con forma)
+        // obstáculos rojos
         obstacles.forEach(o => {
-          const xCenter = lanesX[o.lane];
-          const x = xCenter - o.width / 2;
+          const x = lanesX[o.lane] - o.width / 2;
           const y = o.y - o.height / 2;
-          const rad = 10;
+          const rad = 6;
 
           const gradientObstacle = ctx.createLinearGradient(x, y, x + o.width, y + o.height);
           gradientObstacle.addColorStop(0, "#ff4040");
-          gradientObstacle.addColorStop(0.5, "#ff0000");
-          gradientObstacle.addColorStop(1, "#b00020");
+          gradientObstacle.addColorStop(1, "#ff0000");
 
           ctx.fillStyle = gradientObstacle;
           ctx.shadowColor = "rgba(255, 0, 0, 0.9)";
-          ctx.shadowBlur = 20;
+          ctx.shadowBlur = 18;
 
           ctx.beginPath();
           roundRect(ctx, x, y, o.width, o.height, rad);
           ctx.fill();
 
-          ctx.shadowBlur = 0;
-          ctx.fillStyle = "rgba(255, 255, 255, 0.08)";
-          ctx.fillRect(x + o.width * 0.1, y + o.height * 0.4, o.width * 0.8, o.height * 0.2);
-
           ctx.lineWidth = 1.5;
           ctx.strokeStyle = "rgba(255, 255, 255, 0.35)";
           ctx.stroke();
+          ctx.shadowBlur = 0;
         });
 
-        // monedas doradas grandes
+        // monedas doradas
         coins.forEach(c => {
           const cx = lanesX[c.lane];
           const cy = c.y;
           const r = c.radius;
 
-          const gradientCoin = ctx.createRadialGradient(cx, cy - r * 0.4, r * 0.1, cx, cy, r);
-          gradientCoin.addColorStop(0, "#fffdf0");
-          gradientCoin.addColorStop(0.25, "#ffe788");
-          gradientCoin.addColorStop(0.6, "#ffc93c");
+          const gradientCoin = ctx.createRadialGradient(cx, cy - r * 0.3, r * 0.1, cx, cy, r);
+          gradientCoin.addColorStop(0, "#fffbe0");
+          gradientCoin.addColorStop(0.3, "#ffe788");
+          gradientCoin.addColorStop(0.7, "#ffc93c");
           gradientCoin.addColorStop(1, "#d99a1a");
 
           ctx.fillStyle = gradientCoin;
           ctx.shadowColor = "rgba(255, 221, 100, 0.9)";
-          ctx.shadowBlur = 20;
+          ctx.shadowBlur = 18;
           ctx.beginPath();
           ctx.arc(cx, cy, r, 0, Math.PI * 2);
           ctx.fill();
 
-          ctx.lineWidth = 2.4;
+          ctx.lineWidth = 2.2;
           ctx.strokeStyle = "rgba(255, 255, 255, 0.9)";
           ctx.stroke();
 
           ctx.beginPath();
-          ctx.lineWidth = 1.9;
+          ctx.lineWidth = 1.6;
           ctx.strokeStyle = "rgba(200, 140, 20, 0.9)";
-          ctx.arc(cx, cy, r * 0.7, 0, Math.PI * 2);
-          ctx.stroke();
-
-          ctx.beginPath();
-          ctx.lineWidth = 2;
-          ctx.strokeStyle = "rgba(180, 110, 0, 0.9)";
-          ctx.arc(cx, cy, r * 0.45, -0.8, 0.8);
-          ctx.stroke();
-
-          ctx.beginPath();
-          ctx.strokeStyle = "rgba(255, 255, 255, 0.85)";
-          ctx.lineWidth = 1.4;
-          ctx.arc(cx - r * 0.35, cy - r * 0.35, r * 0.34, -0.5, 0.8);
+          ctx.arc(cx, cy, r * 0.6, 0, Math.PI * 2);
           ctx.stroke();
 
           ctx.shadowBlur = 0;
+
+          // brillo lateral
+          ctx.beginPath();
+          ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
+          ctx.lineWidth = 1.1;
+          ctx.arc(cx - r * 0.25, cy - r * 0.25, r * 0.32, -0.6, 0.8);
+          ctx.stroke();
         });
 
         // corazones de vida
@@ -1413,8 +1397,11 @@
           const cx = lanesX[hh.lane];
           const cy = hh.y;
 
+          const x = cx;
+          const y = cy;
+
           ctx.save();
-          ctx.translate(cx, cy);
+          ctx.translate(x, y);
           ctx.scale(size / 14, size / 14);
 
           const gradientHeart = ctx.createLinearGradient(-7, -7, 7, 7);
@@ -1440,53 +1427,41 @@
           ctx.restore();
         });
 
-        // jugador: triángulo bicolor
-        const cxPlayer = lanesX[player.lane];
-        const pyTop = player.y - player.height / 2;
-        const pyBottom = player.y + player.height / 2;
-        const halfWidth = player.width / 2;
+        // jugador
+        const px = lanesX[player.lane] - player.width / 2;
+        const py = player.y - player.height / 2;
 
-        const gradPlayer = ctx.createLinearGradient(
-          cxPlayer - halfWidth,
-          pyBottom,
-          cxPlayer + halfWidth,
-          pyBottom
-        );
-        gradPlayer.addColorStop(0, "#00d8ff");
-        gradPlayer.addColorStop(0.5, "#3f9cff");
-        gradPlayer.addColorStop(1, "#ff6bcb");
+        const gradientPlayer = ctx.createLinearGradient(px, py, px + player.width, py + player.height);
+        gradientPlayer.addColorStop(0, "#00d8ff");
+        gradientPlayer.addColorStop(1, "#6c5ce7");
 
+        ctx.fillStyle = gradientPlayer;
         ctx.shadowColor = "rgba(0, 216, 255, 0.9)";
         ctx.shadowBlur = 22;
 
-        ctx.fillStyle = gradPlayer;
+        const radius = 8;
         ctx.beginPath();
-        ctx.moveTo(cxPlayer, pyTop);                   // punta superior
-        ctx.lineTo(cxPlayer - halfWidth, pyBottom);    // esquina inferior izquierda
-        ctx.lineTo(cxPlayer + halfWidth, pyBottom);    // esquina inferior derecha
-        ctx.closePath();
+        roundRect(ctx, px, py, player.width, player.height, radius);
         ctx.fill();
 
         ctx.shadowBlur = 0;
-        ctx.lineWidth = 1.7;
-        ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
-        ctx.stroke();
-
-        // línea interna que divide el triángulo (bicolor)
+        ctx.fillStyle = "rgba(5, 12, 45, 0.9)";
+        const windowHeight = player.height * 0.5;
         ctx.beginPath();
-        ctx.moveTo(cxPlayer, pyTop + (pyBottom - pyTop) * 0.4);
-        ctx.lineTo(cxPlayer, pyBottom - 1);
-        ctx.strokeStyle = "rgba(0, 0, 0, 0.25)";
-        ctx.lineWidth = 1.2;
-        ctx.stroke();
+        roundRect(ctx, px + player.width * 0.18, py + player.height * 0.08, player.width * 0.64, windowHeight, 6);
+        ctx.fill();
 
-        // anillos de efectos
+        ctx.fillStyle = "#00d8ff";
+        ctx.fillRect(px + 3, py + player.height * 0.7, player.width * 0.32, 3);
+        ctx.fillStyle = "#ff6bcb";
+        ctx.fillRect(px + player.width * 0.64, py + player.height * 0.7, player.width * 0.32 - 3, 3);
+
         if (coinEffectTimer > 0) {
           const alpha = coinEffectTimer / 180;
           ctx.strokeStyle = `rgba(255, 221, 100, ${alpha})`;
           ctx.lineWidth = 2;
           ctx.beginPath();
-          ctx.arc(cxPlayer, player.y, player.width * 1.1, 0, Math.PI * 2);
+          ctx.arc(px + player.width / 2, py + player.height / 2, player.width * 0.95, 0, Math.PI * 2);
           ctx.stroke();
         }
 
@@ -1495,7 +1470,7 @@
           ctx.strokeStyle = `rgba(255, 105, 180, ${alpha})`;
           ctx.lineWidth = 3;
           ctx.beginPath();
-          ctx.arc(cxPlayer, player.y, player.width * 1.35, 0, Math.PI * 2);
+          ctx.arc(px + player.width / 2, py + player.height / 2, player.width * 1.2, 0, Math.PI * 2);
           ctx.stroke();
         }
 
@@ -1530,7 +1505,7 @@
 
       function cambiarCarril(direccion) {
         const nuevo = player.lane + direccion;
-        if (nuevo < 0 || nuevo >= LANE_COUNT) return;
+        if (nuevo < 0 || nuevo > 2) return;
         player.lane = nuevo;
       }
 
