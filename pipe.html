@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>HydroFlow Logic – GitHub Pages</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #020617;
+      --panel: #020617;
+      --panel-border: #1e293b;
+      --accent: #22d3ee;
+      --accent-soft: #0f172a;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --danger: #f97373;
+      --fixed: #1e293b;
+      --pipe-color: #38bdf8;
+      --filled-color: #22d3ee;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #0b1120, #020617);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      padding: 16px;
+    }
+    .shell {
+      width: 100%;
+      max-width: 960px;
+      background: linear-gradient(135deg, rgba(15,23,42,0.98), rgba(15,23,42,0.9));
+      border-radius: 18px;
+      border: 1px solid rgba(148,163,184,0.35);
+      box-shadow:
+        0 0 35px rgba(59,130,246,0.35),
+        0 0 80px rgba(56,189,248,0.25);
+      padding: 18px 18px 22px;
+      position: relative;
+      overflow: hidden;
+    }
+    .shell::before {
+      content: "";
+      position: absolute;
+      inset: -60%;
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.2), transparent 55%),
+        radial-gradient(circle at 100% 0, rgba(244,114,182,0.12), transparent 55%);
+      opacity: 0.2;
+      pointer-events: none;
+    }
+    .shell-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .title span.logo-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: conic-gradient(from 120deg, #38bdf8, #6366f1, #ec4899, #38bdf8);
+      box-shadow: 0 0 12px rgba(56,189,248,0.9);
+    }
+    .subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .controls-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    .difficulty-group {
+      display: inline-flex;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.85);
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.45);
+    }
+    .difficulty-btn {
+      border: none;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      background: transparent;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+      position: relative;
+    }
+    .difficulty-btn.active {
+      color: #0f172a;
+      background: linear-gradient(to right, #22d3ee, #38bdf8);
+    }
+
+    .btn-ghost {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.6);
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      background: rgba(15,23,42,0.9);
+      color: var(--text-main);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+    .btn-ghost svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.1fr);
+      gap: 14px;
+    }
+    @media (max-width: 768px) {
+      .layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .board-panel,
+    .info-panel {
+      background: radial-gradient(circle at top, #020617, #020617);
+      border-radius: 14px;
+      border: 1px solid rgba(30,64,175,0.8);
+      padding: 10px 10px 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    .board-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(120deg, rgba(56,189,248,0.05), transparent 40%),
+        linear-gradient(-120deg, rgba(34,197,94,0.04), transparent 40%);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    .board-panel-inner,
+    .info-panel-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .board-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+      gap: 8px;
+    }
+    .board-title {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+    .board-status {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: right;
+    }
+    .board-status span.state-playing {
+      color: #22c55e;
+      font-weight: 600;
+    }
+    .board-status span.state-won {
+      color: #22d3ee;
+      font-weight: 700;
+    }
+
+    .grid {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      display: grid;
+      gap: 4px;
+      padding: 4px;
+      background: radial-gradient(circle at top, #020617, #020617);
+      border-radius: 10px;
+      border: 1px solid rgba(30,64,175,0.7);
+      box-shadow: inset 0 0 20px rgba(15,23,42,0.8);
+      position: relative;
+    }
+    .cell {
+      position: relative;
+      border-radius: 8px;
+      background: radial-gradient(circle at 20% 0, #1f2937, #020617);
+      border: 1px solid rgba(15,23,42,0.9);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition:
+        transform 0.08s ease-out,
+        box-shadow 0.08s ease-out,
+        border-color 0.08s ease-out,
+        background 0.1s ease-out;
+    }
+    .cell:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 10px rgba(56,189,248,0.35);
+      border-color: rgba(56,189,248,0.6);
+    }
+    .cell-fixed {
+      background: radial-gradient(circle at top, #020617, #020617);
+      border: 1px solid rgba(148,163,184,0.7);
+    }
+    .cell-filled {
+      box-shadow:
+        0 0 12px rgba(34,211,238,0.9),
+        inset 0 0 12px rgba(8,47,73,0.9);
+      background: radial-gradient(circle at top, #0f172a, #020617);
+    }
+    .pipe-inner {
+      width: 76%;
+      height: 76%;
+      border-radius: 9px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-origin: center;
+      transition: transform 0.18s cubic-bezier(.23,1.13,.64,1.01);
+    }
+    .pipe-inner span {
+      font-size: 28px;
+      line-height: 1;
+      color: var(--pipe-color);
+      text-shadow:
+        0 0 10px rgba(56,189,248,0.7),
+        0 0 18px rgba(59,130,246,0.9);
+    }
+    .cell-filled .pipe-inner span {
+      color: var(--filled-color);
+      text-shadow:
+        0 0 12px rgba(34,211,238,0.95),
+        0 0 24px rgba(45,212,191,0.9);
+    }
+    .cell-fixed .pipe-inner span {
+      color: #e5e7eb;
+      text-shadow:
+        0 0 10px rgba(248,250,252,0.8),
+        0 0 20px rgba(96,165,250,0.65);
+    }
+    .cell-start .pipe-inner span,
+    .cell-end .pipe-inner span {
+      font-size: 22px;
+    }
+    .cell-empty .pipe-inner span {
+      opacity: 0.1;
+    }
+
+    .pipe-rotation-0  { transform: rotate(0deg); }
+    .pipe-rotation-90 { transform: rotate(90deg); }
+    .pipe-rotation-180{ transform: rotate(180deg); }
+    .pipe-rotation-270{ transform: rotate(270deg); }
+
+    .info-panel-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+    }
+    .metric {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .metric-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+    .metric-value {
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+    .badge-diff {
+      align-self: flex-start;
+      padding: 3px 8px;
+      font-size: 0.7rem;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.7);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .instructions {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .instructions strong {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .legend-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+      font-size: 0.73rem;
+      color: var(--text-muted);
+    }
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(30,64,175,0.7);
+    }
+    .legend-swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      border: 1px solid rgba(148,163,184,0.7);
+    }
+    .legend-swatch.start {
+      background: radial-gradient(circle at 30% 0%, #f9fafb, #22d3ee);
+    }
+    .legend-swatch.end {
+      background: radial-gradient(circle at 30% 0%, #f9fafb, #22c55e);
+    }
+    .legend-swatch.filled {
+      background: radial-gradient(circle at 30% 0%, #22d3ee, #0f172a);
+    }
+
+    .footer {
+      margin-top: 12px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(15,23,42,0.98), rgba(15,23,42,0.98));
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+    .overlay.visible {
+      display: flex;
+    }
+    .overlay-card {
+      background: radial-gradient(circle at top, #020617, #020617);
+      border-radius: 16px;
+      padding: 18px 18px 16px;
+      border: 1px solid rgba(56,189,248,0.9);
+      box-shadow:
+        0 0 25px rgba(56,189,248,0.65),
+        0 0 60px rgba(56,189,248,0.35);
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+    }
+    .overlay-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .overlay-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .overlay-stats {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .overlay-stat {
+      flex: 1;
+      border-radius: 10px;
+      padding: 8px 6px;
+      background: rgba(15,23,42,0.95);
+      border: 1px solid rgba(148,163,184,0.7);
+    }
+    .overlay-stat-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+    .overlay-stat-value {
+      font-size: 1.15rem;
+      font-weight: 700;
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    .btn-primary {
+      width: 100%;
+      border-radius: 999px;
+      border: none;
+      padding: 9px 12px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: linear-gradient(to right, #22d3ee, #38bdf8);
+      color: #0f172a;
+      cursor: pointer;
+      margin-bottom: 6px;
+    }
+    .btn-secondary-text {
+      margin-top: 4px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      text-decoration: underline;
+      text-decoration-style: dotted;
+    }
+
+    @keyframes pulse-ring {
+      0% { box-shadow: 0 0 0 0 rgba(34,211,238,0.5); }
+      100% { box-shadow: 0 0 0 12px rgba(34,211,238,0); }
+    }
+    .ring {
+      animation: pulse-ring 1.4s infinite;
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="shell-inner">
+      <header>
+        <div class="title-block">
+          <div class="title">
+            <span class="logo-dot"></span>
+            HYDROFLOW LOGIC
+          </div>
+          <div class="subtitle">
+            Gira las tuberías y conecta el flujo desde <strong>IN</strong> hasta <strong>OUT</strong>.
+          </div>
+        </div>
+
+        <div class="controls-bar">
+          <div class="difficulty-group" id="difficultyGroup">
+            <button class="difficulty-btn active" data-diff="easy">Fácil</button>
+            <button class="difficulty-btn" data-diff="medium">Medio</button>
+            <button class="difficulty-btn" data-diff="hard">Difícil</button>
+          </div>
+          <button class="btn-ghost" id="resetBtn" title="Reiniciar nivel">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M3 3v6h6" stroke="#e5e7eb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M21 21v-6h-6" stroke="#e5e7eb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M7.5 6A7.5 7.5 0 0 1 12 4.5 7.5 7.5 0 0 1 19.5 12" stroke="#e5e7eb" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M16.5 18A7.5 7.5 0 0 1 12 19.5 7.5 7.5 0 0 1 4.5 12" stroke="#e5e7eb" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            Reiniciar
+          </button>
+        </div>
+      </header>
+
+      <div class="layout">
+        <div class="board-panel">
+          <div class="board-panel-inner">
+            <div class="board-top-row">
+              <div class="board-title">Tablero</div>
+              <div class="board-status">
+                Estado: <span id="statusLabel" class="state-playing">En juego</span>
+              </div>
+            </div>
+            <div id="grid" class="grid"></div>
+          </div>
+        </div>
+
+        <div class="info-panel">
+          <div class="info-panel-inner">
+            <div class="info-row">
+              <div class="metric">
+                <div class="metric-label">Movimientos</div>
+                <div id="movesLabel" class="metric-value">000</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Tiempo</div>
+                <div id="timeLabel" class="metric-value">00:00</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Tamaño</div>
+                <div id="sizeLabel" class="metric-value">5×5</div>
+              </div>
+            </div>
+
+            <div class="badge-diff" id="diffBadge">Modo: FÁCIL</div>
+
+            <div class="instructions">
+              <p>
+                Toca o haz clic en una celda para <strong>girar la tubería 90°</strong>.
+                Las piezas de <strong>entrada (IN)</strong> y <strong>salida (OUT)</strong> están fijas.
+              </p>
+              <p>
+                El flujo se marcará en <strong>cian brillante</strong> cuando haya conexión.
+                Completa el circuito completo desde IN hasta OUT para ganar.
+              </p>
+              <div class="legend-row">
+                <div class="legend-item">
+                  <span class="legend-swatch start"></span>
+                  <span>Inicio (IN)</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-swatch end"></span>
+                  <span>Salida (OUT)</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-swatch filled"></span>
+                  <span>Tubería con flujo</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        © <span id="year"></span> HydroFlow Logic. Compatible con GitHub Pages (HTML, CSS y JavaScript puros).
+      </div>
+
+      <div class="overlay" id="winOverlay">
+        <div class="overlay-card">
+          <div class="overlay-title">¡Nivel completado!</div>
+          <div class="overlay-subtitle">Has conectado el flujo correctamente.</div>
+          <div class="overlay-stats">
+            <div class="overlay-stat">
+              <div class="overlay-stat-label">Movimientos</div>
+              <div id="finalMoves" class="overlay-stat-value">0</div>
+            </div>
+            <div class="overlay-stat">
+              <div class="overlay-stat-label">Tiempo</div>
+              <div id="finalTime" class="overlay-stat-value">00:00</div>
+            </div>
+          </div>
+          <button class="btn-primary" id="nextLevelBtn">Siguiente nivel</button>
+          <div class="btn-secondary-text" id="replayBtn">Repetir este nivel</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Modelo de juego -----------------------------------------------------
+
+    const PIPE_TYPES = {
+      STRAIGHT: 'STRAIGHT',
+      CURVE: 'CURVE',
+      T_SHAPE: 'T_SHAPE',
+      CROSS: 'CROSS',
+      START: 'START',
+      END: 'END',
+      EMPTY: 'EMPTY',
+    };
+
+    const GameStatus = {
+      PLAYING: 'PLAYING',
+      WON: 'WON',
+    };
+
+    const DIFFICULTY_SIZES = {
+      easy: 5,
+      medium: 7,
+      hard: 9,
+    };
+
+    const DIRECTIONS = [
+      { dr: -1, dc: 0 }, // 0: arriba
+      { dr: 0, dc: 1 },  // 1: derecha
+      { dr: 1, dc: 0 },  // 2: abajo
+      { dr: 0, dc: -1 }, // 3: izquierda
+    ];
+
+    function getBaseOpenings(type) {
+      switch (type) {
+        case PIPE_TYPES.STRAIGHT:
+          // Vertical (arriba-abajo)
+          return [true, false, true, false];
+        case PIPE_TYPES.CURVE:
+          // Arriba-derecha
+          return [true, true, false, false];
+        case PIPE_TYPES.T_SHAPE:
+          // Arriba-der-abajo (izquierda cerrada)
+          return [true, true, true, false];
+        case PIPE_TYPES.CROSS:
+          return [true, true, true, true];
+        case PIPE_TYPES.START:
+          // Solo una boca (por defecto hacia la derecha)
+          return [false, true, false, false];
+        case PIPE_TYPES.END:
+          // Solo una boca (por defecto hacia la izquierda)
+          return [false, false, false, true];
+        default:
+          return [false, false, false, false];
+      }
+    }
+
+    function rotateOpenings(base, rotation) {
+      const steps = (rotation / 90) % 4;
+      const result = [...base];
+      for (let i = 0; i < steps; i++) {
+        const last = result.pop();
+        result.unshift(last);
+      }
+      return result;
+    }
+
+    function getOpenings(type, rotation) {
+      const base = getBaseOpenings(type);
+      return rotateOpenings(base, rotation);
+    }
+
+    function areCellsConnected(cellA, cellB, dirIndexFromA) {
+      if (!cellA || !cellB) return false;
+      if (cellA.type === PIPE_TYPES.EMPTY || cellB.type === PIPE_TYPES.EMPTY) return false;
+      const openingsA = getOpenings(cellA.type, cellA.rotation);
+      const openingsB = getOpenings(cellB.type, cellB.rotation);
+      const opposite = (dirIndexFromA + 2) % 4;
+      return openingsA[dirIndexFromA] && openingsB[opposite];
+    }
+
+    function directionIndex(from, to) {
+      const dr = to.row - from.row;
+      const dc = to.col - from.col;
+      if (dr === -1 && dc === 0) return 0;
+      if (dr === 0 && dc === 1) return 1;
+      if (dr === 1 && dc === 0) return 2;
+      if (dr === 0 && dc === -1) return 3;
+      return null;
+    }
+
+    function createEmptyCell() {
+      return {
+        type: PIPE_TYPES.EMPTY,
+        rotation: 0,
+        isFixed: false,
+        isFilled: false,
+      };
+    }
+
+    function cloneGrid(grid) {
+      return grid.map(row => row.map(cell => ({ ...cell })));
+    }
+
+    // Genera un camino básico desde la primera columna hasta la última
+    function generateLevel(size) {
+      let grid = Array.from({ length: size }, () =>
+        Array.from({ length: size }, () => createEmptyCell())
+      );
+
+      const startRow = Math.floor(Math.random() * size);
+      const startPos = { row: startRow, col: 0 };
+      let current = { ...startPos };
+      const path = [current];
+
+      while (current.col < size - 1) {
+        // 0 o 1 paso vertical, luego uno a la derecha
+        if (Math.random() < 0.6) {
+          const dir = Math.random() < 0.5 ? -1 : 1;
+          const newRow = current.row + dir;
+          if (newRow >= 0 && newRow < size) {
+            current = { row: newRow, col: current.col };
+            path.push(current);
+          }
+        }
+        if (current.col < size - 1) {
+          current = { row: current.row, col: current.col + 1 };
+          path.push(current);
+        }
+      }
+
+      const endPos = { ...current };
+
+      // Asignar tipos y rotaciones al camino
+      const internal = (index) => index > 0 && index < path.length - 1;
+
+      for (let i = 0; i < path.length; i++) {
+        const cellPos = path[i];
+        const { row, col } = cellPos;
+
+        let type = PIPE_TYPES.STRAIGHT;
+        let rotation = 0;
+        if (i === 0) {
+          // Start
+          const next = path[i + 1];
+          const dir = directionIndex(cellPos, next);
+          type = PIPE_TYPES.START;
+          for (let r = 0; r < 4; r++) {
+            const openings = getOpenings(type, r * 90);
+            if (openings[dir]) {
+              rotation = r * 90;
+              break;
+            }
+          }
+          grid[row][col] = { type, rotation, isFixed: true, isFilled: false };
+        } else if (i === path.length - 1) {
+          // End
+          const prev = path[i - 1];
+          const dir = directionIndex(cellPos, prev);
+          type = PIPE_TYPES.END;
+          for (let r = 0; r < 4; r++) {
+            const openings = getOpenings(type, r * 90);
+            if (openings[dir]) {
+              rotation = r * 90;
+              break;
+            }
+          }
+          grid[row][col] = { type, rotation, isFixed: true, isFilled: false };
+        } else if (internal(i)) {
+          const prev = path[i - 1];
+          const next = path[i + 1];
+          const dirPrev = directionIndex(cellPos, prev);
+          const dirNext = directionIndex(cellPos, next);
+
+          const isStraight =
+            (dirPrev === 0 && dirNext === 2) ||
+            (dirPrev === 2 && dirNext === 0) ||
+            (dirPrev === 1 && dirNext === 3) ||
+            (dirPrev === 3 && dirNext === 1);
+
+          type = isStraight ? PIPE_TYPES.STRAIGHT : PIPE_TYPES.CURVE;
+
+          const needed = [dirPrev, dirNext];
+          for (let r = 0; r < 4; r++) {
+            const opens = getOpenings(type, r * 90);
+            if (opens[needed[0]] && opens[needed[1]]) {
+              rotation = r * 90;
+              break;
+            }
+          }
+
+          grid[row][col] = { type, rotation, isFixed: false, isFilled: false };
+        }
+      }
+
+      // Rellenar el resto del tablero con piezas aleatorias
+      const randomTypes = [
+        PIPE_TYPES.STRAIGHT,
+        PIPE_TYPES.CURVE,
+        PIPE_TYPES.T_SHAPE,
+        PIPE_TYPES.CROSS,
+      ];
+
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          if (grid[r][c].type === PIPE_TYPES.EMPTY) {
+            const t = randomTypes[Math.floor(Math.random() * randomTypes.length)];
+            const rotation = [0, 90, 180, 270][Math.floor(Math.random() * 4)];
+            grid[r][c] = {
+              type: t,
+              rotation,
+              isFixed: false,
+              isFilled: false,
+            };
+          }
+        }
+      }
+
+      // Mezclar la solución: girar aleatoriamente las piezas del camino (excepto IN/OUT)
+      for (let i = 1; i < path.length - 1; i++) {
+        const { row, col } = path[i];
+        const cell = grid[row][col];
+        const extraTurns = 1 + Math.floor(Math.random() * 3); // 1..3
+        cell.rotation = (cell.rotation + extraTurns * 90) % 360;
+      }
+
+      return { grid, startPos, endPos };
+    }
+
+    function checkConnectivity(grid, startPos, endPos) {
+      const rows = grid.length;
+      const cols = grid[0].length;
+      const newGrid = cloneGrid(grid);
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          newGrid[r][c].isFilled = false;
+        }
+      }
+
+      const queue = [startPos];
+      newGrid[startPos.row][startPos.col].isFilled = true;
+
+      while (queue.length > 0) {
+        const current = queue.shift();
+        const cell = newGrid[current.row][current.col];
+
+        for (let d = 0; d < 4; d++) {
+          const dir = DIRECTIONS[d];
+          const nr = current.row + dir.dr;
+          const nc = current.col + dir.dc;
+          if (nr < 0 || nr >= rows || nc < 0 || nc >= cols) continue;
+          const neighbor = newGrid[nr][nc];
+          if (neighbor.isFilled) continue;
+
+          if (areCellsConnected(cell, neighbor, d)) {
+            neighbor.isFilled = true;
+            queue.push({ row: nr, col: nc });
+          }
+        }
+      }
+
+      const isWon = newGrid[endPos.row][endPos.col].isFilled;
+      return { updatedGrid: newGrid, isWon };
+    }
+
+    // --- Estado global del juego --------------------------------------------
+
+    let currentDifficultyKey = 'easy';
+    let currentGrid = [];
+    let currentStatus = GameStatus.PLAYING;
+    let currentMoves = 0;
+    let currentTime = 0;
+    let startPos = { row: 0, col: 0 };
+    let endPos = { row: 0, col: 0 };
+    let timerId = null;
+
+    const gridEl = document.getElementById('grid');
+    const statusLabel = document.getElementById('statusLabel');
+    const movesLabel = document.getElementById('movesLabel');
+    const timeLabel = document.getElementById('timeLabel');
+    const sizeLabel = document.getElementById('sizeLabel');
+    const diffBadge = document.getElementById('diffBadge');
+    const yearSpan = document.getElementById('year');
+
+    const overlay = document.getElementById('winOverlay');
+    const finalMovesEl = document.getElementById('finalMoves');
+    const finalTimeEl = document.getElementById('finalTime');
+
+    yearSpan.textContent = new Date().getFullYear();
+
+    function formatTime(seconds) {
+      const m = Math.floor(seconds / 60);
+      const s = seconds % 60;
+      return `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+    }
+
+    function updateHUD() {
+      movesLabel.textContent = String(currentMoves).padStart(3, '0');
+      timeLabel.textContent = formatTime(currentTime);
+      const size = DIFFICULTY_SIZES[currentDifficultyKey];
+      sizeLabel.textContent = `${size}×${size}`;
+
+      if (currentStatus === GameStatus.PLAYING) {
+        statusLabel.textContent = 'En juego';
+        statusLabel.classList.remove('state-won');
+        statusLabel.classList.add('state-playing');
+      } else {
+        statusLabel.textContent = 'Completado';
+        statusLabel.classList.remove('state-playing');
+        statusLabel.classList.add('state-won');
+      }
+
+      const diffLabel =
+        currentDifficultyKey === 'easy' ? 'FÁCIL' :
+        currentDifficultyKey === 'medium' ? 'MEDIO' : 'DIFÍCIL';
+      diffBadge.textContent = `Modo: ${diffLabel}`;
+    }
+
+    function renderGrid() {
+      const size = currentGrid.length;
+      gridEl.style.gridTemplateColumns = `repeat(${size}, minmax(0, 1fr))`;
+      gridEl.innerHTML = '';
+
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          const cell = currentGrid[r][c];
+          const cellDiv = document.createElement('div');
+          cellDiv.classList.add('cell');
+
+          if (cell.isFixed) cellDiv.classList.add('cell-fixed');
+          if (cell.isFilled) cellDiv.classList.add('cell-filled');
+          if (cell.type === PIPE_TYPES.START) cellDiv.classList.add('cell-start');
+          if (cell.type === PIPE_TYPES.END) cellDiv.classList.add('cell-end');
+          if (cell.type === PIPE_TYPES.EMPTY) cellDiv.classList.add('cell-empty');
+
+          const inner = document.createElement('div');
+          inner.classList.add('pipe-inner', `pipe-rotation-${cell.rotation}`);
+
+          const span = document.createElement('span');
+          let char = ' ';
+          switch (cell.type) {
+            case PIPE_TYPES.STRAIGHT:
+              char = '┃';
+              break;
+            case PIPE_TYPES.CURVE:
+              char = '┗';
+              break;
+            case PIPE_TYPES.T_SHAPE:
+              char = '┴';
+              break;
+            case PIPE_TYPES.CROSS:
+              char = '╋';
+              break;
+            case PIPE_TYPES.START:
+              char = 'IN';
+              break;
+            case PIPE_TYPES.END:
+              char = 'OUT';
+              break;
+            default:
+              char = '·';
+          }
+          span.textContent = char;
+          inner.appendChild(span);
+          cellDiv.appendChild(inner);
+
+          cellDiv.dataset.row = String(r);
+          cellDiv.dataset.col = String(c);
+
+          cellDiv.addEventListener('click', onCellClick, { passive: true });
+
+          gridEl.appendChild(cellDiv);
+        }
+      }
+    }
+
+    function onCellClick(e) {
+      if (currentStatus !== GameStatus.PLAYING) return;
+      const target = e.currentTarget;
+      const row = parseInt(target.dataset.row, 10);
+      const col = parseInt(target.dataset.col, 10);
+      const cell = currentGrid[row][col];
+      if (cell.isFixed) return;
+
+      cell.rotation = (cell.rotation + 90) % 360;
+      currentMoves += 1;
+
+      const { updatedGrid, isWon } = checkConnectivity(currentGrid, startPos, endPos);
+      currentGrid = updatedGrid;
+      if (isWon) {
+        currentStatus = GameStatus.WON;
+        stopTimer();
+        showWinOverlay();
+      }
+
+      updateHUD();
+      renderGrid();
+    }
+
+    function stopTimer() {
+      if (timerId) {
+        clearInterval(timerId);
+        timerId = null;
+      }
+    }
+
+    function startTimer() {
+      stopTimer();
+      timerId = setInterval(() => {
+        if (currentStatus === GameStatus.PLAYING) {
+          currentTime += 1;
+          timeLabel.textContent = formatTime(currentTime);
+        }
+      }, 1000);
+    }
+
+    function initLevel(difficultyKey) {
+      currentDifficultyKey = difficultyKey;
+      currentMoves = 0;
+      currentTime = 0;
+      currentStatus = GameStatus.PLAYING;
+
+      const size = DIFFICULTY_SIZES[difficultyKey];
+      const level = generateLevel(size);
+      currentGrid = level.grid;
+      startPos = level.startPos;
+      endPos = level.endPos;
+
+      updateHUD();
+      renderGrid();
+      startTimer();
+      hideWinOverlay();
+    }
+
+    // --- Overlay de victoria -------------------------------------------------
+
+    function showWinOverlay() {
+      finalMovesEl.textContent = currentMoves;
+      finalTimeEl.textContent = formatTime(currentTime);
+      overlay.classList.add('visible');
+    }
+
+    function hideWinOverlay() {
+      overlay.classList.remove('visible');
+    }
+
+    // --- Eventos UI ----------------------------------------------------------
+
+    document.getElementById('difficultyGroup').addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-diff]');
+      if (!btn) return;
+      const diff = btn.getAttribute('data-diff');
+      document
+        .querySelectorAll('#difficultyGroup .difficulty-btn')
+        .forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      initLevel(diff);
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      initLevel(currentDifficultyKey);
+    });
+
+    document.getElementById('nextLevelBtn').addEventListener('click', () => {
+      initLevel(currentDifficultyKey);
+    });
+
+    document.getElementById('replayBtn').addEventListener('click', () => {
+      hideWinOverlay();
+      initLevel(currentDifficultyKey);
+    });
+
+    // --- Inicio --------------------------------------------------------------
+
+    initLevel('easy');
+  </script>
+</body>
+</html>
